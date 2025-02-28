@@ -1,0 +1,6 @@
+# nodejs
+packages/nodejs/src/graphql-sdk.ts linguist-generated=true
+
+# dotnet
+packages/dotnet/Criipto.Signatures/Models.cs linguist-generated=true
+packages/dotnet/Criipto.Signatures/Operations.cs linguist-generated=true
