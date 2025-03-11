@@ -1,0 +1,42 @@
+name: Publish SDK packages
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  nodejs-publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/nodejs
+    steps:
+      - uses: actions/checkout@v4
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  dotnet-publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/dotnet
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            7.0.x
+            8.0.x
+      - run: dotnet test
+        working-directory: Criipto.Signatures.UnitTests
+      - run: dotnet pack -c Release Criipto.Signatures
+      - run: dotnet nuget push Criipto.Signatures/bin/Release/Criipto.Signatures.*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
