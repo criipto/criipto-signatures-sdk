@@ -1,0 +1,6 @@
+src/
+dist/test/
+.github
+.vscode
+tsconfig.json
+codegen.ts
