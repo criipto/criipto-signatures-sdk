@@ -1,7 +1,7 @@
 {
-  "name": "@criipto/signatures",
+  "name": "criipto-signatures-sdk",
   "version": "1.18.0",
-  "private": false,
+  "private": true,
   "description": "A SDK repository for Criipto Signatures",
   "scripts": {
     "codegen": "graphql-codegen && npm run codegen:dotnet",
