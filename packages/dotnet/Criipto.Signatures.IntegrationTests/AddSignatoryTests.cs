@@ -1,11 +1,10 @@
-using Xunit;
 using Criipto.Signatures.Models;
+using Xunit;
 
 namespace Criipto.Signatures.IntegrationTests;
 
 public class AddSignatoryTests
 {
-
     [Fact]
     public async Task MutationReturnsSignatory()
     {
@@ -16,21 +15,18 @@ public class AddSignatoryTests
             {
                 title = "Title",
                 expiresInDays = 1,
-                documents = [                      new DocumentInput(){
-                            pdf = new PadesDocumentInput
-                                {
-                                    title = "TEST",
-                                    blob = Dsl.Sample
-                                }
-                        }
-                ]
+                documents =
+                [
+                    new DocumentInput()
+                    {
+                        pdf = new PadesDocumentInput { title = "TEST", blob = Dsl.Sample },
+                    },
+                ],
             }
         );
 
         // Act
-        var signatory = await client.AddSignatory(
-            signatureOrder
-        );
+        var signatory = await client.AddSignatory(signatureOrder);
 
         // Assert
         Assert.NotNull(signatory?.id);

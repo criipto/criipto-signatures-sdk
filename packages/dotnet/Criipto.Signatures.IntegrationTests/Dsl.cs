@@ -1,5 +1,5 @@
-using Xunit;
 using Microsoft.Extensions.Configuration;
+using Xunit;
 
 namespace Criipto.Signatures.IntegrationTests;
 
@@ -9,17 +9,22 @@ public class Dsl
 
     public static IConfiguration InitConfiguration()
     {
-        var config =
-            new ConfigurationBuilder()
-                .AddJsonFile("appsettings.test.json", true)
-                .AddEnvironmentVariables()
-                .Build();
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json", true)
+            .AddEnvironmentVariables()
+            .Build();
         return config;
     }
 
     public static readonly IConfiguration Configuration = InitConfiguration();
-    public static string CLIENT_ID { get => Configuration["CRIIPTO_SIGNATURES_CLIENT_ID"]!; }
-    public static string CLIENT_SECRET { get => Configuration["CRIIPTO_SIGNATURES_CLIENT_SECRET"]!; }
+    public static string CLIENT_ID
+    {
+        get => Configuration["CRIIPTO_SIGNATURES_CLIENT_ID"]!;
+    }
+    public static string CLIENT_SECRET
+    {
+        get => Configuration["CRIIPTO_SIGNATURES_CLIENT_SECRET"]!;
+    }
 }
 
 public class DslTests

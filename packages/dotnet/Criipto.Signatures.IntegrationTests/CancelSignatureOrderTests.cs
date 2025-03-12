@@ -1,5 +1,5 @@
-using Xunit;
 using Criipto.Signatures.Models;
+using Xunit;
 
 namespace Criipto.Signatures.IntegrationTests;
 
@@ -15,23 +15,18 @@ public class CancelSignatureOrderTests
             {
                 title = "Title",
                 expiresInDays = 1,
-                documents = [
-                          new DocumentInput {
-                            pdf =
-                                new PadesDocumentInput
-                                {
-                                    title = "TEST",
-                                    blob = Dsl.Sample
-                                }
-                        }
-                ]
+                documents =
+                [
+                    new DocumentInput
+                    {
+                        pdf = new PadesDocumentInput { title = "TEST", blob = Dsl.Sample },
+                    },
+                ],
             }
         );
 
         // Act
-        var actual = await client.CancelSignatureOrder(
-            signatureOrder
-        );
+        var actual = await client.CancelSignatureOrder(signatureOrder);
 
         // Assert
         Assert.NotNull(actual?.id);
