@@ -13,7 +13,7 @@
     "test:unit": "npm run test:unit:nodejs && npm run test:unit:dotnet",
     "test:unit:nodejs": "cd packages/nodejs && npm run test:unit && cd ../..",
     "test:unit:dotnet": "cd packages/dotnet/Criipto.Signatures.UnitTests && dotnet test && cd ../../..",
-    "format:dotnet": "cd packages/dotnet && dotnet format Criipto.Signatures.sln && cd ../..",
+    "format:dotnet": "cd packages/dotnet && dotnet format style . && dotnet format analyzers . && dotnet csharpier . && cd ../..",
     "build": "npm run build:nodejs && npm run build:dotnet",
     "build:nodejs": "cd packages/nodejs && npm run build && cd ../..",
     "build:dotnet": "npm run format:dotnet && cd packages/dotnet && dotnet build Criipto.Signatures.sln && cd ../..",

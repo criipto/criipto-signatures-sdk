@@ -5,3 +5,6 @@ indent_size = 4
 
 # unused imports
 dotnet_diagnostic.IDE0005.severity = warning
+
+# disable clash with dotnet format and csharpier
+dotnet_diagnostic.IDE0055.severity = none
