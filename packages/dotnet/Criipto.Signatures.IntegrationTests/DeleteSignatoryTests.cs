@@ -1,11 +1,10 @@
-using Xunit;
 using Criipto.Signatures.Models;
+using Xunit;
 
 namespace Criipto.Signatures.IntegrationTests;
 
 public class DeleteSignatoryTests
 {
-
     [Fact]
     public async Task MutationDeletesSignatory()
     {
@@ -16,22 +15,17 @@ public class DeleteSignatoryTests
             {
                 title = "Title",
                 expiresInDays = 1,
-                documents = [
-                          new DocumentInput {
-                            pdf =
-                                new PadesDocumentInput
-                                {
-                                    title = "TEST",
-                                    blob = Dsl.Sample
-                                }
-                        }
+                documents =
+                [
+                    new DocumentInput
+                    {
+                        pdf = new PadesDocumentInput { title = "TEST", blob = Dsl.Sample },
+                    },
                 ],
             }
         );
 
-        var signatory = await client.AddSignatory(
-            signatureOrder
-        );
+        var signatory = await client.AddSignatory(signatureOrder);
 
         // Act
         var actual = await client.DeleteSignatory(signatory);

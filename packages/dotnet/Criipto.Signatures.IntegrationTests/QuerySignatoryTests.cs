@@ -1,11 +1,10 @@
-using Xunit;
 using Criipto.Signatures.Models;
+using Xunit;
 
 namespace Criipto.Signatures.IntegrationTests;
 
 public class QuerySignatoryTests
 {
-
     [Fact]
     public async Task QueryReturnsSignatory()
     {
@@ -16,24 +15,19 @@ public class QuerySignatoryTests
             {
                 title = "Title",
                 expiresInDays = 1,
-                documents = [
-                          new DocumentInput {
-                            pdf =
-                                new PadesDocumentInput
-                                {
-                                    title = "TEST",
-                                    blob = Dsl.Sample
-                                }
-                        }
-                ]
+                documents =
+                [
+                    new DocumentInput
+                    {
+                        pdf = new PadesDocumentInput { title = "TEST", blob = Dsl.Sample },
+                    },
+                ],
             }
         );
         var signatory = await client.AddSignatory(signatureOrder);
 
         // Act
-        var actual = await client.QuerySignatory(
-            signatory.id
-        );
+        var actual = await client.QuerySignatory(signatory.id);
 
         // Assert
         Assert.NotNull(actual?.id);
@@ -46,9 +40,7 @@ public class QuerySignatoryTests
     public async Task QueryReturnsNullForUnknownSignatory()
     {
         using var client = new CriiptoSignaturesClient(Dsl.CLIENT_ID, Dsl.CLIENT_SECRET, "test");
-        var actual = await client.QuerySignatory(
-            "asd"
-        );
+        var actual = await client.QuerySignatory("asd");
 
         Assert.Null(actual);
     }

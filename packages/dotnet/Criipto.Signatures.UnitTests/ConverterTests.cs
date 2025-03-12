@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using Criipto.Signatures.Models;
+using Newtonsoft.Json;
 
 namespace Criipto.Signatures.UnitTests;
 

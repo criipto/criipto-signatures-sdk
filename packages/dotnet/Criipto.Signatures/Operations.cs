@@ -5,11 +5,10 @@ using GraphQL;
 
 namespace Criipto.Signatures
 {
-
     public class CreateSignatureOrderMutation
     {
         /// <summary>
-        /// CreateSignatureOrderMutation.Request 
+        /// CreateSignatureOrderMutation.Request
         /// <para>Required variables:<br/> { input=(CreateSignatureOrderInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -19,7 +18,7 @@ namespace Criipto.Signatures
             {
                 Query = CreateSignatureOrderDocument,
                 OperationName = "createSignatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -29,7 +28,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string CreateSignatureOrderDocument = @"
+        public static string CreateSignatureOrderDocument =
+            @"
         mutation createSignatureOrder($input: CreateSignatureOrderInput!) {
           createSignatureOrder(input: $input) {
             signatureOrder {
@@ -93,14 +93,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class CleanupSignatureOrderMutation
     {
         /// <summary>
-        /// CleanupSignatureOrderMutation.Request 
+        /// CleanupSignatureOrderMutation.Request
         /// <para>Required variables:<br/> { input=(CleanupSignatureOrderInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -110,7 +108,7 @@ namespace Criipto.Signatures
             {
                 Query = CleanupSignatureOrderDocument,
                 OperationName = "cleanupSignatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -120,7 +118,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string CleanupSignatureOrderDocument = @"
+        public static string CleanupSignatureOrderDocument =
+            @"
         mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {
           cleanupSignatureOrder(input: $input) {
             signatureOrder {
@@ -184,14 +183,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class AddSignatoryMutation
     {
         /// <summary>
-        /// AddSignatoryMutation.Request 
+        /// AddSignatoryMutation.Request
         /// <para>Required variables:<br/> { input=(AddSignatoryInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -201,7 +198,7 @@ namespace Criipto.Signatures
             {
                 Query = AddSignatoryDocument,
                 OperationName = "addSignatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -211,7 +208,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string AddSignatoryDocument = @"
+        public static string AddSignatoryDocument =
+            @"
         mutation addSignatory($input: AddSignatoryInput!) {
           addSignatory(input: $input) {
             signatory {
@@ -247,14 +245,12 @@ namespace Criipto.Signatures
             }
           }
         }";
-
     }
-
 
     public class AddSignatoriesMutation
     {
         /// <summary>
-        /// AddSignatoriesMutation.Request 
+        /// AddSignatoriesMutation.Request
         /// <para>Required variables:<br/> { input=(AddSignatoriesInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -264,7 +260,7 @@ namespace Criipto.Signatures
             {
                 Query = AddSignatoriesDocument,
                 OperationName = "addSignatories",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -274,7 +270,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string AddSignatoriesDocument = @"
+        public static string AddSignatoriesDocument =
+            @"
         mutation addSignatories($input: AddSignatoriesInput!) {
           addSignatories(input: $input) {
             signatories {
@@ -310,14 +307,12 @@ namespace Criipto.Signatures
             }
           }
         }";
-
     }
-
 
     public class ChangeSignatoryMutation
     {
         /// <summary>
-        /// ChangeSignatoryMutation.Request 
+        /// ChangeSignatoryMutation.Request
         /// <para>Required variables:<br/> { input=(ChangeSignatoryInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -327,7 +322,7 @@ namespace Criipto.Signatures
             {
                 Query = ChangeSignatoryDocument,
                 OperationName = "changeSignatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -337,7 +332,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string ChangeSignatoryDocument = @"
+        public static string ChangeSignatoryDocument =
+            @"
         mutation changeSignatory($input: ChangeSignatoryInput!) {
           changeSignatory(input: $input) {
             signatory {
@@ -373,14 +369,12 @@ namespace Criipto.Signatures
             }
           }
         }";
-
     }
-
 
     public class CloseSignatureOrderMutation
     {
         /// <summary>
-        /// CloseSignatureOrderMutation.Request 
+        /// CloseSignatureOrderMutation.Request
         /// <para>Required variables:<br/> { input=(CloseSignatureOrderInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -390,7 +384,7 @@ namespace Criipto.Signatures
             {
                 Query = CloseSignatureOrderDocument,
                 OperationName = "closeSignatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -400,7 +394,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string CloseSignatureOrderDocument = @"
+        public static string CloseSignatureOrderDocument =
+            @"
         mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {
           closeSignatureOrder(input: $input) {
             signatureOrder {
@@ -480,14 +475,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class CancelSignatureOrderMutation
     {
         /// <summary>
-        /// CancelSignatureOrderMutation.Request 
+        /// CancelSignatureOrderMutation.Request
         /// <para>Required variables:<br/> { input=(CancelSignatureOrderInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -497,7 +490,7 @@ namespace Criipto.Signatures
             {
                 Query = CancelSignatureOrderDocument,
                 OperationName = "cancelSignatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -507,7 +500,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string CancelSignatureOrderDocument = @"
+        public static string CancelSignatureOrderDocument =
+            @"
         mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {
           cancelSignatureOrder(input: $input) {
             signatureOrder {
@@ -571,14 +565,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class SignActingAsMutation
     {
         /// <summary>
-        /// SignActingAsMutation.Request 
+        /// SignActingAsMutation.Request
         /// <para>Required variables:<br/> { input=(SignActingAsInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -588,7 +580,7 @@ namespace Criipto.Signatures
             {
                 Query = SignActingAsDocument,
                 OperationName = "signActingAs",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -598,7 +590,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string SignActingAsDocument = @"
+        public static string SignActingAsDocument =
+            @"
         mutation signActingAs($input: SignActingAsInput!) {
           signActingAs(input: $input) {
             signatory {
@@ -634,14 +627,12 @@ namespace Criipto.Signatures
             }
           }
         }";
-
     }
-
 
     public class ValidateDocumentMutation
     {
         /// <summary>
-        /// ValidateDocumentMutation.Request 
+        /// ValidateDocumentMutation.Request
         /// <para>Required variables:<br/> { input=(ValidateDocumentInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -651,7 +642,7 @@ namespace Criipto.Signatures
             {
                 Query = ValidateDocumentDocument,
                 OperationName = "validateDocument",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -661,7 +652,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string ValidateDocumentDocument = @"
+        public static string ValidateDocumentDocument =
+            @"
         mutation validateDocument($input: ValidateDocumentInput!) {
           validateDocument(input: $input) {
             valid
@@ -670,14 +662,12 @@ namespace Criipto.Signatures
           }
         }
         ";
-
     }
-
 
     public class ExtendSignatureOrderMutation
     {
         /// <summary>
-        /// ExtendSignatureOrderMutation.Request 
+        /// ExtendSignatureOrderMutation.Request
         /// <para>Required variables:<br/> { input=(ExtendSignatureOrderInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -687,7 +677,7 @@ namespace Criipto.Signatures
             {
                 Query = ExtendSignatureOrderDocument,
                 OperationName = "extendSignatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -697,7 +687,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string ExtendSignatureOrderDocument = @"
+        public static string ExtendSignatureOrderDocument =
+            @"
         mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {
           extendSignatureOrder(input: $input) {
             signatureOrder {
@@ -761,14 +752,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class DeleteSignatoryMutation
     {
         /// <summary>
-        /// DeleteSignatoryMutation.Request 
+        /// DeleteSignatoryMutation.Request
         /// <para>Required variables:<br/> { input=(DeleteSignatoryInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -778,7 +767,7 @@ namespace Criipto.Signatures
             {
                 Query = DeleteSignatoryDocument,
                 OperationName = "deleteSignatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -788,7 +777,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string DeleteSignatoryDocument = @"
+        public static string DeleteSignatoryDocument =
+            @"
         mutation deleteSignatory($input: DeleteSignatoryInput!) {
           deleteSignatory(input: $input) {
             signatureOrder {
@@ -838,14 +828,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class CreateBatchSignatoryMutation
     {
         /// <summary>
-        /// CreateBatchSignatoryMutation.Request 
+        /// CreateBatchSignatoryMutation.Request
         /// <para>Required variables:<br/> { input=(CreateBatchSignatoryInput) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -855,7 +843,7 @@ namespace Criipto.Signatures
             {
                 Query = CreateBatchSignatoryDocument,
                 OperationName = "createBatchSignatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -865,7 +853,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string CreateBatchSignatoryDocument = @"
+        public static string CreateBatchSignatoryDocument =
+            @"
         mutation createBatchSignatory($input: CreateBatchSignatoryInput!) {
           createBatchSignatory(input: $input) {
             batchSignatory {
@@ -928,14 +917,12 @@ namespace Criipto.Signatures
           token
           href
         }";
-
     }
-
 
     public class SignatureOrderQuery
     {
         /// <summary>
-        /// SignatureOrderQuery.Request 
+        /// SignatureOrderQuery.Request
         /// <para>Required variables:<br/> { id=(string) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -945,7 +932,7 @@ namespace Criipto.Signatures
             {
                 Query = SignatureOrderDocument,
                 OperationName = "signatureOrder",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -955,7 +942,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string SignatureOrderDocument = @"
+        public static string SignatureOrderDocument =
+            @"
         query signatureOrder($id: ID!) {
           signatureOrder(id: $id) {
             ...BasicSignatureOrder
@@ -1003,14 +991,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class SignatureOrderWithDocumentsQuery
     {
         /// <summary>
-        /// SignatureOrderWithDocumentsQuery.Request 
+        /// SignatureOrderWithDocumentsQuery.Request
         /// <para>Required variables:<br/> { id=(string) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -1020,7 +1006,7 @@ namespace Criipto.Signatures
             {
                 Query = SignatureOrderWithDocumentsDocument,
                 OperationName = "signatureOrderWithDocuments",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -1030,7 +1016,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string SignatureOrderWithDocumentsDocument = @"
+        public static string SignatureOrderWithDocumentsDocument =
+            @"
         query signatureOrderWithDocuments($id: ID!) {
           signatureOrder(id: $id) {
             ...BasicSignatureOrder
@@ -1108,14 +1095,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class SignatoryQuery
     {
         /// <summary>
-        /// SignatoryQuery.Request 
+        /// SignatoryQuery.Request
         /// <para>Required variables:<br/> { id=(string) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -1125,7 +1110,7 @@ namespace Criipto.Signatures
             {
                 Query = SignatoryDocument,
                 OperationName = "signatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -1135,7 +1120,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string SignatoryDocument = @"
+        public static string SignatoryDocument =
+            @"
         query signatory($id: ID!) {
           signatory(id: $id) {
             signatureOrder {
@@ -1186,14 +1172,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class SignatureOrdersQuery
     {
         /// <summary>
-        /// SignatureOrdersQuery.Request 
+        /// SignatureOrdersQuery.Request
         /// <para>Required variables:<br/> { first=(int) }</para>
         /// <para>Optional variables:<br/> { status=(SignatureOrderStatus), after=(string) }</para>
         /// </summary>
@@ -1203,7 +1187,7 @@ namespace Criipto.Signatures
             {
                 Query = SignatureOrdersDocument,
                 OperationName = "signatureOrders",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -1213,7 +1197,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string SignatureOrdersDocument = @"
+        public static string SignatureOrdersDocument =
+            @"
         query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: String) {
           viewer {
             __typename
@@ -1270,14 +1255,12 @@ namespace Criipto.Signatures
             id
           }
         }";
-
     }
-
 
     public class BatchSignatoryQuery
     {
         /// <summary>
-        /// BatchSignatoryQuery.Request 
+        /// BatchSignatoryQuery.Request
         /// <para>Required variables:<br/> { id=(string) }</para>
         /// <para>Optional variables:<br/> {  }</para>
         /// </summary>
@@ -1287,7 +1270,7 @@ namespace Criipto.Signatures
             {
                 Query = BatchSignatoryDocument,
                 OperationName = "batchSignatory",
-                Variables = variables
+                Variables = variables,
             };
         }
 
@@ -1297,7 +1280,8 @@ namespace Criipto.Signatures
             return Request();
         }
 
-        public static string BatchSignatoryDocument = @"
+        public static string BatchSignatoryDocument =
+            @"
         query batchSignatory($id: ID!) {
           batchSignatory(id: $id) {
             ...BasicBatchSignatory
@@ -1358,7 +1342,5 @@ namespace Criipto.Signatures
           token
           href
         }";
-
     }
-
 }

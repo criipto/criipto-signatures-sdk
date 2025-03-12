@@ -23,8 +23,6 @@ using Newtonsoft.Json;
 
 namespace Criipto.Signatures.Models
 {
-
-
     #region AddSignatoriesInput
     public class AddSignatoriesInput
     {
@@ -43,13 +41,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -118,13 +123,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -164,13 +176,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -268,9 +287,8 @@ namespace Criipto.Signatures.Models
     {
         READ_ONLY,
         READ_WRITE,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region BatchSignatory
     public class BatchSignatory
@@ -328,13 +346,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -394,13 +419,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -466,13 +498,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -512,13 +551,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -560,13 +606,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -622,13 +675,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -685,13 +745,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -739,13 +806,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -841,13 +915,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -912,13 +993,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -972,13 +1060,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1018,13 +1113,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1074,13 +1176,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1094,7 +1203,9 @@ namespace Criipto.Signatures.Models
     #endregion
 
     #region CriiptoVerifySignatureEvidenceProvider
-    public class CriiptoVerifySignatureEvidenceProvider : SignatureEvidenceProvider, SingleSignatureEvidenceProvider
+    public class CriiptoVerifySignatureEvidenceProvider
+        : SignatureEvidenceProvider,
+            SingleSignatureEvidenceProvider
     {
         #region members
         [JsonProperty("acrValues")]
@@ -1145,13 +1256,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1192,13 +1310,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1245,15 +1370,15 @@ namespace Criipto.Signatures.Models
         [JsonProperty("title")]
         string title { get; set; }
     }
+
     public enum DocumentIdLocation
     {
         BOTTOM,
         LEFT,
         RIGHT,
         TOP,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region DocumentInput
     public class DocumentInput
@@ -1277,13 +1402,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1304,9 +1436,8 @@ namespace Criipto.Signatures.Models
         /// Temporary documents will be deleted once completed.
         /// </summary>
         Temporary,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region DownloadVerificationCriiptoVerifyInput
     public class DownloadVerificationCriiptoVerifyInput
@@ -1322,13 +1453,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1355,13 +1493,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1388,13 +1533,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1432,13 +1584,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1468,7 +1627,9 @@ namespace Criipto.Signatures.Models
     #endregion
 
     #region DrawableSignatureEvidenceProvider
-    public class DrawableSignatureEvidenceProvider : SignatureEvidenceProvider, SingleSignatureEvidenceProvider
+    public class DrawableSignatureEvidenceProvider
+        : SignatureEvidenceProvider,
+            SingleSignatureEvidenceProvider
     {
         #region members
         [JsonProperty("id")]
@@ -1536,13 +1697,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1557,13 +1725,13 @@ namespace Criipto.Signatures.Models
     public enum EvidenceValidationStage
     {
         SIGN,
+
         /// <summary>
         /// Require the signatory to be validated before viewing documents
         /// </summary>
         VIEW,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region ExtendSignatureOrderInput
     public class ExtendSignatureOrderInput
@@ -1586,13 +1754,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1636,9 +1811,8 @@ namespace Criipto.Signatures.Models
         EN_US,
         NB_NO,
         SV_SE,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region Mutation
     public class Mutation
@@ -1787,13 +1961,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1807,7 +1988,9 @@ namespace Criipto.Signatures.Models
     #endregion
 
     #region NoopSignatureEvidenceProvider
-    public class NoopSignatureEvidenceProvider : SignatureEvidenceProvider, SingleSignatureEvidenceProvider
+    public class NoopSignatureEvidenceProvider
+        : SignatureEvidenceProvider,
+            SingleSignatureEvidenceProvider
     {
         #region members
         [JsonProperty("id")]
@@ -1857,13 +2040,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1877,7 +2067,9 @@ namespace Criipto.Signatures.Models
     #endregion
 
     #region OidcJWTSignatureEvidenceProvider
-    public class OidcJWTSignatureEvidenceProvider : SignatureEvidenceProvider, SingleSignatureEvidenceProvider
+    public class OidcJWTSignatureEvidenceProvider
+        : SignatureEvidenceProvider,
+            SingleSignatureEvidenceProvider
     {
         #region members
         [JsonProperty("acrValues")]
@@ -1915,13 +2107,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -1970,13 +2169,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2094,13 +2300,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2170,13 +2383,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2218,13 +2438,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2266,13 +2493,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2314,13 +2548,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2364,13 +2605,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2397,13 +2645,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2434,13 +2689,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2467,13 +2729,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2502,13 +2771,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2537,13 +2813,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2585,13 +2868,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2618,13 +2908,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2725,13 +3022,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2801,13 +3105,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2826,9 +3137,8 @@ namespace Criipto.Signatures.Models
         PREAPPROVED,
         REJECTED,
         SIGNED,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region SignatoryEvidenceProviderInput
     public class SignatoryEvidenceProviderInput
@@ -2866,13 +3176,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2903,13 +3220,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -2925,7 +3249,7 @@ namespace Criipto.Signatures.Models
     {
         DOWNLOAD_LINK_OPENED,
         SIGN_LINK_OPENED,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
 
     public enum SignatoryStatus
@@ -2935,9 +3259,8 @@ namespace Criipto.Signatures.Models
         OPEN,
         REJECTED,
         SIGNED,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region SignatoryUiInput
     public class SignatoryUiInput
@@ -2980,13 +3303,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3091,13 +3421,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3126,13 +3463,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3163,13 +3507,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3301,9 +3652,8 @@ namespace Criipto.Signatures.Models
         CLOSED,
         EXPIRED,
         OPEN,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region SignatureOrderUI
     public class SignatureOrderUI
@@ -3366,13 +3716,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3432,13 +3789,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3495,13 +3859,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3570,13 +3941,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3633,13 +4011,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3691,9 +4076,8 @@ namespace Criipto.Signatures.Models
     {
         PRODUCTION,
         TEST,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region VerifyApplicationQueryInput
     public class VerifyApplicationQueryInput
@@ -3717,13 +4101,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {
@@ -3841,6 +4232,7 @@ namespace Criipto.Signatures.Models
         [JsonProperty("url")]
         string url { get; set; }
     }
+
     public enum WebhookInvocationEvent
     {
         SIGNATORY_DOCUMENT_STATUS_CHANGED,
@@ -3850,9 +4242,8 @@ namespace Criipto.Signatures.Models
         SIGNATORY_SIGN_ERROR,
         SIGNATORY_SIGN_LINK_OPENED,
         SIGNATURE_ORDER_EXPIRED,
-        FUTURE_ADDED_VALUE = 999
+        FUTURE_ADDED_VALUE = 999,
     }
-
 
     #region WebhookSuccessfulInvocation
     public class WebhookSuccessfulInvocation : WebhookInvocation
@@ -3952,13 +4343,20 @@ namespace Criipto.Signatures.Models
         {
             IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
 
-            var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
             foreach (var propertyInfo in properties)
             {
                 var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
 
-                var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
 
                 if (requiredProp || value != defaultValue)
                 {

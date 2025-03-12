@@ -9,12 +9,8 @@ public class CreateBatchSignatoryTests
     [
         new DocumentInput
         {
-            pdf = new PadesDocumentInput
-            {
-                title = "TEST",
-                blob = Dsl.Sample
-            }
-        }
+            pdf = new PadesDocumentInput { title = "TEST", blob = Dsl.Sample },
+        },
     ];
 
     [Fact]
@@ -28,7 +24,7 @@ public class CreateBatchSignatoryTests
             {
                 title = ".NET BatchSignatory #1",
                 expiresInDays = 1,
-                documents = DefaultDocuments
+                documents = DefaultDocuments,
             }
         );
 
@@ -39,25 +35,30 @@ public class CreateBatchSignatoryTests
             {
                 title = ".NET BatchSignatory #2",
                 expiresInDays = 1,
-                documents = DefaultDocuments
+                documents = DefaultDocuments,
             }
         );
 
         var signatoryB = await client.AddSignatory(signatureOrderB);
 
-        List<(Signatory signatory, SignatureOrder signatureOrder)> pairs = [(signatoryA, signatureOrderA), (signatoryB, signatureOrderB)];
+        List<(Signatory signatory, SignatureOrder signatureOrder)> pairs =
+        [
+            (signatoryA, signatureOrderA),
+            (signatoryB, signatureOrderB),
+        ];
 
         // act
         var batchSignatory = await client.CreateBatchSignatory(
             new CreateBatchSignatoryInput
             {
-                items = [.. pairs.Select(p =>
-                    new BatchSignatoryItemInput
+                items =
+                [
+                    .. pairs.Select(p => new BatchSignatoryItemInput
                     {
                         signatoryId = p.signatory.id,
-                        signatureOrderId = p.signatureOrder.id
-                    }
-                )]
+                        signatureOrderId = p.signatureOrder.id,
+                    }),
+                ],
             }
         );
 
@@ -65,15 +66,18 @@ public class CreateBatchSignatoryTests
         Assert.Equal(pairs.Count, batchSignatory.items.Count);
 
         // check that the batch signatory items matches the input pairs
-        Assert.All(batchSignatory.items, (item, idx) =>
-        {
-            var (signatory, signatureOrder) = pairs[idx];
-            Assert.Multiple(() =>
+        Assert.All(
+            batchSignatory.items,
+            (item, idx) =>
             {
-                Assert.Equal(signatory.id, item.signatory.id);
-                Assert.Equal(signatureOrder.id, item.signatureOrder.id);
-            });
-        });
+                var (signatory, signatureOrder) = pairs[idx];
+                Assert.Multiple(() =>
+                {
+                    Assert.Equal(signatory.id, item.signatory.id);
+                    Assert.Equal(signatureOrder.id, item.signatureOrder.id);
+                });
+            }
+        );
     }
 
     [Fact]
@@ -87,7 +91,7 @@ public class CreateBatchSignatoryTests
             {
                 title = ".NET BatchSignatory #1",
                 expiresInDays = 1,
-                documents = DefaultDocuments
+                documents = DefaultDocuments,
             }
         );
 
@@ -98,25 +102,27 @@ public class CreateBatchSignatoryTests
             {
                 title = ".NET BatchSignatory #2",
                 expiresInDays = 1,
-                documents = DefaultDocuments
+                documents = DefaultDocuments,
             }
         );
 
         var signatoryB = await client.AddSignatory(signatureOrderB);
 
         // act
-        Task<BatchSignatory> createBatchSignatoryAction() => client.CreateBatchSignatory(
-            new CreateBatchSignatoryInput
-            {
-                items = [
-                    new BatchSignatoryItemInput
-                    {
-                        signatoryId = signatoryB.id,
-                        signatureOrderId = signatureOrderA.id
-                    }
-                ]
-            }
-        );
+        Task<BatchSignatory> createBatchSignatoryAction() =>
+            client.CreateBatchSignatory(
+                new CreateBatchSignatoryInput
+                {
+                    items =
+                    [
+                        new BatchSignatoryItemInput
+                        {
+                            signatoryId = signatoryB.id,
+                            signatureOrderId = signatureOrderA.id,
+                        },
+                    ],
+                }
+            );
 
         // assert
         var exn = await Assert.ThrowsAsync<GraphQLException>(() => createBatchSignatoryAction());
