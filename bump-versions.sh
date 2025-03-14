@@ -15,6 +15,24 @@ then
     exit 1
 fi
 
+if [[ $# != 1 ]];
+then
+    echo "Incorrect number of arguments provided. Usage: ./bump-versions.sh <major | minor | patch>"
+    exit 1
+fi
+
+# validate the version argument
+case "$1" in
+    major|minor|patch)
+        ;;
+    *)  echo "Invalid version bump argument provided. Usage ./bump-versions.sh <major | minor | patch>"
+        exit 1
+        ;;
+esac
+
+# bump overarching package version
+npm version $1
+
 # extract overaching package version
 export VERSION=$(npm pkg get version | tr -d \")
 
