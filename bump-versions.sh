@@ -31,23 +31,23 @@ case "$1" in
 esac
 
 # bump overarching package version
-npm version $1
+npm version $1 --git-tag-version false
 
 # extract overaching package version
 export VERSION=$(npm pkg get version | tr -d \")
 
 # bump nodejs version
 pushd packages/nodejs > /dev/null
-npm version ${VERSION} --allow-same-version
+npm version ${VERSION} --allow-same-version --git-tag-version false > /dev/null
 popd > /dev/null
 
 # bump csproj version
 echo ${VERSION} | dotnet fsi bump-csproj-version.fsx
 
 # commit the changes as a version commit
-git add packages/
-git commit -m "${VERSION}"
+git add packages/ package*.json
+git commit -m "v${VERSION}"
 
 # git tag the version change commit
 LATEST_GIT_SHA=$(git rev-parse HEAD)
-git tag -a ${VERSION} ${LATEST_GIT_SHA} -m "${VERSION}"
+git tag -a "v${VERSION}" ${LATEST_GIT_SHA} -m "v${VERSION}"
