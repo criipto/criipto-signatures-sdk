@@ -17,7 +17,6 @@
     "build": "npm run build:nodejs && npm run build:dotnet",
     "build:nodejs": "cd packages/nodejs && npm run build && cd ../..",
     "build:dotnet": "npm run format:dotnet && cd packages/dotnet && dotnet build Criipto.Signatures.sln && cd ../..",
-    "tag": "source bump-versions.sh",
     "tag:post": "git push --follow-tags --atomic"
   },
   "repository": {
