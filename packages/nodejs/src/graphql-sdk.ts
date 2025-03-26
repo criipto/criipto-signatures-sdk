@@ -674,8 +674,16 @@ export type PadesDocumentInput = {
   form?: InputMaybe<PadesDocumentFormInput>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
+  sealsPageTemplate?: InputMaybe<PadesDocumentSealsPageTemplateInput>;
   storageMode: DocumentStorageMode;
   title: Scalars['String'];
+};
+
+export type PadesDocumentSealsPageTemplateInput = {
+  /** Using the PDF coordinate system, with (x1, y1) being bottom-left */
+  area: PdfBoundingBoxInput;
+  /** Must be a PDF containing a SINGLE page */
+  blob: Scalars['Blob'];
 };
 
 /** Information about pagination in a connection. */
@@ -689,6 +697,13 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean'];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']>;
+};
+
+export type PdfBoundingBoxInput = {
+  x1: Scalars['Float'];
+  x2: Scalars['Float'];
+  y1: Scalars['Float'];
+  y2: Scalars['Float'];
 };
 
 export type PdfDocument = Document & {

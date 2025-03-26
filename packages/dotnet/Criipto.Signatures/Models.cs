@@ -2154,6 +2154,8 @@ namespace Criipto.Signatures.Models
         /// </summary>
         public string reference { get; set; }
 
+        public PadesDocumentSealsPageTemplateInput sealsPageTemplate { get; set; }
+
         [Required]
         [JsonRequired]
         [JsonConverter(typeof(TolerantEnumConverter))]
@@ -2162,6 +2164,56 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public string title { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region PadesDocumentSealsPageTemplateInput
+    public class PadesDocumentSealsPageTemplateInput
+    {
+        #region members
+        /// <summary>
+        /// Using the PDF coordinate system, with (x1, y1) being bottom-left
+        /// </summary>
+        [Required]
+        [JsonRequired]
+        public PdfBoundingBoxInput area { get; set; }
+
+        /// <summary>
+        /// Must be a PDF containing a SINGLE page
+        /// </summary>
+        [Required]
+        [JsonRequired]
+        public byte[] blob { get; set; }
         #endregion
 
         #region methods
@@ -2225,6 +2277,58 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("startCursor")]
         public string startCursor { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region PdfBoundingBoxInput
+    public class PdfBoundingBoxInput
+    {
+        #region members
+        [Required]
+        [JsonRequired]
+        public double x1 { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public double x2 { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public double y1 { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public double y2 { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
         #endregion
     }
     #endregion
