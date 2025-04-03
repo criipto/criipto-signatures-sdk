@@ -537,6 +537,61 @@ namespace Criipto.Signatures.Models
     }
     #endregion
 
+    #region ChangeSignatureOrderInput
+    public class ChangeSignatureOrderInput
+    {
+        #region members
+        /// <summary>
+        /// Max allowed signatories (as it influences pages needed for seals). Cannot be changed after first signer.
+        /// </summary>
+        public int? maxSignatories { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public string signatureOrderId { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region ChangeSignatureOrderOutput
+    public class ChangeSignatureOrderOutput
+    {
+        #region members
+        [JsonProperty("signatureOrder")]
+        public SignatureOrder signatureOrder { get; set; }
+        #endregion
+    }
+    #endregion
+
     #region CleanupSignatureOrderInput
     public class CleanupSignatureOrderInput
     {
@@ -1843,6 +1898,12 @@ namespace Criipto.Signatures.Models
         public ChangeSignatoryOutput changeSignatory { get; set; }
 
         /// <summary>
+        /// Change an existing signature order
+        /// </summary>
+        [JsonProperty("changeSignatureOrder")]
+        public ChangeSignatureOrderOutput changeSignatureOrder { get; set; }
+
+        /// <summary>
         /// Cleans up the signature order and removes any saved documents from the servers.
         /// </summary>
         [JsonProperty("cleanupSignatureOrder")]
@@ -2214,6 +2275,16 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public byte[] blob { get; set; }
+
+        /// <summary>
+        /// Validate that the defined seal area produces the expected number of columns, will error if expectation is not met
+        /// </summary>
+        public int? expectedColumns { get; set; }
+
+        /// <summary>
+        /// Validate that the defined seal area produces the expected number of rows, will error if expectation is not met
+        /// </summary>
+        public int? expectedRows { get; set; }
         #endregion
 
         #region methods
@@ -3669,6 +3740,12 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("id")]
         public string id { get; set; }
+
+        /// <summary>
+        /// Number of max signatories for the signature order
+        /// </summary>
+        [JsonProperty("maxSignatories")]
+        public int maxSignatories { get; set; }
 
         /// <summary>
         /// List of signatories for the signature order.

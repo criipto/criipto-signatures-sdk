@@ -63,6 +63,7 @@ fragment BasicSignatureOrder on SignatureOrder {
   title
   closedAt
   expiresAt
+  maxSignatories
 
   signatories {
     ...BasicSignatory
@@ -198,6 +199,14 @@ mutation createBatchSignatory($input: CreateBatchSignatoryInput!) {
           ...BasicSignatory
         }
       }
+    }
+  }
+}
+
+mutation changeSignatureOrder($input: ChangeSignatureOrderInput!) {
+  changeSignatureOrder(input: $input) {
+    signatureOrder {
+      ...BasicSignatureOrder
     }
   }
 }

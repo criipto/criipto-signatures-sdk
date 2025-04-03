@@ -565,6 +565,24 @@ public class CriiptoSignaturesClient : IDisposable
         return data.createBatchSignatory.batchSignatory;
     }
 
+    public async Task<SignatureOrder> ChangeSignatureOrder(
+        ChangeSignatureOrderInput input,
+        CancellationToken cancellationToken = default
+    )
+    {
+        if (input == null)
+            throw new ArgumentNullException(nameof(input));
+
+        var data = await SendMutation(
+                ChangeSignatureOrderMutation.Request(new { input }),
+                () => new { changeSignatureOrder = new ChangeSignatureOrderOutput() },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+        return data.changeSignatureOrder.signatureOrder;
+    }
+
     public async Task<SignatureOrder?> QuerySignatureOrder(
         string signatureOrderId,
         bool includeDocuments = false,
