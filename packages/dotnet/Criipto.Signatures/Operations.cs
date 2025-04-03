@@ -85,6 +85,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -175,6 +176,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -467,6 +469,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -557,6 +560,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -744,6 +748,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -820,6 +825,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -904,6 +910,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -916,6 +923,83 @@ namespace Criipto.Signatures
           id
           token
           href
+        }";
+    }
+
+    public class ChangeSignatureOrderMutation
+    {
+        /// <summary>
+        /// ChangeSignatureOrderMutation.Request
+        /// <para>Required variables:<br/> { input=(ChangeSignatureOrderInput) }</para>
+        /// <para>Optional variables:<br/> {  }</para>
+        /// </summary>
+        public static GraphQLRequest Request(object variables = null)
+        {
+            return new GraphQLRequest
+            {
+                Query = ChangeSignatureOrderDocument,
+                OperationName = "changeSignatureOrder",
+                Variables = variables,
+            };
+        }
+
+        /// <remarks>This method is obsolete. Use Request instead.</remarks>
+        public static GraphQLRequest getChangeSignatureOrderMutation()
+        {
+            return Request();
+        }
+
+        public static string ChangeSignatureOrderDocument =
+            @"
+        mutation changeSignatureOrder($input: ChangeSignatureOrderInput!) {
+          changeSignatureOrder(input: $input) {
+            signatureOrder {
+              ...BasicSignatureOrder
+            }
+          }
+        }
+        fragment BasicSignatory on Signatory {
+          id
+          status
+          statusReason
+          href
+          downloadHref
+          reference
+          role
+          signatureOrder {
+            id
+            status
+            closedAt
+            expiresAt
+          }
+          evidenceProviders {
+            __typename
+            id
+          }
+          documents {
+            edges {
+              status
+              node {
+                __typename
+                id
+              }
+            }
+          }
+        }
+        fragment BasicSignatureOrder on SignatureOrder {
+          id
+          status
+          title
+          closedAt
+          expiresAt
+          maxSignatories
+          signatories {
+            ...BasicSignatory
+          }
+          evidenceProviders {
+            __typename
+            id
+          }
         }";
     }
 
@@ -983,6 +1067,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -1087,6 +1172,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -1164,6 +1250,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -1247,6 +1334,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }
@@ -1329,6 +1417,7 @@ namespace Criipto.Signatures
           title
           closedAt
           expiresAt
+          maxSignatories
           signatories {
             ...BasicSignatory
           }

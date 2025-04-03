@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { AddSignatoriesInput, AddSignatoryInput, ChangeSignatoryInput, ExtendSignatureOrderInput, CloseSignatureOrderInput, CreateSignatureOrderInput, CreateBatchSignatoryInput, getSdk, Sdk, SignActingAsInput } from './graphql-sdk';
+import { AddSignatoriesInput, AddSignatoryInput, ChangeSignatoryInput, ExtendSignatureOrderInput, CloseSignatureOrderInput, CreateSignatureOrderInput, CreateBatchSignatoryInput, getSdk, Sdk, SignActingAsInput, ChangeSignatureOrderInput } from './graphql-sdk';
 
 import  * as Types from './graphql-sdk';
 import jsonSerializer from './json-serializer';
@@ -121,6 +121,13 @@ export class CriiptoSignatures {
       input: input
     });
     return response.createBatchSignatory!.batchSignatory;
+  }
+
+  async changeSignatureOrder(input: ChangeSignatureOrderInput) {
+    const response = await this.sdk.changeSignatureOrder({
+      input: input
+    });
+    return response.changeSignatureOrder!.signatureOrder;
   }
 
   async validateDocument(input: Types.ValidateDocumentInput) {

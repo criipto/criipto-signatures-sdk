@@ -152,3 +152,25 @@ test('can create batch signatory', async t => {
     elem.signatureOrderId === expectedItems[idx].signatureOrderId)
   );
 })
+
+test("can change signature order with new maxSignatories", async (t) => {
+  // ARRANGE
+  const { client } = arrange();
+  const signatureOrder = await client.createSignatureOrder({
+    title: "Node.js sample",
+    expiresInDays: 1,
+    documents: [documentFixture],
+    maxSignatories: 10,
+  });
+
+  const newMaxSignatories = 20;
+
+  // ACT
+  const changedSignatureOrder = await client.changeSignatureOrder({
+    signatureOrderId: signatureOrder.id,
+    maxSignatories: newMaxSignatories,
+  });
+
+  // ASSERT
+  t.truthy(newMaxSignatories === changedSignatureOrder.maxSignatories);
+});
