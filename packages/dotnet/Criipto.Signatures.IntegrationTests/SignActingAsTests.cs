@@ -74,5 +74,14 @@ public class SignActingAsTests
 
         // Assert
         Assert.Equal(SignatoryStatus.SIGNED, actual.status);
+
+        var closed = await client.CloseSignatureOrder(signatureOrder);
+        var signature = closed.documents[0].signatures[0];
+        Assert.NotNull(signature);
+        Assert.IsType<DrawableSignature>(signature);
+        var drawableSignature = signature as DrawableSignature;
+        Assert.NotNull(drawableSignature);
+        Assert.NotEmpty(drawableSignature.name);
+        Assert.NotEmpty(drawableSignature.image);
     }
 }

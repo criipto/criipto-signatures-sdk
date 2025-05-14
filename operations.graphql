@@ -24,6 +24,10 @@ fragment SignedDocument on Document {
       jwt
       jwks
     }
+    ... on DrawableSignature {
+      name
+      image
+    }
   }
 }
 fragment BasicSignatory on Signatory {
