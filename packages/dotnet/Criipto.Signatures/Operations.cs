@@ -433,6 +433,10 @@ namespace Criipto.Signatures
               jwt
               jwks
             }
+            ... on DrawableSignature {
+              name
+              image
+            }
           }
         }
         fragment BasicSignatory on Signatory {
@@ -1135,6 +1139,10 @@ namespace Criipto.Signatures
             ... on JWTSignature {
               jwt
               jwks
+            }
+            ... on DrawableSignature {
+              name
+              image
             }
           }
         }
