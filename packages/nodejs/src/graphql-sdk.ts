@@ -324,6 +324,8 @@ export type CreateSignatureOrderWebhookInput = {
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
   alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
+  /** Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application. */
+  audiences?: InputMaybe<Array<Scalars['String']>>;
   /** Set a custom login_hint for the underlying authentication request. */
   loginHint?: InputMaybe<Scalars['String']>;
   /** Messages displayed when performing authentication (only supported by DKMitID currently). */
@@ -338,6 +340,8 @@ export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
   __typename?: 'CriiptoVerifySignatureEvidenceProvider';
   acrValues: Array<Scalars['String']>;
   alwaysRedirect: Scalars['Boolean'];
+  audience: Scalars['String'];
+  audiences: Array<Scalars['String']>;
   clientID: Scalars['String'];
   domain: Scalars['String'];
   id: Scalars['ID'];
@@ -1224,6 +1228,8 @@ export type ValidateDocumentOutput = {
   errors?: Maybe<Array<Scalars['String']>>;
   /** Whether or not the errors are fixable using 'fixDocumentFormattingErrors' */
   fixable?: Maybe<Scalars['Boolean']>;
+  /** `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed. */
+  previouslySigned?: Maybe<Scalars['Boolean']>;
   valid: Scalars['Boolean'];
 };
 
