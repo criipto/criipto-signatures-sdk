@@ -1206,6 +1206,11 @@ namespace Criipto.Signatures.Models
         public bool? alwaysRedirect { get; set; }
 
         /// <summary>
+        /// Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application.
+        /// </summary>
+        public List<string> audiences { get; set; }
+
+        /// <summary>
         /// Set a custom login_hint for the underlying authentication request.
         /// </summary>
         public string loginHint { get; set; }
@@ -1268,6 +1273,12 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("alwaysRedirect")]
         public bool alwaysRedirect { get; set; }
+
+        [JsonProperty("audience")]
+        public string audience { get; set; }
+
+        [JsonProperty("audiences")]
+        public List<string> audiences { get; set; }
 
         [JsonProperty("clientID")]
         public string clientID { get; set; }
@@ -4230,6 +4241,12 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("fixable")]
         public bool? fixable { get; set; }
+
+        /// <summary>
+        /// `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed.
+        /// </summary>
+        [JsonProperty("previouslySigned")]
+        public bool? previouslySigned { get; set; }
 
         [JsonProperty("valid")]
         public bool valid { get; set; }
