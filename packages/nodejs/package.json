@@ -5,6 +5,7 @@
     "description": "A Node.JS SDK for Criipto Signatures",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "type": "module",
     "scripts": {
         "test": "npm run test:unit && npm run test:integration",
         "test:integration": "npm run build && cp src/test/integration/*.pdf dist/test/integration/ && npx ava dist/test/integration/*.test.js --timeout=60s --verbose",
@@ -41,7 +42,7 @@
     },
     "dependencies": {
         "graphql": "^16.6.0",
-        "graphql-request": "^4.0.0",
+        "graphql-request": "^7.2.0",
         "graphql-tag": "^2.12.6"
     },
     "ava": {

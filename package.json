@@ -4,7 +4,8 @@
   "private": true,
   "description": "A SDK repository for Criipto Signatures",
   "scripts": {
-    "codegen": "graphql-codegen && npm run codegen:dotnet",
+    "schema": "curl https://signatures-api.criipto.com/v1/graphql > schema.json",
+    "codegen": "npm run schema && graphql-codegen && npm run codegen:dotnet",
     "codegen:dotnet": "node fix-dotnet-typings.cjs && npm run format:dotnet",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "npm run test:integration:nodejs && npm run test:integration:dotnet",
@@ -38,11 +39,11 @@
   },
   "homepage": "https://github.com/criipto/criipto-signatures-sdk#readme",
   "devDependencies": {
-    "@graphql-codegen/c-sharp": "4.2.7",
-    "@graphql-codegen/c-sharp-operations": "2.2.7",
-    "@graphql-codegen/cli": "^3.3.1",
-    "@graphql-codegen/typescript": "^3.0.4",
-    "@graphql-codegen/typescript-graphql-request": "^4.5.9",
-    "@graphql-codegen/typescript-operations": "^3.0.4"
+    "@graphql-codegen/c-sharp": "5.1.2",
+    "@graphql-codegen/c-sharp-operations": "3.2.0",
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-graphql-request": "^6.3.0",
+    "@graphql-codegen/typescript-operations": "^4.6.1"
   }
 }

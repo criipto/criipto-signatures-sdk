@@ -1,4 +1,6 @@
-import { JsonSerializer } from "graphql-request/dist/types.dom";
+import type { GraphQLClient } from "graphql-request";
+
+type JsonSerializer = NonNullable<NonNullable<ConstructorParameters<typeof GraphQLClient>[1]>["jsonSerializer"]>
 
 function tryBase64Decode(input: string) {
   try {
