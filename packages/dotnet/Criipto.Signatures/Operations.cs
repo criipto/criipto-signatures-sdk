@@ -432,6 +432,10 @@ namespace Criipto.Signatures
             ... on JWTSignature {
               jwt
               jwks
+              claims {
+                name
+                value
+              }
             }
             ... on DrawableSignature {
               name
@@ -1139,6 +1143,10 @@ namespace Criipto.Signatures
             ... on JWTSignature {
               jwt
               jwks
+              claims {
+                name
+                value
+              }
             }
             ... on DrawableSignature {
               name
