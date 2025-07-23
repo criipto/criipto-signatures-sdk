@@ -71,6 +71,9 @@ types = types.replace('namespace Criipto.Signatures {', 'namespace Criipto.Signa
 types = types.replace('public class Types {', '');
 types = types.replace(/}(?:\s+)}(?:\s+)$/, '}');
 
+types = types.replace('[JsonProperty("startCriiptoVerifyEvidenceProvider")]', '');
+types = types.replace('public StartCriiptoVerifyEvidenceProviderOutput startCriiptoVerifyEvidenceProvider { get; set; }', '');
+
 types = typesSupressions.map(s => `#pragma warning disable ${s}`).join('\n') + '\n' + types;
 fs.writeFileSync(dotnetDirName + '/Criipto.Signatures/Models.cs', types);
 

@@ -2094,8 +2094,8 @@ namespace Criipto.Signatures.Models
         /// <summary>
         /// Signatory frontend use only.
         /// </summary>
-        [JsonProperty("startCriiptoVerifyEvidenceProvider")]
-        public StartCriiptoVerifyEvidenceProviderOutput startCriiptoVerifyEvidenceProvider { get; set; }
+
+
 
         /// <summary>
         /// Signatory frontend use only.

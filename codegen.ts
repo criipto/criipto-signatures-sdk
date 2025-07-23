@@ -35,7 +35,7 @@ const config: CodegenConfig = {
           DateTime: "string",
         },
         mapping: {
-          SignatureEvidenceProvider: "SignatureEvidenceProvider",
+          SignatureEvidenceProvider: "SignatureEvidenceProvider"
         },
       },
     },
