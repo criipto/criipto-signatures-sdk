@@ -23,6 +23,10 @@ fragment SignedDocument on Document {
     ... on JWTSignature {
       jwt
       jwks
+      claims {
+        name
+        value
+      }
     }
     ... on DrawableSignature {
       name
