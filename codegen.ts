@@ -23,6 +23,7 @@ const config: CodegenConfig = {
           DateTime: "string",
           URI: "string",
         },
+        gqlImport: 'graphql-tag#gql'
       },
     },
     "packages/dotnet/Criipto.Signatures/Models.cs": {

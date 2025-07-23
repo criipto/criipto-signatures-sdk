@@ -1,8 +1,8 @@
 import { GraphQLClient } from 'graphql-request';
-import { AddSignatoriesInput, AddSignatoryInput, ChangeSignatoryInput, ExtendSignatureOrderInput, CloseSignatureOrderInput, CreateSignatureOrderInput, CreateBatchSignatoryInput, getSdk, Sdk, SignActingAsInput, ChangeSignatureOrderInput } from './graphql-sdk';
+import { AddSignatoriesInput, AddSignatoryInput, ChangeSignatoryInput, ExtendSignatureOrderInput, CloseSignatureOrderInput, CreateSignatureOrderInput, CreateBatchSignatoryInput, getSdk, Sdk, SignActingAsInput, ChangeSignatureOrderInput } from './graphql-sdk.js';
 
-import  * as Types from './graphql-sdk';
-import jsonSerializer from './json-serializer';
+import  * as Types from './graphql-sdk.js';
+import jsonSerializer from './json-serializer.js';
 export {Types as CriiptoSignaturesTypes};
 
 export class CriiptoSignatures {
