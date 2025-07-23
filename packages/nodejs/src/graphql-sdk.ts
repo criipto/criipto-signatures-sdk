@@ -115,6 +115,7 @@ export type BatchSignatory = {
   items: Array<BatchSignatoryItem>;
   /** The authentication token required for performing batch operations. */
   token: Scalars['String'];
+  traceId: Scalars['String'];
   ui: SignatureOrderUi;
 };
 
@@ -201,6 +202,16 @@ export type CloseSignatureOrderInput = {
 export type CloseSignatureOrderOutput = {
   __typename?: 'CloseSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type CompleteCriiptoVerifyEvidenceProviderInput = {
+  code: Scalars['String'];
+  state: Scalars['String'];
+};
+
+export type CompleteCriiptoVerifyEvidenceProviderOutput = {
+  __typename?: 'CompleteCriiptoVerifyEvidenceProviderOutput';
+  jwt: Scalars['String'];
 };
 
 export type CompositeSignature = Signature & {
@@ -320,6 +331,12 @@ export type CreateSignatureOrderWebhookInput = {
   validateConnectivity?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type CriiptoVerifyEvidenceProviderRedirect = {
+  __typename?: 'CriiptoVerifyEvidenceProviderRedirect';
+  redirectUri: Scalars['String'];
+  state: Scalars['String'];
+};
+
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
@@ -344,6 +361,7 @@ export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
   audiences: Array<Scalars['String']>;
   clientID: Scalars['String'];
   domain: Scalars['String'];
+  environment?: Maybe<VerifyApplicationEnvironment>;
   id: Scalars['ID'];
   loginHint?: Maybe<Scalars['String']>;
   message?: Maybe<Scalars['String']>;
@@ -476,8 +494,15 @@ export type ExtendSignatureOrderOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type JwtClaim = {
+  __typename?: 'JWTClaim';
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type JwtSignature = Signature & SingleSignature & {
   __typename?: 'JWTSignature';
+  claims: Array<JwtClaim>;
   jwks: Scalars['String'];
   jwt: Scalars['String'];
   signatory?: Maybe<Signatory>;
@@ -506,6 +531,7 @@ export type Mutation = {
   cleanupSignatureOrder?: Maybe<CleanupSignatureOrderOutput>;
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
+  completeCriiptoVerifyEvidenceProvider?: Maybe<CompleteCriiptoVerifyEvidenceProviderOutput>;
   /** Creates a signature application for a given tenant. */
   createApplication?: Maybe<CreateApplicationOutput>;
   /** Creates a new set of api credentials for an existing application. */
@@ -530,6 +556,8 @@ export type Mutation = {
   signActingAs?: Maybe<SignActingAsOutput>;
   /** Signatory frontend use only. */
   signatoryBeacon?: Maybe<SignatoryBeaconOutput>;
+  /** Signatory frontend use only. */
+  startCriiptoVerifyEvidenceProvider?: Maybe<StartCriiptoVerifyEvidenceProviderOutput>;
   /** Signatory frontend use only. */
   trackSignatory?: Maybe<TrackSignatoryOutput>;
   /** Used by Signatory frontends to mark documents as opened, approved or rejected. */
@@ -570,6 +598,11 @@ export type MutationCleanupSignatureOrderArgs = {
 
 export type MutationCloseSignatureOrderArgs = {
   input: CloseSignatureOrderInput;
+};
+
+
+export type MutationCompleteCriiptoVerifyEvidenceProviderArgs = {
+  input: CompleteCriiptoVerifyEvidenceProviderInput;
 };
 
 
@@ -635,6 +668,11 @@ export type MutationSignActingAsArgs = {
 
 export type MutationSignatoryBeaconArgs = {
   input: SignatoryBeaconInput;
+};
+
+
+export type MutationStartCriiptoVerifyEvidenceProviderArgs = {
+  input: StartCriiptoVerifyEvidenceProviderInput;
 };
 
 
@@ -907,12 +945,14 @@ export type Signatory = {
   role?: Maybe<Scalars['String']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
+  spanId: Scalars['String'];
   /** The current status of the signatory. */
   status: SignatoryStatus;
   /** The reason for the signatory status (rejection reason when rejected). */
   statusReason?: Maybe<Scalars['String']>;
   /** The signature frontend authentication token, only required if you need to build a custom url. */
   token: Scalars['String'];
+  traceId: Scalars['String'];
   ui: SignatureOrderUi;
 };
 
@@ -1070,6 +1110,7 @@ export type SignatureOrder = {
   tenant?: Maybe<Tenant>;
   timezone: Scalars['String'];
   title?: Maybe<Scalars['String']>;
+  traceId: Scalars['String'];
   ui: SignatureOrderUi;
   webhook?: Maybe<SignatureOrderWebhook>;
 };
@@ -1156,6 +1197,15 @@ export type SingleSignature = {
 export type SingleSignatureEvidenceProvider = {
   id: Scalars['ID'];
 };
+
+export type StartCriiptoVerifyEvidenceProviderInput = {
+  acrValue: Scalars['String'];
+  id: Scalars['ID'];
+  redirectUri: Scalars['String'];
+  stage: EvidenceValidationStage;
+};
+
+export type StartCriiptoVerifyEvidenceProviderOutput = CriiptoVerifyEvidenceProviderRedirect;
 
 export type Tenant = {
   __typename?: 'Tenant';

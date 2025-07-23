@@ -309,6 +309,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("token")]
         public string token { get; set; }
 
+        [JsonProperty("traceId")]
+        public string traceId { get; set; }
+
         [JsonProperty("ui")]
         public SignatureOrderUI ui { get; set; }
         #endregion
@@ -693,6 +696,60 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("signatureOrder")]
         public SignatureOrder signatureOrder { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region CompleteCriiptoVerifyEvidenceProviderInput
+    public class CompleteCriiptoVerifyEvidenceProviderInput
+    {
+        #region members
+        [Required]
+        [JsonRequired]
+        public string code { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public string state { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region CompleteCriiptoVerifyEvidenceProviderOutput
+    public class CompleteCriiptoVerifyEvidenceProviderOutput
+    {
+        #region members
+        [JsonProperty("jwt")]
+        public string jwt { get; set; }
         #endregion
     }
     #endregion
@@ -1194,6 +1251,19 @@ namespace Criipto.Signatures.Models
     }
     #endregion
 
+    #region CriiptoVerifyEvidenceProviderRedirect
+    public class CriiptoVerifyEvidenceProviderRedirect
+    {
+        #region members
+        [JsonProperty("redirectUri")]
+        public string redirectUri { get; set; }
+
+        [JsonProperty("state")]
+        public string state { get; set; }
+        #endregion
+    }
+    #endregion
+
     #region CriiptoVerifyProviderInput
     /// <summary>
     /// Criipto Verify based evidence for signatures.
@@ -1285,6 +1355,10 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("domain")]
         public string domain { get; set; }
+
+        [JsonProperty("environment")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public VerifyApplicationEnvironment? environment { get; set; }
 
         [JsonProperty("id")]
         public string id { get; set; }
@@ -1856,10 +1930,26 @@ namespace Criipto.Signatures.Models
     }
     #endregion
 
+    #region JWTClaim
+    public class JWTClaim
+    {
+        #region members
+        [JsonProperty("name")]
+        public string name { get; set; }
+
+        [JsonProperty("value")]
+        public string value { get; set; }
+        #endregion
+    }
+    #endregion
+
     #region JWTSignature
     public class JWTSignature : Signature, SingleSignature
     {
         #region members
+        [JsonProperty("claims")]
+        public List<JWTClaim> claims { get; set; }
+
         [JsonProperty("jwks")]
         public string jwks { get; set; }
 
@@ -1925,6 +2015,9 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("closeSignatureOrder")]
         public CloseSignatureOrderOutput closeSignatureOrder { get; set; }
+
+        [JsonProperty("completeCriiptoVerifyEvidenceProvider")]
+        public CompleteCriiptoVerifyEvidenceProviderOutput completeCriiptoVerifyEvidenceProvider { get; set; }
 
         /// <summary>
         /// Creates a signature application for a given tenant.
@@ -1997,6 +2090,12 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("signatoryBeacon")]
         public SignatoryBeaconOutput signatoryBeacon { get; set; }
+
+        /// <summary>
+        /// Signatory frontend use only.
+        /// </summary>
+        [JsonProperty("startCriiptoVerifyEvidenceProvider")]
+        public StartCriiptoVerifyEvidenceProviderOutput startCriiptoVerifyEvidenceProvider { get; set; }
 
         /// <summary>
         /// Signatory frontend use only.
@@ -3169,6 +3268,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signatureOrder")]
         public SignatureOrder signatureOrder { get; set; }
 
+        [JsonProperty("spanId")]
+        public string spanId { get; set; }
+
         /// <summary>
         /// The current status of the signatory.
         /// </summary>
@@ -3187,6 +3289,9 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("token")]
         public string token { get; set; }
+
+        [JsonProperty("traceId")]
+        public string traceId { get; set; }
 
         [JsonProperty("ui")]
         public SignatureOrderUI ui { get; set; }
@@ -3780,6 +3885,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("title")]
         public string title { get; set; }
 
+        [JsonProperty("traceId")]
+        public string traceId { get; set; }
+
         [JsonProperty("ui")]
         public SignatureOrderUI ui { get; set; }
 
@@ -4018,6 +4126,59 @@ namespace Criipto.Signatures.Models
         [JsonProperty("id")]
         string id { get; set; }
     }
+
+    #region StartCriiptoVerifyEvidenceProviderInput
+    public class StartCriiptoVerifyEvidenceProviderInput
+    {
+        #region members
+        [Required]
+        [JsonRequired]
+        public string acrValue { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public string id { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public string redirectUri { get; set; }
+
+        [Required]
+        [JsonRequired]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public EvidenceValidationStage stage { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
 
     #region Tenant
     public class Tenant
