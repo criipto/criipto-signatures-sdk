@@ -1351,7 +1351,7 @@ namespace Criipto.Signatures.Models
         public List<string> audiences { get; set; }
 
         [JsonProperty("clientID")]
-        public string clientID { get; set; }
+        public string clientId { get; set; }
 
         [JsonProperty("domain")]
         public string domain { get; set; }
@@ -2190,7 +2190,7 @@ namespace Criipto.Signatures.Models
 
         [Required]
         [JsonRequired]
-        public string clientID { get; set; }
+        public string clientId { get; set; }
 
         [Required]
         [JsonRequired]
@@ -2250,7 +2250,7 @@ namespace Criipto.Signatures.Models
         public bool alwaysRedirect { get; set; }
 
         [JsonProperty("clientID")]
-        public string clientID { get; set; }
+        public string clientId { get; set; }
 
         [JsonProperty("domain")]
         public string domain { get; set; }
@@ -2316,7 +2316,7 @@ namespace Criipto.Signatures.Models
         /// Will add a unique identifier for the document to the specified margin of each page. Useful when printing signed documents.
         /// </summary>
         [JsonConverter(typeof(TolerantEnumConverter))]
-        public DocumentIdLocation? displayDocumentID { get; set; }
+        public DocumentIdLocation? displayDocumentId { get; set; }
 
         public PadesDocumentFormInput form { get; set; }
 
@@ -2525,7 +2525,7 @@ namespace Criipto.Signatures.Models
         /// Same value as stamped on document when using displayDocumentID
         /// </summary>
         [JsonProperty("documentID")]
-        public string documentID { get; set; }
+        public string documentId { get; set; }
 
         [JsonProperty("form")]
         public PdfDocumentForm form { get; set; }
