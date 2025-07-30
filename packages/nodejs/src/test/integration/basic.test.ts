@@ -1,8 +1,8 @@
 import test from 'ava';
 import fs from 'fs';
 
-import CriiptoSignatures from '../../';
-import { DocumentStorageMode } from '../../graphql-sdk';
+import CriiptoSignatures from '../../index.js';
+import { DocumentStorageMode } from '../../graphql-sdk.js';
 
 const sample = fs.readFileSync(__dirname + '/sample.pdf');
 const sampleForm = fs.readFileSync(__dirname + '/sample-form.pdf');
