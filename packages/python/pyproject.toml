@@ -1,0 +1,24 @@
+[project]
+name = "criipto-signatures"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Jan Aagaard Meier", email = "jan.meier@criipto.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.7",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[project.scripts]
+criipto-signatures = "criipto_signatures:main"
+
+[build-system]
+requires = ["uv_build>=0.8.4,<0.9.0"]
+build-backend = "uv_build"

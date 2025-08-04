@@ -4,6 +4,15 @@ const config: CodegenConfig = {
   schema: "https://signatures-api.criipto.com/v1/graphql",
   documents: "./*.graphql",
   generates: {
+    "packages/python/src/criipto_signatures/models.py": {
+      plugins: ["graphql-codegen-plugin-python"],
+      config: {
+        scalars: {
+          URI: "str",
+          Blob: "bytes",
+        },
+      },
+    },
     "packages/nodejs/src/graphql-sdk.ts": {
       plugins: [
         "typescript",
@@ -35,7 +44,7 @@ const config: CodegenConfig = {
           DateTime: "string",
         },
         mapping: {
-          SignatureEvidenceProvider: "SignatureEvidenceProvider"
+          SignatureEvidenceProvider: "SignatureEvidenceProvider",
         },
       },
     },
