@@ -27,6 +27,27 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - run: dotnet tool restore
-      - run: dotnet csharpier --check .
         working-directory: packages/dotnet
       - run: npm run test:unit:dotnet
+
+  nodejs-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npx prettier --check .
+
+  dotnet-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet tool restore
+      - run: dotnet csharpier --check .
+      - run: dotnet format style packages/dotnet/Criipto.Signatures.sln --verify-no-changes
+      - run: dotnet format analyzers packages/dotnet/Criipto.Signatures.sln --verify-no-changes
