@@ -132,3 +132,6 @@ dist
 # .NET build artifacts
 **/bin
 **/obj
+
+*.DS_Store
+.vscode
