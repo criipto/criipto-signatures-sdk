@@ -11,10 +11,10 @@ import {
   Sdk,
   SignActingAsInput,
   ChangeSignatureOrderInput,
-} from './graphql-sdk';
+} from './graphql-sdk.js';
 
-import * as Types from './graphql-sdk';
-import jsonSerializer from './json-serializer';
+import * as Types from './graphql-sdk.js';
+import jsonSerializer from './json-serializer.js';
 export { Types as CriiptoSignaturesTypes };
 
 export class CriiptoSignatures {

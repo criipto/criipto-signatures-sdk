@@ -3,6 +3,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
   schema: 'https://signatures-api.criipto.com/v1/graphql',
   documents: './*.graphql',
+  emitLegacyCommonJSImports: false,
   generates: {
     'packages/nodejs/src/graphql-sdk.ts': {
       plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
@@ -11,6 +12,7 @@ const config: CodegenConfig = {
         namingConvention: {
           enumValues: 'keep',
         },
+        gqlImport: 'graphql-tag#gql',
         enumsAsTypes: true,
         futureProofEnums: true,
         scalars: {

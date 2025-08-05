@@ -1,4 +1,4 @@
-import { JsonSerializer } from 'graphql-request/dist/types.dom';
+import type { JsonSerializer } from 'graphql-request/dist/types.dom.js';
 
 function tryBase64Decode(input: string) {
   try {
@@ -39,7 +39,7 @@ function parseBlobs(input: any): any {
 }
 
 const jsonSerializer: JsonSerializer = {
-  stringify(obj) {
+  stringify(obj: any) {
     return JSON.stringify(obj, (key, value) => {
       if (value instanceof Object && !Array.isArray(value)) {
         return Object.keys(value).reduce(

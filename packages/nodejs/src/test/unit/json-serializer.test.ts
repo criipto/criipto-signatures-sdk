@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import jsonSerializer from '../../json-serializer';
+import jsonSerializer from '../../json-serializer.js';
 
 test('jsonSerializer is pass through', t => {
   const expected = { title: 'title' };

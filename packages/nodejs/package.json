@@ -2,6 +2,7 @@
   "name": "@criipto/signatures",
   "version": "1.22.3",
   "private": false,
+  "type": "module",
   "description": "A Node.JS SDK for Criipto Signatures",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,6 +18,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/criipto/criipto-signatures-sdk.git"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || ^24"
   },
   "keywords": [
     "criipto",
