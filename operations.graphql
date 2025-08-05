@@ -92,7 +92,7 @@ fragment BasicBatchSignatory on BatchSignatory {
 mutation createSignatureOrder($input: CreateSignatureOrderInput!) {
   createSignatureOrder(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
       documents {
         ...BasicDocument
       }
@@ -103,7 +103,7 @@ mutation createSignatureOrder($input: CreateSignatureOrderInput!) {
 mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {
   cleanupSignatureOrder(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
       documents {
         ...BasicDocument
       }
@@ -138,7 +138,7 @@ mutation changeSignatory($input: ChangeSignatoryInput!) {
 mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {
   closeSignatureOrder(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
       documents {
         ...BasicDocument
         ...SignedDocument
@@ -150,7 +150,7 @@ mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {
 mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {
   cancelSignatureOrder(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
       documents {
         ...BasicDocument
       }
@@ -177,7 +177,7 @@ mutation validateDocument($input: ValidateDocumentInput!) {
 mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {
   extendSignatureOrder(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
       documents {
         ...BasicDocument
       }
@@ -188,7 +188,7 @@ mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {
 mutation deleteSignatory($input: DeleteSignatoryInput!) {
   deleteSignatory(input: $input) {
     signatureOrder {
-      ... BasicSignatureOrder
+      ...BasicSignatureOrder
     }
   }
 }
@@ -221,13 +221,13 @@ mutation changeSignatureOrder($input: ChangeSignatureOrderInput!) {
 
 query signatureOrder($id: ID!) {
   signatureOrder(id: $id) {
-    ... BasicSignatureOrder
+    ...BasicSignatureOrder
   }
 }
 
 query signatureOrderWithDocuments($id: ID!) {
   signatureOrder(id: $id) {
-    ... BasicSignatureOrder
+    ...BasicSignatureOrder
 
     documents {
       ...BasicDocument
@@ -252,7 +252,7 @@ query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: Strin
       signatureOrders(status: $status, first: $first, after: $after) {
         edges {
           node {
-            ... BasicSignatureOrder
+            ...BasicSignatureOrder
           }
         }
       }

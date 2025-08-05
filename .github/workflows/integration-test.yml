@@ -18,7 +18,7 @@ jobs:
         working-directory: packages/nodejs
       - run: npm run test:integration:nodejs
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
+          NODE_OPTIONS: '--max_old_space_size=4096'
           CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
           CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
 

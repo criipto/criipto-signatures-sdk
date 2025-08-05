@@ -17,7 +17,8 @@
     "build": "npm run build:nodejs && npm run build:dotnet",
     "build:nodejs": "cd packages/nodejs && npm run build && cd ../..",
     "build:dotnet": "npm run format:dotnet && cd packages/dotnet && dotnet build Criipto.Signatures.sln && cd ../..",
-    "tag:post": "git push --follow-tags --atomic"
+    "tag:post": "git push --follow-tags --atomic",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,17 @@
     "@graphql-codegen/cli": "^3.3.1",
     "@graphql-codegen/typescript": "^3.0.4",
     "@graphql-codegen/typescript-graphql-request": "^4.5.9",
-    "@graphql-codegen/typescript-operations": "^3.0.4"
+    "@graphql-codegen/typescript-operations": "^3.0.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.4",
+    "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.{ts,cjs,json,md,graphql,yml}": "prettier --write",
+    "*.cs": [
+      "dotnet format style ./packages/dotnet/Criipto.Signatures.sln --include",
+      "dotnet format analyzers ./packages/dotnet/Criipto.Signatures.sln --include",
+      "dotnet csharpier"
+    ]
   }
 }

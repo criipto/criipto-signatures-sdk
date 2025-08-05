@@ -25,7 +25,7 @@ yarn add @criipto/signatures
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const client = new CriiptoSignatures("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}");
+const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
 ```
 
 ## Basic example

@@ -1,9 +1,21 @@
 import { GraphQLClient } from 'graphql-request';
-import { AddSignatoriesInput, AddSignatoryInput, ChangeSignatoryInput, ExtendSignatureOrderInput, CloseSignatureOrderInput, CreateSignatureOrderInput, CreateBatchSignatoryInput, getSdk, Sdk, SignActingAsInput, ChangeSignatureOrderInput } from './graphql-sdk';
+import {
+  AddSignatoriesInput,
+  AddSignatoryInput,
+  ChangeSignatoryInput,
+  ExtendSignatureOrderInput,
+  CloseSignatureOrderInput,
+  CreateSignatureOrderInput,
+  CreateBatchSignatoryInput,
+  getSdk,
+  Sdk,
+  SignActingAsInput,
+  ChangeSignatureOrderInput,
+} from './graphql-sdk';
 
-import  * as Types from './graphql-sdk';
+import * as Types from './graphql-sdk';
 import jsonSerializer from './json-serializer';
-export {Types as CriiptoSignaturesTypes};
+export { Types as CriiptoSignaturesTypes };
 
 export class CriiptoSignatures {
   client: GraphQLClient;
@@ -13,36 +25,42 @@ export class CriiptoSignatures {
     this.client = new GraphQLClient('https://signatures-api.criipto.com/v1/graphql', {
       headers: {
         Authorization: `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,
-        "Criipto-Sdk": "criipto-signatures-nodejs"
+        'Criipto-Sdk': 'criipto-signatures-nodejs',
       },
-      jsonSerializer
+      jsonSerializer,
     });
     this.sdk = getSdk(this.client);
   }
 
   async createSignatureOrder(input: CreateSignatureOrderInput) {
     const response = await this.sdk.createSignatureOrder({
-      input
+      input,
     });
     return response.createSignatureOrder!.signatureOrder;
   }
 
-  async addSignatory(signatureOrderId: string, input?: Omit<AddSignatoryInput, 'signatureOrderId'>) {
+  async addSignatory(
+    signatureOrderId: string,
+    input?: Omit<AddSignatoryInput, 'signatureOrderId'>,
+  ) {
     const response = await this.sdk.addSignatory({
       input: {
         ...input,
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
     return response.addSignatory!.signatory;
   }
 
-  async addSignatories(signatureOrderId: string, input: Omit<AddSignatoriesInput, 'signatureOrderId'>) {
+  async addSignatories(
+    signatureOrderId: string,
+    input: Omit<AddSignatoriesInput, 'signatureOrderId'>,
+  ) {
     const response = await this.sdk.addSignatories({
       input: {
         ...input,
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
     return response.addSignatories!.signatories;
   }
@@ -51,29 +69,35 @@ export class CriiptoSignatures {
     const response = await this.sdk.changeSignatory({
       input: {
         ...input,
-        signatoryId
-      }
+        signatoryId,
+      },
     });
     return response.changeSignatory!.signatory;
   }
 
-  async extendSignatureOrder(signatureOrderId: string, input: Omit<ExtendSignatureOrderInput, 'signatureOrderId'>) {
+  async extendSignatureOrder(
+    signatureOrderId: string,
+    input: Omit<ExtendSignatureOrderInput, 'signatureOrderId'>,
+  ) {
     const response = await this.sdk.extendSignatureOrder({
       input: {
         ...input,
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
 
     return response.extendSignatureOrder!.signatureOrder;
   }
 
-  async closeSignatureOrder(signatureOrderId: string, input?: Omit<CloseSignatureOrderInput, 'signatureOrderId'>) {
+  async closeSignatureOrder(
+    signatureOrderId: string,
+    input?: Omit<CloseSignatureOrderInput, 'signatureOrderId'>,
+  ) {
     const response = await this.sdk.closeSignatureOrder({
       input: {
         ...input,
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
     return response.closeSignatureOrder!.signatureOrder;
   }
@@ -81,8 +105,8 @@ export class CriiptoSignatures {
   async cancelSignatureOrder(signatureOrderId: string) {
     const response = await this.sdk.cancelSignatureOrder({
       input: {
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
     return response.cancelSignatureOrder!.signatureOrder;
   }
@@ -90,8 +114,8 @@ export class CriiptoSignatures {
   async cleanupSignatureOrder(signatureOrderId: string) {
     const response = await this.sdk.cleanupSignatureOrder({
       input: {
-        signatureOrderId
-      }
+        signatureOrderId,
+      },
     });
     return response.cleanupSignatureOrder!.signatureOrder;
   }
@@ -100,8 +124,8 @@ export class CriiptoSignatures {
     const response = await this.sdk.signActingAs({
       input: {
         ...input,
-        signatoryId
-      }
+        signatoryId,
+      },
     });
     return response.signActingAs!.signatory;
   }
@@ -110,50 +134,61 @@ export class CriiptoSignatures {
     const response = await this.sdk.deleteSignatory({
       input: {
         signatureOrderId,
-        signatoryId
-      }
+        signatoryId,
+      },
     });
     return response.deleteSignatory!.signatureOrder;
   }
 
   async createBatchSignatory(input: CreateBatchSignatoryInput) {
     const response = await this.sdk.createBatchSignatory({
-      input: input
+      input: input,
     });
     return response.createBatchSignatory!.batchSignatory;
   }
 
   async changeSignatureOrder(input: ChangeSignatureOrderInput) {
     const response = await this.sdk.changeSignatureOrder({
-      input: input
+      input: input,
     });
     return response.changeSignatureOrder!.signatureOrder;
   }
 
   async validateDocument(input: Types.ValidateDocumentInput) {
-    const response = await this.sdk.validateDocument({input});
+    const response = await this.sdk.validateDocument({ input });
     return response.validateDocument!;
   }
 
-  async querySignatureOrder(signatureOrderId: string, includeDocuments: boolean = false) : Promise<null | NonNullable<Types.SignatureOrderWithDocumentsQuery["signatureOrder"]> | NonNullable<Types.SignatureOrderQuery["signatureOrder"]>> {
-    const response = includeDocuments ? await this.sdk.signatureOrderWithDocuments({id: signatureOrderId}) : await this.sdk.signatureOrder({id: signatureOrderId});
+  async querySignatureOrder(
+    signatureOrderId: string,
+    includeDocuments: boolean = false,
+  ): Promise<
+    | null
+    | NonNullable<Types.SignatureOrderWithDocumentsQuery['signatureOrder']>
+    | NonNullable<Types.SignatureOrderQuery['signatureOrder']>
+  > {
+    const response = includeDocuments
+      ? await this.sdk.signatureOrderWithDocuments({ id: signatureOrderId })
+      : await this.sdk.signatureOrder({ id: signatureOrderId });
     return response.signatureOrder ?? null;
   }
 
   async querySignatory(signatoryId: string) {
-    const response = await this.sdk.signatory({id: signatoryId});
+    const response = await this.sdk.signatory({ id: signatoryId });
     return response.signatory ?? null;
   }
 
-  async querySignatureOrders(query: {
-    first: number,
-    after?: string
-    status?: Types.SignatureOrderStatus
-  } = {first: 10}) {
+  async querySignatureOrders(
+    query: {
+      first: number;
+      after?: string;
+      status?: Types.SignatureOrderStatus;
+    } = { first: 10 },
+  ) {
     const response = await this.sdk.signatureOrders({
       first: query.first,
       after: query.after,
-      status: query.status
+      status: query.status,
     });
 
     if (response.viewer.__typename !== 'Application') throw new Error('Unexpected viewer type');
@@ -161,7 +196,7 @@ export class CriiptoSignatures {
   }
 
   async queryBatchSignatory(batchSignatoryId: string) {
-    const response = await this.sdk.batchSignatory({id: batchSignatoryId});
+    const response = await this.sdk.batchSignatory({ id: batchSignatoryId });
     return response.batchSignatory ?? null;
   }
 }
