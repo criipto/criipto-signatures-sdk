@@ -5,7 +5,7 @@
   "description": "A SDK repository for Criipto Signatures",
   "scripts": {
     "codegen": "graphql-codegen && npm run codegen:dotnet",
-    "codegen:dotnet": "node fix-dotnet-typings.cjs && npm run format:dotnet",
+    "codegen:dotnet": "node fix-dotnet-typings.mjs && npm run format:dotnet",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "npm run test:integration:nodejs && npm run test:integration:dotnet",
     "test:integration:nodejs": "cd packages/nodejs && npm run test:integration && cd ../..",
@@ -50,7 +50,7 @@
     "prettier": "^3.6.2"
   },
   "lint-staged": {
-    "*.{ts,cjs,json,md,graphql,yml}": "prettier --write",
+    "*.{ts,mjs,json,md,graphql,yml}": "prettier --write",
     "*.cs": [
       "dotnet format style ./packages/dotnet/Criipto.Signatures.sln --include",
       "dotnet format analyzers ./packages/dotnet/Criipto.Signatures.sln --include",

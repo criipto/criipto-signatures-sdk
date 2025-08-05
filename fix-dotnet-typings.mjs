@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'node:fs';
 const typesSupressions = [
   'CS8601',
   'CS8603',
@@ -24,7 +24,7 @@ const typesSupressions = [
 
 const operationsSupressions = ['CS8625', 'CA1052', 'CA2211'];
 
-const dotnetDirName = `${__dirname}/packages/dotnet`;
+const dotnetDirName = `${import.meta.dirname}/packages/dotnet`;
 
 let types = fs.readFileSync(dotnetDirName + '/Criipto.Signatures/Models.cs').toString();
 
