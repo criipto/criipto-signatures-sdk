@@ -19,16 +19,12 @@ const typesSupressions = [
   'CA1720',
   'CA1052',
   'CA1819',
-  'CA1716'
-]
-
-const operationsSupressions = [
-  'CS8625',
-  'CA1052',
-  'CA2211'
+  'CA1716',
 ];
 
-const dotnetDirName = `${__dirname}/packages/dotnet`
+const operationsSupressions = ['CS8625', 'CA1052', 'CA2211'];
+
+const dotnetDirName = `${__dirname}/packages/dotnet`;
 
 let types = fs.readFileSync(dotnetDirName + '/Criipto.Signatures/Models.cs').toString();
 
@@ -45,13 +41,18 @@ for (const compositionType of compositionTypes) {
   types = types.replace(typeRegex, function (match) {
     if (match.includes('class') || match.includes('interface')) return match;
     var indent = match.match(/^\s+/);
-    return (indent ? indent[0] : '') + '[JsonConverter(typeof(CompositionTypeConverter))]\n' + match;
+    return (
+      (indent ? indent[0] : '') + '[JsonConverter(typeof(CompositionTypeConverter))]\n' + match
+    );
   });
 }
 
 let enumTypes = [...types.matchAll(/public enum (.+) \{/g)].map(result => result[1]);
 for (const enumType of enumTypes) {
-  const typeRegex = new RegExp(`^(.*?)(public|private|protected) enum ${enumType} {((.|\n)*?)}$`, 'gm');
+  const typeRegex = new RegExp(
+    `^(.*?)(public|private|protected) enum ${enumType} {((.|\n)*?)}$`,
+    'gm',
+  );
   const [match] = Array.from(types.match(typeRegex));
   const lines = match.split('\n');
   var indent = lines[lines.length - 2].match(/^\s+/);
@@ -61,7 +62,8 @@ for (const enumType of enumTypes) {
 
   const converterRegex = new RegExp(`^(.*?)(public|private|protected) ${enumType}(.*?)$`, 'gm');
   types = types.replace(converterRegex, function (match) {
-    if (match.includes('class') || match.includes('interface') || match.includes('enum')) return match;
+    if (match.includes('class') || match.includes('interface') || match.includes('enum'))
+      return match;
     var indent = match.match(/^\s+/);
     return (indent ? indent[0] : '') + '[JsonConverter(typeof(TolerantEnumConverter))]\n' + match;
   });
@@ -72,11 +74,15 @@ types = types.replace('public class Types {', '');
 types = types.replace(/}(?:\s+)}(?:\s+)$/, '}');
 
 types = types.replace('[JsonProperty("startCriiptoVerifyEvidenceProvider")]', '');
-types = types.replace('public StartCriiptoVerifyEvidenceProviderOutput startCriiptoVerifyEvidenceProvider { get; set; }', '');
+types = types.replace(
+  'public StartCriiptoVerifyEvidenceProviderOutput startCriiptoVerifyEvidenceProvider { get; set; }',
+  '',
+);
 
 types = typesSupressions.map(s => `#pragma warning disable ${s}`).join('\n') + '\n' + types;
 fs.writeFileSync(dotnetDirName + '/Criipto.Signatures/Models.cs', types);
 
 let operations = fs.readFileSync(dotnetDirName + '/Criipto.Signatures/Operations.cs').toString();
-operations = operationsSupressions.map(s => `#pragma warning disable ${s}`).join('\n') + '\n' + operations;
+operations =
+  operationsSupressions.map(s => `#pragma warning disable ${s}`).join('\n') + '\n' + operations;
 fs.writeFileSync(dotnetDirName + '/Criipto.Signatures/Operations.cs', operations);

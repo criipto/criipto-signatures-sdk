@@ -9,36 +9,36 @@ const sampleForm = fs.readFileSync(__dirname + '/sample-form.pdf');
 
 const documentFixture = {
   pdf: {
-    title: "Node.js Sample",
+    title: 'Node.js Sample',
     blob: sample, // Buffer
-    storageMode: <DocumentStorageMode>'Temporary'
-  }
+    storageMode: <DocumentStorageMode>'Temporary',
+  },
 };
 
 function arrange() {
   const client = new CriiptoSignatures(
     process.env.CRIIPTO_SIGNATURES_CLIENT_ID!,
-    process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!
+    process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!,
   );
   client.client.setHeader('Criipto-Sdk', 'test');
 
-  return {client};
+  return { client };
 }
 
 test('client credentials', t => {
-	t.truthy(process.env.CRIIPTO_SIGNATURES_CLIENT_ID);
+  t.truthy(process.env.CRIIPTO_SIGNATURES_CLIENT_ID);
   t.truthy(process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET);
 });
 
 test('can create signature order with signatory', async t => {
   // ARRANGE
-  const {client} = arrange();
+  const { client } = arrange();
 
   // ACT
   const signatureOrder = await client.createSignatureOrder({
-    title: "Node.js sample",
+    title: 'Node.js sample',
     expiresInDays: 1,
-    documents: [documentFixture]
+    documents: [documentFixture],
   });
 
   t.truthy(signatureOrder);
@@ -51,32 +51,32 @@ test('can create signature order with signatory', async t => {
   const fetched = await client.querySignatureOrder(signatureOrder!.id, true);
   t.truthy(fetched);
   t.truthy(fetched!.id);
-  t.truthy("documents" in fetched! ? fetched!.documents[0].blob! : null as any);
-  t.truthy("documents" in fetched! ? Buffer.isBuffer(fetched!.documents[0].blob!) : null as any);
+  t.truthy('documents' in fetched! ? fetched!.documents[0].blob! : (null as any));
+  t.truthy('documents' in fetched! ? Buffer.isBuffer(fetched!.documents[0].blob!) : (null as any));
 
   await client.cancelSignatureOrder(signatureOrder!.id);
 });
 
 test('can create signature order with form enabled', async t => {
   // ARRANGE
-  const {client} = arrange();
+  const { client } = arrange();
 
   // ACT
   const signatureOrder = await client.createSignatureOrder({
-    title: "Node.js form sample",
+    title: 'Node.js form sample',
     expiresInDays: 1,
     documents: [
       {
         pdf: {
-          title: "Node.js Sample",
+          title: 'Node.js Sample',
           blob: sampleForm, // Buffer
           storageMode: 'Temporary',
           form: {
-            enabled: true
-          }
-        }
-      }
-    ]
+            enabled: true,
+          },
+        },
+      },
+    ],
   });
 
   t.truthy(signatureOrder);
@@ -86,23 +86,23 @@ test('can create signature order with form enabled', async t => {
   t.truthy(fetched);
   t.truthy(fetched!.id);
 
-  if (!fetched) return t.fail("expected fetched")
-  if (!("documents" in fetched)) return t.fail("expected documents");
-  if (!fetched.documents[0]) return t.fail("expected non-empty documents");
-  if (fetched.documents[0].__typename !== 'PdfDocument') return t.fail("expected PdfDocument");
+  if (!fetched) return t.fail('expected fetched');
+  if (!('documents' in fetched)) return t.fail('expected documents');
+  if (!fetched.documents[0]) return t.fail('expected non-empty documents');
+  if (fetched.documents[0].__typename !== 'PdfDocument') return t.fail('expected PdfDocument');
 
   t.truthy(fetched.documents[0].form?.enabled);
 });
 
 test('can query signatory.signatureOrder.signatories (regression test)', async t => {
   // ARRANGE
-  const {client} = arrange();
+  const { client } = arrange();
   const signatureOrder = await client.createSignatureOrder({
-    title: "Node.js sample",
+    title: 'Node.js sample',
     expiresInDays: 1,
-    documents: [documentFixture]
+    documents: [documentFixture],
   });
-  const {id: signatoryId} = await client.addSignatory(signatureOrder!.id);
+  const { id: signatoryId } = await client.addSignatory(signatureOrder!.id);
 
   // ACT
   const signatory = await client.querySignatory(signatoryId);
@@ -113,20 +113,20 @@ test('can query signatory.signatureOrder.signatories (regression test)', async t
 
 test('can create batch signatory', async t => {
   // ARRANGE
-  const {client} = arrange();
+  const { client } = arrange();
   const signatureOrderA = await client.createSignatureOrder({
-    title: "Node.js BatchSignatory A sample",
+    title: 'Node.js BatchSignatory A sample',
     expiresInDays: 1,
-    documents: [documentFixture]
+    documents: [documentFixture],
   });
-  const {id: signatoryIdA} = await client.addSignatory(signatureOrderA!.id);
+  const { id: signatoryIdA } = await client.addSignatory(signatureOrderA!.id);
 
   const signatureOrderB = await client.createSignatureOrder({
-    title: "Node.js BatchSignatory B sample",
+    title: 'Node.js BatchSignatory B sample',
     expiresInDays: 1,
-    documents: [documentFixture]
+    documents: [documentFixture],
   });
-  const {id: signatoryIdB} = await client.addSignatory(signatureOrderB!.id);
+  const { id: signatoryIdB } = await client.addSignatory(signatureOrderB!.id);
 
   let batchSignatoryItems = [
     { signatoryId: signatoryIdA, signatureOrderId: signatureOrderA!.id },
@@ -135,29 +135,33 @@ test('can create batch signatory', async t => {
 
   // ACT
   const batchSignatory = await client.createBatchSignatory({
-    items: batchSignatoryItems
+    items: batchSignatoryItems,
   });
 
   // ASSERT
-  const actualItems =
-    batchSignatory?.items.map(i => {
-      return { signatoryId: i.signatory.id, signatureOrderId: i.signatureOrder.id }
-    }).sort();
+  const actualItems = batchSignatory?.items
+    .map(i => {
+      return { signatoryId: i.signatory.id, signatureOrderId: i.signatureOrder.id };
+    })
+    .sort();
 
   const expectedItems = [...batchSignatoryItems].sort();
 
   t.truthy(actualItems.length === expectedItems.length);
-  t.truthy(actualItems.every((elem, idx) =>
-    elem.signatoryId === expectedItems[idx].signatoryId &&
-    elem.signatureOrderId === expectedItems[idx].signatureOrderId)
+  t.truthy(
+    actualItems.every(
+      (elem, idx) =>
+        elem.signatoryId === expectedItems[idx].signatoryId &&
+        elem.signatureOrderId === expectedItems[idx].signatureOrderId,
+    ),
   );
-})
+});
 
-test("can change signature order with new maxSignatories", async (t) => {
+test('can change signature order with new maxSignatories', async t => {
   // ARRANGE
   const { client } = arrange();
   const signatureOrder = await client.createSignatureOrder({
-    title: "Node.js sample",
+    title: 'Node.js sample',
     expiresInDays: 1,
     documents: [documentFixture],
     maxSignatories: 10,
