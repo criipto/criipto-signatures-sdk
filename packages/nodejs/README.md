@@ -10,7 +10,8 @@ Sign PAdeS-LTA documents using MitID, BankID or any other eID supported by Criip
 
 ### Requirements
 
-This library supports Node 16 and later.
+The library is published as ESM only. On node 20.19.0, 22.12.0 and ^24 `require(esm)` works out of the box, even if your code is using CommonJS. On
+older versions, you will need to run with `--experimental-require-module`. See https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require for more details.
 
 ### Installation
 
