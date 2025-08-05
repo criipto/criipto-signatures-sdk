@@ -1,16 +1,16 @@
 import { GraphQLClient } from 'graphql-request';
 import {
-  AddSignatoriesInput,
-  AddSignatoryInput,
-  ChangeSignatoryInput,
-  ExtendSignatureOrderInput,
-  CloseSignatureOrderInput,
-  CreateSignatureOrderInput,
-  CreateBatchSignatoryInput,
+  type AddSignatoriesInput,
+  type AddSignatoryInput,
+  type ChangeSignatoryInput,
+  type ExtendSignatureOrderInput,
+  type CloseSignatureOrderInput,
+  type CreateSignatureOrderInput,
+  type CreateBatchSignatoryInput,
   getSdk,
-  Sdk,
-  SignActingAsInput,
-  ChangeSignatureOrderInput,
+  type Sdk,
+  type SignActingAsInput,
+  type ChangeSignatureOrderInput,
 } from './graphql-sdk.js';
 
 import * as Types from './graphql-sdk.js';
