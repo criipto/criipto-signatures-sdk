@@ -1,0 +1,7 @@
+{
+  "extends": ["@tsconfig/node24/tsconfig.json", "@tsconfig/strictest"],
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src", "eslint.config.ts"]
+}
