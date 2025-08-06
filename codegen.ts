@@ -1,7 +1,13 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: 'https://signatures-api.criipto.com/v1/graphql',
+  schema: [
+    {
+      'https://signatures-api.criipto.com/v1/graphql': {
+        method: 'GET',
+      },
+    },
+  ],
   documents: './*.graphql',
   generates: {
     'packages/nodejs/src/graphql-sdk.ts': {
