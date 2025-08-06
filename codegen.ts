@@ -1,7 +1,22 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
+import type { TypeScriptPluginConfig } from '@graphql-codegen/typescript';
+import type { TypeScriptDocumentsPluginConfig } from '@graphql-codegen/typescript-operations';
+import type { plugin as GraphqlRequestPlugin } from '@graphql-codegen/typescript-graphql-request';
+import type { plugin as CSharpPlugin } from '@graphql-codegen/c-sharp';
+import type { plugin as CSharpOperationsPlugin } from '@graphql-codegen/c-sharp-operations';
+
+type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlugin>[2];
+type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
+type CSharpOperationsPluginConfig = Parameters<typeof CSharpOperationsPlugin>[2];
 
 const config: CodegenConfig = {
-  schema: 'https://signatures-api.criipto.com/v1/graphql',
+  schema: [
+    {
+      'https://signatures-api.criipto.com/v1/graphql': {
+        method: 'GET',
+      },
+    },
+  ],
   documents: './*.graphql',
   generates: {
     'packages/nodejs/src/graphql-sdk.ts': {
@@ -19,7 +34,9 @@ const config: CodegenConfig = {
           DateTime: 'string',
           URI: 'string',
         },
-      },
+      } satisfies TypeScriptPluginConfig &
+        TypeScriptDocumentsPluginConfig &
+        TypescriptGraphqlRequestPluginConfig,
     },
     'packages/dotnet/Criipto.Signatures/Models.cs': {
       plugins: ['c-sharp'],
@@ -30,10 +47,7 @@ const config: CodegenConfig = {
           Blob: 'byte[]',
           DateTime: 'string',
         },
-        mapping: {
-          SignatureEvidenceProvider: 'SignatureEvidenceProvider',
-        },
-      },
+      } satisfies CSharpPluginConfig,
     },
     'packages/dotnet/Criipto.Signatures/Operations.cs': {
       plugins: ['c-sharp-operations'],
@@ -41,7 +55,7 @@ const config: CodegenConfig = {
         namespaceName: 'Criipto.Signatures',
         querySuffix: 'Query',
         mutationSuffix: 'Mutation',
-      },
+      } satisfies CSharpOperationsPluginConfig,
     },
   },
 };
