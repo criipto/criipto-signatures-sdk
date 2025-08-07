@@ -45,6 +45,7 @@
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-graphql-request": "^6.3.0",
     "@graphql-codegen/typescript-operations": "^4.6.1",
+    "graphql-codegen-plugin-python": "file:codegen/graphql-codegen-plugin-python",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.4",
     "prettier": "^3.6.2"

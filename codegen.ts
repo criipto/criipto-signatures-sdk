@@ -57,6 +57,9 @@ const config: CodegenConfig = {
         mutationSuffix: 'Mutation',
       } satisfies CSharpOperationsPluginConfig,
     },
+    'packages/python/src/criipto_signatures/models.py': {
+      plugins: ['graphql-codegen-plugin-python'],
+    },
   },
 };
 export default config;
