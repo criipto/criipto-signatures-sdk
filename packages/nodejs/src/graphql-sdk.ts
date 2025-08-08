@@ -179,6 +179,8 @@ export type ChangeSignatureOrderInput = {
   /** Max allowed signatories (as it influences pages needed for seals). Cannot be changed after first signer. */
   maxSignatories?: InputMaybe<Scalars['Int']['input']>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Signature order webhook settings */
+  webhook?: InputMaybe<CreateSignatureOrderWebhookInput>;
 };
 
 export type ChangeSignatureOrderOutput = {
