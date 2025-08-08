@@ -56,6 +56,9 @@
       "dotnet format style ./packages/dotnet/Criipto.Signatures.sln --include",
       "dotnet format analyzers ./packages/dotnet/Criipto.Signatures.sln --include",
       "dotnet csharpier"
+    ],
+    "*.py": [
+      "uvx ruff format"
     ]
   }
 }
