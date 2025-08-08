@@ -1,10 +1,4 @@
 import {
-  type RawConfig,
-  BaseVisitor,
-  buildScalarsFromConfig,
-} from '@graphql-codegen/visitor-plugin-common';
-
-import {
   type FieldDefinitionNode,
   type InputObjectTypeDefinitionNode,
   type InputValueDefinitionNode,
@@ -14,10 +8,8 @@ import {
   type NonNullTypeNode,
   type ObjectTypeDefinitionNode,
   type UnionTypeDefinitionNode,
-  type GraphQLSchema,
   type EnumTypeDefinitionNode,
   type ASTNode,
-  isScalarType,
   Kind,
 } from 'graphql';
 
@@ -25,8 +17,9 @@ import { PythonDeclarationBlock } from './pythonDeclarationBlock.ts';
 
 import { getCachedDocumentNodeFromSchema } from '@graphql-codegen/plugin-helpers';
 import { inspect } from 'node:util';
+import { PythonVisitor } from './pythonVisitor.ts';
 
-const DEFAULT_SCALARS = {
+export const DEFAULT_SCALARS = {
   ID: { input: 'str', output: 'str' },
   String: { input: 'str', output: 'str' },
   Int: { input: 'int', output: 'int' },
@@ -34,30 +27,8 @@ const DEFAULT_SCALARS = {
   Boolean: { input: 'bool', output: 'bool' },
 } as const;
 
-export class PythonVisitor extends BaseVisitor {
-  scalarNames: string[];
-
+export class PythonTypesVisitor extends PythonVisitor {
   modelsToRebuild: string[] = [];
-  schema: GraphQLSchema;
-
-  constructor(config: RawConfig, schema: GraphQLSchema) {
-    super(config, {
-      scalars: buildScalarsFromConfig(
-        schema,
-        config,
-        DEFAULT_SCALARS,
-        config.defaultScalarType ?? 'str',
-      ),
-    });
-
-    const typeMap = schema.getTypeMap();
-    this.scalarNames = Object.keys(typeMap)
-      .map(typeName => typeMap[typeName])
-      .filter(type => isScalarType(type))
-      .map(type => type.name);
-
-    this.schema = schema;
-  }
 
   getImports() {
     return [
@@ -102,7 +73,7 @@ export class PythonVisitor extends BaseVisitor {
   NamedType(node: NamedTypeNode) {
     let name = node.name.value;
 
-    if (this.scalarNames.includes(name)) {
+    if (this.isScalar(node)) {
       name = `${name}Scalar`;
     }
 
@@ -221,7 +192,11 @@ export class PythonVisitor extends BaseVisitor {
     return str.replace(/Optional\[(.*?)\]/, '$1');
   }
 
-  getModelRebuild() {
-    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`).join('\n');
+  getPrepend() {
+    return [...this.getImports(), this.getScalarsTypes()];
+  }
+
+  getAppend() {
+    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`);
   }
 }

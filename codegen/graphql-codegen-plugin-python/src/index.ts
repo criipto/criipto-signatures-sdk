@@ -1,21 +1,32 @@
-import { type GraphQLSchema, type DocumentNode } from 'graphql';
+import { type GraphQLSchema, type DocumentNode, concatAST } from 'graphql';
 import {
   getCachedDocumentNodeFromSchema,
   oldVisit,
   type PluginFunction,
   type Types,
 } from '@graphql-codegen/plugin-helpers';
-import { PythonVisitor } from './visitor.ts';
+import { PythonTypesVisitor } from './typesVisitor.ts';
 import type { RawConfig } from '@graphql-codegen/visitor-plugin-common';
+import { PythonOperationsVisitor } from './operationsVisitor.ts';
 
-export const plugin: PluginFunction<RawConfig> = (
+export interface PythonPluginConfig extends RawConfig {
+  mode: 'types' | 'operations';
+}
+
+export const plugin: PluginFunction<PythonPluginConfig> = (
   schema: GraphQLSchema,
-  _documents: Types.DocumentFile[],
-  config: RawConfig,
+  documents: Types.DocumentFile[],
+  config: PythonPluginConfig,
 ) => {
-  const visitor = new PythonVisitor(config, schema);
+  const visitor =
+    config.mode === 'types'
+      ? new PythonTypesVisitor(config, schema)
+      : new PythonOperationsVisitor(config, schema);
 
-  const astNode = getCachedDocumentNodeFromSchema(schema);
+  const astNode =
+    config.mode === 'types'
+      ? getCachedDocumentNodeFromSchema(schema)
+      : concatAST(documents.map(v => v.document).filter(n => n != undefined));
 
   const visitorResult = oldVisit(
     astNode,
@@ -26,8 +37,8 @@ export const plugin: PluginFunction<RawConfig> = (
   const blockContent = visitorResult.definitions.filter(d => typeof d === 'string').join('\n');
 
   return {
-    prepend: [...visitor.getImports(), visitor.getScalarsTypes()],
-    append: [visitor.getModelRebuild()],
+    prepend: visitor.getPrepend(),
+    append: visitor.getAppend(),
     content: blockContent,
   };
 };
