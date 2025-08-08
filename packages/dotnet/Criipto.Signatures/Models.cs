@@ -552,6 +552,11 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public string signatureOrderId { get; set; }
+
+        /// <summary>
+        /// Signature order webhook settings
+        /// </summary>
+        public CreateSignatureOrderWebhookInput webhook { get; set; }
         #endregion
 
         #region methods

@@ -154,6 +154,8 @@ class ChangeSignatureOrderInput(BaseModel):
   # Max allowed signatories (as it influences pages needed for seals). Cannot be changed after first signer.
   maxSignatories: "Optional[IntScalar]" = Field(default=None)
   signatureOrderId: "IDScalar"
+  # Signature order webhook settings
+  webhook: "Optional[CreateSignatureOrderWebhookInput]" = Field(default=None)
 
 
 class ChangeSignatureOrderOutput(BaseModel):
