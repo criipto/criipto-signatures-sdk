@@ -10,6 +10,12 @@ type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlug
 type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
 type CSharpOperationsPluginConfig = Parameters<typeof CSharpOperationsPlugin>[2];
 
+const pythonCommonConfig: Partial<CodegenConfig> = {
+  hooks: {
+    afterOneFileWrite: ['uvx ruff format'],
+  },
+};
+
 const config: CodegenConfig = {
   schema: [
     {
@@ -63,12 +69,14 @@ const config: CodegenConfig = {
       config: {
         mode: 'types',
       } satisfies PythonPluginConfig,
+      ...pythonCommonConfig,
     },
     'packages/python/src/criipto_signatures/operations.py': {
       plugins: ['graphql-codegen-plugin-python'],
       config: {
         mode: 'operations',
       } satisfies PythonPluginConfig,
+      ...pythonCommonConfig,
     },
   },
 };
