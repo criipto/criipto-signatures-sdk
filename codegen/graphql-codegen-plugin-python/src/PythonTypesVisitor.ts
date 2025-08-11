@@ -34,13 +34,15 @@ const DEFAULT_SCALARS = {
   Boolean: { input: 'bool', output: 'bool' },
 } as const;
 
-export class PythonTypesVisitor extends BaseVisitor {
+export interface PythonTypesRawConfig extends RawConfig {}
+
+export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
   scalarNames: string[];
 
   modelsToRebuild: string[] = [];
   schema: GraphQLSchema;
 
-  constructor(config: RawConfig, schema: GraphQLSchema) {
+  constructor(config: PythonTypesRawConfig, schema: GraphQLSchema) {
     super(config, {
       scalars: buildScalarsFromConfig(
         schema,
@@ -221,7 +223,15 @@ export class PythonTypesVisitor extends BaseVisitor {
     return str.replace(/Optional\[(.*?)\]/, '$1');
   }
 
-  getModelRebuild() {
-    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`).join('\n');
+  getAdditionalContent() {
+    return '';
+  }
+
+  getPrepend() {
+    return [...this.getImports(), this.getScalarsTypes()];
+  }
+
+  getAppend() {
+    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`);
   }
 }

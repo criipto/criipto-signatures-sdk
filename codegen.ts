@@ -4,6 +4,7 @@ import type { TypeScriptDocumentsPluginConfig } from '@graphql-codegen/typescrip
 import type { plugin as GraphqlRequestPlugin } from '@graphql-codegen/typescript-graphql-request';
 import type { plugin as CSharpPlugin } from '@graphql-codegen/c-sharp';
 import type { plugin as CSharpOperationsPlugin } from '@graphql-codegen/c-sharp-operations';
+import type { PythonPluginConfig } from 'graphql-codegen-plugin-python';
 
 type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlugin>[2];
 type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
@@ -59,6 +60,15 @@ const config: CodegenConfig = {
     },
     'packages/python/src/criipto_signatures/models.py': {
       plugins: ['graphql-codegen-plugin-python'],
+      config: {
+        mode: 'types',
+      } satisfies PythonPluginConfig,
+    },
+    'packages/python/src/criipto_signatures/operations.py': {
+      plugins: ['graphql-codegen-plugin-python'],
+      config: {
+        mode: 'operations',
+      } satisfies PythonPluginConfig,
     },
   },
 };
