@@ -1,4 +1,5 @@
 import {
+  type ParsedConfig,
   type RawConfig,
   BaseVisitor,
   buildScalarsFromConfig,
@@ -33,14 +34,20 @@ const DEFAULT_SCALARS = {
   Boolean: { input: 'bool', output: 'bool' },
 } as const;
 
-export interface PythonTypesRawConfig extends RawConfig {}
+export interface PythonTypesRawConfig extends RawConfig {
+  everythingIsOptional: boolean;
+}
+interface PythonTypesParsedConfig extends ParsedConfig {
+  everythingIsOptional: boolean;
+}
 
-export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
+export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, PythonTypesParsedConfig> {
   modelsToRebuild: string[] = [];
   schema: GraphQLSchema;
 
   constructor(config: PythonTypesRawConfig, schema: GraphQLSchema) {
     super(config, {
+      everythingIsOptional: config.everythingIsOptional,
       scalars: buildScalarsFromConfig(
         schema,
         config,
@@ -127,8 +134,19 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
     return output;
   }
 
-  NonNullType(node: NonNullTypeNode) {
+  NonNullType(
+    node: NonNullTypeNode,
+    _key: string | number | undefined,
+    parent: ASTNode | ReadonlyArray<ASTNode> | undefined,
+  ) {
     const type = this.asString(node.type);
+
+    const isInputField =
+      parent != undefined && 'kind' in parent && parent.kind === Kind.INPUT_VALUE_DEFINITION;
+
+    if (this.config.everythingIsOptional && !isInputField) {
+      return type;
+    }
 
     // We make types Optional by default in `ListType` and `NamedType`, and remove the Optional if we see them wrapped in a `NonNull`
     // Yes, this seems to be the only way to do it, see https://github.com/dotansimha/graphql-code-generator/blob/d2f8d9b7573d89a7ca4bee566d13e7424bc70bbb/packages/plugins/typescript/typescript/src/visitor.ts#L276
