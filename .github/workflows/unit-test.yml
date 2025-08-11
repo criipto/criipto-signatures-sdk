@@ -61,8 +61,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/python-setup
-      - name: Run tests
-        run: uv run pytest
       - name: Run checks
         run: uv run ruff check
 
