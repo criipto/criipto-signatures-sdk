@@ -34,7 +34,7 @@ const DEFAULT_SCALARS = {
   Boolean: { input: 'bool', output: 'bool' },
 } as const;
 
-export class PythonVisitor extends BaseVisitor {
+export class PythonTypesVisitor extends BaseVisitor {
   scalarNames: string[];
 
   modelsToRebuild: string[] = [];
