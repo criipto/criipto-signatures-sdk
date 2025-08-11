@@ -54,7 +54,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
 
   getImports() {
     return [
-      'from enum import Enum',
+      'from enum import StrEnum',
       'from typing import Optional',
       'from pydantic import BaseModel, Field',
     ];
@@ -73,7 +73,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
 
     return new PythonDeclarationBlock(node)
       .asKind('class')
-      .withExtends('Enum')
+      .withExtends('StrEnum')
       .withContent(
         node.values.map(enumOption => {
           const name = enumOption.name.value;
