@@ -17,7 +17,6 @@ import {
   type GraphQLSchema,
   type EnumTypeDefinitionNode,
   type ASTNode,
-  isScalarType,
   Kind,
 } from 'graphql';
 
@@ -37,8 +36,6 @@ const DEFAULT_SCALARS = {
 export interface PythonTypesRawConfig extends RawConfig {}
 
 export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
-  scalarNames: string[];
-
   modelsToRebuild: string[] = [];
   schema: GraphQLSchema;
 
@@ -51,12 +48,6 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
         config.defaultScalarType ?? 'str',
       ),
     });
-
-    const typeMap = schema.getTypeMap();
-    this.scalarNames = Object.keys(typeMap)
-      .map(typeName => typeMap[typeName])
-      .filter(type => isScalarType(type))
-      .map(type => type.name);
 
     this.schema = schema;
   }
@@ -104,7 +95,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig> {
   NamedType(node: NamedTypeNode) {
     let name = node.name.value;
 
-    if (this.scalarNames.includes(name)) {
+    if (Object.keys(this.scalars).includes(name)) {
       name = `${name}Scalar`;
     }
 
