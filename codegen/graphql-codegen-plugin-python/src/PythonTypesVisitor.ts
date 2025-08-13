@@ -19,12 +19,16 @@ import {
   type EnumTypeDefinitionNode,
   type ASTNode,
   Kind,
+  isScalarType,
+  isObjectType,
+  isInterfaceType,
 } from 'graphql';
 
 import { PythonDeclarationBlock } from './pythonDeclarationBlock.ts';
 
 import { getCachedDocumentNodeFromSchema } from '@graphql-codegen/plugin-helpers';
 import { inspect } from 'node:util';
+import assert from 'node:assert';
 
 const DEFAULT_SCALARS = {
   ID: { input: 'str', output: 'str' },
@@ -48,6 +52,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
   constructor(config: PythonTypesRawConfig, schema: GraphQLSchema) {
     super(config, {
       everythingIsOptional: config.everythingIsOptional,
+      typesPrefix: config.typesPrefix ?? '',
       scalars: buildScalarsFromConfig(
         schema,
         config,
@@ -107,8 +112,13 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
     leave: (node: NamedTypeNode) => {
       let name = node.name.value;
 
-      if (Object.keys(this.scalars).includes(name)) {
+      const schemaType = this.schema.getType(name);
+      assert(schemaType != undefined);
+
+      if (isScalarType(schemaType)) {
         name = `${name}Scalar`;
+      } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
+        name = this.config.typesPrefix + name;
       }
 
       return `Optional[${name}]`;
