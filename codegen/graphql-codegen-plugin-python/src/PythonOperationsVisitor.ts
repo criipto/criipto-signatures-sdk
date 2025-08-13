@@ -7,13 +7,15 @@ import {
 import {
   type OperationDefinitionNode,
   Kind,
-  type NonNullTypeNode,
   print,
   type FragmentDefinitionNode,
   GraphQLSchema,
   getNullableType,
   isInterfaceType,
   isObjectType,
+  isScalarType,
+  isInputObjectType,
+  OperationTypeNode,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
@@ -48,6 +50,13 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
       return PythonOperationsVisitor.stringVariable(`${node.name.value}Fragment`, print(node));
     },
   };
+
+  private getOperationName(node: OperationDefinitionNode) {
+    assert(node.name != undefined);
+    return node.operation === OperationTypeNode.QUERY
+      ? `query${upperCaseFirst(node.name.value)}`
+      : node.name.value;
+  }
 
   // @ts-expect-error We are intentionally changing the signature of `OperationDefinition` here.
   // ClientSideBaseVisitor expects to be passed the old format of visit, where you
@@ -84,10 +93,7 @@ class CriiptoSignaturesSDK:
     result += indentMultiline(
       this._collectedOperations
         .map(node => {
-          const name =
-            node.operation === 'query'
-              ? `query${upperCaseFirst(node.name?.value ?? '')}`
-              : node.name?.value;
+          const operationName = this.getOperationName(node);
 
           assert(
             node.selectionSet.selections.length === 1,
@@ -98,12 +104,12 @@ class CriiptoSignaturesSDK:
             'Top level selection must be a field',
           );
           const operations =
-            node.operation === 'query'
+            node.operation === OperationTypeNode.QUERY
               ? this._schema.getQueryType()
-              : node.operation === 'mutation'
+              : node.operation === OperationTypeNode.MUTATION
                 ? this._schema.getMutationType()
                 : this._schema.getSubscriptionType();
-          let selectionNode = operations?.getFields()[node.selectionSet.selections[0].name.value];
+          const selectionNode = operations?.getFields()[node.selectionSet.selections[0].name.value];
           assert(selectionNode != undefined, 'Top level selection type not found in schema');
 
           const outputTypeNode = getNullableType(selectionNode.type);
@@ -113,39 +119,41 @@ class CriiptoSignaturesSDK:
             'Expected output type for operation to be either interface or object',
           );
 
-          const outputType = upperCaseFirst(outputTypeNode.name);
+          const outputTypeName = upperCaseFirst(outputTypeNode.name);
 
-          this.modelImports.add(outputType);
-
-          const functionArguments = (node.variableDefinitions ?? []).reduce(
+          const functionArguments = (node.variableDefinitions ?? []).reduce<Record<string, string>>(
             (functionArguments, variableDefinitionNode) => {
               const variableName = variableDefinitionNode.variable.name.value;
 
               const nullable = variableDefinitionNode.type.kind !== Kind.NON_NULL_TYPE;
               const variableTypeNode = nullable
                 ? variableDefinitionNode.type
-                : (variableDefinitionNode.type as NonNullTypeNode).type;
+                : variableDefinitionNode.type.type;
 
               assert(
                 variableTypeNode.kind === Kind.NAMED_TYPE,
                 'Only named types are supported in function arguments',
               );
 
-              let variableType = variableTypeNode.name.value;
-              if (Object.keys(this.scalars).includes(variableType)) {
-                variableType = `${variableType}Scalar`;
+              let variableTypeName = variableTypeNode.name.value;
+              const variableSchemaType = this._schema.getType(variableTypeName);
+              if (isScalarType(variableSchemaType)) {
+                variableTypeName = `${variableTypeName}Scalar`;
+              } else if (isInputObjectType(variableSchemaType)) {
+                this.modelImports.add(variableTypeName);
               }
-              this.modelImports.add(variableType);
 
-              functionArguments[variableName] = variableType;
+              functionArguments[variableName] = nullable
+                ? `Optional[${variableTypeName}]`
+                : variableTypeName;
               return functionArguments;
             },
-            {} as Record<string, string>,
+            {},
           );
 
-          const functionDefinition = `def ${name}(self, ${Object.entries(functionArguments)
+          const functionDefinition = `def ${operationName}(self, ${Object.entries(functionArguments)
             .map(([argumentName, argumentType]) => `${argumentName}: ${argumentType}`)
-            .join(', ')}) -> ${outputType}:`;
+            .join(', ')}) -> ${outputTypeName}:`;
 
           // Builds a JSON object of variables to pass to the query
           const queryVariables = [
@@ -153,7 +161,8 @@ class CriiptoSignaturesSDK:
             Object.keys(functionArguments)
               .map(
                 argumentName =>
-                  // If the argument is called `input`, we assume it to be a pydantic model, and dump it to an object
+                  // If the argument is called `input`, we assume it to be a pydantic model,
+                  // and dump it to an object
                   `"${argumentName}": ${argumentName === 'input' ? `${argumentName}.model_dump()` : argumentName}`,
               )
               .join(','),
@@ -161,10 +170,10 @@ class CriiptoSignaturesSDK:
           ].join('\n');
 
           const functionBody = indentMultiline(
-            `query = gql(${name}Document)
+            `query = gql(${operationName}Document)
 variables = ${queryVariables}
 result = self.client.execute(query, variable_values=variables)
-parsed = ${outputType}.model_validate(result.get('${selectionNode.name}'))
+parsed = ${outputTypeName}.model_validate(result.get('${selectionNode.name}'))
 return parsed`,
             1,
           );
