@@ -64,7 +64,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
     this.schema = schema;
   }
 
-  getImports() {
+  static getImports() {
     return [
       'from enum import StrEnum',
       'from typing import Optional',
@@ -267,7 +267,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
   }
 
   getPrepend() {
-    return [...this.getImports(), this.getScalarsTypes()];
+    return [...PythonTypesVisitor.getImports(), this.getScalarsTypes()];
   }
 
   getAppend() {
