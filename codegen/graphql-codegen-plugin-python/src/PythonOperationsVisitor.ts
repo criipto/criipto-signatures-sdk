@@ -30,17 +30,11 @@ import {
 } from 'graphql-codegen-shared';
 import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
 
-export interface PythonOperationsRawConfig extends RawConfig {}
-
-export class PythonOperationsVisitor extends ClientSideBaseVisitor<PythonOperationsRawConfig> {
+export class PythonOperationsVisitor extends ClientSideBaseVisitor {
   modelImports: Set<string> = new Set<string>();
   fragments: FragmentDefinitionNode[];
 
-  constructor(
-    config: PythonOperationsRawConfig,
-    schema: GraphQLSchema,
-    fragments: LoadedFragment[],
-  ) {
+  constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string, in order to populate AST nodes
     // https://github.com/graphql/graphql-js/issues/1575
     schema = buildSchema(printSchema(schema));
