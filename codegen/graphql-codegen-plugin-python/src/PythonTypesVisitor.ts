@@ -103,7 +103,7 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
       return new PythonDeclarationBlock(node)
         .asKind('class')
         .withExtends('BaseModel')
-        .withContent(node.fields?.map(node => this.asString(node)) ?? 'pass')
+        .withContent(node.fields?.map(node => this.asString(node)))
         .toString();
     },
   };
