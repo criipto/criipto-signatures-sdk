@@ -1,5 +1,5 @@
 {
-  "name": "graphql-codegen-plugin-python",
+  "name": "graphql-codegen-shared",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -22,11 +22,9 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0"
   },
-  "dependencies": {
-    "@graphql-codegen/plugin-helpers": "^5.1.1",
-    "@graphql-codegen/visitor-plugin-common": "^5.8.0",
-    "change-case-all": "^2.1.0",
-    "graphql-codegen-shared": "file:../graphql-codegen-shared"
+  "dependencies": {},
+  "peerDependencies": {
+    "graphql": "^16.11.0"
   },
   "ava": {
     "files": [

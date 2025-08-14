@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  nodejs-test:
+  nodejs-sdk-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,6 +18,21 @@ jobs:
       - run: npm run check
         working-directory: packages/nodejs
       - run: npm run test:unit:nodejs
+
+  codegen-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Check (codegen-shared)
+        run: npm run check && npm run lint
+        working-directory: codegen/graphql-codegen-shared
+      - name: Test (codegen-shared)
+        run: npm run test
+        working-directory: codegen/graphql-codegen-shared
 
   dotnet-test:
     runs-on: ubuntu-latest
