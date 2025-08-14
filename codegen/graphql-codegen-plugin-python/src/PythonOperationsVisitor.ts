@@ -43,25 +43,34 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
     return `${variableName} = ${body}`;
   }
 
-  FragmentDefinition(node: FragmentDefinitionNode) {
-    return PythonOperationsVisitor.stringVariable(`${node.name.value}Fragment`, print(node));
-  }
+  FragmentDefinition = {
+    leave: (node: FragmentDefinitionNode) => {
+      return PythonOperationsVisitor.stringVariable(`${node.name.value}Fragment`, print(node));
+    },
+  };
 
-  override OperationDefinition(node: OperationDefinitionNode) {
-    // Save the operation for later, when we build the actual SDK operations
-    this._collectedOperations.push(node);
+  // @ts-expect-error We are intentionally changing the signature of `OperationDefinition` here.
+  // ClientSideBaseVisitor expects to be passed the old format of visit, where you
+  // could pass `{ leave: visitor }`. That was removed in
+  // https://github.com/graphql/graphql-js/pull/2957, so we change the type of the property, to
+  // specify the `leave` property inline.
+  override OperationDefinition = {
+    leave: (node: OperationDefinitionNode) => {
+      // Save the operation for later, when we build the actual SDK operations
+      this._collectedOperations.push(node);
 
-    const name =
-      node.operation === 'query'
-        ? `query${upperCaseFirst(node.name?.value ?? '')}`
-        : node.name?.value;
+      const name =
+        node.operation === 'query'
+          ? `query${upperCaseFirst(node.name?.value ?? '')}`
+          : node.name?.value;
 
-    // Recursively extracts the names of all fragments used in the operation
-    const fragments = this._extractFragments(node, true).map(node => this.getFragmentName(node));
+      // Recursively extracts the names of all fragments used in the operation
+      const fragments = this._extractFragments(node, true).map(node => this.getFragmentName(node));
 
-    // Return just the GraphQL document variable definition for now, the actual operation is built in `getAdditionalContent`
-    return PythonOperationsVisitor.stringVariable(`${name}Document`, print(node), fragments);
-  }
+      // Return just the GraphQL document variable definition for now, the actual operation is built in `getAdditionalContent`
+      return PythonOperationsVisitor.stringVariable(`${name}Document`, print(node), fragments);
+    },
+  };
 
   getAdditionalContent() {
     let result = `
