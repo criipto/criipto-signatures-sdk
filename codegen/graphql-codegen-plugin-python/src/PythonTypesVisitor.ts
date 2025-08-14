@@ -73,49 +73,59 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
       .join('\n');
   }
 
-  EnumTypeDefinition(node: EnumTypeDefinitionNode): string {
-    if (!node.values) {
-      return '';
-    }
+  EnumTypeDefinition = {
+    leave: (node: EnumTypeDefinitionNode): string => {
+      if (!node.values) {
+        return '';
+      }
 
-    return new PythonDeclarationBlock(node)
-      .asKind('class')
-      .withExtends('StrEnum')
-      .withContent(
-        node.values.map(enumOption => {
-          const name = enumOption.name.value;
-          return `${name} = '${name}'`;
-        }),
-      )
-      .toString();
-  }
+      return new PythonDeclarationBlock(node)
+        .asKind('class')
+        .withExtends('StrEnum')
+        .withContent(
+          node.values.map(enumOption => {
+            const name = enumOption.name.value;
+            return `${name} = '${name}'`;
+          }),
+        )
+        .toString();
+    },
+  };
 
-  InputObjectTypeDefinition(node: InputObjectTypeDefinitionNode) {
-    this.modelsToRebuild.push(node.name.value);
-    return new PythonDeclarationBlock(node)
-      .asKind('class')
-      .withExtends('BaseModel')
-      .withContent(node.fields?.map(node => this.asString(node)) ?? 'pass')
-      .toString();
-  }
+  InputObjectTypeDefinition = {
+    leave: (node: InputObjectTypeDefinitionNode) => {
+      this.modelsToRebuild.push(node.name.value);
+      return new PythonDeclarationBlock(node)
+        .asKind('class')
+        .withExtends('BaseModel')
+        .withContent(node.fields?.map(node => this.asString(node)) ?? 'pass')
+        .toString();
+    },
+  };
 
-  NamedType(node: NamedTypeNode) {
-    let name = node.name.value;
+  NamedType = {
+    leave: (node: NamedTypeNode) => {
+      let name = node.name.value;
 
-    if (Object.keys(this.scalars).includes(name)) {
-      name = `${name}Scalar`;
-    }
+      if (Object.keys(this.scalars).includes(name)) {
+        name = `${name}Scalar`;
+      }
 
-    return `Optional[${name}]`;
-  }
+      return `Optional[${name}]`;
+    },
+  };
 
-  FieldDefinition(node: FieldDefinitionNode) {
-    return this.FieldOrInputValueDefinition(node);
-  }
+  FieldDefinition = {
+    leave: (node: FieldDefinitionNode) => {
+      return this.FieldOrInputValueDefinition(node);
+    },
+  };
 
-  InputValueDefinition(node: InputValueDefinitionNode) {
-    return this.FieldOrInputValueDefinition(node);
-  }
+  InputValueDefinition = {
+    leave: (node: InputValueDefinitionNode) => {
+      return this.FieldOrInputValueDefinition(node);
+    },
+  };
 
   private FieldOrInputValueDefinition(node: FieldDefinitionNode | InputValueDefinitionNode) {
     const typeString = this.asString(node.type);
@@ -134,77 +144,87 @@ export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, Python
     return output;
   }
 
-  NonNullType(
-    node: NonNullTypeNode,
-    _key: string | number | undefined,
-    parent: ASTNode | ReadonlyArray<ASTNode> | undefined,
-  ) {
-    const type = this.asString(node.type);
+  NonNullType = {
+    leave: (
+      node: NonNullTypeNode,
+      _key: string | number | undefined,
+      parent: ASTNode | ReadonlyArray<ASTNode> | undefined,
+    ) => {
+      const type = this.asString(node.type);
 
-    const isInputField =
-      parent != undefined && 'kind' in parent && parent.kind === Kind.INPUT_VALUE_DEFINITION;
+      const isInputField =
+        parent != undefined && 'kind' in parent && parent.kind === Kind.INPUT_VALUE_DEFINITION;
 
-    if (this.config.everythingIsOptional && !isInputField) {
-      return type;
-    }
+      if (this.config.everythingIsOptional && !isInputField) {
+        return type;
+      }
 
-    // We make types Optional by default in `ListType` and `NamedType`, and remove the Optional if we see them wrapped in a `NonNull`
-    // Yes, this seems to be the only way to do it, see https://github.com/dotansimha/graphql-code-generator/blob/d2f8d9b7573d89a7ca4bee566d13e7424bc70bbb/packages/plugins/typescript/typescript/src/visitor.ts#L276
-    return this.clearOptional(type);
-  }
+      // We make types Optional by default in `ListType` and `NamedType`, and remove the Optional if we see them wrapped in a `NonNull`
+      // Yes, this seems to be the only way to do it, see https://github.com/dotansimha/graphql-code-generator/blob/d2f8d9b7573d89a7ca4bee566d13e7424bc70bbb/packages/plugins/typescript/typescript/src/visitor.ts#L276
+      return this.clearOptional(type);
+    },
+  };
 
-  ListType(node: ListTypeNode) {
-    return `Optional[list[${this.asString(node.type)}]]`;
-  }
+  ListType = {
+    leave: (node: ListTypeNode) => {
+      return `Optional[list[${this.asString(node.type)}]]`;
+    },
+  };
 
-  ObjectTypeDefinition(node: ObjectTypeDefinitionNode) {
-    if (!node.fields) {
-      return '';
-    }
+  ObjectTypeDefinition = {
+    leave: (node: ObjectTypeDefinitionNode) => {
+      if (!node.fields) {
+        return '';
+      }
 
-    this.modelsToRebuild.push(node.name.value);
+      this.modelsToRebuild.push(node.name.value);
 
-    return new PythonDeclarationBlock(node)
-      .asKind('class')
-      .withExtends(['BaseModel'])
-      .withContent(node.fields.map(node => this.asString(node)))
-      .toString();
-  }
+      return new PythonDeclarationBlock(node)
+        .asKind('class')
+        .withExtends(['BaseModel'])
+        .withContent(node.fields.map(node => this.asString(node)))
+        .toString();
+    },
+  };
 
-  InterfaceTypeDefinition(node: InterfaceTypeDefinitionNode) {
-    const astNode = getCachedDocumentNodeFromSchema(this.schema);
+  InterfaceTypeDefinition = {
+    leave: (node: InterfaceTypeDefinitionNode) => {
+      const astNode = getCachedDocumentNodeFromSchema(this.schema);
 
-    const implementingNodes = astNode.definitions
-      .filter(otherNode => otherNode.kind === Kind.OBJECT_TYPE_DEFINITION)
-      .filter(otherNode =>
-        otherNode.interfaces?.find(interfaceNode => interfaceNode.name.value === node.name.value),
-      );
+      const implementingNodes = astNode.definitions
+        .filter(otherNode => otherNode.kind === Kind.OBJECT_TYPE_DEFINITION)
+        .filter(otherNode =>
+          otherNode.interfaces?.find(interfaceNode => interfaceNode.name.value === node.name.value),
+        );
 
-    if (implementingNodes.length === 0) {
-      return '';
-    }
+      if (implementingNodes.length === 0) {
+        return '';
+      }
 
-    return new PythonDeclarationBlock(node)
-      .asKind('union')
-      .withContent(implementingNodes.map(node => node.name.value).join(' | '))
-      .toString();
-  }
+      return new PythonDeclarationBlock(node)
+        .asKind('union')
+        .withContent(implementingNodes.map(node => node.name.value).join(' | '))
+        .toString();
+    },
+  };
 
-  UnionTypeDefinition(node: UnionTypeDefinitionNode) {
-    if (!node.types) {
-      return '';
-    }
+  UnionTypeDefinition = {
+    leave: (node: UnionTypeDefinitionNode) => {
+      if (!node.types) {
+        return '';
+      }
 
-    return new PythonDeclarationBlock(node)
-      .asKind('union')
-      .withContent(
-        node.types
-          .map(node => this.asString(node))
-          .map(node => this.clearOptional(node))
-          .join(' | '),
-      )
-      .toString();
-  }
+      return new PythonDeclarationBlock(node)
+        .asKind('union')
+        .withContent(
+          node.types
+            .map(node => this.asString(node))
+            .map(node => this.clearOptional(node))
+            .join(' | '),
+        )
+        .toString();
+    },
+  };
 
   /**
    * Helper method to convert node objects to strings in the eyes of typescript.
