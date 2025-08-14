@@ -280,10 +280,205 @@ test('works on interfaces', t => {
   // Assert
   strictEqual(astTree.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
   strictEqual(astTree.astNode.name.value, 'Foo');
-  strictEqual(astTree.astNode.fields?.length, 2);
 
   t.deepEqual(
-    astTree.astNode.fields.map(field => field.name.value),
+    astTree.astNode.fields?.map(field => field.name.value),
     ['fieldA', 'fieldB'],
+  );
+});
+
+const viewerSchema = buildSchema(/* GraphQL */ `
+  interface Viewer {
+    id: ID!
+  }
+
+  type UserViewerDetails {
+    name: String!
+  }
+
+  type UserViewer implements Viewer {
+    id: ID!
+    isAuthenticated: Boolean!
+    details: UserViewerDetails!
+    email: String!
+  }
+
+  type ApplicationViewer implements Viewer {
+    id: ID!
+    applicationName: String!
+  }
+
+  type Mutation {
+    void: String
+  }
+  type Query {
+    viewer: Viewer
+  }
+`);
+
+test('works for fragments on interfaces', t => {
+  // Arrange
+  const documents = parse(/* GraphQL */ `
+    fragment UserViewerFragment on UserViewer {
+      email
+    }
+
+    query viewerQuery {
+      viewer {
+        id
+
+        ... on UserViewer {
+          details {
+            name
+          }
+        }
+        ...UserViewerFragment
+
+        ... on ApplicationViewer {
+          applicationName
+        }
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(validationErrors, 'GraphQL Schema validation errors');
+  }
+
+  const operation = documents.definitions.find(
+    definition => definition.kind === Kind.OPERATION_DEFINITION,
+  );
+  assertIsNotUndefined(operation);
+  const fragments = documents.definitions.filter(
+    definition => definition.kind === Kind.FRAGMENT_DEFINITION,
+  );
+
+  // Act
+  const astTree = operationSelectionsToAstTree({
+    node: operation,
+    fragments,
+    schema: viewerSchema,
+  });
+
+  // Assert
+  strictEqual(astTree.astNode.kind, Kind.UNION_TYPE_DEFINITION);
+  strictEqual(astTree.astNode.name.value, 'Viewer');
+
+  strictEqual(astTree.children.length, 2);
+  const userViewer = astTree.children[0];
+  assertIsNotUndefined(userViewer);
+  strictEqual(userViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(userViewer.astNode.name.value, 'UserViewer');
+  t.deepEqual(
+    userViewer.astNode.fields?.map(field => field.name.value),
+    ['id', 'details', 'email'],
+  );
+
+  strictEqual(userViewer.children.length, 1);
+  const userViewerDetails = userViewer.children[0];
+
+  assertIsNotUndefined(userViewerDetails);
+  strictEqual(userViewerDetails.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(userViewerDetails.astNode.name.value, 'UserViewerDetails');
+  t.deepEqual(
+    userViewerDetails.astNode.fields?.map(field => field.name.value),
+    ['name'],
+  );
+
+  const applicationViewer = astTree.children[1];
+  assertIsNotUndefined(applicationViewer);
+  strictEqual(applicationViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(applicationViewer.astNode.name.value, 'ApplicationViewer');
+  t.deepEqual(
+    applicationViewer.astNode.fields?.map(field => field.name.value),
+    ['id', 'applicationName'],
+  );
+});
+
+test('nested fragments', t => {
+  const documents = parse(/* GraphQL */ `
+    fragment UserViewerDetailsFragment on UserViewerDetails {
+      name
+    }
+
+    fragment DeeplyNestedFragment on UserViewer {
+      isAuthenticated
+    }
+
+    fragment UserViewerFragment on UserViewer {
+      ...DeeplyNestedFragment
+      email
+      details {
+        ...UserViewerDetailsFragment
+      }
+    }
+
+    fragment ViewerFragment on Viewer {
+      id
+      ...UserViewerFragment
+    }
+
+    query viewerQuery {
+      viewer {
+        ...ViewerFragment
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(
+      validationErrors,
+      `GraphQL Schema validation errors ${validationErrors.map(e => e.message).join('.\n')}`,
+    );
+  }
+
+  const operation = documents.definitions.find(
+    definition => definition.kind === Kind.OPERATION_DEFINITION,
+  );
+  assertIsNotUndefined(operation);
+  const fragments = documents.definitions.filter(
+    definition => definition.kind === Kind.FRAGMENT_DEFINITION,
+  );
+
+  // Act
+  const astTree = operationSelectionsToAstTree({
+    node: operation,
+    fragments,
+    schema: viewerSchema,
+  });
+
+  // Assert
+  strictEqual(astTree.astNode.kind, Kind.UNION_TYPE_DEFINITION);
+  strictEqual(astTree.astNode.name.value, 'Viewer');
+
+  strictEqual(astTree.children.length, 2);
+  const userViewer = astTree.children[0];
+  assertIsNotUndefined(userViewer);
+  strictEqual(userViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(userViewer.astNode.name.value, 'UserViewer');
+  t.deepEqual(
+    userViewer.astNode.fields?.map(field => field.name.value),
+    ['id', 'isAuthenticated', 'details', 'email'],
+  );
+
+  const userViewerDetails = userViewer.children[0];
+  assertIsNotUndefined(userViewerDetails);
+
+  strictEqual(userViewerDetails.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(userViewerDetails.astNode.name.value, 'UserViewerDetails');
+  t.deepEqual(
+    userViewerDetails.astNode.fields?.map(field => field.name.value),
+    ['name'],
+  );
+
+  const applicationViewer = astTree.children[1];
+  assertIsNotUndefined(applicationViewer);
+  strictEqual(applicationViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(applicationViewer.astNode.name.value, 'ApplicationViewer');
+  t.deepEqual(
+    applicationViewer.astNode.fields?.map(field => field.name.value),
+    ['id'],
   );
 });

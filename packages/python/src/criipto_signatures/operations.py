@@ -132,29 +132,41 @@ class CreateSignatureOrder_CreateSignatureOrderOutput(BaseModel):
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: (
-    "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document]"
-  )
-  evidenceProviders: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+  documents: (
+    "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document]"
+  )
 
 
-class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document(
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
   id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
-  title: "StringScalar"
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -163,30 +175,19 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEv
   id: "IDScalar"
 
 
-class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
+type CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document = (
+  CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+)
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -195,20 +196,42 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_S
   id: "IDScalar"
 
 
-class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
+  edges: "list[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
   id: "IDScalar"
-  status: "SignatureOrderStatus"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  form: "Optional[CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -237,29 +260,41 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput(BaseModel):
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: (
-    "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document]"
-  )
-  evidenceProviders: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+  documents: (
+    "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document]"
+  )
 
 
-class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document(
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
   id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
-  title: "StringScalar"
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -268,30 +303,19 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signature
   id: "IDScalar"
 
 
-class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory(
+type CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document = (
+  CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+)
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -300,20 +324,42 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   id: "IDScalar"
 
 
-class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
+  edges: "list[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
   id: "IDScalar"
-  status: "SignatureOrderStatus"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  form: "Optional[CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -342,45 +388,45 @@ class AddSignatory_AddSignatoryOutput(BaseModel):
 
 
 class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
-  documents: "AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[AddSignatory_AddSignatoryOutput_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder"
+  evidenceProviders: (
+    "list[AddSignatory_AddSignatoryOutput_Signatory_SignatureEvidenceProvider]"
+  )
+  documents: "AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection"
 
 
-class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection(BaseModel):
-  edges: "list[AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+class AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class AddSignatory_AddSignatoryOutput_Signatory_SignatureEvidenceProvider(BaseModel):
   id: "IDScalar"
 
 
-class AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection(BaseModel):
+  edges: "list[AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -404,29 +450,30 @@ class AddSignatories_AddSignatoriesOutput(BaseModel):
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
-  documents: "AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[AddSignatories_AddSignatoriesOutput_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder"
+  evidenceProviders: (
+    "list[AddSignatories_AddSignatoriesOutput_Signatory_SignatureEvidenceProvider]"
+  )
+  documents: "AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection"
 
 
-class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+class AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory_SignatureEvidenceProvider(
@@ -435,18 +482,17 @@ class AddSignatories_AddSignatoriesOutput_Signatory_SignatureEvidenceProvider(
   id: "IDScalar"
 
 
-class AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection(
+  BaseModel
+):
+  edges: "list[AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -470,31 +516,32 @@ class ChangeSignatory_ChangeSignatoryOutput(BaseModel):
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
-  documents: (
-    "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection"
-  )
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder"
+  evidenceProviders: (
+    "list[ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureEvidenceProvider]"
+  )
+  documents: (
+    "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection"
+  )
 
 
-class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureEvidenceProvider(
@@ -503,18 +550,17 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureEvidenceProvider(
   id: "IDScalar"
 
 
-class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection(
+  BaseModel
+):
+  edges: "list[ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -538,31 +584,39 @@ class CloseSignatureOrder_CloseSignatureOrderOutput(BaseModel):
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: (
-    "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document]"
-  )
-  evidenceProviders: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
-
-
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document(BaseModel):
-  blob: "Optional[BlobScalar]" = Field(default=None)
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  signatures: "Optional[list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature]]" = Field(
-    default=None
+  evidenceProviders: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+  documents: (
+    "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document]"
   )
-  title: "StringScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(BaseModel):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -571,37 +625,19 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvid
   id: "IDScalar"
 
 
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(BaseModel):
-  documents: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document = (
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+  BaseModel
+):
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-# Represents a signature on a document.
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature(
-  BaseModel
-):
-  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature_Signatory]" = Field(
-    default=None
-  )
-
-
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -610,32 +646,208 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Sig
   id: "IDScalar"
 
 
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature_Signatory(
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
   id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  blob: "Optional[BlobScalar]" = Field(default=None)
+  signatures: "Optional[list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature]]" = Field(
+    default=None
+  )
+  form: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  blob: "Optional[BlobScalar]" = Field(default=None)
+  signatures: "Optional[list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature]]" = Field(
+    default=None
+  )
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature = (
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
+)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
+
+
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature = (
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
+)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
   BaseModel
 ):
   id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory]" = Field(
+    default=None
+  )
+  name: "Optional[StringScalar]" = Field(default=None)
+  image: "BlobScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory]" = Field(
+    default=None
+  )
+  jwt: "StringScalar"
+  jwks: "StringScalar"
+  claims: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim]"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory]" = Field(
+    default=None
+  )
+  name: "Optional[StringScalar]" = Field(default=None)
+  image: "BlobScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
+  BaseModel
+):
+  signatory: "Optional[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory]" = Field(
+    default=None
+  )
+  jwt: "StringScalar"
+  jwks: "StringScalar"
+  claims: "list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim]"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: "StringScalar"
+  value: "StringScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: "StringScalar"
+  value: "StringScalar"
 
 
 closeSignatureOrderDocument = f"""mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {{
@@ -660,29 +872,41 @@ class CancelSignatureOrder_CancelSignatureOrderOutput(BaseModel):
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: (
-    "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document]"
-  )
-  evidenceProviders: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+  documents: (
+    "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document]"
+  )
 
 
-class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document(
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
   id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
-  title: "StringScalar"
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -691,30 +915,19 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEv
   id: "IDScalar"
 
 
-class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
+type CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document = (
+  CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+)
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -723,20 +936,42 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_S
   id: "IDScalar"
 
 
-class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
+  edges: "list[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
   id: "IDScalar"
-  status: "SignatureOrderStatus"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  form: "Optional[CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -765,45 +1000,45 @@ class SignActingAs_SignActingAsOutput(BaseModel):
 
 
 class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
-  documents: "SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[SignActingAs_SignActingAsOutput_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "SignActingAs_SignActingAsOutput_Signatory_SignatureOrder"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "SignActingAs_SignActingAsOutput_Signatory_SignatureOrder"
+  evidenceProviders: (
+    "list[SignActingAs_SignActingAsOutput_Signatory_SignatureEvidenceProvider]"
+  )
+  documents: "SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection"
 
 
-class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection(BaseModel):
-  edges: "list[SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+class SignActingAs_SignActingAsOutput_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class SignActingAs_SignActingAsOutput_Signatory_SignatureEvidenceProvider(BaseModel):
   id: "IDScalar"
 
 
-class SignActingAs_SignActingAsOutput_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection(BaseModel):
+  edges: "list[SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -823,10 +1058,10 @@ signActingAsDocument = f"""mutation signActingAs($input: SignActingAsInput!) {{
 
 
 class ValidateDocument_ValidateDocumentOutput(BaseModel):
+  valid: "BooleanScalar"
   errors: "Optional[list[StringScalar]]" = Field(default=None)
   # Whether or not the errors are fixable using 'fixDocumentFormattingErrors'
   fixable: "Optional[BooleanScalar]" = Field(default=None)
-  valid: "BooleanScalar"
 
 
 validateDocumentDocument = """mutation validateDocument($input: ValidateDocumentInput!) {
@@ -843,29 +1078,41 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput(BaseModel):
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: (
-    "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document]"
-  )
-  evidenceProviders: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+  documents: (
+    "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document]"
+  )
 
 
-class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document(
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
   id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
-  title: "StringScalar"
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -874,30 +1121,19 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEv
   id: "IDScalar"
 
 
-class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
+type ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document = (
+  ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+)
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -906,20 +1142,42 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_S
   id: "IDScalar"
 
 
-class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
+  edges: "list[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
   id: "IDScalar"
-  status: "SignatureOrderStatus"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  form: "Optional[ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -948,16 +1206,36 @@ class DeleteSignatory_DeleteSignatoryOutput(BaseModel):
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  evidenceProviders: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProvider]"
+
+
+class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: (
+    "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder"
+  )
+  evidenceProviders: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -966,30 +1244,13 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProv
   id: "IDScalar"
 
 
-class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
-  documents: "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: (
-    "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder"
-  )
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
+class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  edges: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -998,20 +1259,17 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEv
   id: "IDScalar"
 
 
-class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder(
+class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1036,74 +1294,73 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput(BaseModel):
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory(BaseModel):
-  href: "StringScalar"
   id: "IDScalar"
-  items: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem]"
   # The authentication token required for performing batch operations.
   token: "StringScalar"
+  href: "StringScalar"
+  items: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem]"
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem(
   BaseModel
 ):
-  signatory: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory"
   signatureOrder: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder"
-
-
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory(
-  BaseModel
-):
-  documents: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+  signatory: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory"
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider]"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
-
-
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory(
   BaseModel
 ):
   id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder"
+  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider]"
+  documents: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
-  status: "SignatureOrderStatus"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider(
@@ -1112,37 +1369,34 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   id: "IDScalar"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider(
   BaseModel
 ):
-  node: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
-  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  id: "IDScalar"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  edges: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  edges: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder(
+  BaseModel
+):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -1151,26 +1405,30 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   id: "IDScalar"
 
 
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder(
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
   BaseModel
 ):
   id: "IDScalar"
-
-
-class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
-  BaseModel
-):
-  node: "CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
-  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1204,18 +1462,38 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput(BaseModel):
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  evidenceProviders: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: (
     "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory]"
   )
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider]"
+
+
+class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -1224,30 +1502,13 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEv
   id: "IDScalar"
 
 
-class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
+class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -1256,20 +1517,17 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_S
   id: "IDScalar"
 
 
-class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder(
+class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1290,42 +1548,53 @@ changeSignatureOrderDocument = f"""mutation changeSignatureOrder($input: ChangeS
 
 
 class QuerySignatureOrder_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider]"
-  )
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: "list[QuerySignatureOrder_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
+  evidenceProviders: (
+    "list[QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider]"
+  )
+
+
+class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: (
+    "list[QuerySignatureOrder_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  )
+  documents: "QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider(BaseModel):
   id: "IDScalar"
 
 
-class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
-  documents: "QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[QuerySignatureOrder_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
+class QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder(BaseModel):
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+
+
+class QuerySignatureOrder_SignatureOrder_Signatory_SignatureEvidenceProvider(BaseModel):
+  id: "IDScalar"
 
 
 class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1334,22 +1603,11 @@ class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection(
   edges: "list[QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
-class QuerySignatureOrder_SignatureOrder_Signatory_SignatureEvidenceProvider(BaseModel):
-  id: "IDScalar"
-
-
-class QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
-
-
 class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1368,29 +1626,39 @@ querySignatureOrderDocument = f"""query signatureOrder($id: ID!) {{
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  documents: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Document]"
-  evidenceProviders: (
-    "list[QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider]"
-  )
-  expiresAt: "DateTimeScalar"
   id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
   # Number of max signatories for the signature order
   maxSignatories: "IntScalar"
   # List of signatories for the signature order.
   signatories: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
-
-
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document(BaseModel):
-  blob: "Optional[BlobScalar]" = Field(default=None)
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  signatures: "Optional[list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature]]" = Field(
-    default=None
+  evidenceProviders: (
+    "list[QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider]"
   )
-  title: "StringScalar"
+  documents: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Document]"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: (
+    "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder"
+  )
+  evidenceProviders: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider(
@@ -1399,37 +1667,19 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider(
   id: "IDScalar"
 
 
-class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
-  documents: "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: (
-    "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder"
-  )
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document = (
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument
+)
 
 
-# Represents a signature on a document.
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature(BaseModel):
-  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature_Signatory]" = Field(
-    default=None
-  )
-
-
-class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection(
+class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder(
   BaseModel
 ):
-  edges: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -1438,32 +1688,204 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureEvidenc
   id: "IDScalar"
 
 
-class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder(
+class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature_Signatory(
-  BaseModel
-):
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument(BaseModel):
   id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  blob: "Optional[BlobScalar]" = Field(default=None)
+  signatures: "Optional[list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature]]" = Field(
+    default=None
+  )
+  form: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm]" = Field(
+    default=None
+  )
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument(BaseModel):
+  id: "IDScalar"
+  title: "StringScalar"
+  reference: "Optional[StringScalar]" = Field(default=None)
+  blob: "Optional[BlobScalar]" = Field(default=None)
+  signatures: "Optional[list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature]]" = Field(
+    default=None
+  )
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature = (
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
+)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: "BooleanScalar"
+
+
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature = (
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
+)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
   BaseModel
 ):
   id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory]" = Field(
+    default=None
+  )
+  name: "Optional[StringScalar]" = Field(default=None)
+  image: "BlobScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory]" = Field(
+    default=None
+  )
+  jwt: "StringScalar"
+  jwks: "StringScalar"
+  claims: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim]"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory]" = Field(
+    default=None
+  )
+  name: "Optional[StringScalar]" = Field(default=None)
+  image: "BlobScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory]" = Field(
+    default=None
+  )
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
+  BaseModel
+):
+  signatory: "Optional[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory]" = Field(
+    default=None
+  )
+  jwt: "StringScalar"
+  jwks: "StringScalar"
+  claims: "list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim]"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: "StringScalar"
+  value: "StringScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: "StringScalar"
+  value: "StringScalar"
 
 
 querySignatureOrderWithDocumentsDocument = f"""query signatureOrderWithDocuments($id: ID!) {{
@@ -1482,21 +1904,49 @@ querySignatureOrderWithDocumentsDocument = f"""query signatureOrderWithDocuments
 
 
 class QuerySignatory_Signatory(BaseModel):
-  documents: "QuerySignatory_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[QuerySignatory_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
-  id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: "QuerySignatory_Signatory_SignatureOrder"
+  id: "IDScalar"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "QuerySignatory_Signatory_SignatureOrder"
+  evidenceProviders: "list[QuerySignatory_Signatory_SignatureEvidenceProvider]"
+  documents: "QuerySignatory_Signatory_SignatoryDocumentConnection"
+
+
+class QuerySignatory_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+  # Number of max signatories for the signature order
+  maxSignatories: "IntScalar"
+  # List of signatories for the signature order.
+  signatories: "list[QuerySignatory_Signatory_SignatureOrder_Signatory]"
+  evidenceProviders: (
+    "list[QuerySignatory_Signatory_SignatureOrder_SignatureEvidenceProvider]"
+  )
+
+
+class QuerySignatory_Signatory_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+
+
+class QuerySignatory_Signatory_SignatureEvidenceProvider(BaseModel):
+  id: "IDScalar"
 
 
 class QuerySignatory_Signatory_SignatoryDocumentConnection(BaseModel):
@@ -1505,59 +1955,47 @@ class QuerySignatory_Signatory_SignatoryDocumentConnection(BaseModel):
   )
 
 
-class QuerySignatory_Signatory_SignatureEvidenceProvider(BaseModel):
+class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   id: "IDScalar"
-
-
-class QuerySignatory_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder"
   evidenceProviders: (
-    "list[QuerySignatory_Signatory_SignatureOrder_SignatureEvidenceProvider]"
+    "list[QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureEvidenceProvider]"
   )
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  # Number of max signatories for the signature order
-  maxSignatories: "IntScalar"
-  # List of signatories for the signature order.
-  signatories: "list[QuerySignatory_Signatory_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
-
-
-class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
-  BaseModel
-):
-  node: "QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
-  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  documents: (
+    "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection"
+  )
 
 
 class QuerySignatory_Signatory_SignatureOrder_SignatureEvidenceProvider(BaseModel):
   id: "IDScalar"
 
 
-class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
-  documents: (
-    "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  )
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: (
-    "list[QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  )
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
+class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder(BaseModel):
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
-class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
+class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureEvidenceProvider(
   BaseModel
 ):
   id: "IDScalar"
@@ -1569,24 +2007,17 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnect
   edges: "list[QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
 
 
-class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureEvidenceProvider(
+class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
   BaseModel
 ):
   id: "IDScalar"
-
-
-class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
 
 
 class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
-  node: "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1605,10 +2036,127 @@ querySignatoryDocument = f"""query signatory($id: ID!) {{
 }}
 {BasicSignatureOrderFragment}
 {BasicSignatoryFragment}"""
+type QuerySignatureOrders_Viewer = (
+  QuerySignatureOrders_Viewer_AnonymousViewer
+  | QuerySignatureOrders_Viewer_Application
+  | QuerySignatureOrders_Viewer_BatchSignatoryViewer
+  | QuerySignatureOrders_Viewer_SignatoryViewer
+  | QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer
+  | QuerySignatureOrders_Viewer_UserViewer
+)
 
 
-class QuerySignatureOrders_Viewer(BaseModel):
+class QuerySignatureOrders_Viewer_AnonymousViewer(BaseModel):
   pass
+
+
+class QuerySignatureOrders_Viewer_Application(BaseModel):
+  signatureOrders: "QuerySignatureOrders_Viewer_Application_SignatureOrderConnection"
+
+
+class QuerySignatureOrders_Viewer_BatchSignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_SignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_UserViewer(BaseModel):
+  pass
+
+
+# A connection from an object to a list of objects of type SignatureOrder
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection(BaseModel):
+  # Information to aid in pagination.
+  edges: "list[QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge]"
+
+
+# An edge in a connection from an object to another object of type SignatureOrder
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge(
+  BaseModel
+):
+  # The item at the end of the edge. Must NOT be an enumerable collection.
+  node: "QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder(
+  BaseModel
+):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+  # Number of max signatories for the signature order
+  maxSignatories: "IntScalar"
+  # List of signatories for the signature order.
+  signatories: "list[QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory]"
+  evidenceProviders: "list[QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider]"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder(
+  BaseModel
+):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider(
+  BaseModel
+):
+  id: "IDScalar"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection(
+  BaseModel
+):
+  edges: "list[QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
+  BaseModel
+):
+  id: "IDScalar"
 
 
 querySignatureOrdersDocument = f"""query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: String) {{
@@ -1630,70 +2178,69 @@ querySignatureOrdersDocument = f"""query signatureOrders($status: SignatureOrder
 
 
 class QueryBatchSignatory_BatchSignatory(BaseModel):
-  href: "StringScalar"
   id: "IDScalar"
-  items: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem]"
   # The authentication token required for performing batch operations.
   token: "StringScalar"
+  href: "StringScalar"
+  items: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem]"
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem(BaseModel):
-  signatory: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory"
   signatureOrder: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder"
+  signatory: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory"
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder(BaseModel):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  title: "Optional[StringScalar]" = Field(default=None)
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
+  # Number of max signatories for the signature order
+  maxSignatories: "IntScalar"
+  # List of signatories for the signature order.
+  signatories: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory]"
+  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider]"
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel):
-  documents: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider]"
+  id: "IDScalar"
+  # The current status of the signatory.
+  status: "SignatoryStatus"
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: "Optional[StringScalar]" = Field(default=None)
   # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
   href: "StringScalar"
-  id: "IDScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
   role: "Optional[StringScalar]" = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: (
     "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder"
   )
+  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider]"
+  documents: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection"
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
+  BaseModel
+):
+  id: "IDScalar"
   # The current status of the signatory.
   status: "SignatoryStatus"
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
-
-
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder(BaseModel):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  # Number of max signatories for the signature order
-  maxSignatories: "IntScalar"
-  # List of signatories for the signature order.
-  signatories: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory]"
-  status: "SignatureOrderStatus"
-  title: "Optional[StringScalar]" = Field(default=None)
-
-
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
-  BaseModel
-):
-  edges: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
-
-
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider(
-  BaseModel
-):
-  id: "IDScalar"
-
-
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder(
-  BaseModel
-):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: "StringScalar"
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: "Optional[StringScalar]" = Field(default=None)
+  reference: "Optional[StringScalar]" = Field(default=None)
+  role: "Optional[StringScalar]" = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder"
+  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider]"
+  documents: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection"
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider(
@@ -1702,37 +2249,34 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   id: "IDScalar"
 
 
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder(
   BaseModel
 ):
-  documents: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection"
-  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
-  downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider]"
-  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
   id: "IDScalar"
-  reference: "Optional[StringScalar]" = Field(default=None)
-  role: "Optional[StringScalar]" = Field(default=None)
-  # Signature order for the signatory.
-  signatureOrder: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder"
-  # The current status of the signatory.
-  status: "SignatoryStatus"
-  # The reason for the signatory status (rejection reason when rejected).
-  statusReason: "Optional[StringScalar]" = Field(default=None)
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider(
   BaseModel
 ):
-  node: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
-  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  id: "IDScalar"
 
 
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection(
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  edges: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+  edges: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder(
+  BaseModel
+):
+  id: "IDScalar"
+  status: "SignatureOrderStatus"
+  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
+  expiresAt: "DateTimeScalar"
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider(
@@ -1741,26 +2285,30 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   id: "IDScalar"
 
 
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder(
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
-  closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
-  status: "SignatureOrderStatus"
+  edges: "list[QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge]"
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
+  node: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
   BaseModel
 ):
   id: "IDScalar"
-
-
-class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
-  BaseModel
-):
-  node: "QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document"
-  status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(

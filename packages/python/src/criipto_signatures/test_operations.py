@@ -1,6 +1,5 @@
 import os
 import base64
-
 from .operations import CriiptoSignaturesSDK
 from .models import (
   AddSignatoryInput,
