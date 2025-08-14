@@ -1,4 +1,5 @@
 import {
+  type ParsedConfig,
   type RawConfig,
   BaseVisitor,
   buildScalarsFromConfig,
@@ -17,7 +18,6 @@ import {
   type GraphQLSchema,
   type EnumTypeDefinitionNode,
   type ASTNode,
-  isScalarType,
   Kind,
 } from 'graphql';
 
@@ -34,14 +34,20 @@ const DEFAULT_SCALARS = {
   Boolean: { input: 'bool', output: 'bool' },
 } as const;
 
-export class PythonVisitor extends BaseVisitor {
-  scalarNames: string[];
+export interface PythonTypesRawConfig extends RawConfig {
+  everythingIsOptional: boolean;
+}
+interface PythonTypesParsedConfig extends ParsedConfig {
+  everythingIsOptional: boolean;
+}
 
+export class PythonTypesVisitor extends BaseVisitor<PythonTypesRawConfig, PythonTypesParsedConfig> {
   modelsToRebuild: string[] = [];
   schema: GraphQLSchema;
 
-  constructor(config: RawConfig, schema: GraphQLSchema) {
+  constructor(config: PythonTypesRawConfig, schema: GraphQLSchema) {
     super(config, {
+      everythingIsOptional: config.everythingIsOptional,
       scalars: buildScalarsFromConfig(
         schema,
         config,
@@ -50,18 +56,12 @@ export class PythonVisitor extends BaseVisitor {
       ),
     });
 
-    const typeMap = schema.getTypeMap();
-    this.scalarNames = Object.keys(typeMap)
-      .map(typeName => typeMap[typeName])
-      .filter(type => isScalarType(type))
-      .map(type => type.name);
-
     this.schema = schema;
   }
 
   getImports() {
     return [
-      'from enum import Enum',
+      'from enum import StrEnum',
       'from typing import Optional',
       'from pydantic import BaseModel, Field',
     ];
@@ -80,7 +80,7 @@ export class PythonVisitor extends BaseVisitor {
 
     return new PythonDeclarationBlock(node)
       .asKind('class')
-      .withExtends('Enum')
+      .withExtends('StrEnum')
       .withContent(
         node.values.map(enumOption => {
           const name = enumOption.name.value;
@@ -102,7 +102,7 @@ export class PythonVisitor extends BaseVisitor {
   NamedType(node: NamedTypeNode) {
     let name = node.name.value;
 
-    if (this.scalarNames.includes(name)) {
+    if (Object.keys(this.scalars).includes(name)) {
       name = `${name}Scalar`;
     }
 
@@ -134,8 +134,19 @@ export class PythonVisitor extends BaseVisitor {
     return output;
   }
 
-  NonNullType(node: NonNullTypeNode) {
+  NonNullType(
+    node: NonNullTypeNode,
+    _key: string | number | undefined,
+    parent: ASTNode | ReadonlyArray<ASTNode> | undefined,
+  ) {
     const type = this.asString(node.type);
+
+    const isInputField =
+      parent != undefined && 'kind' in parent && parent.kind === Kind.INPUT_VALUE_DEFINITION;
+
+    if (this.config.everythingIsOptional && !isInputField) {
+      return type;
+    }
 
     // We make types Optional by default in `ListType` and `NamedType`, and remove the Optional if we see them wrapped in a `NonNull`
     // Yes, this seems to be the only way to do it, see https://github.com/dotansimha/graphql-code-generator/blob/d2f8d9b7573d89a7ca4bee566d13e7424bc70bbb/packages/plugins/typescript/typescript/src/visitor.ts#L276
@@ -221,7 +232,15 @@ export class PythonVisitor extends BaseVisitor {
     return str.replace(/Optional\[(.*?)\]/, '$1');
   }
 
-  getModelRebuild() {
-    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`).join('\n');
+  getAdditionalContent() {
+    return '';
+  }
+
+  getPrepend() {
+    return [...this.getImports(), this.getScalarsTypes()];
+  }
+
+  getAppend() {
+    return this.modelsToRebuild.map(modelName => `${modelName}.model_rebuild()`);
   }
 }

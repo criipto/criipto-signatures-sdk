@@ -1,21 +1,50 @@
-import { type GraphQLSchema, type DocumentNode } from 'graphql';
+import { type GraphQLSchema, type DocumentNode, concatAST, Kind } from 'graphql';
 import {
   getCachedDocumentNodeFromSchema,
   oldVisit,
   type PluginFunction,
   type Types,
 } from '@graphql-codegen/plugin-helpers';
-import { PythonVisitor } from './visitor.ts';
-import type { RawConfig } from '@graphql-codegen/visitor-plugin-common';
+import { PythonTypesVisitor, type PythonTypesRawConfig } from './PythonTypesVisitor.ts';
+import { type LoadedFragment } from '@graphql-codegen/visitor-plugin-common';
+import {
+  PythonOperationsVisitor,
+  type PythonOperationsRawConfig,
+} from './PythonOperationsVisitor.ts';
 
-export const plugin: PluginFunction<RawConfig> = (
+function isNotNullish<T>(arg: T): arg is Exclude<T, null | undefined> {
+  return arg !== null;
+}
+
+export type PythonPluginConfig =
+  | ({
+      mode: 'types';
+    } & PythonTypesRawConfig)
+  | ({ mode: 'operations' } & PythonOperationsRawConfig);
+
+export const plugin: PluginFunction<PythonPluginConfig> = (
   schema: GraphQLSchema,
-  _documents: Types.DocumentFile[],
-  config: RawConfig,
+  documents: Types.DocumentFile[],
+  config: PythonPluginConfig,
 ) => {
-  const visitor = new PythonVisitor(config, schema);
+  const allDocuments = concatAST(documents.map(v => v.document).filter(isNotNullish));
 
-  const astNode = getCachedDocumentNodeFromSchema(schema);
+  const allFragments: LoadedFragment[] = [
+    ...allDocuments.definitions
+      .filter(d => d.kind === Kind.FRAGMENT_DEFINITION)
+      .map(fragmentDef => ({
+        node: fragmentDef,
+        name: fragmentDef.name.value,
+        onType: fragmentDef.typeCondition.name.value,
+        isExternal: false,
+      })),
+  ];
+  const visitor =
+    config.mode === 'types'
+      ? new PythonTypesVisitor(config, schema)
+      : new PythonOperationsVisitor(config, schema, allFragments);
+
+  const astNode = config.mode === 'types' ? getCachedDocumentNodeFromSchema(schema) : allDocuments;
 
   const visitorResult = oldVisit(
     astNode,
@@ -23,11 +52,14 @@ export const plugin: PluginFunction<RawConfig> = (
     { leave: visitor },
   ) as DocumentNode;
 
-  const blockContent = visitorResult.definitions.filter(d => typeof d === 'string').join('\n');
+  const blockContent =
+    visitorResult.definitions.filter(d => typeof d === 'string').join('\n') +
+    '\n' +
+    visitor.getAdditionalContent();
 
   return {
-    prepend: [...visitor.getImports(), visitor.getScalarsTypes()],
-    append: [visitor.getModelRebuild()],
+    prepend: visitor.getPrepend(),
+    append: visitor.getAppend(),
     content: blockContent,
   };
 };

@@ -4,7 +4,12 @@ import { buildSchema, type GraphQLSchema } from 'graphql';
 import { plugin } from './index.ts';
 
 const runPlugin = async (schema: GraphQLSchema) => {
-  const result = await plugin(schema, [], {}, { outputFile: '' });
+  const result = await plugin(
+    schema,
+    [],
+    { mode: 'types', everythingIsOptional: false },
+    { outputFile: '' },
+  );
   if (typeof result === 'object') {
     return result.content;
   }

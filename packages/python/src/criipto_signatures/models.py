@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
 
@@ -14,24 +14,24 @@ type URIScalar = str
 
 
 class AddSignatoriesInput(BaseModel):
-  signatories: "list[CreateSignatureOrderSignatoryInput]"
+  signatories: "list[Optional[CreateSignatureOrderSignatoryInput]]"
   signatureOrderId: "IDScalar"
 
 
 class AddSignatoriesOutput(BaseModel):
-  signatories: "list[Signatory]"
-  signatureOrder: "SignatureOrder"
+  signatories: "Optional[list[Optional[Signatory]]]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class AddSignatoryInput(BaseModel):
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
-  documents: "Optional[list[SignatoryDocumentInput]]" = Field(default=None)
+  documents: "Optional[list[Optional[SignatoryDocumentInput]]]" = Field(default=None)
   # Selectively enable evidence providers for this signatory.
-  evidenceProviders: "Optional[list[SignatoryEvidenceProviderInput]]" = Field(
+  evidenceProviders: "Optional[list[Optional[SignatoryEvidenceProviderInput]]]" = Field(
     default=None
   )
-  evidenceValidation: "Optional[list[SignatoryEvidenceValidationInput]]" = Field(
-    default=None
+  evidenceValidation: "Optional[list[Optional[SignatoryEvidenceValidationInput]]]" = (
+    Field(default=None)
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: "Optional[StringScalar]" = Field(default=None)
@@ -44,61 +44,63 @@ class AddSignatoryInput(BaseModel):
 
 
 class AddSignatoryOutput(BaseModel):
-  signatory: "Signatory"
-  signatureOrder: "SignatureOrder"
+  signatory: "Optional[Signatory]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class AllOfEvidenceProviderInput(BaseModel):
-  providers: "list[SingleEvidenceProviderInput]"
+  providers: "list[Optional[SingleEvidenceProviderInput]]"
 
 
 class AllOfSignatureEvidenceProvider(BaseModel):
-  id: "IDScalar"
-  providers: "list[SingleSignatureEvidenceProvider]"
+  id: "Optional[IDScalar]" = Field(default=None)
+  providers: "Optional[list[Optional[SingleSignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
 
 
 class AnonymousViewer(BaseModel):
-  authenticated: "BooleanScalar"
-  id: "IDScalar"
+  authenticated: "Optional[BooleanScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
 
 
 class Application(BaseModel):
-  apiKeys: "list[ApplicationApiKey]"
-  id: "IDScalar"
-  name: "StringScalar"
-  signatureOrders: "SignatureOrderConnection"
+  apiKeys: "Optional[list[Optional[ApplicationApiKey]]]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
+  name: "Optional[StringScalar]" = Field(default=None)
+  signatureOrders: "Optional[SignatureOrderConnection]" = Field(default=None)
   # Tenants are only accessable from user viewers
   tenant: "Optional[Tenant]" = Field(default=None)
-  verifyApplication: "VerifyApplication"
-  webhookLogs: "list[WebhookInvocation]"
+  verifyApplication: "Optional[VerifyApplication]" = Field(default=None)
+  webhookLogs: "Optional[list[Optional[WebhookInvocation]]]" = Field(default=None)
 
 
 class ApplicationApiKey(BaseModel):
-  clientId: "StringScalar"
+  clientId: "Optional[StringScalar]" = Field(default=None)
   clientSecret: "Optional[StringScalar]" = Field(default=None)
-  id: "IDScalar"
-  mode: "ApplicationApiKeyMode"
+  id: "Optional[IDScalar]" = Field(default=None)
+  mode: "Optional[ApplicationApiKeyMode]" = Field(default=None)
   note: "Optional[StringScalar]" = Field(default=None)
 
 
-class ApplicationApiKeyMode(Enum):
+class ApplicationApiKeyMode(StrEnum):
   READ_ONLY = "READ_ONLY"
   READ_WRITE = "READ_WRITE"
 
 
 class BatchSignatory(BaseModel):
-  href: "StringScalar"
-  id: "IDScalar"
-  items: "list[BatchSignatoryItem]"
+  href: "Optional[StringScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
+  items: "Optional[list[Optional[BatchSignatoryItem]]]" = Field(default=None)
   # The authentication token required for performing batch operations.
-  token: "StringScalar"
-  traceId: "StringScalar"
-  ui: "SignatureOrderUI"
+  token: "Optional[StringScalar]" = Field(default=None)
+  traceId: "Optional[StringScalar]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
 
 
 class BatchSignatoryItem(BaseModel):
-  signatory: "Signatory"
-  signatureOrder: "SignatureOrder"
+  signatory: "Optional[Signatory]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class BatchSignatoryItemInput(BaseModel):
@@ -107,14 +109,16 @@ class BatchSignatoryItemInput(BaseModel):
 
 
 class BatchSignatoryViewer(BaseModel):
-  authenticated: "BooleanScalar"
-  batchSignatoryId: "IDScalar"
-  documents: "SignatoryDocumentConnection"
-  evidenceProviders: "list[SignatureEvidenceProvider]"
-  id: "IDScalar"
-  signer: "BooleanScalar"
-  status: "SignatoryStatus"
-  ui: "SignatureOrderUI"
+  authenticated: "Optional[BooleanScalar]" = Field(default=None)
+  batchSignatoryId: "Optional[IDScalar]" = Field(default=None)
+  documents: "Optional[SignatoryDocumentConnection]" = Field(default=None)
+  evidenceProviders: "Optional[list[Optional[SignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
+  id: "Optional[IDScalar]" = Field(default=None)
+  signer: "Optional[BooleanScalar]" = Field(default=None)
+  status: "Optional[SignatoryStatus]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
 
 
 class CancelSignatureOrderInput(BaseModel):
@@ -122,18 +126,18 @@ class CancelSignatureOrderInput(BaseModel):
 
 
 class CancelSignatureOrderOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class ChangeSignatoryInput(BaseModel):
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
-  documents: "Optional[list[SignatoryDocumentInput]]" = Field(default=None)
+  documents: "Optional[list[Optional[SignatoryDocumentInput]]]" = Field(default=None)
   # Selectively enable evidence providers for this signatory.
-  evidenceProviders: "Optional[list[SignatoryEvidenceProviderInput]]" = Field(
+  evidenceProviders: "Optional[list[Optional[SignatoryEvidenceProviderInput]]]" = Field(
     default=None
   )
-  evidenceValidation: "Optional[list[SignatoryEvidenceValidationInput]]" = Field(
-    default=None
+  evidenceValidation: "Optional[list[Optional[SignatoryEvidenceValidationInput]]]" = (
+    Field(default=None)
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: "Optional[StringScalar]" = Field(default=None)
@@ -146,8 +150,8 @@ class ChangeSignatoryInput(BaseModel):
 
 
 class ChangeSignatoryOutput(BaseModel):
-  signatory: "Signatory"
-  signatureOrder: "SignatureOrder"
+  signatory: "Optional[Signatory]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class ChangeSignatureOrderInput(BaseModel):
@@ -159,7 +163,7 @@ class ChangeSignatureOrderInput(BaseModel):
 
 
 class ChangeSignatureOrderOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class CleanupSignatureOrderInput(BaseModel):
@@ -167,7 +171,7 @@ class CleanupSignatureOrderInput(BaseModel):
 
 
 class CleanupSignatureOrderOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class CloseSignatureOrderInput(BaseModel):
@@ -177,7 +181,7 @@ class CloseSignatureOrderInput(BaseModel):
 
 
 class CloseSignatureOrderOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class CompleteCriiptoVerifyEvidenceProviderInput(BaseModel):
@@ -186,12 +190,12 @@ class CompleteCriiptoVerifyEvidenceProviderInput(BaseModel):
 
 
 class CompleteCriiptoVerifyEvidenceProviderOutput(BaseModel):
-  jwt: "StringScalar"
+  jwt: "Optional[StringScalar]" = Field(default=None)
 
 
 class CompositeSignature(BaseModel):
   signatory: "Optional[Signatory]" = Field(default=None)
-  signatures: "list[SingleSignature]"
+  signatures: "Optional[list[Optional[SingleSignature]]]" = Field(default=None)
 
 
 class CreateApplicationApiKeyInput(BaseModel):
@@ -201,8 +205,8 @@ class CreateApplicationApiKeyInput(BaseModel):
 
 
 class CreateApplicationApiKeyOutput(BaseModel):
-  apiKey: "ApplicationApiKey"
-  application: "Application"
+  apiKey: "Optional[ApplicationApiKey]" = Field(default=None)
+  application: "Optional[Application]" = Field(default=None)
 
 
 class CreateApplicationInput(BaseModel):
@@ -214,29 +218,31 @@ class CreateApplicationInput(BaseModel):
 
 
 class CreateApplicationOutput(BaseModel):
-  apiKey: "ApplicationApiKey"
-  application: "Application"
-  tenant: "Tenant"
+  apiKey: "Optional[ApplicationApiKey]" = Field(default=None)
+  application: "Optional[Application]" = Field(default=None)
+  tenant: "Optional[Tenant]" = Field(default=None)
 
 
 class CreateBatchSignatoryInput(BaseModel):
-  items: "list[BatchSignatoryItemInput]"
+  items: "list[Optional[BatchSignatoryItemInput]]"
   # UI settings for batch signatory, will use defaults otherwise (will not use UI settings from sub signatories)
   ui: "Optional[SignatoryUIInput]" = Field(default=None)
 
 
 class CreateBatchSignatoryOutput(BaseModel):
-  batchSignatory: "BatchSignatory"
+  batchSignatory: "Optional[BatchSignatory]" = Field(default=None)
 
 
 class CreateSignatureOrderInput(BaseModel):
   # By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it.
   disableVerifyEvidenceProvider: "Optional[BooleanScalar]" = Field(default=None)
-  documents: "list[DocumentInput]"
+  documents: "list[Optional[DocumentInput]]"
   # Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs
-  evidenceProviders: "Optional[list[EvidenceProviderInput]]" = Field(default=None)
+  evidenceProviders: "Optional[list[Optional[EvidenceProviderInput]]]" = Field(
+    default=None
+  )
   # Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents.
-  evidenceValidationStages: "Optional[list[EvidenceValidationStage]]" = Field(
+  evidenceValidationStages: "Optional[list[Optional[EvidenceValidationStage]]]" = Field(
     default=None
   )
   # When this signature order will auto-close/expire at exactly in one of the following ISO-8601 formats: yyyy-MM-ddTHH:mm:ssZ, yyyy-MM-ddTHH:mm:ss.ffZ, yyyy-MM-ddTHH:mm:ss.fffZ, yyyy-MM-ddTHH:mm:ssK, yyyy-MM-ddTHH:mm:ss.ffK, yyyy-MM-ddTHH:mm:ss.fffK. Cannot be provided with `expiresInDays`.
@@ -247,7 +253,7 @@ class CreateSignatureOrderInput(BaseModel):
   fixDocumentFormattingErrors: "Optional[BooleanScalar]" = Field(default=None)
   # Max allowed signatories (as it influences pages needed for seals). Default 14.
   maxSignatories: "Optional[IntScalar]" = Field(default=None)
-  signatories: "Optional[list[CreateSignatureOrderSignatoryInput]]" = Field(
+  signatories: "Optional[list[Optional[CreateSignatureOrderSignatoryInput]]]" = Field(
     default=None
   )
   # Configure appearance of signatures inside documents
@@ -262,19 +268,19 @@ class CreateSignatureOrderInput(BaseModel):
 
 
 class CreateSignatureOrderOutput(BaseModel):
-  application: "Application"
-  signatureOrder: "SignatureOrder"
+  application: "Optional[Application]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class CreateSignatureOrderSignatoryInput(BaseModel):
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
-  documents: "Optional[list[SignatoryDocumentInput]]" = Field(default=None)
+  documents: "Optional[list[Optional[SignatoryDocumentInput]]]" = Field(default=None)
   # Selectively enable evidence providers for this signatory.
-  evidenceProviders: "Optional[list[SignatoryEvidenceProviderInput]]" = Field(
+  evidenceProviders: "Optional[list[Optional[SignatoryEvidenceProviderInput]]]" = Field(
     default=None
   )
-  evidenceValidation: "Optional[list[SignatoryEvidenceValidationInput]]" = Field(
-    default=None
+  evidenceValidation: "Optional[list[Optional[SignatoryEvidenceValidationInput]]]" = (
+    Field(default=None)
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: "Optional[StringScalar]" = Field(default=None)
@@ -310,16 +316,16 @@ class CreateSignatureOrderWebhookInput(BaseModel):
 
 
 class CriiptoVerifyEvidenceProviderRedirect(BaseModel):
-  redirectUri: "StringScalar"
-  state: "StringScalar"
+  redirectUri: "Optional[StringScalar]" = Field(default=None)
+  state: "Optional[StringScalar]" = Field(default=None)
 
 
 # Criipto Verify based evidence for signatures.
 class CriiptoVerifyProviderInput(BaseModel):
-  acrValues: "Optional[list[StringScalar]]" = Field(default=None)
+  acrValues: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
   alwaysRedirect: "Optional[BooleanScalar]" = Field(default=None)
   # Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application.
-  audiences: "Optional[list[StringScalar]]" = Field(default=None)
+  audiences: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
   # Set a custom login_hint for the underlying authentication request.
   loginHint: "Optional[StringScalar]" = Field(default=None)
   # Messages displayed when performing authentication (only supported by DKMitID currently).
@@ -331,17 +337,17 @@ class CriiptoVerifyProviderInput(BaseModel):
 
 
 class CriiptoVerifySignatureEvidenceProvider(BaseModel):
-  acrValues: "list[StringScalar]"
-  alwaysRedirect: "BooleanScalar"
-  audience: "StringScalar"
-  audiences: "list[StringScalar]"
-  clientID: "StringScalar"
-  domain: "StringScalar"
+  acrValues: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
+  alwaysRedirect: "Optional[BooleanScalar]" = Field(default=None)
+  audience: "Optional[StringScalar]" = Field(default=None)
+  audiences: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
+  clientID: "Optional[StringScalar]" = Field(default=None)
+  domain: "Optional[StringScalar]" = Field(default=None)
   environment: "Optional[VerifyApplicationEnvironment]" = Field(default=None)
-  id: "IDScalar"
+  id: "Optional[IDScalar]" = Field(default=None)
   loginHint: "Optional[StringScalar]" = Field(default=None)
   message: "Optional[StringScalar]" = Field(default=None)
-  name: "StringScalar"
+  name: "Optional[StringScalar]" = Field(default=None)
   scope: "Optional[StringScalar]" = Field(default=None)
 
 
@@ -351,7 +357,7 @@ class DeleteApplicationApiKeyInput(BaseModel):
 
 
 class DeleteApplicationApiKeyOutput(BaseModel):
-  application: "Application"
+  application: "Optional[Application]" = Field(default=None)
 
 
 class DeleteSignatoryInput(BaseModel):
@@ -360,13 +366,13 @@ class DeleteSignatoryInput(BaseModel):
 
 
 class DeleteSignatoryOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 type Document = PdfDocument | XmlDocument
 
 
-class DocumentIDLocation(Enum):
+class DocumentIDLocation(StrEnum):
   BOTTOM = "BOTTOM"
   LEFT = "LEFT"
   RIGHT = "RIGHT"
@@ -382,7 +388,7 @@ class DocumentInput(BaseModel):
 
 
 # Document storage mode. Temporary documents will be deleted once completed.
-class DocumentStorageMode(Enum):
+class DocumentStorageMode(StrEnum):
   Temporary = "Temporary"
 
 
@@ -411,16 +417,16 @@ class DrawableEvidenceProviderInput(BaseModel):
 
 
 class DrawableSignature(BaseModel):
-  image: "BlobScalar"
+  image: "Optional[BlobScalar]" = Field(default=None)
   name: "Optional[StringScalar]" = Field(default=None)
   signatory: "Optional[Signatory]" = Field(default=None)
 
 
 class DrawableSignatureEvidenceProvider(BaseModel):
-  id: "IDScalar"
+  id: "Optional[IDScalar]" = Field(default=None)
   minimumHeight: "Optional[IntScalar]" = Field(default=None)
   minimumWidth: "Optional[IntScalar]" = Field(default=None)
-  requireName: "BooleanScalar"
+  requireName: "Optional[BooleanScalar]" = Field(default=None)
 
 
 class EmptySignature(BaseModel):
@@ -442,7 +448,7 @@ class EvidenceProviderInput(BaseModel):
   oidc: "Optional[OidcEvidenceProviderInput]" = Field(default=None)
 
 
-class EvidenceValidationStage(Enum):
+class EvidenceValidationStage(StrEnum):
   SIGN = "SIGN"
   VIEW = "VIEW"
 
@@ -454,22 +460,22 @@ class ExtendSignatureOrderInput(BaseModel):
 
 
 class ExtendSignatureOrderOutput(BaseModel):
-  signatureOrder: "SignatureOrder"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class JWTClaim(BaseModel):
-  name: "StringScalar"
-  value: "StringScalar"
+  name: "Optional[StringScalar]" = Field(default=None)
+  value: "Optional[StringScalar]" = Field(default=None)
 
 
 class JWTSignature(BaseModel):
-  claims: "list[JWTClaim]"
-  jwks: "StringScalar"
-  jwt: "StringScalar"
+  claims: "Optional[list[Optional[JWTClaim]]]" = Field(default=None)
+  jwks: "Optional[StringScalar]" = Field(default=None)
+  jwt: "Optional[StringScalar]" = Field(default=None)
   signatory: "Optional[Signatory]" = Field(default=None)
 
 
-class Language(Enum):
+class Language(StrEnum):
   DA_DK = "DA_DK"
   EN_US = "EN_US"
   NB_NO = "NB_NO"
@@ -545,13 +551,13 @@ class NoopEvidenceProviderInput(BaseModel):
 
 
 class NoopSignatureEvidenceProvider(BaseModel):
-  id: "IDScalar"
-  name: "StringScalar"
+  id: "Optional[IDScalar]" = Field(default=None)
+  name: "Optional[StringScalar]" = Field(default=None)
 
 
 # OIDC/JWT based evidence for signatures.
 class OidcEvidenceProviderInput(BaseModel):
-  acrValues: "Optional[list[StringScalar]]" = Field(default=None)
+  acrValues: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
   alwaysRedirect: "Optional[BooleanScalar]" = Field(default=None)
   audience: "StringScalar"
   clientID: "StringScalar"
@@ -562,12 +568,12 @@ class OidcEvidenceProviderInput(BaseModel):
 
 
 class OidcJWTSignatureEvidenceProvider(BaseModel):
-  acrValues: "list[StringScalar]"
-  alwaysRedirect: "BooleanScalar"
-  clientID: "StringScalar"
-  domain: "StringScalar"
-  id: "IDScalar"
-  name: "StringScalar"
+  acrValues: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
+  alwaysRedirect: "Optional[BooleanScalar]" = Field(default=None)
+  clientID: "Optional[StringScalar]" = Field(default=None)
+  domain: "Optional[StringScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
+  name: "Optional[StringScalar]" = Field(default=None)
 
 
 class PadesDocumentFormInput(BaseModel):
@@ -604,9 +610,9 @@ class PageInfo(BaseModel):
   # When paginating forwards, the cursor to continue.
   endCursor: "Optional[StringScalar]" = Field(default=None)
   # When paginating forwards, are there more items?
-  hasNextPage: "BooleanScalar"
+  hasNextPage: "Optional[BooleanScalar]" = Field(default=None)
   # When paginating backwards, are there more items?
-  hasPreviousPage: "BooleanScalar"
+  hasPreviousPage: "Optional[BooleanScalar]" = Field(default=None)
   # When paginating backwards, the cursor to continue.
   startCursor: "Optional[StringScalar]" = Field(default=None)
 
@@ -621,18 +627,18 @@ class PdfBoundingBoxInput(BaseModel):
 class PdfDocument(BaseModel):
   blob: "Optional[BlobScalar]" = Field(default=None)
   # Same value as stamped on document when using displayDocumentID
-  documentID: "StringScalar"
+  documentID: "Optional[StringScalar]" = Field(default=None)
   form: "Optional[PdfDocumentForm]" = Field(default=None)
-  id: "IDScalar"
+  id: "Optional[IDScalar]" = Field(default=None)
   originalBlob: "Optional[BlobScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
   signatoryViewerStatus: "Optional[SignatoryDocumentStatus]" = Field(default=None)
-  signatures: "Optional[list[Signature]]" = Field(default=None)
-  title: "StringScalar"
+  signatures: "Optional[list[Optional[Signature]]]" = Field(default=None)
+  title: "Optional[StringScalar]" = Field(default=None)
 
 
 class PdfDocumentForm(BaseModel):
-  enabled: "BooleanScalar"
+  enabled: "Optional[BooleanScalar]" = Field(default=None)
 
 
 class PdfSealPosition(BaseModel):
@@ -650,8 +656,8 @@ class Query(BaseModel):
   signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
   # Tenants are only accessable from user viewers
   tenant: "Optional[Tenant]" = Field(default=None)
-  timezones: "list[StringScalar]"
-  viewer: "Viewer"
+  timezones: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class RefreshApplicationApiKeyInput(BaseModel):
@@ -660,8 +666,8 @@ class RefreshApplicationApiKeyInput(BaseModel):
 
 
 class RefreshApplicationApiKeyOutput(BaseModel):
-  apiKey: "ApplicationApiKey"
-  application: "Application"
+  apiKey: "Optional[ApplicationApiKey]" = Field(default=None)
+  application: "Optional[Application]" = Field(default=None)
 
 
 class RejectSignatureOrderInput(BaseModel):
@@ -670,7 +676,7 @@ class RejectSignatureOrderInput(BaseModel):
 
 
 class RejectSignatureOrderOutput(BaseModel):
-  viewer: "Viewer"
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class RetrySignatureOrderWebhookInput(BaseModel):
@@ -679,7 +685,7 @@ class RetrySignatureOrderWebhookInput(BaseModel):
 
 
 class RetrySignatureOrderWebhookOutput(BaseModel):
-  invocation: "WebhookInvocation"
+  invocation: "Optional[WebhookInvocation]" = Field(default=None)
 
 
 class SignActingAsInput(BaseModel):
@@ -688,8 +694,8 @@ class SignActingAsInput(BaseModel):
 
 
 class SignActingAsOutput(BaseModel):
-  signatory: "Signatory"
-  signatureOrder: "SignatureOrder"
+  signatory: "Optional[Signatory]" = Field(default=None)
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
 
 
 class SignAllOfInput(BaseModel):
@@ -709,7 +715,7 @@ class SignDocumentFormFieldInput(BaseModel):
 
 
 class SignDocumentFormInput(BaseModel):
-  fields: "list[SignDocumentFormFieldInput]"
+  fields: "list[Optional[SignDocumentFormFieldInput]]"
 
 
 class SignDocumentInput(BaseModel):
@@ -725,7 +731,7 @@ class SignDrawableInput(BaseModel):
 class SignInput(BaseModel):
   allOf: "Optional[SignAllOfInput]" = Field(default=None)
   criiptoVerify: "Optional[SignCriiptoVerifyInput]" = Field(default=None)
-  documents: "Optional[list[SignDocumentInput]]" = Field(default=None)
+  documents: "Optional[list[Optional[SignDocumentInput]]]" = Field(default=None)
   drawable: "Optional[SignDrawableInput]" = Field(default=None)
   # EvidenceProvider id
   id: "IDScalar"
@@ -738,30 +744,32 @@ class SignOidcInput(BaseModel):
 
 
 class SignOutput(BaseModel):
-  viewer: "Viewer"
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class Signatory(BaseModel):
-  documents: "SignatoryDocumentConnection"
+  documents: "Optional[SignatoryDocumentConnection]" = Field(default=None)
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: "Optional[StringScalar]" = Field(default=None)
-  evidenceProviders: "list[SignatureEvidenceProvider]"
+  evidenceProviders: "Optional[list[Optional[SignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
   # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
-  href: "StringScalar"
-  id: "IDScalar"
+  href: "Optional[StringScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
   role: "Optional[StringScalar]" = Field(default=None)
   # Signature order for the signatory.
-  signatureOrder: "SignatureOrder"
-  spanId: "StringScalar"
+  signatureOrder: "Optional[SignatureOrder]" = Field(default=None)
+  spanId: "Optional[StringScalar]" = Field(default=None)
   # The current status of the signatory.
-  status: "SignatoryStatus"
+  status: "Optional[SignatoryStatus]" = Field(default=None)
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: "Optional[StringScalar]" = Field(default=None)
   # The signature frontend authentication token, only required if you need to build a custom url.
-  token: "StringScalar"
-  traceId: "StringScalar"
-  ui: "SignatureOrderUI"
+  token: "Optional[StringScalar]" = Field(default=None)
+  traceId: "Optional[StringScalar]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
 
 
 class SignatoryBeaconInput(BaseModel):
@@ -769,15 +777,15 @@ class SignatoryBeaconInput(BaseModel):
 
 
 class SignatoryBeaconOutput(BaseModel):
-  viewer: "Viewer"
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class SignatoryDocumentConnection(BaseModel):
-  edges: "list[SignatoryDocumentEdge]"
+  edges: "Optional[list[Optional[SignatoryDocumentEdge]]]" = Field(default=None)
 
 
 class SignatoryDocumentEdge(BaseModel):
-  node: "Document"
+  node: "Optional[Document]" = Field(default=None)
   status: "Optional[SignatoryDocumentStatus]" = Field(default=None)
 
 
@@ -788,7 +796,7 @@ class SignatoryDocumentInput(BaseModel):
   preapproved: "Optional[BooleanScalar]" = Field(default=None)
 
 
-class SignatoryDocumentStatus(Enum):
+class SignatoryDocumentStatus(StrEnum):
   APPROVED = "APPROVED"
   OPENED = "OPENED"
   PREAPPROVED = "PREAPPROVED"
@@ -815,12 +823,12 @@ class SignatoryEvidenceValidationInput(BaseModel):
   value: "Optional[StringScalar]" = Field(default=None)
 
 
-class SignatoryFrontendEvent(Enum):
+class SignatoryFrontendEvent(StrEnum):
   DOWNLOAD_LINK_OPENED = "DOWNLOAD_LINK_OPENED"
   SIGN_LINK_OPENED = "SIGN_LINK_OPENED"
 
 
-class SignatoryStatus(Enum):
+class SignatoryStatus(StrEnum):
   DELETED = "DELETED"
   ERROR = "ERROR"
   OPEN = "OPEN"
@@ -844,25 +852,27 @@ class SignatoryUIInput(BaseModel):
 
 
 class SignatoryViewer(BaseModel):
-  authenticated: "BooleanScalar"
-  documents: "SignatoryDocumentConnection"
+  authenticated: "Optional[BooleanScalar]" = Field(default=None)
+  documents: "Optional[SignatoryDocumentConnection]" = Field(default=None)
   download: "Optional[SignatoryViewerDownload]" = Field(default=None)
-  evidenceProviders: "list[SignatureEvidenceProvider]"
-  id: "IDScalar"
-  signatoryId: "IDScalar"
-  signatureOrderStatus: "SignatureOrderStatus"
-  signer: "BooleanScalar"
-  status: "SignatoryStatus"
-  ui: "SignatureOrderUI"
+  evidenceProviders: "Optional[list[Optional[SignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
+  id: "Optional[IDScalar]" = Field(default=None)
+  signatoryId: "Optional[IDScalar]" = Field(default=None)
+  signatureOrderStatus: "Optional[SignatureOrderStatus]" = Field(default=None)
+  signer: "Optional[BooleanScalar]" = Field(default=None)
+  status: "Optional[SignatoryStatus]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
 
 
 class SignatoryViewerDownload(BaseModel):
   documents: "Optional[SignatoryDocumentConnection]" = Field(default=None)
-  expired: "BooleanScalar"
+  expired: "Optional[BooleanScalar]" = Field(default=None)
   verificationEvidenceProvider: "Optional[SignatureEvidenceProvider]" = Field(
     default=None
   )
-  verificationRequired: "BooleanScalar"
+  verificationRequired: "Optional[BooleanScalar]" = Field(default=None)
 
 
 # Represents a signature on a document.
@@ -870,22 +880,28 @@ type Signature = CompositeSignature | DrawableSignature | EmptySignature | JWTSi
 
 
 class SignatureAppearanceInput(BaseModel):
-  displayName: "Optional[list[SignatureAppearanceTemplateInput]]" = Field(default=None)
-  footer: "Optional[list[SignatureAppearanceTemplateInput]]" = Field(default=None)
-  headerLeft: "Optional[list[SignatureAppearanceTemplateInput]]" = Field(default=None)
+  displayName: "Optional[list[Optional[SignatureAppearanceTemplateInput]]]" = Field(
+    default=None
+  )
+  footer: "Optional[list[Optional[SignatureAppearanceTemplateInput]]]" = Field(
+    default=None
+  )
+  headerLeft: "Optional[list[Optional[SignatureAppearanceTemplateInput]]]" = Field(
+    default=None
+  )
   # Render evidence claim as identifier in the signature appearance inside the document. You can supply multiple keys and they will be tried in order. If no key is found a GUID will be rendered.
-  identifierFromEvidence: "list[StringScalar]"
+  identifierFromEvidence: "list[Optional[StringScalar]]"
 
 
 class SignatureAppearanceTemplateInput(BaseModel):
-  replacements: "Optional[list[SignatureAppearanceTemplateReplacementInput]]" = Field(
+  replacements: "Optional[list[Optional[SignatureAppearanceTemplateReplacementInput]]]" = Field(
     default=None
   )
   template: "StringScalar"
 
 
 class SignatureAppearanceTemplateReplacementInput(BaseModel):
-  fromEvidence: "list[StringScalar]"
+  fromEvidence: "list[Optional[StringScalar]]"
   placeholder: "StringScalar"
 
 
@@ -901,31 +917,33 @@ type SignatureEvidenceProvider = (
 class SignatureOrder(BaseModel):
   application: "Optional[Application]" = Field(default=None)
   closedAt: "Optional[DateTimeScalar]" = Field(default=None)
-  createdAt: "DateTimeScalar"
-  documents: "list[Document]"
-  evidenceProviders: "list[SignatureEvidenceProvider]"
-  expiresAt: "DateTimeScalar"
-  id: "IDScalar"
+  createdAt: "Optional[DateTimeScalar]" = Field(default=None)
+  documents: "Optional[list[Optional[Document]]]" = Field(default=None)
+  evidenceProviders: "Optional[list[Optional[SignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
+  expiresAt: "Optional[DateTimeScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
   # Number of max signatories for the signature order
-  maxSignatories: "IntScalar"
+  maxSignatories: "Optional[IntScalar]" = Field(default=None)
   # List of signatories for the signature order.
-  signatories: "list[Signatory]"
-  status: "SignatureOrderStatus"
+  signatories: "Optional[list[Optional[Signatory]]]" = Field(default=None)
+  status: "Optional[SignatureOrderStatus]" = Field(default=None)
   # Tenants are only accessable from user viewers
   tenant: "Optional[Tenant]" = Field(default=None)
-  timezone: "StringScalar"
+  timezone: "Optional[StringScalar]" = Field(default=None)
   title: "Optional[StringScalar]" = Field(default=None)
-  traceId: "StringScalar"
-  ui: "SignatureOrderUI"
+  traceId: "Optional[StringScalar]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
   webhook: "Optional[SignatureOrderWebhook]" = Field(default=None)
 
 
 # A connection from an object to a list of objects of type SignatureOrder
 class SignatureOrderConnection(BaseModel):
   # Information to aid in pagination.
-  edges: "list[SignatureOrderEdge]"
+  edges: "Optional[list[Optional[SignatureOrderEdge]]]" = Field(default=None)
   # Information to aid in pagination.
-  pageInfo: "PageInfo"
+  pageInfo: "Optional[PageInfo]" = Field(default=None)
   # A count of the total number of objects in this connection, ignoring pagination. This allows a client to fetch the first five objects by passing \"5\" as the argument to `first`, then fetch the total count so it could display \"5 of 83\", for example. In cases where we employ infinite scrolling or don't have an exact count of entries, this field will return `null`.
   totalCount: "Optional[IntScalar]" = Field(default=None)
 
@@ -933,12 +951,12 @@ class SignatureOrderConnection(BaseModel):
 # An edge in a connection from an object to another object of type SignatureOrder
 class SignatureOrderEdge(BaseModel):
   # A cursor for use in pagination
-  cursor: "StringScalar"
+  cursor: "Optional[StringScalar]" = Field(default=None)
   # The item at the end of the edge. Must NOT be an enumerable collection.
-  node: "SignatureOrder"
+  node: "Optional[SignatureOrder]" = Field(default=None)
 
 
-class SignatureOrderStatus(Enum):
+class SignatureOrderStatus(StrEnum):
   CANCELLED = "CANCELLED"
   CLOSED = "CLOSED"
   EXPIRED = "EXPIRED"
@@ -946,17 +964,17 @@ class SignatureOrderStatus(Enum):
 
 
 class SignatureOrderUI(BaseModel):
-  disableRejection: "BooleanScalar"
-  language: "Language"
+  disableRejection: "Optional[BooleanScalar]" = Field(default=None)
+  language: "Optional[Language]" = Field(default=None)
   logo: "Optional[SignatureOrderUILogo]" = Field(default=None)
-  renderPdfAnnotationLayer: "BooleanScalar"
+  renderPdfAnnotationLayer: "Optional[BooleanScalar]" = Field(default=None)
   signatoryRedirectUri: "Optional[StringScalar]" = Field(default=None)
   stylesheet: "Optional[StringScalar]" = Field(default=None)
 
 
 class SignatureOrderUILogo(BaseModel):
   href: "Optional[StringScalar]" = Field(default=None)
-  src: "StringScalar"
+  src: "Optional[StringScalar]" = Field(default=None)
 
 
 class SignatureOrderUILogoInput(BaseModel):
@@ -967,8 +985,8 @@ class SignatureOrderUILogoInput(BaseModel):
 
 
 class SignatureOrderWebhook(BaseModel):
-  logs: "list[WebhookInvocation]"
-  url: "StringScalar"
+  logs: "Optional[list[Optional[WebhookInvocation]]]" = Field(default=None)
+  url: "Optional[StringScalar]" = Field(default=None)
 
 
 # Must define a evidence provider subsection.
@@ -1004,9 +1022,9 @@ type StartCriiptoVerifyEvidenceProviderOutput = CriiptoVerifyEvidenceProviderRed
 
 
 class Tenant(BaseModel):
-  applications: "list[Application]"
-  id: "IDScalar"
-  webhookLogs: "list[WebhookInvocation]"
+  applications: "Optional[list[Optional[Application]]]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
+  webhookLogs: "Optional[list[Optional[WebhookInvocation]]]" = Field(default=None)
 
 
 class TrackSignatoryInput(BaseModel):
@@ -1014,16 +1032,18 @@ class TrackSignatoryInput(BaseModel):
 
 
 class TrackSignatoryOutput(BaseModel):
-  viewer: "Viewer"
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class UnvalidatedSignatoryViewer(BaseModel):
-  authenticated: "BooleanScalar"
+  authenticated: "Optional[BooleanScalar]" = Field(default=None)
   download: "Optional[SignatoryViewerDownload]" = Field(default=None)
-  evidenceProviders: "list[SignatureEvidenceProvider]"
-  id: "IDScalar"
-  signatoryId: "IDScalar"
-  ui: "SignatureOrderUI"
+  evidenceProviders: "Optional[list[Optional[SignatureEvidenceProvider]]]" = Field(
+    default=None
+  )
+  id: "Optional[IDScalar]" = Field(default=None)
+  signatoryId: "Optional[IDScalar]" = Field(default=None)
+  ui: "Optional[SignatureOrderUI]" = Field(default=None)
 
 
 class UpdateSignatoryDocumentStatusInput(BaseModel):
@@ -1032,14 +1052,14 @@ class UpdateSignatoryDocumentStatusInput(BaseModel):
 
 
 class UpdateSignatoryDocumentStatusOutput(BaseModel):
-  documentEdge: "SignatoryDocumentEdge"
-  viewer: "Viewer"
+  documentEdge: "Optional[SignatoryDocumentEdge]" = Field(default=None)
+  viewer: "Optional[Viewer]" = Field(default=None)
 
 
 class UserViewer(BaseModel):
-  authenticated: "BooleanScalar"
-  id: "IDScalar"
-  tenants: "list[Tenant]"
+  authenticated: "Optional[BooleanScalar]" = Field(default=None)
+  id: "Optional[IDScalar]" = Field(default=None)
+  tenants: "Optional[list[Optional[Tenant]]]" = Field(default=None)
 
 
 class ValidateDocumentInput(BaseModel):
@@ -1048,21 +1068,21 @@ class ValidateDocumentInput(BaseModel):
 
 
 class ValidateDocumentOutput(BaseModel):
-  errors: "Optional[list[StringScalar]]" = Field(default=None)
+  errors: "Optional[list[Optional[StringScalar]]]" = Field(default=None)
   # Whether or not the errors are fixable using 'fixDocumentFormattingErrors'
   fixable: "Optional[BooleanScalar]" = Field(default=None)
   # `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed.
   previouslySigned: "Optional[BooleanScalar]" = Field(default=None)
-  valid: "BooleanScalar"
+  valid: "Optional[BooleanScalar]" = Field(default=None)
 
 
 class VerifyApplication(BaseModel):
-  domain: "StringScalar"
-  environment: "VerifyApplicationEnvironment"
-  realm: "StringScalar"
+  domain: "Optional[StringScalar]" = Field(default=None)
+  environment: "Optional[VerifyApplicationEnvironment]" = Field(default=None)
+  realm: "Optional[StringScalar]" = Field(default=None)
 
 
-class VerifyApplicationEnvironment(Enum):
+class VerifyApplicationEnvironment(StrEnum):
   PRODUCTION = "PRODUCTION"
   TEST = "TEST"
 
@@ -1084,29 +1104,29 @@ type Viewer = (
 
 
 class WebhookExceptionInvocation(BaseModel):
-  correlationId: "StringScalar"
+  correlationId: "Optional[StringScalar]" = Field(default=None)
   event: "Optional[WebhookInvocationEvent]" = Field(default=None)
-  exception: "StringScalar"
-  requestBody: "StringScalar"
+  exception: "Optional[StringScalar]" = Field(default=None)
+  requestBody: "Optional[StringScalar]" = Field(default=None)
   responseBody: "Optional[StringScalar]" = Field(default=None)
-  retryPayload: "StringScalar"
+  retryPayload: "Optional[StringScalar]" = Field(default=None)
   retryingAt: "Optional[StringScalar]" = Field(default=None)
   signatureOrderId: "Optional[StringScalar]" = Field(default=None)
-  timestamp: "StringScalar"
-  url: "StringScalar"
+  timestamp: "Optional[StringScalar]" = Field(default=None)
+  url: "Optional[StringScalar]" = Field(default=None)
 
 
 class WebhookHttpErrorInvocation(BaseModel):
-  correlationId: "StringScalar"
+  correlationId: "Optional[StringScalar]" = Field(default=None)
   event: "Optional[WebhookInvocationEvent]" = Field(default=None)
-  requestBody: "StringScalar"
+  requestBody: "Optional[StringScalar]" = Field(default=None)
   responseBody: "Optional[StringScalar]" = Field(default=None)
-  responseStatusCode: "IntScalar"
-  retryPayload: "StringScalar"
+  responseStatusCode: "Optional[IntScalar]" = Field(default=None)
+  retryPayload: "Optional[StringScalar]" = Field(default=None)
   retryingAt: "Optional[StringScalar]" = Field(default=None)
   signatureOrderId: "Optional[StringScalar]" = Field(default=None)
-  timestamp: "StringScalar"
-  url: "StringScalar"
+  timestamp: "Optional[StringScalar]" = Field(default=None)
+  url: "Optional[StringScalar]" = Field(default=None)
 
 
 type WebhookInvocation = (
@@ -1117,7 +1137,7 @@ type WebhookInvocation = (
 )
 
 
-class WebhookInvocationEvent(Enum):
+class WebhookInvocationEvent(StrEnum):
   SIGNATORY_DOCUMENT_STATUS_CHANGED = "SIGNATORY_DOCUMENT_STATUS_CHANGED"
   SIGNATORY_DOWNLOAD_LINK_OPENED = "SIGNATORY_DOWNLOAD_LINK_OPENED"
   SIGNATORY_REJECTED = "SIGNATORY_REJECTED"
@@ -1128,27 +1148,27 @@ class WebhookInvocationEvent(Enum):
 
 
 class WebhookSuccessfulInvocation(BaseModel):
-  correlationId: "StringScalar"
+  correlationId: "Optional[StringScalar]" = Field(default=None)
   event: "Optional[WebhookInvocationEvent]" = Field(default=None)
-  requestBody: "StringScalar"
+  requestBody: "Optional[StringScalar]" = Field(default=None)
   responseBody: "Optional[StringScalar]" = Field(default=None)
-  responseStatusCode: "IntScalar"
+  responseStatusCode: "Optional[IntScalar]" = Field(default=None)
   signatureOrderId: "Optional[StringScalar]" = Field(default=None)
-  timestamp: "StringScalar"
-  url: "StringScalar"
+  timestamp: "Optional[StringScalar]" = Field(default=None)
+  url: "Optional[StringScalar]" = Field(default=None)
 
 
 class WebhookTimeoutInvocation(BaseModel):
-  correlationId: "StringScalar"
+  correlationId: "Optional[StringScalar]" = Field(default=None)
   event: "Optional[WebhookInvocationEvent]" = Field(default=None)
-  requestBody: "StringScalar"
+  requestBody: "Optional[StringScalar]" = Field(default=None)
   responseBody: "Optional[StringScalar]" = Field(default=None)
-  responseTimeout: "IntScalar"
-  retryPayload: "StringScalar"
+  responseTimeout: "Optional[IntScalar]" = Field(default=None)
+  retryPayload: "Optional[StringScalar]" = Field(default=None)
   retryingAt: "Optional[StringScalar]" = Field(default=None)
   signatureOrderId: "Optional[StringScalar]" = Field(default=None)
-  timestamp: "StringScalar"
-  url: "StringScalar"
+  timestamp: "Optional[StringScalar]" = Field(default=None)
+  url: "Optional[StringScalar]" = Field(default=None)
 
 
 class XadesDocumentInput(BaseModel):
@@ -1161,12 +1181,12 @@ class XadesDocumentInput(BaseModel):
 
 class XmlDocument(BaseModel):
   blob: "Optional[BlobScalar]" = Field(default=None)
-  id: "IDScalar"
+  id: "Optional[IDScalar]" = Field(default=None)
   originalBlob: "Optional[BlobScalar]" = Field(default=None)
   reference: "Optional[StringScalar]" = Field(default=None)
   signatoryViewerStatus: "Optional[SignatoryDocumentStatus]" = Field(default=None)
-  signatures: "Optional[list[Signature]]" = Field(default=None)
-  title: "StringScalar"
+  signatures: "Optional[list[Optional[Signature]]]" = Field(default=None)
+  title: "Optional[StringScalar]" = Field(default=None)
 
 
 AddSignatoriesInput.model_rebuild()

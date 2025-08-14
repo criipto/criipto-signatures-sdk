@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "ava",
-    "check": "tsc",
+    "check": "tsc --erasableSyntaxOnly",
     "lint": "npx eslint --flag unstable_native_nodejs_ts_config"
   },
   "engines": {
@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "@graphql-codegen/plugin-helpers": "^5.1.1",
-    "@graphql-codegen/visitor-plugin-common": "^5.8.0"
+    "@graphql-codegen/visitor-plugin-common": "^5.8.0",
+    "change-case-all": "^2.1.0"
   },
   "ava": {
     "files": [
