@@ -212,7 +212,7 @@ class CriiptoSignaturesSDK:
               let variableTypeName = variableTypeNode.name.value;
               const variableSchemaType = this._schema.getType(variableTypeName);
               if (isScalarType(variableSchemaType)) {
-                variableTypeName = `${variableTypeName}Scalar`;
+                variableTypeName = `${variableTypeName}ScalarInput`;
               } else if (isInputObjectType(variableSchemaType)) {
                 this.modelImports.add(variableTypeName);
               }
@@ -271,7 +271,7 @@ return parsed`,
     return [
       ...PythonTypesVisitor.getImports(),
       `from .models import ${Array.from(this.modelImports).join(',')}`,
-      `from .models import ${scalars.map(scalar => `${scalar.name}Scalar`).join(',')}`,
+      `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
       'from gql import Client, gql',
       'from gql.transport.aiohttp import AIOHTTPTransport, BasicAuth',

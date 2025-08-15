@@ -60,7 +60,8 @@
       "dotnet csharpier"
     ],
     "*.py": [
-      "uvx ruff format"
+      "uvx ruff format",
+      "uvx ty check --project packages/python"
     ]
   }
 }
