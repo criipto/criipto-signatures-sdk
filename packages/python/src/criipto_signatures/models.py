@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .utils import CustomBlobInput
 from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
@@ -13,7 +14,7 @@ type FloatScalarInput = float
 type FloatScalarOutput = float
 type BooleanScalarInput = bool
 type BooleanScalarOutput = bool
-type BlobScalarInput = str
+type BlobScalarInput = CustomBlobInput
 type BlobScalarOutput = str
 type DateScalarInput = str
 type DateScalarOutput = str

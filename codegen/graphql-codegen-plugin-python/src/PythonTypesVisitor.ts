@@ -33,6 +33,7 @@ const DEFAULT_SCALARS = {
   Int: { input: 'int', output: 'int' },
   Float: { input: 'float', output: 'float' },
   Boolean: { input: 'bool', output: 'bool' },
+  Blob: { input: 'CustomBlobInput', output: 'str' },
 } as const;
 
 export class PythonTypesVisitor extends BaseVisitor {
@@ -56,6 +57,7 @@ export class PythonTypesVisitor extends BaseVisitor {
   static getImports() {
     return [
       'from __future__ import annotations',
+      'from .utils import CustomBlobInput',
       'from enum import StrEnum',
       'from typing import Optional',
       'from pydantic import BaseModel, Field',

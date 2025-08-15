@@ -1,5 +1,4 @@
 import os
-import base64
 
 from .operations import CriiptoSignaturesSDK
 from .models import (
@@ -13,15 +12,17 @@ from .models import (
 )
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-with open(dir_path + "/sample.pdf", "rb") as sample_file:
-  contents = sample_file.read()
-  base64_encoded_data = base64.b64encode(contents)
-  sample_file_content = base64_encoded_data.decode("utf-8")
+
+
+def getFileBytes() -> bytes:
+  with open(dir_path + "/sample.pdf", "rb") as sample_file:
+    return sample_file.read()
+
 
 documentFixture = DocumentInput(
   pdf=PadesDocumentInput(
     title="Python sample document",
-    blob=sample_file_content,
+    blob=getFileBytes(),
     storageMode=DocumentStorageMode.Temporary,
   )
 )
