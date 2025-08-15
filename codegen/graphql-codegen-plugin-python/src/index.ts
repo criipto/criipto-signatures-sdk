@@ -4,22 +4,21 @@ import {
   type PluginFunction,
   type Types,
 } from '@graphql-codegen/plugin-helpers';
-import { PythonTypesVisitor, type PythonTypesRawConfig } from './PythonTypesVisitor.ts';
-import { type LoadedFragment } from '@graphql-codegen/visitor-plugin-common';
-import {
-  PythonOperationsVisitor,
-  type PythonOperationsRawConfig,
-} from './PythonOperationsVisitor.ts';
+import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
+import { type LoadedFragment, type RawConfig } from '@graphql-codegen/visitor-plugin-common';
+import { PythonOperationsVisitor } from './PythonOperationsVisitor.ts';
 
 function isNotNullish<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null;
 }
 
-export type PythonPluginConfig =
-  | ({
+export type PythonPluginConfig = (
+  | {
       mode: 'types';
-    } & PythonTypesRawConfig)
-  | ({ mode: 'operations' } & PythonOperationsRawConfig);
+    }
+  | { mode: 'operations' }
+) &
+  RawConfig;
 
 export const plugin: PluginFunction<PythonPluginConfig> = (
   schema: GraphQLSchema,

@@ -1,4 +1,4 @@
-import { indentMultiline } from '@graphql-codegen/visitor-plugin-common';
+import { indentMultiline, indent } from '@graphql-codegen/visitor-plugin-common';
 import { type ASTNode } from 'graphql';
 
 function ensureArray<T>(item: undefined | T | T[]): T[] {
@@ -51,10 +51,10 @@ export class PythonDeclarationBlock {
       result += `# ${this._comment}\n`;
     }
 
-    let indent = 0;
+    let indentation = 0;
     switch (this._kind) {
       case 'class':
-        indent = 1;
+        indentation = 1;
         if (!this._name) {
           throw new Error('Naming is missing for class definition');
         }
@@ -75,8 +75,11 @@ export class PythonDeclarationBlock {
     }
 
     if (this._content) {
+      if (this._kind === 'class' && this._content.length === 0) {
+        result += indent('pass');
+      }
       for (const item of this._content) {
-        result += indentMultiline(item, indent) + '\n';
+        result += indentMultiline(item, indentation) + '\n';
       }
     }
 

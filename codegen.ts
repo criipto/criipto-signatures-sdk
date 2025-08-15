@@ -68,7 +68,6 @@ const config: CodegenConfig = {
       plugins: ['graphql-codegen-plugin-python'],
       config: {
         mode: 'types',
-        everythingIsOptional: true,
       } satisfies PythonPluginConfig,
       ...pythonCommonConfig,
     },
