@@ -64,7 +64,10 @@ export class PythonTypesVisitor extends BaseVisitor {
 
   getScalarsTypes() {
     return Object.entries(this.scalars)
-      .map(([name, type]) => `type ${name}Scalar = ${type.input}`)
+      .flatMap(([name, type]) => [
+        `type ${name}ScalarInput = ${type.input}`,
+        `type ${name}ScalarOutput = ${type.output}`,
+      ])
       .join('\n');
   }
 
@@ -119,7 +122,7 @@ export class PythonTypesVisitor extends BaseVisitor {
     let typeString = typeNode.name.value;
 
     if (isScalarType(schemaType)) {
-      typeString = `${typeString}Scalar`;
+      typeString = `${typeString}Scalar${node.kind === Kind.INPUT_VALUE_DEFINITION ? 'Input' : 'Output'}`;
     } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
       typeString = this.config.typesPrefix + typeString;
     }
