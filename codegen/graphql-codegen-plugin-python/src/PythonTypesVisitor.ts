@@ -55,6 +55,7 @@ export class PythonTypesVisitor extends BaseVisitor {
 
   static getImports() {
     return [
+      'from __future__ import annotations',
       'from enum import StrEnum',
       'from typing import Optional',
       'from pydantic import BaseModel, Field',
@@ -138,7 +139,7 @@ export class PythonTypesVisitor extends BaseVisitor {
       output += `# ${node.description.value}\n`;
     }
 
-    output += `${node.name.value}: "${typeString}"`;
+    output += `${node.name.value}: ${typeString}`;
 
     if (nullable || (listType && nullableList)) {
       output += ` = Field(default=None)`;
