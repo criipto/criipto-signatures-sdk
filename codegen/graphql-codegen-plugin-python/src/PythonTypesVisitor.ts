@@ -9,9 +9,6 @@ import {
   type InputObjectTypeDefinitionNode,
   type InputValueDefinitionNode,
   type InterfaceTypeDefinitionNode,
-  type ListTypeNode,
-  type NamedTypeNode,
-  type NonNullTypeNode,
   type ObjectTypeDefinitionNode,
   type UnionTypeDefinitionNode,
   type GraphQLSchema,
@@ -28,6 +25,7 @@ import { PythonDeclarationBlock } from './pythonDeclarationBlock.ts';
 import { getCachedDocumentNodeFromSchema } from '@graphql-codegen/plugin-helpers';
 import { inspect } from 'node:util';
 import assert from 'node:assert';
+import { unwrapTypeNode } from 'graphql-codegen-shared';
 
 const DEFAULT_SCALARS = {
   ID: { input: 'str', output: 'str' },
@@ -99,23 +97,6 @@ export class PythonTypesVisitor extends BaseVisitor {
     },
   };
 
-  NamedType = {
-    leave: (node: NamedTypeNode) => {
-      let name = node.name.value;
-
-      const schemaType = this.schema.getType(name);
-      assert(schemaType != undefined);
-
-      if (isScalarType(schemaType)) {
-        name = `${name}Scalar`;
-      } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
-        name = this.config.typesPrefix + name;
-      }
-
-      return `Optional[${name}]`;
-    },
-  };
-
   FieldDefinition = {
     leave: (node: FieldDefinitionNode) => {
       return this.FieldOrInputValueDefinition(node);
@@ -129,37 +110,42 @@ export class PythonTypesVisitor extends BaseVisitor {
   };
 
   private FieldOrInputValueDefinition(node: FieldDefinitionNode | InputValueDefinitionNode) {
-    const typeString = this.asString(node.type);
-    let output = '';
+    const { nullable, listType, nullableList, node: typeNode } = unwrapTypeNode(node.type);
 
+    const schemaType = this.schema.getType(typeNode.name.value);
+    assert(schemaType != undefined);
+
+    let typeString = typeNode.name.value;
+
+    if (isScalarType(schemaType)) {
+      typeString = `${typeString}Scalar`;
+    } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
+      typeString = this.config.typesPrefix + typeString;
+    }
+
+    if (nullable) {
+      typeString = `Optional[${typeString}]`;
+    }
+    if (listType) {
+      typeString = `list[${typeString}]`;
+      if (nullableList) {
+        typeString = `Optional[${typeString}]`;
+      }
+    }
+
+    let output = '';
     if (node.description?.value) {
       output += `# ${node.description.value}\n`;
     }
 
     output += `${node.name.value}: "${typeString}"`;
 
-    if (typeString.startsWith('Optional')) {
+    if (nullable || (listType && nullableList)) {
       output += ` = Field(default=None)`;
     }
 
     return output;
   }
-
-  NonNullType = {
-    leave: (node: NonNullTypeNode) => {
-      const type = this.asString(node.type);
-
-      // We make types Optional by default in `ListType` and `NamedType`, and remove the Optional if we see them wrapped in a `NonNull`
-      // Yes, this seems to be the only way to do it, see https://github.com/dotansimha/graphql-code-generator/blob/d2f8d9b7573d89a7ca4bee566d13e7424bc70bbb/packages/plugins/typescript/typescript/src/visitor.ts#L276
-      return this.clearOptional(type);
-    },
-  };
-
-  ListType = {
-    leave: (node: ListTypeNode) => {
-      return `Optional[list[${this.asString(node.type)}]]`;
-    },
-  };
 
   ObjectTypeDefinition = {
     leave: (node: ObjectTypeDefinitionNode) => {
@@ -206,12 +192,7 @@ export class PythonTypesVisitor extends BaseVisitor {
 
       return new PythonDeclarationBlock(node)
         .asKind('union')
-        .withContent(
-          node.types
-            .map(node => this.asString(node))
-            .map(node => this.clearOptional(node))
-            .join(' | '),
-        )
+        .withContent(node.types.map(node => node.name.value).join(' | '))
         .toString();
     },
   };
@@ -236,10 +217,6 @@ export class PythonTypesVisitor extends BaseVisitor {
     }
 
     return node;
-  }
-
-  private clearOptional(str: string) {
-    return str.replace(/Optional\[(.*?)\]/, '$1');
   }
 
   getAdditionalContent() {
