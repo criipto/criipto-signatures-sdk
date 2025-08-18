@@ -1,6 +1,9 @@
 import os
 
-from .operations import CriiptoSignaturesSDK
+from .operations import (
+  CriiptoSignaturesSDK,
+  CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
+)
 from .models import (
   AddSignatoryInput,
   CancelSignatureOrderInput,
@@ -8,21 +11,22 @@ from .models import (
   CreateSignatureOrderInput,
   DocumentInput,
   PadesDocumentInput,
+  PadesDocumentFormInput,
   DocumentStorageMode,
 )
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
-def getFileBytes() -> bytes:
-  with open(dir_path + "/sample.pdf", "rb") as sample_file:
+def getFileBytes(filename: str) -> bytes:
+  with open(dir_path + os.sep + filename, "rb") as sample_file:
     return sample_file.read()
 
 
 documentFixture = DocumentInput(
   pdf=PadesDocumentInput(
     title="Python sample document",
-    blob=getFileBytes(),
+    blob=getFileBytes("sample.pdf"),
     storageMode=DocumentStorageMode.Temporary,
   )
 )
@@ -51,6 +55,44 @@ def test_create_signature_order_add_signatory():
 
   assert signatoryResp.signatory
   assert signatoryResp.signatory.href
+
+  sdk.cancelSignatureOrder(
+    CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+  )
+
+
+def test_create_signature_order_with_form():
+  sdk = CriiptoSignaturesSDK(
+    os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
+    os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
+  )
+
+  signatureOrderResponse = sdk.createSignatureOrder(
+    CreateSignatureOrderInput(
+      title="Python sample signature order",
+      expiresInDays=1,
+      documents=[
+        DocumentInput(
+          pdf=PadesDocumentInput(
+            title="Python sample document",
+            blob=getFileBytes("sample-form.pdf"),
+            storageMode=DocumentStorageMode.Temporary,
+            form=PadesDocumentFormInput(enabled=True),
+          )
+        )
+      ],
+    )
+  )
+
+  document = signatureOrderResponse.signatureOrder.documents[0]
+  # TODO: This should use an auto-generated type guard, instead of an instanceof check.
+  assert isinstance(
+    document,
+    CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
+  )
+
+  assert document.form is not None
+  assert document.form.enabled
 
   sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)

@@ -162,12 +162,9 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document(
-  BaseModel
-):
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  title: StringScalarOutput
+type CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -198,6 +195,25 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
+  form: Optional[
+    CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
+  ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
@@ -219,6 +235,12 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: BooleanScalarOutput
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -273,12 +295,9 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder(BaseModel
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document(
-  BaseModel
-):
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  title: StringScalarOutput
+type CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -309,6 +328,25 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
+  form: Optional[
+    CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
+  ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
@@ -330,6 +368,12 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: BooleanScalarOutput
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -582,16 +626,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document(BaseModel):
-  blob: Optional[BlobScalarOutput] = Field(default=None)
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  signatures: Optional[
-    list[
-      CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature
-    ]
-  ] = Field(default=None)
-  title: StringScalarOutput
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -620,13 +657,35 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
-# Represents a signature on a document.
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature(
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
-  signatory: Optional[
-    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature_Signatory
+  blob: Optional[BlobScalarOutput] = Field(default=None)
+  form: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  signatures: Optional[
+    list[
+      CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature
+    ]
+  ] = Field(default=None)
+  title: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  blob: Optional[BlobScalarOutput] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  signatures: Optional[
+    list[
+      CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature
+    ]
+  ] = Field(default=None)
+  title: StringScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -652,10 +711,19 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Sig
   status: SignatureOrderStatus
 
 
-class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_Signature_Signatory(
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
   BaseModel
 ):
-  id: IDScalarOutput
+  enabled: BooleanScalarOutput
+
+
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature = (
+  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+)
+
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature = (
+  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -665,7 +733,147 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Sig
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
+  ] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+  signatory: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
+  ] = Field(default=None)
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
@@ -712,12 +920,9 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document(
-  BaseModel
-):
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  title: StringScalarOutput
+type CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -748,6 +953,25 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
+  form: Optional[
+    CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
+  ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
@@ -769,6 +993,12 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: BooleanScalarOutput
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -903,12 +1133,9 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document(
-  BaseModel
-):
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  title: StringScalarOutput
+type ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -939,6 +1166,25 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
+  BaseModel
+):
+  form: Optional[
+    ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
+  ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
+  BaseModel
+):
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  title: StringScalarOutput
+
+
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
   BaseModel
 ):
@@ -960,6 +1206,12 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
+  BaseModel
+):
+  enabled: BooleanScalarOutput
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1456,14 +1708,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document(BaseModel):
-  blob: Optional[BlobScalarOutput] = Field(default=None)
-  id: IDScalarOutput
-  reference: Optional[StringScalarOutput] = Field(default=None)
-  signatures: Optional[
-    list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature]
-  ] = Field(default=None)
-  title: StringScalarOutput
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document = (
+  PdfDocument | XmlDocument
+)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider(
@@ -1494,11 +1741,27 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   statusReason: Optional[StringScalarOutput] = Field(default=None)
 
 
-# Represents a signature on a document.
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature(BaseModel):
-  signatory: Optional[
-    QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature_Signatory
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument(BaseModel):
+  blob: Optional[BlobScalarOutput] = Field(default=None)
+  form: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  signatures: Optional[
+    list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature]
+  ] = Field(default=None)
+  title: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument(BaseModel):
+  blob: Optional[BlobScalarOutput] = Field(default=None)
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  signatures: Optional[
+    list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature]
+  ] = Field(default=None)
+  title: StringScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1524,10 +1787,19 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder(
   status: SignatureOrderStatus
 
 
-class QuerySignatureOrderWithDocuments_SignatureOrder_Document_Signature_Signatory(
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
   BaseModel
 ):
-  id: IDScalarOutput
+  enabled: BooleanScalarOutput
+
+
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature = (
+  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+)
+
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature = (
+  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1537,7 +1809,147 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumen
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
+  BaseModel
+):
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
+  BaseModel
+):
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
+  ] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+  signatory: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
+  ] = Field(default=None)
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
@@ -1686,10 +2098,137 @@ querySignatoryDocument = f"""query signatory($id: ID!) {{
 }}
 {BasicSignatureOrderFragment}
 {BasicSignatoryFragment}"""
+type QuerySignatureOrders_Viewer = (
+  AnonymousViewer
+  | Application
+  | BatchSignatoryViewer
+  | SignatoryViewer
+  | UnvalidatedSignatoryViewer
+  | UserViewer
+)
 
 
-class QuerySignatureOrders_Viewer(BaseModel):
+class QuerySignatureOrders_Viewer_AnonymousViewer(BaseModel):
   pass
+
+
+class QuerySignatureOrders_Viewer_Application(BaseModel):
+  signatureOrders: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection
+
+
+class QuerySignatureOrders_Viewer_BatchSignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_SignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer(BaseModel):
+  pass
+
+
+class QuerySignatureOrders_Viewer_UserViewer(BaseModel):
+  pass
+
+
+# A connection from an object to a list of objects of type SignatureOrder
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection(BaseModel):
+  # Information to aid in pagination.
+  edges: list[
+    QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge
+  ]
+
+
+# An edge in a connection from an object to another object of type SignatureOrder
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge(
+  BaseModel
+):
+  # The item at the end of the edge. Must NOT be an enumerable collection.
+  node: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder(
+  BaseModel
+):
+  closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  evidenceProviders: list[
+    QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider
+  ]
+  expiresAt: DateTimeScalarOutput
+  id: IDScalarOutput
+  # Number of max signatories for the signature order
+  maxSignatories: IntScalarOutput
+  # List of signatories for the signature order.
+  signatories: list[
+    QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory
+  ]
+  status: SignatureOrderStatus
+  title: Optional[StringScalarOutput] = Field(default=None)
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory(
+  BaseModel
+):
+  documents: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection
+  # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
+  downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  evidenceProviders: list[
+    QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider
+  ]
+  # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
+  href: StringScalarOutput
+  id: IDScalarOutput
+  reference: Optional[StringScalarOutput] = Field(default=None)
+  role: Optional[StringScalarOutput] = Field(default=None)
+  # Signature order for the signatory.
+  signatureOrder: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder
+  # The current status of the signatory.
+  status: SignatoryStatus
+  # The reason for the signatory status (rejection reason when rejected).
+  statusReason: Optional[StringScalarOutput] = Field(default=None)
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection(
+  BaseModel
+):
+  edges: list[
+    QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge
+  ]
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider(
+  BaseModel
+):
+  id: IDScalarOutput
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder(
+  BaseModel
+):
+  closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  expiresAt: DateTimeScalarOutput
+  id: IDScalarOutput
+  status: SignatureOrderStatus
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
+  BaseModel
+):
+  node: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
+  status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
+  BaseModel
+):
+  id: IDScalarOutput
 
 
 querySignatureOrdersDocument = f"""query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: String) {{
