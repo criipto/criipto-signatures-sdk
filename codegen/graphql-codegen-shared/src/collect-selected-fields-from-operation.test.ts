@@ -3,7 +3,7 @@ import { buildSchema, Kind, parse, validate } from 'graphql';
 import { assertIsNotUndefined } from './assertIsNotUndefined.ts';
 import { collectSelectedFieldsFromOperation } from './collect-selected-fields-from-operation.ts';
 
-const schema = buildSchema(/* GraphQL */ `
+const nestedSchema = buildSchema(/* GraphQL */ `
   type NestedType {
     fieldA: String
     fieldB: String
@@ -43,7 +43,7 @@ test('Multiple selections on the same field', t => {
     }
   `);
 
-  const validationErrors = validate(schema, documents);
+  const validationErrors = validate(nestedSchema, documents);
   if (validationErrors.length !== 0) {
     throw new AggregateError(validationErrors, 'GraphQL Schema validation errors');
   }
@@ -91,7 +91,7 @@ test('Deeply nested selection', t => {
     }
   `);
 
-  const validationErrors = validate(schema, documents);
+  const validationErrors = validate(nestedSchema, documents);
   if (validationErrors.length !== 0) {
     throw new AggregateError(
       validationErrors,
@@ -156,13 +156,14 @@ test('Multiple selections on the same field, with fragments', t => {
       mutate {
         nested {
           fieldA
+          fieldB
           ...Foo
         }
       }
     }
   `);
 
-  const validationErrors = validate(schema, documents);
+  const validationErrors = validate(nestedSchema, documents);
   if (validationErrors.length !== 0) {
     throw new AggregateError(
       validationErrors,
@@ -192,6 +193,7 @@ test('Multiple selections on the same field, with fragments', t => {
         fields: [
           { type: 'scalar', name: 'fieldA' },
           { type: 'scalar', name: 'fieldB' },
+          { type: 'fragment', onType: 'NestedType', fields: [{ type: 'scalar', name: 'fieldB' }] },
         ],
       },
     ],
@@ -218,7 +220,7 @@ test('Multiple fragments', t => {
     }
   `);
 
-  const validationErrors = validate(schema, documents);
+  const validationErrors = validate(nestedSchema, documents);
   if (validationErrors.length !== 0) {
     throw new AggregateError(
       validationErrors,
@@ -246,8 +248,192 @@ test('Multiple fragments', t => {
         type: 'object',
         name: 'nested',
         fields: [
-          { type: 'scalar', name: 'fieldA' },
-          { type: 'scalar', name: 'fieldB' },
+          {
+            type: 'fragment',
+            onType: 'NestedType',
+            fields: [
+              { type: 'scalar', name: 'fieldA' },
+              { type: 'scalar', name: 'fieldB' },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+});
+
+const viewerSchema = buildSchema(/* GraphQL */ `
+  interface Viewer {
+    id: ID!
+  }
+
+  type UserViewerDetails {
+    name: String!
+  }
+
+  type UserViewer implements Viewer {
+    id: ID!
+    isAuthenticated: Boolean!
+    name: String!
+    email: String!
+    details: UserViewerDetails!
+  }
+
+  type ApplicationViewer implements Viewer {
+    id: ID!
+    applicationName: String!
+  }
+
+  type Mutation {
+    void: String
+  }
+  type Query {
+    viewer: Viewer
+  }
+`);
+test('Handles both inline fragments and fragment spreads on interface', t => {
+  const documents = parse(/* GraphQL */ `
+    fragment UserViewerFragment on UserViewer {
+      email
+    }
+
+    query viewerQuery {
+      viewer {
+        id
+
+        ... on UserViewer {
+          name
+        }
+        ...UserViewerFragment
+
+        ... on ApplicationViewer {
+          applicationName
+        }
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(
+      validationErrors,
+      `GraphQL Schema validation errors ${validationErrors.map(e => e.message).join('.\n')}`,
+    );
+  }
+
+  const operation = documents.definitions.find(
+    definition => definition.kind === Kind.OPERATION_DEFINITION,
+  );
+  assertIsNotUndefined(operation);
+  const fragments = documents.definitions.filter(
+    definition => definition.kind === Kind.FRAGMENT_DEFINITION,
+  );
+
+  // Act
+  const res = collectSelectedFieldsFromOperation(operation, fragments);
+
+  // Assert
+  t.deepEqual(res, {
+    type: 'object',
+    name: 'viewer',
+    fields: [
+      { type: 'scalar', name: 'id' },
+      {
+        type: 'fragment',
+        onType: 'UserViewer',
+        fields: [
+          { type: 'scalar', name: 'name' },
+          { type: 'scalar', name: 'email' },
+        ],
+      },
+      {
+        type: 'fragment',
+        onType: 'ApplicationViewer',
+        fields: [{ type: 'scalar', name: 'applicationName' }],
+      },
+    ],
+  });
+});
+
+test('nested fragments', t => {
+  const documents = parse(/* GraphQL */ `
+    fragment UserViewerDetailsFragment on UserViewerDetails {
+      name
+    }
+
+    fragment DeeplyNestedFragment on UserViewer {
+      isAuthenticated
+    }
+
+    fragment UserViewerFragment on UserViewer {
+      ...DeeplyNestedFragment
+      email
+      details {
+        ...UserViewerDetailsFragment
+      }
+    }
+
+    fragment ViewerFragment on Viewer {
+      id
+      ...UserViewerFragment
+    }
+
+    query viewerQuery {
+      viewer {
+        ...ViewerFragment
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(
+      validationErrors,
+      `GraphQL Schema validation errors ${validationErrors.map(e => e.message).join('.\n')}`,
+    );
+  }
+
+  const operation = documents.definitions.find(
+    definition => definition.kind === Kind.OPERATION_DEFINITION,
+  );
+  assertIsNotUndefined(operation);
+  const fragments = documents.definitions.filter(
+    definition => definition.kind === Kind.FRAGMENT_DEFINITION,
+  );
+
+  // Act
+  const res = collectSelectedFieldsFromOperation(operation, fragments);
+
+  // Assert
+  t.deepEqual(res, {
+    type: 'object',
+    name: 'viewer',
+    fields: [
+      {
+        type: 'fragment',
+        onType: 'Viewer',
+        fields: [{ type: 'scalar', name: 'id' }],
+      },
+      {
+        type: 'fragment',
+        onType: 'UserViewer',
+        fields: [
+          // `isAuthenticated` was nested in `DeeplyNestedFragment`, which is nested in
+          // `UserViewerFragment`, which again is nested in `ViewerFragment`. We expect it to have
+          // been lifted up to here, such that all fragments on viewer are on the same level.
+          { type: 'scalar', name: 'isAuthenticated' },
+          { type: 'scalar', name: 'email' },
+          {
+            type: 'object',
+            name: 'details',
+            fields: [
+              {
+                type: 'fragment',
+                onType: 'UserViewerDetails',
+                fields: [{ type: 'scalar', name: 'name' }],
+              },
+            ],
+          },
         ],
       },
     ],
