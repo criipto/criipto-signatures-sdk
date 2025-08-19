@@ -1,0 +1,13 @@
+[project]
+name = "criipto-signatures-example"
+version = "0.1.0"
+description = "A sample application showcasing the Criipto signatures SDK"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["criipto-signatures", "flask[async]>=3.1.1"]
+
+[tool.ruff]
+indent-width = 2
+
+[tool.uv.sources]
+criipto-signatures = { path = "../", editable = true }
