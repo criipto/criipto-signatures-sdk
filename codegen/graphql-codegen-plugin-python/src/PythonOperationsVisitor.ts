@@ -26,6 +26,7 @@ import { upperCaseFirst } from 'change-case-all';
 import {
   assertIsNotUndefined,
   operationSelectionsToAstTree,
+  unwrapTypeNode,
   type AstTreeNode,
 } from 'graphql-codegen-shared';
 import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
@@ -195,38 +196,47 @@ class CriiptoSignaturesSDK:
 
           const outputTypeName = upperCaseFirst(operationName) + '_' + outputTypeNode.name;
 
-          const functionArguments = (node.variableDefinitions ?? []).reduce<Record<string, string>>(
-            (functionArguments, variableDefinitionNode) => {
-              const variableName = variableDefinitionNode.variable.name.value;
+          const functionArguments = (node.variableDefinitions ?? []).reduce<
+            Record<string, { nullable: boolean; type: string }>
+          >((functionArguments, variableDefinitionNode) => {
+            const variableName = variableDefinitionNode.variable.name.value;
 
-              const nullable = variableDefinitionNode.type.kind !== Kind.NON_NULL_TYPE;
-              const variableTypeNode = nullable
-                ? variableDefinitionNode.type
-                : variableDefinitionNode.type.type;
+            const { nullable, node: variableTypeNode } = unwrapTypeNode(
+              variableDefinitionNode.type,
+            );
 
-              assert(
-                variableTypeNode.kind === Kind.NAMED_TYPE,
-                'Only named types are supported in function arguments',
-              );
+            let variableTypeName = variableTypeNode.name.value;
+            const variableSchemaType = this._schema.getType(variableTypeName);
+            if (isScalarType(variableSchemaType)) {
+              variableTypeName = `${variableTypeName}ScalarInput`;
+            } else if (isInputObjectType(variableSchemaType)) {
+              this.modelImports.add(variableTypeName);
+            }
 
-              let variableTypeName = variableTypeNode.name.value;
-              const variableSchemaType = this._schema.getType(variableTypeName);
-              if (isScalarType(variableSchemaType)) {
-                variableTypeName = `${variableTypeName}ScalarInput`;
-              } else if (isInputObjectType(variableSchemaType)) {
-                this.modelImports.add(variableTypeName);
+            functionArguments[variableName] = { nullable, type: variableTypeName };
+            return functionArguments;
+          }, {});
+
+          // Sort the arguments so that optional arguments are placed last
+          const functionArgumentsArray = Object.entries(functionArguments).sort(
+            ([, argumentA], [, argumentB]) => {
+              if (!argumentA.nullable && argumentB.nullable) {
+                return -1;
               }
-
-              functionArguments[variableName] = nullable
-                ? `Optional[${variableTypeName}]`
-                : variableTypeName;
-              return functionArguments;
+              return 0;
             },
-            {},
           );
 
-          const functionDefinition = `def ${operationName}(self, ${Object.entries(functionArguments)
-            .map(([argumentName, argumentType]) => `${argumentName}: ${argumentType}`)
+          const functionDefinition = `def ${operationName}(self, ${functionArgumentsArray
+            .map(([argumentName, argument]) => {
+              let argumentType = argument.type;
+
+              if (argument.nullable) {
+                argumentType = `Optional[${argumentType}] = None`;
+              }
+
+              return `${argumentName}: ${argumentType}`;
+            })
             .join(', ')}) -> ${outputTypeName}:`;
 
           // Builds a JSON object of variables to pass to the query
@@ -270,6 +280,7 @@ return parsed`,
 
     return [
       ...PythonTypesVisitor.getImports(),
+      `from pydantic import RootModel`,
       `from .models import ${Array.from(this.modelImports).join(',')}`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,

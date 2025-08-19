@@ -3,6 +3,7 @@ from .utils import CustomBlobInput
 from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
+from pydantic import RootModel
 from .models import (
   CreateSignatureOrderInput,
   CleanupSignatureOrderInput,
@@ -2611,9 +2612,9 @@ class CriiptoSignaturesSDK:
 
   def querySignatureOrders(
     self,
-    status: Optional[SignatureOrderStatus],
     first: IntScalarInput,
-    after: Optional[StringScalarInput],
+    status: Optional[SignatureOrderStatus] = None,
+    after: Optional[StringScalarInput] = None,
   ) -> QuerySignatureOrders_Viewer:
     query = gql(querySignatureOrdersDocument)
     variables = {"status": status, "first": first, "after": after}
