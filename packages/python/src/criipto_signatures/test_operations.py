@@ -1,7 +1,9 @@
 import os
+from datetime import datetime
 
 from .operations import (
   CriiptoSignaturesSDK,
+  QuerySignatureOrders_Viewer_Application,
   CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
 )
 from .models import (
@@ -13,6 +15,7 @@ from .models import (
   PadesDocumentInput,
   PadesDocumentFormInput,
   DocumentStorageMode,
+  SignatureOrderStatus,
 )
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -128,4 +131,41 @@ def test_change_max_signatories():
 
   sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+  )
+
+
+def test_query_signature_orders():
+  sdk = CriiptoSignaturesSDK(
+    os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
+    os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
+  )
+
+  title = "Python sample signature order" + str(datetime.now())
+
+  createSignatureOrderResponse = sdk.createSignatureOrder(
+    CreateSignatureOrderInput(
+      title=title,
+      expiresInDays=1,
+      documents=[documentFixture],
+    )
+  )
+
+  signatureOrdersResponse = sdk.querySignatureOrders(
+    first=1000, status=SignatureOrderStatus.OPEN
+  )
+
+  assert isinstance(signatureOrdersResponse, QuerySignatureOrders_Viewer_Application)
+  createdSignatureOrder = next(
+    edge.node
+    for edge in signatureOrdersResponse.signatureOrders.edges
+    if edge.node.id == createSignatureOrderResponse.signatureOrder.id
+  )
+
+  assert createdSignatureOrder is not None
+  assert createdSignatureOrder.title == title
+
+  sdk.cancelSignatureOrder(
+    CancelSignatureOrderInput(
+      signatureOrderId=createSignatureOrderResponse.signatureOrder.id
+    )
   )

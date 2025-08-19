@@ -257,7 +257,7 @@ class CriiptoSignaturesSDK:
             `query = gql(${operationName}Document)
 variables = ${queryVariables}
 result = self.client.execute(query, variable_values=variables)
-parsed = ${outputTypeName}.model_validate(result.get('${selectionNode.name}'))
+parsed = RootModel[${outputTypeName}].model_validate(result.get('${selectionNode.name}')).root
 return parsed`,
             1,
           );
