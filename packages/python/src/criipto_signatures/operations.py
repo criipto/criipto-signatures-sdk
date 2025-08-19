@@ -163,7 +163,8 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder(BaseModel):
 
 
 type CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -296,7 +297,8 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder(BaseModel
 
 
 type CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -627,7 +629,8 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder(BaseModel):
 
 
 type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -718,11 +721,17 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
 
 
 type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature = (
-  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
 )
 
 type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature = (
-  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
 )
 
 
@@ -921,7 +930,8 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder(BaseModel):
 
 
 type CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -1134,7 +1144,8 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder(BaseModel):
 
 
 type ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+  | ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -1709,7 +1720,8 @@ class QuerySignatureOrderWithDocuments_SignatureOrder(BaseModel):
 
 
 type QuerySignatureOrderWithDocuments_SignatureOrder_Document = (
-  PdfDocument | XmlDocument
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument
 )
 
 
@@ -1794,11 +1806,17 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDo
 
 
 type QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature = (
-  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
 )
 
 type QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature = (
-  CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
 )
 
 
@@ -2099,12 +2117,12 @@ querySignatoryDocument = f"""query signatory($id: ID!) {{
 {BasicSignatureOrderFragment}
 {BasicSignatoryFragment}"""
 type QuerySignatureOrders_Viewer = (
-  AnonymousViewer
-  | Application
-  | BatchSignatoryViewer
-  | SignatoryViewer
-  | UnvalidatedSignatoryViewer
-  | UserViewer
+  QuerySignatureOrders_Viewer_AnonymousViewer
+  | QuerySignatureOrders_Viewer_Application
+  | QuerySignatureOrders_Viewer_BatchSignatoryViewer
+  | QuerySignatureOrders_Viewer_SignatoryViewer
+  | QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer
+  | QuerySignatureOrders_Viewer_UserViewer
 )
 
 

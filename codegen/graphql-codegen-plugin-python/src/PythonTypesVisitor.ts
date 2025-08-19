@@ -198,7 +198,7 @@ export class PythonTypesVisitor extends BaseVisitor {
 
       return new PythonDeclarationBlock(node)
         .asKind('union')
-        .withContent(node.types.map(node => node.name.value).join(' | '))
+        .withContent(node.types.map(node => this.config.typesPrefix + node.name.value).join(' | '))
         .toString();
     },
   };
