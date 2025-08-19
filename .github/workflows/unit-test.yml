@@ -76,10 +76,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/python-setup
+      - name: Install example project
+        working-directory: packages/python/example
+        run: uv sync --locked --all-extras --dev
       - name: Ruff (linter)
         run: uv run ruff check
       - name: ty (type-checking)
-        run: uv run ty check
+        run: |
+          uvx ty check src
+          uvx ty check --project example
 
   python-formatting:
     runs-on: ubuntu-latest
