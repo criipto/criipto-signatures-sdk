@@ -162,7 +162,8 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
 class CriiptoSignaturesSDK:
   def __init__(self, clientId: str, clientSecret: str):
     auth = BasicAuth(clientId, clientSecret)
-    transport = AIOHTTPTransport(url=" https://signatures-api.criipto.com/v1/graphql", auth=auth)
+    headers= {"Criipto-Sdk": "criipto-signatures-python"}
+    transport = AIOHTTPTransport(url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers, ssl=True)
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 `;
 
@@ -229,7 +230,7 @@ class CriiptoSignaturesSDK:
               },
             );
 
-          const functionDefinition = `def ${operationName}(self, ${functionArguments
+          const functionDefinition = `async def ${operationName}(self, ${functionArguments
             .map(({ name, type, nullable }) => {
               let typeName = type.name;
               if (isScalarType(type)) {
@@ -267,7 +268,7 @@ class CriiptoSignaturesSDK:
           const functionBody = indentMultiline(
             `query = gql(${operationName}Document)
 variables = ${queryVariables}
-result = self.client.execute(query, variable_values=variables)
+result = await self.client.execute_async(query, variable_values=variables)
 parsed = RootModel[${outputTypeName}].model_validate(result.get('${selectionNode.name}')).root
 return parsed`,
             1,
