@@ -12,7 +12,7 @@ requires = ["uv_build>=0.8.4,<0.9.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = ["pytest>=8.4.1", "ruff>=0.12.7", "ty>=0.0.1a17"]
+dev = ["pytest>=8.4.1", "pytest-asyncio>=1.1.0", "ruff>=0.12.7", "ty>=0.0.1a17"]
 test = []
 
 [tool.ruff]

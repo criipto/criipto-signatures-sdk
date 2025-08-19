@@ -17,6 +17,7 @@ from .models import (
   DocumentStorageMode,
   SignatureOrderStatus,
 )
+import pytest
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -35,13 +36,14 @@ documentFixture = DocumentInput(
 )
 
 
-def test_create_signature_order_add_signatory():
+@pytest.mark.asyncio
+async def test_create_signature_order_add_signatory():
   sdk = CriiptoSignaturesSDK(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = sdk.createSignatureOrder(
+  signatureOrderResponse = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -52,25 +54,26 @@ def test_create_signature_order_add_signatory():
   assert signatureOrderResponse.signatureOrder
   assert signatureOrderResponse.signatureOrder.id
 
-  signatoryResp = sdk.addSignatory(
+  signatoryResp = await sdk.addSignatory(
     AddSignatoryInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
   )
 
   assert signatoryResp.signatory
   assert signatoryResp.signatory.href
 
-  sdk.cancelSignatureOrder(
+  await sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
   )
 
 
-def test_create_signature_order_with_form():
+@pytest.mark.asyncio
+async def test_create_signature_order_with_form():
   sdk = CriiptoSignaturesSDK(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = sdk.createSignatureOrder(
+  signatureOrderResponse = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -97,18 +100,19 @@ def test_create_signature_order_with_form():
   assert document.form is not None
   assert document.form.enabled
 
-  sdk.cancelSignatureOrder(
+  await sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
   )
 
 
-def test_change_max_signatories():
+@pytest.mark.asyncio
+async def test_change_max_signatories():
   sdk = CriiptoSignaturesSDK(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = sdk.createSignatureOrder(
+  signatureOrderResponse = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -120,7 +124,7 @@ def test_change_max_signatories():
   assert signatureOrderResponse.signatureOrder
   assert signatureOrderResponse.signatureOrder.id
 
-  changedSignatureOrderResponse = sdk.changeSignatureOrder(
+  changedSignatureOrderResponse = await sdk.changeSignatureOrder(
     ChangeSignatureOrderInput(
       signatureOrderId=signatureOrderResponse.signatureOrder.id, maxSignatories=20
     )
@@ -129,12 +133,13 @@ def test_change_max_signatories():
   assert changedSignatureOrderResponse.signatureOrder
   assert changedSignatureOrderResponse.signatureOrder.maxSignatories == 20
 
-  sdk.cancelSignatureOrder(
+  await sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
   )
 
 
-def test_query_signature_orders():
+@pytest.mark.asyncio
+async def test_query_signature_orders():
   sdk = CriiptoSignaturesSDK(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
@@ -142,7 +147,7 @@ def test_query_signature_orders():
 
   title = "Python sample signature order" + str(datetime.now())
 
-  createSignatureOrderResponse = sdk.createSignatureOrder(
+  createSignatureOrderResponse = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title=title,
       expiresInDays=1,
@@ -150,7 +155,7 @@ def test_query_signature_orders():
     )
   )
 
-  signatureOrdersResponse = sdk.querySignatureOrders(
+  signatureOrdersResponse = await sdk.querySignatureOrders(
     first=1000, status=SignatureOrderStatus.OPEN
   )
 
@@ -164,7 +169,7 @@ def test_query_signature_orders():
   assert createdSignatureOrder is not None
   assert createdSignatureOrder.title == title
 
-  sdk.cancelSignatureOrder(
+  await sdk.cancelSignatureOrder(
     CancelSignatureOrderInput(
       signatureOrderId=createSignatureOrderResponse.signatureOrder.id
     )
