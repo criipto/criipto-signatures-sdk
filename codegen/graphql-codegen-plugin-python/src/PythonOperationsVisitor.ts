@@ -20,6 +20,7 @@ import {
   isInputObjectType,
   OperationTypeNode,
   visit,
+  type GraphQLNamedType,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
@@ -200,24 +201,22 @@ class CriiptoSignaturesSDK:
             .map<{
               name: string;
               nullable: boolean;
-              type: string;
+              type: GraphQLNamedType;
             }>(variableDefinitionNode => {
               const { nullable, node: variableTypeNode } = unwrapTypeNode(
                 variableDefinitionNode.type,
               );
 
-              let variableTypeName = variableTypeNode.name.value;
-              const variableSchemaType = this._schema.getType(variableTypeName);
-              if (isScalarType(variableSchemaType)) {
-                variableTypeName = `${variableTypeName}ScalarInput`;
-              } else if (isInputObjectType(variableSchemaType)) {
-                this.modelImports.add(variableTypeName);
+              const variableSchemaType = this._schema.getType(variableTypeNode.name.value);
+              assertIsNotUndefined(variableSchemaType);
+              if (isInputObjectType(variableSchemaType)) {
+                this.modelImports.add(variableTypeNode.name.value);
               }
 
               return {
                 name: variableDefinitionNode.variable.name.value,
                 nullable,
-                type: variableTypeName,
+                type: variableSchemaType,
               };
             })
             .sort(
@@ -232,11 +231,15 @@ class CriiptoSignaturesSDK:
 
           const functionDefinition = `def ${operationName}(self, ${functionArguments
             .map(({ name, type, nullable }) => {
+              let typeName = type.name;
+              if (isScalarType(type)) {
+                typeName = `${typeName}ScalarInput`;
+              }
               if (nullable) {
-                type = `Optional[${type}] = None`;
+                typeName = `Optional[${typeName}] = None`;
               }
 
-              return `${name}: ${type}`;
+              return `${name}: ${typeName}`;
             })
             .join(', ')}) -> ${outputTypeName}:`;
 
@@ -244,12 +247,19 @@ class CriiptoSignaturesSDK:
           const queryVariables = [
             '{',
             functionArguments
-              .map(
-                ({ name }) =>
-                  // If the argument is called `input`, we assume it to be a pydantic model,
-                  // and dump it to an object
-                  `"${name}": ${name === 'input' ? `${name}.model_dump()` : name}`,
-              )
+              .map(({ name, type, nullable }) => {
+                let argumentValue = name;
+
+                if (isInputObjectType(type)) {
+                  argumentValue = `${argumentValue}.model_dump()`;
+                } else if (isEnumType(type) && nullable) {
+                  // The Criipto GraphQL API does not handle null enum values, so we convert them to
+                  // empty strings
+                  argumentValue = `${argumentValue} if ${argumentValue} is not None else ""`;
+                }
+
+                return `"${name}": ${argumentValue}`;
+              })
               .join(','),
             '}',
           ].join('\n');

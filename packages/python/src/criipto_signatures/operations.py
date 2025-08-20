@@ -2653,7 +2653,11 @@ class CriiptoSignaturesSDK:
     after: Optional[StringScalarInput] = None,
   ) -> QuerySignatureOrders_Viewer:
     query = gql(querySignatureOrdersDocument)
-    variables = {"first": first, "status": status, "after": after}
+    variables = {
+      "first": first,
+      "status": status if status is not None else "",
+      "after": after,
+    }
     result = self.client.execute(query, variable_values=variables)
     parsed = (
       RootModel[QuerySignatureOrders_Viewer].model_validate(result.get("viewer")).root
