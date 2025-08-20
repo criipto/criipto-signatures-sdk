@@ -196,58 +196,59 @@ class CriiptoSignaturesSDK:
 
           const outputTypeName = upperCaseFirst(operationName) + '_' + outputTypeNode.name;
 
-          const functionArguments = (node.variableDefinitions ?? []).reduce<
-            Record<string, { nullable: boolean; type: string }>
-          >((functionArguments, variableDefinitionNode) => {
-            const variableName = variableDefinitionNode.variable.name.value;
+          const functionArguments = (node.variableDefinitions ?? [])
+            .map<{
+              name: string;
+              nullable: boolean;
+              type: string;
+            }>(variableDefinitionNode => {
+              const { nullable, node: variableTypeNode } = unwrapTypeNode(
+                variableDefinitionNode.type,
+              );
 
-            const { nullable, node: variableTypeNode } = unwrapTypeNode(
-              variableDefinitionNode.type,
+              let variableTypeName = variableTypeNode.name.value;
+              const variableSchemaType = this._schema.getType(variableTypeName);
+              if (isScalarType(variableSchemaType)) {
+                variableTypeName = `${variableTypeName}ScalarInput`;
+              } else if (isInputObjectType(variableSchemaType)) {
+                this.modelImports.add(variableTypeName);
+              }
+
+              return {
+                name: variableDefinitionNode.variable.name.value,
+                nullable,
+                type: variableTypeName,
+              };
+            })
+            .sort(
+              // Sort the arguments so that optional arguments are placed last
+              (argumentA, argumentB) => {
+                if (!argumentA.nullable && argumentB.nullable) {
+                  return -1;
+                }
+                return 0;
+              },
             );
 
-            let variableTypeName = variableTypeNode.name.value;
-            const variableSchemaType = this._schema.getType(variableTypeName);
-            if (isScalarType(variableSchemaType)) {
-              variableTypeName = `${variableTypeName}ScalarInput`;
-            } else if (isInputObjectType(variableSchemaType)) {
-              this.modelImports.add(variableTypeName);
-            }
-
-            functionArguments[variableName] = { nullable, type: variableTypeName };
-            return functionArguments;
-          }, {});
-
-          // Sort the arguments so that optional arguments are placed last
-          const functionArgumentsArray = Object.entries(functionArguments).sort(
-            ([, argumentA], [, argumentB]) => {
-              if (!argumentA.nullable && argumentB.nullable) {
-                return -1;
-              }
-              return 0;
-            },
-          );
-
-          const functionDefinition = `def ${operationName}(self, ${functionArgumentsArray
-            .map(([argumentName, argument]) => {
-              let argumentType = argument.type;
-
-              if (argument.nullable) {
-                argumentType = `Optional[${argumentType}] = None`;
+          const functionDefinition = `def ${operationName}(self, ${functionArguments
+            .map(({ name, type, nullable }) => {
+              if (nullable) {
+                type = `Optional[${type}] = None`;
               }
 
-              return `${argumentName}: ${argumentType}`;
+              return `${name}: ${type}`;
             })
             .join(', ')}) -> ${outputTypeName}:`;
 
           // Builds a JSON object of variables to pass to the query
           const queryVariables = [
             '{',
-            Object.keys(functionArguments)
+            functionArguments
               .map(
-                argumentName =>
+                ({ name }) =>
                   // If the argument is called `input`, we assume it to be a pydantic model,
                   // and dump it to an object
-                  `"${argumentName}": ${argumentName === 'input' ? `${argumentName}.model_dump()` : argumentName}`,
+                  `"${name}": ${name === 'input' ? `${name}.model_dump()` : name}`,
               )
               .join(','),
             '}',
