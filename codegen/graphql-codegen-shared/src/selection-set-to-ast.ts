@@ -3,10 +3,7 @@ import {
   type GraphQLOutputType,
   type ObjectTypeDefinitionNode,
   type FieldDefinitionNode,
-  type TypeNode,
-  type NamedTypeNode,
   type FragmentDefinitionNode,
-  type InterfaceTypeDefinitionNode,
   type OperationDefinitionNode,
   OperationTypeNode,
   isInterfaceType,
@@ -14,15 +11,23 @@ import {
   Kind,
   isObjectType,
   getNullableType,
+  GraphQLObjectType,
+  GraphQLInterfaceType,
+  type UnionTypeDefinitionNode,
 } from 'graphql';
 import {
   collectSelectedFieldsFromOperation,
-  type SelectedFieldsObject,
+  isFragmentSelection,
+  isObjectSelection,
+  isScalarSelection,
+  type ObjectSelection,
+  type ScalarSelection,
 } from './collect-selected-fields-from-operation.ts';
 import { assertIsNotUndefined } from './assertIsNotUndefined.ts';
+import { unwrapTypeNode } from './unwrapTypeNode.ts';
 
 export interface AstTreeNode {
-  astNode: ObjectTypeDefinitionNode;
+  astNode: ObjectTypeDefinitionNode | UnionTypeDefinitionNode;
   children: AstTreeNode[];
 }
 
@@ -79,75 +84,116 @@ export function operationSelectionsToAstTree({
 
   return createAstTreeNodeFromSelection({
     schema,
-    astNode: rootType.astNode,
+    schemaNode: rootType,
     fragments,
-    selections,
+    fieldSelection: selections,
   });
 }
 
 function createAstTreeNodeFromSelection({
   schema,
-  astNode,
-  selections,
+  schemaNode,
+  fieldSelection,
   fragments,
 }: {
   schema: GraphQLSchema;
   fragments: FragmentDefinitionNode[];
-  astNode: ObjectTypeDefinitionNode | InterfaceTypeDefinitionNode;
-  selections: SelectedFieldsObject;
+  schemaNode: GraphQLObjectType | GraphQLInterfaceType;
+  fieldSelection: ObjectSelection;
 }): AstTreeNode {
-  const children: AstTreeNode[] = [];
-  const filteredFields: FieldDefinitionNode[] = [];
-
-  for (const field of astNode.fields ?? []) {
-    const fieldSelection = selections.fields.find(selection => selection.name === field.name.value);
-    if (!fieldSelection) {
-      continue;
-    }
-
-    filteredFields.push(field);
-
-    const fieldType = unwrapTypeNode(field.type);
-    const schemaType = schema.getType(fieldType.name.value);
-
-    assertIsNotUndefined(schemaType);
-    if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
-      assert(
-        schemaType.astNode?.kind === Kind.OBJECT_TYPE_DEFINITION ||
-          schemaType.astNode?.kind === Kind.INTERFACE_TYPE_DEFINITION,
-      );
-      strictEqual(fieldSelection.type, 'object');
-
-      children.push(
-        createAstTreeNodeFromSelection({
-          schema,
-          fragments,
-          astNode: schemaType.astNode,
-          selections: fieldSelection,
-        }),
-      );
-    }
+  let possibleTypes: readonly (GraphQLObjectType | GraphQLInterfaceType)[];
+  if (
+    isInterfaceType(schemaNode) &&
+    // We only need to consider multiple possible types if there are any fragments in the selection
+    // set. If not, we know that all fields exist on the base type.
+    fieldSelection.fields.some(isFragmentSelection)
+  ) {
+    const implementations = schema.getImplementations(schemaNode);
+    assert(implementations.interfaces.length === 0, 'Nested interfaces are not supported');
+    possibleTypes = implementations.objects;
+  } else {
+    possibleTypes = [schemaNode];
   }
 
-  return {
-    astNode: {
-      ...astNode,
-      // For now, we convert interfaces to objects, in order to output concrete types for interfaces
-      // this will probably change once we add support for inline fragments
-      kind: Kind.OBJECT_TYPE_DEFINITION,
-      fields: filteredFields,
-    },
-    children,
-  };
-}
+  const result: AstTreeNode[] = possibleTypes.map(({ name, astNode }) => {
+    const children: AstTreeNode[] = [];
+    const filteredFields: FieldDefinitionNode[] = [];
 
-/**
- * Named types can be wrapped in both non-nullable and list nodes (such as foo: [Bar!]!),
- * which translates to NonNullType(ListType(NonNullType(Bar))))
- */
-function unwrapTypeNode(node: TypeNode): NamedTypeNode {
-  while (node.kind === Kind.LIST_TYPE || node.kind == Kind.NON_NULL_TYPE) {
-    node = node.type;
+    const selections = fieldSelection.fields.reduce<(ScalarSelection | ObjectSelection)[]>(
+      (carry, selection) => {
+        if (isObjectSelection(selection) || isScalarSelection(selection)) {
+          carry.push(selection);
+        }
+
+        if (
+          isFragmentSelection(selection) &&
+          // The selection can be either on the concrete type, or its interface.
+          (selection.onType === name || selection.onType === schemaNode.name)
+        ) {
+          carry.push(...selection.fields);
+        }
+
+        return carry;
+      },
+      [],
+    );
+
+    assert(astNode != null);
+    for (const field of astNode.fields ?? []) {
+      const fieldSelection = selections.find(selection => selection.name === field.name.value);
+      if (!fieldSelection) {
+        continue;
+      }
+
+      filteredFields.push(field);
+
+      const { node: fieldType } = unwrapTypeNode(field.type);
+      const fieldSchemaType = schema.getType(fieldType.name.value);
+
+      assertIsNotUndefined(fieldSchemaType);
+      if (isObjectType(fieldSchemaType) || isInterfaceType(fieldSchemaType)) {
+        assert(isObjectSelection(fieldSelection));
+
+        children.push(
+          createAstTreeNodeFromSelection({
+            schema,
+            fragments,
+            schemaNode: fieldSchemaType,
+            fieldSelection: fieldSelection,
+          }),
+        );
+      }
+    }
+
+    return {
+      astNode: {
+        ...astNode,
+        // Convert interfaces to objects, in order to output concrete types for interfaces
+        kind: Kind.OBJECT_TYPE_DEFINITION,
+        fields: filteredFields,
+      },
+      children,
+    };
+  });
+
+  if (result.length > 1) {
+    // Create a union of the possible types
+    return {
+      astNode: {
+        kind: Kind.UNION_TYPE_DEFINITION,
+        types: result.map(child => ({
+          ...child.astNode,
+          kind: Kind.NAMED_TYPE,
+        })),
+        name: {
+          kind: Kind.NAME,
+          value: schemaNode.name,
+        },
+      } satisfies UnionTypeDefinitionNode,
+      children: result,
+    };
   }
-  return node;
+
+  assertIsNotUndefined(result[0]);
+  return result[0];
 }

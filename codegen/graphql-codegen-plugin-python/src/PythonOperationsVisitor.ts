@@ -20,12 +20,14 @@ import {
   isInputObjectType,
   OperationTypeNode,
   visit,
+  type GraphQLNamedType,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
 import {
   assertIsNotUndefined,
   operationSelectionsToAstTree,
+  unwrapTypeNode,
   type AstTreeNode,
 } from 'graphql-codegen-shared';
 import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
@@ -195,50 +197,69 @@ class CriiptoSignaturesSDK:
 
           const outputTypeName = upperCaseFirst(operationName) + '_' + outputTypeNode.name;
 
-          const functionArguments = (node.variableDefinitions ?? []).reduce<Record<string, string>>(
-            (functionArguments, variableDefinitionNode) => {
-              const variableName = variableDefinitionNode.variable.name.value;
-
-              const nullable = variableDefinitionNode.type.kind !== Kind.NON_NULL_TYPE;
-              const variableTypeNode = nullable
-                ? variableDefinitionNode.type
-                : variableDefinitionNode.type.type;
-
-              assert(
-                variableTypeNode.kind === Kind.NAMED_TYPE,
-                'Only named types are supported in function arguments',
+          const functionArguments = (node.variableDefinitions ?? [])
+            .map<{
+              name: string;
+              nullable: boolean;
+              type: GraphQLNamedType;
+            }>(variableDefinitionNode => {
+              const { nullable, node: variableTypeNode } = unwrapTypeNode(
+                variableDefinitionNode.type,
               );
 
-              let variableTypeName = variableTypeNode.name.value;
-              const variableSchemaType = this._schema.getType(variableTypeName);
-              if (isScalarType(variableSchemaType)) {
-                variableTypeName = `${variableTypeName}ScalarInput`;
-              } else if (isInputObjectType(variableSchemaType)) {
-                this.modelImports.add(variableTypeName);
+              const variableSchemaType = this._schema.getType(variableTypeNode.name.value);
+              assertIsNotUndefined(variableSchemaType);
+              if (isInputObjectType(variableSchemaType)) {
+                this.modelImports.add(variableTypeNode.name.value);
               }
 
-              functionArguments[variableName] = nullable
-                ? `Optional[${variableTypeName}]`
-                : variableTypeName;
-              return functionArguments;
-            },
-            {},
-          );
+              return {
+                name: variableDefinitionNode.variable.name.value,
+                nullable,
+                type: variableSchemaType,
+              };
+            })
+            .sort(
+              // Sort the arguments so that optional arguments are placed last
+              (argumentA, argumentB) => {
+                if (!argumentA.nullable && argumentB.nullable) {
+                  return -1;
+                }
+                return 0;
+              },
+            );
 
-          const functionDefinition = `def ${operationName}(self, ${Object.entries(functionArguments)
-            .map(([argumentName, argumentType]) => `${argumentName}: ${argumentType}`)
+          const functionDefinition = `def ${operationName}(self, ${functionArguments
+            .map(({ name, type, nullable }) => {
+              let typeName = type.name;
+              if (isScalarType(type)) {
+                typeName = `${typeName}ScalarInput`;
+              }
+              if (nullable) {
+                typeName = `Optional[${typeName}] = None`;
+              }
+
+              return `${name}: ${typeName}`;
+            })
             .join(', ')}) -> ${outputTypeName}:`;
 
           // Builds a JSON object of variables to pass to the query
           const queryVariables = [
             '{',
-            Object.keys(functionArguments)
-              .map(
-                argumentName =>
-                  // If the argument is called `input`, we assume it to be a pydantic model,
-                  // and dump it to an object
-                  `"${argumentName}": ${argumentName === 'input' ? `${argumentName}.model_dump()` : argumentName}`,
-              )
+            functionArguments
+              .map(({ name, type, nullable }) => {
+                let argumentValue = name;
+
+                if (isInputObjectType(type)) {
+                  argumentValue = `${argumentValue}.model_dump()`;
+                } else if (isEnumType(type) && nullable) {
+                  // The Criipto GraphQL API does not handle null enum values, so we convert them to
+                  // empty strings
+                  argumentValue = `${argumentValue} if ${argumentValue} is not None else ""`;
+                }
+
+                return `"${name}": ${argumentValue}`;
+              })
               .join(','),
             '}',
           ].join('\n');
@@ -247,7 +268,7 @@ class CriiptoSignaturesSDK:
             `query = gql(${operationName}Document)
 variables = ${queryVariables}
 result = self.client.execute(query, variable_values=variables)
-parsed = ${outputTypeName}.model_validate(result.get('${selectionNode.name}'))
+parsed = RootModel[${outputTypeName}].model_validate(result.get('${selectionNode.name}')).root
 return parsed`,
             1,
           );
@@ -270,6 +291,7 @@ return parsed`,
 
     return [
       ...PythonTypesVisitor.getImports(),
+      `from pydantic import RootModel`,
       `from .models import ${Array.from(this.modelImports).join(',')}`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
