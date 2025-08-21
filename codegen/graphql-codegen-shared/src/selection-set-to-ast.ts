@@ -140,6 +140,25 @@ function createAstTreeNodeFromSelection({
 
     assert(astNode != null);
     for (const fieldSelection of selections) {
+      if (fieldSelection.name === '__typename') {
+        // __typename is not present in the AST node, so it needs special handling.
+        filteredFields.push({
+          kind: Kind.FIELD_DEFINITION,
+          name: {
+            kind: Kind.NAME,
+            value: '__typename',
+          },
+          type: {
+            kind: Kind.NAMED_TYPE,
+            name: {
+              kind: Kind.NAME,
+              value: name,
+            },
+          },
+        });
+        continue;
+      }
+
       const field: FieldDefinitionNode | undefined = astNode.fields?.find(
         _field => _field.name.value === fieldSelection.name,
       );

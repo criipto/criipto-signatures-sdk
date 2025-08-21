@@ -482,3 +482,44 @@ test('nested fragments', t => {
     ['id'],
   );
 });
+
+test('selecting __typename', t => {
+  const documents = parse(/* GraphQL */ `
+    query viewerQuery {
+      viewer {
+        __typename
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(
+      validationErrors,
+      `GraphQL Schema validation errors ${validationErrors.map(e => e.message).join('.\n')}`,
+    );
+  }
+
+  const operation = documents.definitions.find(
+    definition => definition.kind === Kind.OPERATION_DEFINITION,
+  );
+  assertIsNotUndefined(operation);
+
+  // Act
+  const astTree = operationSelectionsToAstTree({
+    node: operation,
+    fragments: [],
+    schema: viewerSchema,
+  });
+
+  // Assert
+  strictEqual(astTree.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
+  strictEqual(astTree.astNode.name.value, 'Viewer');
+  strictEqual(astTree.children.length, 0);
+
+  strictEqual(astTree.astNode.fields?.length, 1);
+  assertIsNotUndefined(astTree.astNode.fields[0]);
+  t.deepEqual(astTree.astNode.fields[0].name.value, '__typename');
+  strictEqual(astTree.astNode.fields[0].type.kind, Kind.NAMED_TYPE);
+  t.deepEqual(astTree.astNode.fields[0].type.name.value, 'Viewer');
+});
