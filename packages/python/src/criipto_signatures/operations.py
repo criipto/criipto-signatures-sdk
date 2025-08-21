@@ -4,6 +4,7 @@ from enum import StrEnum
 from typing import Optional, Literal
 from pydantic import BaseModel, Field
 from pydantic import RootModel
+from typing import TypeIs, Any
 from .models import (
   CreateSignatureOrderInput,
   CleanupSignatureOrderInput,
@@ -2967,3 +2968,105 @@ class CriiptoSignaturesSDK:
       .root
     )
     return parsed
+
+  @staticmethod
+  def isPdfDocument(
+    val: Any,
+  ) -> TypeIs[
+    CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+    | CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+    | CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+    | ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument
+  ]:
+    return getattr(val, "typename", "") == "PdfDocument"
+
+  @staticmethod
+  def isXmlDocument(
+    val: Any,
+  ) -> TypeIs[
+    CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+    | CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+    | CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+    | ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument
+  ]:
+    return getattr(val, "typename", "") == "XmlDocument"
+
+  @staticmethod
+  def isCompositeSignature(
+    val: Any,
+  ) -> TypeIs[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature
+  ]:
+    return getattr(val, "typename", "") == "CompositeSignature"
+
+  @staticmethod
+  def isDrawableSignature(
+    val: Any,
+  ) -> TypeIs[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature
+  ]:
+    return getattr(val, "typename", "") == "DrawableSignature"
+
+  @staticmethod
+  def isEmptySignature(
+    val: Any,
+  ) -> TypeIs[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature
+  ]:
+    return getattr(val, "typename", "") == "EmptySignature"
+
+  @staticmethod
+  def isJWTSignature(
+    val: Any,
+  ) -> TypeIs[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
+    | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature
+    | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature
+  ]:
+    return getattr(val, "typename", "") == "JWTSignature"
+
+  @staticmethod
+  def isAnonymousViewer(
+    val: Any,
+  ) -> TypeIs[QuerySignatureOrders_Viewer_AnonymousViewer]:
+    return getattr(val, "typename", "") == "AnonymousViewer"
+
+  @staticmethod
+  def isApplication(val: Any) -> TypeIs[QuerySignatureOrders_Viewer_Application]:
+    return getattr(val, "typename", "") == "Application"
+
+  @staticmethod
+  def isBatchSignatoryViewer(
+    val: Any,
+  ) -> TypeIs[QuerySignatureOrders_Viewer_BatchSignatoryViewer]:
+    return getattr(val, "typename", "") == "BatchSignatoryViewer"
+
+  @staticmethod
+  def isSignatoryViewer(
+    val: Any,
+  ) -> TypeIs[QuerySignatureOrders_Viewer_SignatoryViewer]:
+    return getattr(val, "typename", "") == "SignatoryViewer"
+
+  @staticmethod
+  def isUnvalidatedSignatoryViewer(
+    val: Any,
+  ) -> TypeIs[QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer]:
+    return getattr(val, "typename", "") == "UnvalidatedSignatoryViewer"
+
+  @staticmethod
+  def isUserViewer(val: Any) -> TypeIs[QuerySignatureOrders_Viewer_UserViewer]:
+    return getattr(val, "typename", "") == "UserViewer"

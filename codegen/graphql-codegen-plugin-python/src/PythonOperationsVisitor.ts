@@ -38,6 +38,10 @@ export class PythonOperationsVisitor extends ClientSideBaseVisitor {
   modelImports: Set<string> = new Set<string>();
   fragments: FragmentDefinitionNode[];
 
+  // A mapping of `{ [GraphQLTypeName]: [ConcreteTypeNames] }`, e.g.
+  // `{ pdfDocument: [CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument]}`
+  typesThatNeedTypeGuards: Record<string, string[]> = {};
+
   constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string, in order to populate AST nodes
     // https://github.com/graphql/graphql-js/issues/1575
@@ -76,6 +80,17 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
     astNode: ObjectTypeDefinitionNode | UnionTypeDefinitionNode,
     prefix: string,
   ): string {
+    if (
+      astNode.kind === Kind.OBJECT_TYPE_DEFINITION &&
+      astNode.fields?.some(field => field.name.value === '__typename') &&
+      astNode.interfaces?.length
+    ) {
+      assertIsNotUndefined(astNode.interfaces[0]);
+      const interfaceName = astNode.name.value;
+      this.typesThatNeedTypeGuards[interfaceName] ??= [];
+      this.typesThatNeedTypeGuards[interfaceName].push(prefix);
+    }
+
     // For each AST node, we use the PythonTypesVisitor to generate a specialized
     // python class definition for the specific selection. The class definition
     // differs from the general output type classes defined in the schema in
@@ -292,6 +307,18 @@ return parsed`,
       1,
     );
 
+    result += '\n';
+    result += indentMultiline(
+      Object.entries(this.typesThatNeedTypeGuards)
+        .map(([graphqlTypeName, possibleTypes]) => {
+          return `@staticmethod
+def is${upperCaseFirst(graphqlTypeName)}(val: Any) -> TypeIs[${possibleTypes.map(possibleType => possibleType).join(' | ')}]:
+  return getattr(val, 'typename', '') == "${graphqlTypeName}"`;
+        })
+        .join('\n'),
+      1,
+    );
+
     return result;
   }
 
@@ -305,6 +332,7 @@ return parsed`,
     return [
       ...PythonTypesVisitor.getImports(),
       `from pydantic import RootModel`,
+      `from typing import TypeIs, Any`,
       `from .models import ${Array.from(this.modelImports).join(',')}`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
