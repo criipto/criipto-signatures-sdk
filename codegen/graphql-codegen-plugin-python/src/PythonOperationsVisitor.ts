@@ -96,14 +96,17 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
 
       // Then, we run a breadth-first traversal of the tree. For each node
       // we keep track of the prefix of the parent node.
-      const nodesToProcess: { treeNode: AstTreeNode; parentPrefix: string }[] = [
+      interface TreeNodeWithPrefix {
+        treeNode: AstTreeNode;
+        parentPrefix: string;
+      }
+      const nodesToProcess: TreeNodeWithPrefix[] = [
         { treeNode: astTree, parentPrefix: upperCaseFirst(name) },
       ];
 
-      while (nodesToProcess.length > 0) {
-        // We checked the length in the line above, so the non-null assertion is safe here
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const { parentPrefix, treeNode } = nodesToProcess.shift()!;
+      let nextNode: TreeNodeWithPrefix | undefined;
+      while ((nextNode = nodesToProcess.shift())) {
+        const { parentPrefix, treeNode } = nextNode;
 
         const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
         // For each AST node, we use the PythonTypesVisitor to generate a specialized
