@@ -53,14 +53,19 @@
     "prettier": "^3.6.2"
   },
   "lint-staged": {
-    "*.{ts,cjs,json,md,graphql,yml}": "prettier --write",
+    "*.{ts,cjs,json,md,graphql,yml,html}": "prettier --write",
     "*.cs": [
       "dotnet format style ./packages/dotnet/Criipto.Signatures.sln --include",
       "dotnet format analyzers ./packages/dotnet/Criipto.Signatures.sln --include",
       "dotnet csharpier"
     ],
     "*.py": [
-      "uvx ruff format",
+      "uvx ruff format"
+    ],
+    "packages/python/example/*.py": [
+      "uvx ty check --project packages/python/example"
+    ],
+    "packages/python/src/*.py": [
       "uvx ty check --project packages/python"
     ]
   }
