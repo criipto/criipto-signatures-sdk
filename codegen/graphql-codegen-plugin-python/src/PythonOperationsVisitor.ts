@@ -21,6 +21,8 @@ import {
   OperationTypeNode,
   visit,
   type GraphQLNamedType,
+  type ObjectTypeDefinitionNode,
+  type UnionTypeDefinitionNode,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
@@ -70,6 +72,42 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
       : node.name.value;
   }
 
+  private processSelectionSetNode(
+    astNode: ObjectTypeDefinitionNode | UnionTypeDefinitionNode,
+    prefix: string,
+  ): string {
+    // For each AST node, we use the PythonTypesVisitor to generate a specialized
+    // python class definition for the specific selection. The class definition
+    // differs from the general output type classes defined in the schema in
+    // three ways:
+    // 1. The class only includes the fields actually selected by the operation
+    //    (as opposed to all fields defined by the output type)
+    // 2. The names of the classes are prefixed with the name of their parent type
+    //    (by overriding node.name.value before passing the node to `oldVisit`)
+    // 3. All field types are prefixed with the name of their parent type, using
+    //    the `typesPrefix` option. So for a type called `Foo`, with a field `bar` of type
+    //    `Bar`, the type of `Foo.bar` will be `Foo_Bar`
+    const typesVisitor = new PythonTypesVisitor(
+      {
+        typesPrefix: prefix + '_',
+      },
+      this._schema,
+    );
+
+    const visitorResult = visit(
+      {
+        ...astNode,
+        name: {
+          ...astNode.name,
+          value: prefix,
+        },
+      },
+      typesVisitor,
+    );
+    assert(typeof visitorResult === 'string');
+    return visitorResult;
+  }
+
   // @ts-expect-error We are intentionally changing the signature of `OperationDefinition` here.
   // ClientSideBaseVisitor expects to be passed the old format of visit, where you
   // could pass `{ leave: visitor }`. That was removed in
@@ -109,36 +147,8 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
         const { parentPrefix, treeNode } = nextNode;
 
         const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
-        // For each AST node, we use the PythonTypesVisitor to generate a specialized
-        // python class definition for the specific selection. The class definition
-        // differs from the general output type classes defined in the schema in
-        // three ways:
-        // 1. The class only includes the fields actually selected by the operation
-        //    (as opposed to all fields defined by the output type)
-        // 2. The names of the classes are prefixed with the name of their parent type
-        //    (by overriding node.name.value before passing the node to `oldVisit`)
-        // 3. All field types are prefixed with the name of their parent type, using
-        //    the `typesPrefix` option. So for a type called `Foo`, with a field `bar` of type
-        //    `Bar`, the type of `Foo.bar` will be `Foo_Bar`
-        const typesVisitor = new PythonTypesVisitor(
-          {
-            typesPrefix: nodePrefix + '_',
-          },
-          this._schema,
-        );
 
-        const visitorResult = visit(
-          {
-            ...treeNode.astNode,
-            name: {
-              ...treeNode.astNode.name,
-              value: nodePrefix,
-            },
-          },
-          typesVisitor,
-        );
-        assert(typeof visitorResult === 'string');
-        result.push(visitorResult);
+        result.push(this.processSelectionSetNode(treeNode.astNode, nodePrefix));
 
         nodesToProcess.push(
           ...treeNode.children.map(child => ({
