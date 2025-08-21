@@ -101,8 +101,8 @@ test('selecting fields from query output type', t => {
   strictEqual(astTree.astNode.fields?.length, 2);
 
   t.deepEqual(
-    astTree.astNode.fields.map(field => field.name.value),
-    ['fieldA', 'fieldB'],
+    astTree.astNode.fields.map(field => field.name.value).sort(),
+    ['fieldA', 'fieldB'].sort(),
   );
 });
 
@@ -169,8 +169,8 @@ test('selecting fields on nested types', t => {
   strictEqual(astTree.children[0].astNode.name.value, 'Foo');
   strictEqual(astTree.children[0].astNode.fields?.length, 2);
   t.deepEqual(
-    astTree.children[0].astNode.fields.map(field => field.name.value),
-    ['fieldA', 'fieldB'],
+    astTree.children[0].astNode.fields.map(field => field.name.value).sort(),
+    ['fieldA', 'fieldB'].sort(),
   );
 });
 
@@ -230,8 +230,8 @@ test('works for fragments', t => {
   strictEqual(astTree.astNode.fields?.length, 3);
 
   t.deepEqual(
-    astTree.astNode.fields.map(field => field.name.value),
-    ['fieldA', 'fieldB', 'fieldC'],
+    astTree.astNode.fields.map(field => field.name.value).sort(),
+    ['fieldA', 'fieldB', 'fieldC'].sort(),
   );
 });
 
@@ -282,8 +282,8 @@ test('works on interfaces', t => {
   strictEqual(astTree.astNode.name.value, 'Foo');
 
   t.deepEqual(
-    astTree.astNode.fields?.map(field => field.name.value),
-    ['fieldA', 'fieldB'],
+    astTree.astNode.fields?.map(field => field.name.value).sort(),
+    ['fieldA', 'fieldB'].sort(),
   );
 });
 
@@ -371,8 +371,8 @@ test('works for fragments on interfaces', t => {
   strictEqual(userViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
   strictEqual(userViewer.astNode.name.value, 'UserViewer');
   t.deepEqual(
-    userViewer.astNode.fields?.map(field => field.name.value),
-    ['id', 'details', 'email'],
+    userViewer.astNode.fields?.map(field => field.name.value).sort(),
+    ['id', 'details', 'email'].sort(),
   );
 
   strictEqual(userViewer.children.length, 1);
@@ -391,8 +391,8 @@ test('works for fragments on interfaces', t => {
   strictEqual(applicationViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
   strictEqual(applicationViewer.astNode.name.value, 'ApplicationViewer');
   t.deepEqual(
-    applicationViewer.astNode.fields?.map(field => field.name.value),
-    ['id', 'applicationName'],
+    applicationViewer.astNode.fields?.map(field => field.name.value).sort(),
+    ['id', 'applicationName'].sort(),
   );
 });
 
@@ -459,8 +459,8 @@ test('nested fragments', t => {
   strictEqual(userViewer.astNode.kind, Kind.OBJECT_TYPE_DEFINITION);
   strictEqual(userViewer.astNode.name.value, 'UserViewer');
   t.deepEqual(
-    userViewer.astNode.fields?.map(field => field.name.value),
-    ['id', 'isAuthenticated', 'details', 'email'],
+    userViewer.astNode.fields?.map(field => field.name.value).sort(),
+    ['id', 'isAuthenticated', 'details', 'email'].sort(),
   );
 
   const userViewerDetails = userViewer.children[0];

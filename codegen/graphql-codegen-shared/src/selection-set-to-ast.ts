@@ -139,11 +139,11 @@ function createAstTreeNodeFromSelection({
     );
 
     assert(astNode != null);
-    for (const field of astNode.fields ?? []) {
-      const fieldSelection = selections.find(selection => selection.name === field.name.value);
-      if (!fieldSelection) {
-        continue;
-      }
+    for (const fieldSelection of selections) {
+      const field: FieldDefinitionNode | undefined = astNode.fields?.find(
+        _field => _field.name.value === fieldSelection.name,
+      );
+      assertIsNotUndefined(field);
 
       filteredFields.push(field);
 
