@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .utils import CustomBlobInput
 from enum import StrEnum
-from typing import Optional
+from typing import Optional, Literal
 from pydantic import BaseModel, Field
 
 type IDScalarInput = str
