@@ -25,7 +25,7 @@ import { PythonDeclarationBlock } from './pythonDeclarationBlock.ts';
 import { getCachedDocumentNodeFromSchema } from '@graphql-codegen/plugin-helpers';
 import { inspect } from 'node:util';
 import assert from 'node:assert';
-import { unwrapTypeNode } from 'graphql-codegen-shared';
+import { assertIsNotUndefined, unwrapTypeNode } from 'graphql-codegen-shared';
 
 const DEFAULT_SCALARS = {
   ID: { input: 'str', output: 'str' },
@@ -59,7 +59,7 @@ export class PythonTypesVisitor extends BaseVisitor {
       'from __future__ import annotations',
       'from .utils import CustomBlobInput',
       'from enum import StrEnum',
-      'from typing import Optional',
+      'from typing import Optional, Literal',
       'from pydantic import BaseModel, Field',
     ];
   }
@@ -119,23 +119,39 @@ export class PythonTypesVisitor extends BaseVisitor {
     const { nullable, listType, nullableList, node: typeNode } = unwrapTypeNode(node.type);
 
     const schemaType = this.schema.getType(typeNode.name.value);
-    assert(schemaType != undefined);
-
+    const isTypenameField = node.name.value === '__typename';
     let typeString = typeNode.name.value;
+    let fieldName = node.name.value;
 
-    if (isScalarType(schemaType)) {
-      typeString = `${typeString}Scalar${node.kind === Kind.INPUT_VALUE_DEFINITION ? 'Input' : 'Output'}`;
-    } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
-      typeString = this.config.typesPrefix + typeString;
-    }
+    const fieldModifiers = [];
 
-    if (nullable) {
-      typeString = `Optional[${typeString}]`;
-    }
-    if (listType) {
-      typeString = `list[${typeString}]`;
-      if (nullableList) {
+    if (isTypenameField) {
+      const types = isInterfaceType(schemaType)
+        ? this.schema.getImplementations(schemaType).objects.map(type => type.name)
+        : [typeNode.name.value];
+
+      // Double underscores in python leads to name mangling, which we don't want
+      // https://realpython.com/python-double-underscore/#double-leading-underscore-in-classes-pythons-name-mangling
+      fieldName = 'typename';
+      fieldModifiers.push(`alias="__typename"`);
+      typeString = types.map(type => `Literal["${type}"]`).join(' | ');
+    } else {
+      assertIsNotUndefined(schemaType);
+
+      if (isScalarType(schemaType)) {
+        typeString = `${typeString}Scalar${node.kind === Kind.INPUT_VALUE_DEFINITION ? 'Input' : 'Output'}`;
+      } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
+        typeString = this.config.typesPrefix + typeString;
+      }
+
+      if (nullable) {
         typeString = `Optional[${typeString}]`;
+      }
+      if (listType) {
+        typeString = `list[${typeString}]`;
+        if (nullableList) {
+          typeString = `Optional[${typeString}]`;
+        }
       }
     }
 
@@ -144,10 +160,14 @@ export class PythonTypesVisitor extends BaseVisitor {
       output += `# ${node.description.value}\n`;
     }
 
-    output += `${node.name.value}: ${typeString}`;
+    output += `${fieldName}: ${typeString}`;
 
-    if (nullable || (listType && nullableList)) {
-      output += ` = Field(default=None)`;
+    if (!isTypenameField && (nullable || (listType && nullableList))) {
+      fieldModifiers.push('default=None');
+    }
+
+    if (fieldModifiers.length) {
+      output += ` = Field(${fieldModifiers.join(',')})`;
     }
 
     return output;

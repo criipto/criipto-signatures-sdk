@@ -3,8 +3,6 @@ from datetime import datetime
 
 from .operations import (
   CriiptoSignaturesSDK,
-  QuerySignatureOrders_Viewer_Application,
-  CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
 )
 from .models import (
   AddSignatoryInput,
@@ -91,11 +89,8 @@ async def test_create_signature_order_with_form():
   )
 
   document = signatureOrderResponse.signatureOrder.documents[0]
-  # TODO: This should use an auto-generated type guard, instead of an instanceof check.
-  assert isinstance(
-    document,
-    CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
-  )
+
+  assert CriiptoSignaturesSDK.isPdfDocument(document)
 
   assert document.form is not None
   assert document.form.enabled
@@ -159,7 +154,7 @@ async def test_query_signature_orders():
     first=1000, status=SignatureOrderStatus.OPEN
   )
 
-  assert isinstance(signatureOrdersResponse, QuerySignatureOrders_Viewer_Application)
+  assert CriiptoSignaturesSDK.isApplication(signatureOrdersResponse)
   createdSignatureOrder = next(
     edge.node
     for edge in signatureOrdersResponse.signatureOrders.edges

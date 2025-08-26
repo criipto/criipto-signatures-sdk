@@ -21,6 +21,8 @@ import {
   OperationTypeNode,
   visit,
   type GraphQLNamedType,
+  type ObjectTypeDefinitionNode,
+  type UnionTypeDefinitionNode,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
@@ -35,6 +37,10 @@ import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
 export class PythonOperationsVisitor extends ClientSideBaseVisitor {
   modelImports: Set<string> = new Set<string>();
   fragments: FragmentDefinitionNode[];
+
+  // A mapping of `{ [GraphQLTypeName]: [ConcreteTypeNames] }`, e.g.
+  // `{ pdfDocument: [CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument]}`
+  typesThatNeedTypeGuards: Record<string, string[]> = {};
 
   constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string, in order to populate AST nodes
@@ -70,6 +76,53 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
       : node.name.value;
   }
 
+  private processSelectionSetNode(
+    astNode: ObjectTypeDefinitionNode | UnionTypeDefinitionNode,
+    prefix: string,
+  ): string {
+    if (
+      astNode.kind === Kind.OBJECT_TYPE_DEFINITION &&
+      astNode.fields?.some(field => field.name.value === '__typename') &&
+      astNode.interfaces?.length
+    ) {
+      assertIsNotUndefined(astNode.interfaces[0]);
+      const interfaceName = astNode.name.value;
+      this.typesThatNeedTypeGuards[interfaceName] ??= [];
+      this.typesThatNeedTypeGuards[interfaceName].push(prefix);
+    }
+
+    // For each AST node, we use the PythonTypesVisitor to generate a specialized
+    // python class definition for the specific selection. The class definition
+    // differs from the general output type classes defined in the schema in
+    // three ways:
+    // 1. The class only includes the fields actually selected by the operation
+    //    (as opposed to all fields defined by the output type)
+    // 2. The names of the classes are prefixed with the name of their parent type
+    //    (by overriding node.name.value before passing the node to `oldVisit`)
+    // 3. All field types are prefixed with the name of their parent type, using
+    //    the `typesPrefix` option. So for a type called `Foo`, with a field `bar` of type
+    //    `Bar`, the type of `Foo.bar` will be `Foo_Bar`
+    const typesVisitor = new PythonTypesVisitor(
+      {
+        typesPrefix: prefix + '_',
+      },
+      this._schema,
+    );
+
+    const visitorResult = visit(
+      {
+        ...astNode,
+        name: {
+          ...astNode.name,
+          value: prefix,
+        },
+      },
+      typesVisitor,
+    );
+    assert(typeof visitorResult === 'string');
+    return visitorResult;
+  }
+
   // @ts-expect-error We are intentionally changing the signature of `OperationDefinition` here.
   // ClientSideBaseVisitor expects to be passed the old format of visit, where you
   // could pass `{ leave: visitor }`. That was removed in
@@ -96,46 +149,21 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
 
       // Then, we run a breadth-first traversal of the tree. For each node
       // we keep track of the prefix of the parent node.
-      const nodesToProcess: { treeNode: AstTreeNode; parentPrefix: string }[] = [
+      interface TreeNodeWithPrefix {
+        treeNode: AstTreeNode;
+        parentPrefix: string;
+      }
+      const nodesToProcess: TreeNodeWithPrefix[] = [
         { treeNode: astTree, parentPrefix: upperCaseFirst(name) },
       ];
 
-      while (nodesToProcess.length > 0) {
-        // We checked the length in the line above, so the non-null assertion is safe here
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const { parentPrefix, treeNode } = nodesToProcess.shift()!;
+      let nextNode: TreeNodeWithPrefix | undefined;
+      while ((nextNode = nodesToProcess.shift())) {
+        const { parentPrefix, treeNode } = nextNode;
 
         const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
-        // For each AST node, we use the PythonTypesVisitor to generate a specialized
-        // python class definition for the specific selection. The class definition
-        // differs from the general output type classes defined in the schema in
-        // three ways:
-        // 1. The class only includes the fields actually selected by the operation
-        //    (as opposed to all fields defined by the output type)
-        // 2. The names of the classes are prefixed with the name of their parent type
-        //    (by overriding node.name.value before passing the node to `oldVisit`)
-        // 3. All field types are prefixed with the name of their parent type, using
-        //    the `typesPrefix` option. So for a type called `Foo`, with a field `bar` of type
-        //    `Bar`, the type of `Foo.bar` will be `Foo_Bar`
-        const typesVisitor = new PythonTypesVisitor(
-          {
-            typesPrefix: nodePrefix + '_',
-          },
-          this._schema,
-        );
 
-        const visitorResult = visit(
-          {
-            ...treeNode.astNode,
-            name: {
-              ...treeNode.astNode.name,
-              value: nodePrefix,
-            },
-          },
-          typesVisitor,
-        );
-        assert(typeof visitorResult === 'string');
-        result.push(visitorResult);
+        result.push(this.processSelectionSetNode(treeNode.astNode, nodePrefix));
 
         nodesToProcess.push(
           ...treeNode.children.map(child => ({
@@ -280,6 +308,18 @@ return parsed`,
       1,
     );
 
+    result += '\n';
+    result += indentMultiline(
+      Object.entries(this.typesThatNeedTypeGuards)
+        .map(([graphqlTypeName, possibleTypes]) => {
+          return `@staticmethod
+def is${upperCaseFirst(graphqlTypeName)}(val: Any) -> TypeIs[${possibleTypes.map(possibleType => possibleType).join(' | ')}]:
+  return getattr(val, 'typename', '') == "${graphqlTypeName}"`;
+        })
+        .join('\n'),
+      1,
+    );
+
     return result;
   }
 
@@ -293,6 +333,7 @@ return parsed`,
     return [
       ...PythonTypesVisitor.getImports(),
       `from pydantic import RootModel`,
+      `from typing import TypeIs, Any`,
       `from .models import ${Array.from(this.modelImports).join(',')}`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
