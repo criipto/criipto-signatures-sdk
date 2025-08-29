@@ -5,6 +5,7 @@ fragment BasicDocument on Document {
   reference
 
   ... on PdfDocument {
+    documentID
     form {
       enabled
     }
