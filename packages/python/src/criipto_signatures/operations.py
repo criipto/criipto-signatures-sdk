@@ -61,6 +61,7 @@ BasicDocumentFragment = """fragment BasicDocument on Document {
   title
   reference
   ... on PdfDocument {
+    documentID
     form {
       enabled
     }
@@ -200,6 +201,8 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
@@ -334,6 +337,8 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
@@ -665,6 +670,8 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   BaseModel
 ):
   blob: Optional[BlobScalarOutput] = Field(default=None)
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
@@ -967,6 +974,8 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
@@ -1181,6 +1190,8 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
   BaseModel
 ):
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
@@ -1756,6 +1767,8 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument(BaseModel):
   blob: Optional[BlobScalarOutput] = Field(default=None)
+  # Same value as stamped on document when using displayDocumentID
+  documentID: StringScalarOutput
   form: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm
   ] = Field(default=None)
