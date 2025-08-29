@@ -46,6 +46,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
@@ -137,6 +138,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
@@ -415,6 +417,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
@@ -529,6 +532,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
@@ -717,6 +721,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
@@ -1126,6 +1131,7 @@ namespace Criipto.Signatures
           title
           reference
           ... on PdfDocument {
+            documentID
             form {
               enabled
             }
