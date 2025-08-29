@@ -1,6 +1,6 @@
 {
   "name": "@criipto/signatures",
-  "version": "1.22.3",
+  "version": "1.22.4",
   "private": false,
   "description": "A Node.JS SDK for Criipto Signatures",
   "main": "dist/index.js",
