@@ -161,12 +161,16 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
   };
 
   getAdditionalContent() {
+    return this.generateSDK({ async: true }) + '\n' + this.generateSDK({ async: false });
+  }
+
+  generateSDK({ async }: { async: boolean }) {
     let result = `
-class CriiptoSignaturesSDK:
+class CriiptoSignaturesSDK${async ? 'Async' : 'Sync'}:
   def __init__(self, clientId: str, clientSecret: str):
-    auth = BasicAuth(clientId, clientSecret)
+    auth = BasicAuth(username=clientId, password=clientSecret)
     headers= {"Criipto-Sdk": "criipto-signatures-python"}
-    transport = AIOHTTPTransport(url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers, ssl=True)
+    transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers)
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 `;
 
@@ -286,7 +290,7 @@ class CriiptoSignaturesSDK:
               },
             );
 
-          const functionDefinition = `async def ${operationName}(self, ${functionArguments
+          const functionDefinition = `${async ? 'async ' : ''}def ${operationName}(self, ${functionArguments
             .map(({ name, type, nullable }) => {
               let typeName = type.name;
               if (isScalarType(type)) {
@@ -324,7 +328,7 @@ class CriiptoSignaturesSDK:
           const functionBody = indentMultiline(
             `query = gql(${operationName}Document)
 query.variable_values = ${queryVariables}
-result = await self.client.execute_async(query)
+result = ${async ? 'await ' : ''}self.client.${async ? 'execute_async' : 'execute'}(query)
 parsed = RootModel[${operationOutputName}].model_validate(result.get('${selectionNode.name}')).${outputChain}
 return parsed`,
             1,
@@ -353,7 +357,8 @@ return parsed`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
       'from gql import Client, gql',
-      'from gql.transport.aiohttp import AIOHTTPTransport, BasicAuth',
+      'from httpx import BasicAuth',
+      'from gql.transport.httpx import HTTPXAsyncTransport, HTTPXTransport',
     ];
   }
   getAppend(): string[] {

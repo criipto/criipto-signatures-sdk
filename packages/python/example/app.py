@@ -1,7 +1,7 @@
 import os
 from flask import Flask, flash, make_response, redirect, render_template, request
 
-from criipto_signatures import CriiptoSignaturesSDK
+from criipto_signatures import CriiptoSignaturesSDKAsync
 from criipto_signatures.models import (
   CreateSignatureOrderInput,
   CloseSignatureOrderInput,
@@ -23,7 +23,7 @@ app.config.update(
 )
 
 
-criiptoSdk = CriiptoSignaturesSDK(
+criiptoSdk = CriiptoSignaturesSDKAsync(
   os.getenv("CRIIPTO_SIGNATURES_CLIENT_ID", ""),
   os.getenv("CRIIPTO_SIGNATURES_CLIENT_SECRET", ""),
 )

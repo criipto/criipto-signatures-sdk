@@ -2,8 +2,9 @@ import os
 from datetime import datetime
 
 from .sdk import (
-  CriiptoSignaturesSDK,
+  CriiptoSignaturesSDKAsync,
 )
+
 from .operations import (
   CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
 )
@@ -39,7 +40,7 @@ documentFixture = DocumentInput(
 
 @pytest.mark.asyncio
 async def test_create_signature_order_add_signatory():
-  sdk = CriiptoSignaturesSDK(
+  sdk = CriiptoSignaturesSDKAsync(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
@@ -67,7 +68,7 @@ async def test_create_signature_order_add_signatory():
 
 @pytest.mark.asyncio
 async def test_create_signature_order_with_form():
-  sdk = CriiptoSignaturesSDK(
+  sdk = CriiptoSignaturesSDKAsync(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
@@ -106,7 +107,7 @@ async def test_create_signature_order_with_form():
 
 @pytest.mark.asyncio
 async def test_change_max_signatories():
-  sdk = CriiptoSignaturesSDK(
+  sdk = CriiptoSignaturesSDKAsync(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
@@ -135,7 +136,7 @@ async def test_change_max_signatories():
 
 @pytest.mark.asyncio
 async def test_query_signature_orders():
-  sdk = CriiptoSignaturesSDK(
+  sdk = CriiptoSignaturesSDKAsync(
     os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )

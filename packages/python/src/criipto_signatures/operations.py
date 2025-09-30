@@ -53,7 +53,8 @@ from .models import (
   WebhookInvocationEvent,
 )
 from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport, BasicAuth  # pyright: ignore[reportPrivateImportUsage]
+from httpx import BasicAuth
+from gql.transport.httpx import HTTPXAsyncTransport, HTTPXTransport
 
 BasicDocumentFragment = """fragment BasicDocument on Document {
   __typename
@@ -2451,15 +2452,12 @@ queryBatchSignatoryDocument = f"""query batchSignatory($id: ID!) {{
 {BasicSignatoryFragment}"""
 
 
-class CriiptoSignaturesSDK:
+class CriiptoSignaturesSDKAsync:
   def __init__(self, clientId: str, clientSecret: str):
-    auth = BasicAuth(clientId, clientSecret)
+    auth = BasicAuth(username=clientId, password=clientSecret)
     headers = {"Criipto-Sdk": "criipto-signatures-python"}
-    transport = AIOHTTPTransport(
-      url="https://signatures-api.criipto.com/v1/graphql",
-      auth=auth,
-      headers=headers,
-      ssl=True,
+    transport = HTTPXAsyncTransport(
+      url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers
     )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 
@@ -2691,6 +2689,251 @@ class CriiptoSignaturesSDK:
     query = gql(queryBatchSignatoryDocument)
     query.variable_values = {"id": id}
     result = await self.client.execute_async(query)
+    parsed = (
+      RootModel[QueryBatchSignatory_BatchSignatory]
+      .model_validate(result.get("batchSignatory"))
+      .root
+    )
+    return parsed
+
+
+class CriiptoSignaturesSDKSync:
+  def __init__(self, clientId: str, clientSecret: str):
+    auth = BasicAuth(username=clientId, password=clientSecret)
+    headers = {"Criipto-Sdk": "criipto-signatures-python"}
+    transport = HTTPXTransport(
+      url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers
+    )
+    self.client = Client(transport=transport, fetch_schema_from_transport=False)
+
+  def createSignatureOrder(
+    self, input: CreateSignatureOrderInput
+  ) -> CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder:
+    query = gql(createSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[CreateSignatureOrder_CreateSignatureOrderOutput]
+      .model_validate(result.get("createSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def cleanupSignatureOrder(
+    self, input: CleanupSignatureOrderInput
+  ) -> CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder:
+    query = gql(cleanupSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[CleanupSignatureOrder_CleanupSignatureOrderOutput]
+      .model_validate(result.get("cleanupSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def addSignatory(
+    self, input: AddSignatoryInput
+  ) -> AddSignatory_AddSignatoryOutput_Signatory:
+    query = gql(addSignatoryDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[AddSignatory_AddSignatoryOutput]
+      .model_validate(result.get("addSignatory"))
+      .root.signatory
+    )
+    return parsed
+
+  def addSignatories(
+    self, input: AddSignatoriesInput
+  ) -> list[AddSignatories_AddSignatoriesOutput_Signatory]:
+    query = gql(addSignatoriesDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[AddSignatories_AddSignatoriesOutput]
+      .model_validate(result.get("addSignatories"))
+      .root.signatories
+    )
+    return parsed
+
+  def changeSignatory(
+    self, input: ChangeSignatoryInput
+  ) -> ChangeSignatory_ChangeSignatoryOutput_Signatory:
+    query = gql(changeSignatoryDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[ChangeSignatory_ChangeSignatoryOutput]
+      .model_validate(result.get("changeSignatory"))
+      .root.signatory
+    )
+    return parsed
+
+  def closeSignatureOrder(
+    self, input: CloseSignatureOrderInput
+  ) -> CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder:
+    query = gql(closeSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[CloseSignatureOrder_CloseSignatureOrderOutput]
+      .model_validate(result.get("closeSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def cancelSignatureOrder(
+    self, input: CancelSignatureOrderInput
+  ) -> CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder:
+    query = gql(cancelSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[CancelSignatureOrder_CancelSignatureOrderOutput]
+      .model_validate(result.get("cancelSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def signActingAs(
+    self, input: SignActingAsInput
+  ) -> SignActingAs_SignActingAsOutput_Signatory:
+    query = gql(signActingAsDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[SignActingAs_SignActingAsOutput]
+      .model_validate(result.get("signActingAs"))
+      .root.signatory
+    )
+    return parsed
+
+  def validateDocument(
+    self, input: ValidateDocumentInput
+  ) -> ValidateDocument_ValidateDocumentOutput:
+    query = gql(validateDocumentDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[ValidateDocument_ValidateDocumentOutput]
+      .model_validate(result.get("validateDocument"))
+      .root
+    )
+    return parsed
+
+  def extendSignatureOrder(
+    self, input: ExtendSignatureOrderInput
+  ) -> ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder:
+    query = gql(extendSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[ExtendSignatureOrder_ExtendSignatureOrderOutput]
+      .model_validate(result.get("extendSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def deleteSignatory(
+    self, input: DeleteSignatoryInput
+  ) -> DeleteSignatory_DeleteSignatoryOutput_SignatureOrder:
+    query = gql(deleteSignatoryDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[DeleteSignatory_DeleteSignatoryOutput]
+      .model_validate(result.get("deleteSignatory"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def createBatchSignatory(
+    self, input: CreateBatchSignatoryInput
+  ) -> CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory:
+    query = gql(createBatchSignatoryDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[CreateBatchSignatory_CreateBatchSignatoryOutput]
+      .model_validate(result.get("createBatchSignatory"))
+      .root.batchSignatory
+    )
+    return parsed
+
+  def changeSignatureOrder(
+    self, input: ChangeSignatureOrderInput
+  ) -> ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder:
+    query = gql(changeSignatureOrderDocument)
+    query.variable_values = {"input": input.model_dump()}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[ChangeSignatureOrder_ChangeSignatureOrderOutput]
+      .model_validate(result.get("changeSignatureOrder"))
+      .root.signatureOrder
+    )
+    return parsed
+
+  def querySignatureOrder(
+    self, id: IDScalarInput
+  ) -> QuerySignatureOrder_SignatureOrder:
+    query = gql(querySignatureOrderDocument)
+    query.variable_values = {"id": id}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[QuerySignatureOrder_SignatureOrder]
+      .model_validate(result.get("signatureOrder"))
+      .root
+    )
+    return parsed
+
+  def querySignatureOrderWithDocuments(
+    self, id: IDScalarInput
+  ) -> QuerySignatureOrderWithDocuments_SignatureOrder:
+    query = gql(querySignatureOrderWithDocumentsDocument)
+    query.variable_values = {"id": id}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[QuerySignatureOrderWithDocuments_SignatureOrder]
+      .model_validate(result.get("signatureOrder"))
+      .root
+    )
+    return parsed
+
+  def querySignatory(self, id: IDScalarInput) -> QuerySignatory_Signatory:
+    query = gql(querySignatoryDocument)
+    query.variable_values = {"id": id}
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[QuerySignatory_Signatory].model_validate(result.get("signatory")).root
+    )
+    return parsed
+
+  def querySignatureOrders(
+    self,
+    first: IntScalarInput,
+    status: Optional[SignatureOrderStatus] = None,
+    after: Optional[StringScalarInput] = None,
+  ) -> QuerySignatureOrders_Viewer:
+    query = gql(querySignatureOrdersDocument)
+    query.variable_values = {
+      "first": first,
+      "status": status if status is not None else "",
+      "after": after,
+    }
+    result = self.client.execute(query)
+    parsed = (
+      RootModel[QuerySignatureOrders_Viewer].model_validate(result.get("viewer")).root
+    )
+    return parsed
+
+  def queryBatchSignatory(
+    self, id: IDScalarInput
+  ) -> QueryBatchSignatory_BatchSignatory:
+    query = gql(queryBatchSignatoryDocument)
+    query.variable_values = {"id": id}
+    result = self.client.execute(query)
     parsed = (
       RootModel[QueryBatchSignatory_BatchSignatory]
       .model_validate(result.get("batchSignatory"))

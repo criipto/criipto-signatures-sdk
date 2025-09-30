@@ -6,7 +6,8 @@ readme = "README.md"
 authors = [{ name = "Jan Aagaard Meier", email = "jan.meier@criipto.com" }]
 requires-python = ">=3.13"
 dependencies = [
-    "gql[aiohttp]>=4.0.0",
+    "gql[httpx]>=4.0.0",
+    "httpx>=0.28.1",
     "pydantic>=2.11.7",
 ]
 
