@@ -147,7 +147,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gql", extras = ["aiohttp"], specifier = ">=3.5.3" },
+    { name = "gql", extras = ["aiohttp"], specifier = ">=4.0.0" },
     { name = "pydantic", specifier = ">=2.11.7" },
 ]
 

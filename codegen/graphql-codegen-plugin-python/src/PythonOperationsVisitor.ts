@@ -323,8 +323,8 @@ class CriiptoSignaturesSDK:
 
           const functionBody = indentMultiline(
             `query = gql(${operationName}Document)
-variables = ${queryVariables}
-result = await self.client.execute_async(query, variable_values=variables)
+query.variable_values = ${queryVariables}
+result = await self.client.execute_async(query)
 parsed = RootModel[${operationOutputName}].model_validate(result.get('${selectionNode.name}')).${outputChain}
 return parsed`,
             1,

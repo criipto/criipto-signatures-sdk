@@ -2467,8 +2467,8 @@ class CriiptoSignaturesSDK:
     self, input: CreateSignatureOrderInput
   ) -> CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder:
     query = gql(createSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[CreateSignatureOrder_CreateSignatureOrderOutput]
       .model_validate(result.get("createSignatureOrder"))
@@ -2480,8 +2480,8 @@ class CriiptoSignaturesSDK:
     self, input: CleanupSignatureOrderInput
   ) -> CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder:
     query = gql(cleanupSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[CleanupSignatureOrder_CleanupSignatureOrderOutput]
       .model_validate(result.get("cleanupSignatureOrder"))
@@ -2493,8 +2493,8 @@ class CriiptoSignaturesSDK:
     self, input: AddSignatoryInput
   ) -> AddSignatory_AddSignatoryOutput_Signatory:
     query = gql(addSignatoryDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[AddSignatory_AddSignatoryOutput]
       .model_validate(result.get("addSignatory"))
@@ -2506,8 +2506,8 @@ class CriiptoSignaturesSDK:
     self, input: AddSignatoriesInput
   ) -> list[AddSignatories_AddSignatoriesOutput_Signatory]:
     query = gql(addSignatoriesDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[AddSignatories_AddSignatoriesOutput]
       .model_validate(result.get("addSignatories"))
@@ -2519,8 +2519,8 @@ class CriiptoSignaturesSDK:
     self, input: ChangeSignatoryInput
   ) -> ChangeSignatory_ChangeSignatoryOutput_Signatory:
     query = gql(changeSignatoryDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[ChangeSignatory_ChangeSignatoryOutput]
       .model_validate(result.get("changeSignatory"))
@@ -2532,8 +2532,8 @@ class CriiptoSignaturesSDK:
     self, input: CloseSignatureOrderInput
   ) -> CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder:
     query = gql(closeSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[CloseSignatureOrder_CloseSignatureOrderOutput]
       .model_validate(result.get("closeSignatureOrder"))
@@ -2545,8 +2545,8 @@ class CriiptoSignaturesSDK:
     self, input: CancelSignatureOrderInput
   ) -> CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder:
     query = gql(cancelSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[CancelSignatureOrder_CancelSignatureOrderOutput]
       .model_validate(result.get("cancelSignatureOrder"))
@@ -2558,8 +2558,8 @@ class CriiptoSignaturesSDK:
     self, input: SignActingAsInput
   ) -> SignActingAs_SignActingAsOutput_Signatory:
     query = gql(signActingAsDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[SignActingAs_SignActingAsOutput]
       .model_validate(result.get("signActingAs"))
@@ -2571,8 +2571,8 @@ class CriiptoSignaturesSDK:
     self, input: ValidateDocumentInput
   ) -> ValidateDocument_ValidateDocumentOutput:
     query = gql(validateDocumentDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[ValidateDocument_ValidateDocumentOutput]
       .model_validate(result.get("validateDocument"))
@@ -2584,8 +2584,8 @@ class CriiptoSignaturesSDK:
     self, input: ExtendSignatureOrderInput
   ) -> ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder:
     query = gql(extendSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[ExtendSignatureOrder_ExtendSignatureOrderOutput]
       .model_validate(result.get("extendSignatureOrder"))
@@ -2597,8 +2597,8 @@ class CriiptoSignaturesSDK:
     self, input: DeleteSignatoryInput
   ) -> DeleteSignatory_DeleteSignatoryOutput_SignatureOrder:
     query = gql(deleteSignatoryDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[DeleteSignatory_DeleteSignatoryOutput]
       .model_validate(result.get("deleteSignatory"))
@@ -2610,8 +2610,8 @@ class CriiptoSignaturesSDK:
     self, input: CreateBatchSignatoryInput
   ) -> CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory:
     query = gql(createBatchSignatoryDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[CreateBatchSignatory_CreateBatchSignatoryOutput]
       .model_validate(result.get("createBatchSignatory"))
@@ -2623,8 +2623,8 @@ class CriiptoSignaturesSDK:
     self, input: ChangeSignatureOrderInput
   ) -> ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder:
     query = gql(changeSignatureOrderDocument)
-    variables = {"input": input.model_dump()}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"input": input.model_dump()}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[ChangeSignatureOrder_ChangeSignatureOrderOutput]
       .model_validate(result.get("changeSignatureOrder"))
@@ -2636,8 +2636,8 @@ class CriiptoSignaturesSDK:
     self, id: IDScalarInput
   ) -> QuerySignatureOrder_SignatureOrder:
     query = gql(querySignatureOrderDocument)
-    variables = {"id": id}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"id": id}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[QuerySignatureOrder_SignatureOrder]
       .model_validate(result.get("signatureOrder"))
@@ -2649,8 +2649,8 @@ class CriiptoSignaturesSDK:
     self, id: IDScalarInput
   ) -> QuerySignatureOrderWithDocuments_SignatureOrder:
     query = gql(querySignatureOrderWithDocumentsDocument)
-    variables = {"id": id}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"id": id}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[QuerySignatureOrderWithDocuments_SignatureOrder]
       .model_validate(result.get("signatureOrder"))
@@ -2660,8 +2660,8 @@ class CriiptoSignaturesSDK:
 
   async def querySignatory(self, id: IDScalarInput) -> QuerySignatory_Signatory:
     query = gql(querySignatoryDocument)
-    variables = {"id": id}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"id": id}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[QuerySignatory_Signatory].model_validate(result.get("signatory")).root
     )
@@ -2674,12 +2674,12 @@ class CriiptoSignaturesSDK:
     after: Optional[StringScalarInput] = None,
   ) -> QuerySignatureOrders_Viewer:
     query = gql(querySignatureOrdersDocument)
-    variables = {
+    query.variable_values = {
       "first": first,
       "status": status if status is not None else "",
       "after": after,
     }
-    result = await self.client.execute_async(query, variable_values=variables)
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[QuerySignatureOrders_Viewer].model_validate(result.get("viewer")).root
     )
@@ -2689,8 +2689,8 @@ class CriiptoSignaturesSDK:
     self, id: IDScalarInput
   ) -> QueryBatchSignatory_BatchSignatory:
     query = gql(queryBatchSignatoryDocument)
-    variables = {"id": id}
-    result = await self.client.execute_async(query, variable_values=variables)
+    query.variable_values = {"id": id}
+    result = await self.client.execute_async(query)
     parsed = (
       RootModel[QueryBatchSignatory_BatchSignatory]
       .model_validate(result.get("batchSignatory"))
