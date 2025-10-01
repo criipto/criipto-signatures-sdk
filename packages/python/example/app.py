@@ -1,5 +1,4 @@
 import os
-from base64 import b64decode
 from flask import Flask, flash, make_response, redirect, render_template, request
 
 from criipto_signatures import CriiptoSignaturesSDK
@@ -129,8 +128,7 @@ async def callback(signatureOrderId: str):
     )
     and document.blob is not None
   ):
-    decoded = b64decode(document.blob)
-    response = make_response(decoded)
+    response = make_response(document.blob)
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = "inline; filename=signed.pdf"
     return response

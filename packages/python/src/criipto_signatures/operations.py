@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .utils import CustomBlobInput
+from .utils import CustomBlobInput, CustomBlobOutput
 from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
