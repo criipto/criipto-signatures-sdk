@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .utils import CustomBlobInput
+from .utils import CustomBlobInput, CustomBlobOutput
 from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
@@ -15,7 +15,7 @@ type FloatScalarOutput = float
 type BooleanScalarInput = bool
 type BooleanScalarOutput = bool
 type BlobScalarInput = CustomBlobInput
-type BlobScalarOutput = str
+type BlobScalarOutput = CustomBlobOutput
 type DateScalarInput = str
 type DateScalarOutput = str
 type DateTimeScalarInput = str
@@ -695,6 +695,7 @@ class SignActingAsOutput(BaseModel):
 
 class SignAllOfInput(BaseModel):
   criiptoVerify: Optional[SignCriiptoVerifyInput] = Field(default=None)
+  criiptoVerifyV2: Optional[SignCriiptoVerifyV2Input] = Field(default=None)
   drawable: Optional[SignDrawableInput] = Field(default=None)
   noop: Optional[BooleanScalarInput] = Field(default=None)
   oidc: Optional[SignOidcInput] = Field(default=None)
@@ -702,6 +703,11 @@ class SignAllOfInput(BaseModel):
 
 class SignCriiptoVerifyInput(BaseModel):
   jwt: StringScalarInput
+
+
+class SignCriiptoVerifyV2Input(BaseModel):
+  code: StringScalarInput
+  state: StringScalarInput
 
 
 class SignDocumentFormFieldInput(BaseModel):
@@ -726,6 +732,7 @@ class SignDrawableInput(BaseModel):
 class SignInput(BaseModel):
   allOf: Optional[SignAllOfInput] = Field(default=None)
   criiptoVerify: Optional[SignCriiptoVerifyInput] = Field(default=None)
+  criiptoVerifyV2: Optional[SignCriiptoVerifyV2Input] = Field(default=None)
   documents: Optional[list[SignDocumentInput]] = Field(default=None)
   drawable: Optional[SignDrawableInput] = Field(default=None)
   # EvidenceProvider id
@@ -1251,6 +1258,7 @@ SignActingAsInput.model_rebuild()
 SignActingAsOutput.model_rebuild()
 SignAllOfInput.model_rebuild()
 SignCriiptoVerifyInput.model_rebuild()
+SignCriiptoVerifyV2Input.model_rebuild()
 SignDocumentFormFieldInput.model_rebuild()
 SignDocumentFormInput.model_rebuild()
 SignDocumentInput.model_rebuild()

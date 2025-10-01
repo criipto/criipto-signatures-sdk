@@ -1,6 +1,6 @@
 from typing import Annotated
-from pydantic import PlainSerializer
-from base64 import b64encode
+from pydantic import PlainSerializer, PlainValidator
+from base64 import b64encode, b64decode
 
 
 def serializeBlob(blob: str | bytes) -> str:
@@ -15,3 +15,6 @@ def serializeBlob(blob: str | bytes) -> str:
 
 
 type CustomBlobInput = Annotated[str | bytes, PlainSerializer(serializeBlob)]
+
+
+type CustomBlobOutput = Annotated[bytes, PlainValidator(b64decode)]
