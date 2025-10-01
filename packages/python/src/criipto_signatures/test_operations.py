@@ -43,7 +43,7 @@ async def test_create_signature_order_add_signatory():
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = await sdk.createSignatureOrder(
+  signatureOrder = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -51,18 +51,16 @@ async def test_create_signature_order_add_signatory():
     )
   )
 
-  assert signatureOrderResponse.signatureOrder
-  assert signatureOrderResponse.signatureOrder.id
+  assert signatureOrder.id
 
-  signatoryResp = await sdk.addSignatory(
-    AddSignatoryInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+  signatory = await sdk.addSignatory(
+    AddSignatoryInput(signatureOrderId=signatureOrder.id)
   )
 
-  assert signatoryResp.signatory
-  assert signatoryResp.signatory.href
+  assert signatory.href
 
   await sdk.cancelSignatureOrder(
-    CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+    CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
   )
 
 
@@ -73,7 +71,7 @@ async def test_create_signature_order_with_form():
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = await sdk.createSignatureOrder(
+  signatureOrder = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -90,7 +88,7 @@ async def test_create_signature_order_with_form():
     )
   )
 
-  document = signatureOrderResponse.signatureOrder.documents[0]
+  document = signatureOrder.documents[0]
   # TODO: This should use an auto-generated type guard, instead of an instanceof check.
   assert isinstance(
     document,
@@ -101,7 +99,7 @@ async def test_create_signature_order_with_form():
   assert document.form.enabled
 
   await sdk.cancelSignatureOrder(
-    CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+    CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
   )
 
 
@@ -112,7 +110,7 @@ async def test_change_max_signatories():
     os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
   )
 
-  signatureOrderResponse = await sdk.createSignatureOrder(
+  signatureOrder = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title="Python sample signature order",
       expiresInDays=1,
@@ -121,20 +119,16 @@ async def test_change_max_signatories():
     )
   )
 
-  assert signatureOrderResponse.signatureOrder
-  assert signatureOrderResponse.signatureOrder.id
+  assert signatureOrder.id
 
-  changedSignatureOrderResponse = await sdk.changeSignatureOrder(
-    ChangeSignatureOrderInput(
-      signatureOrderId=signatureOrderResponse.signatureOrder.id, maxSignatories=20
-    )
+  changedSignatureOrder = await sdk.changeSignatureOrder(
+    ChangeSignatureOrderInput(signatureOrderId=signatureOrder.id, maxSignatories=20)
   )
 
-  assert changedSignatureOrderResponse.signatureOrder
-  assert changedSignatureOrderResponse.signatureOrder.maxSignatories == 20
+  assert changedSignatureOrder.maxSignatories == 20
 
   await sdk.cancelSignatureOrder(
-    CancelSignatureOrderInput(signatureOrderId=signatureOrderResponse.signatureOrder.id)
+    CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
   )
 
 
@@ -147,7 +141,7 @@ async def test_query_signature_orders():
 
   title = "Python sample signature order" + str(datetime.now())
 
-  createSignatureOrderResponse = await sdk.createSignatureOrder(
+  signatureOrder = await sdk.createSignatureOrder(
     CreateSignatureOrderInput(
       title=title,
       expiresInDays=1,
@@ -163,14 +157,12 @@ async def test_query_signature_orders():
   createdSignatureOrder = next(
     edge.node
     for edge in signatureOrdersResponse.signatureOrders.edges
-    if edge.node.id == createSignatureOrderResponse.signatureOrder.id
+    if edge.node.id == signatureOrder.id
   )
 
   assert createdSignatureOrder is not None
   assert createdSignatureOrder.title == title
 
   await sdk.cancelSignatureOrder(
-    CancelSignatureOrderInput(
-      signatureOrderId=createSignatureOrderResponse.signatureOrder.id
-    )
+    CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
   )

@@ -54,7 +54,7 @@ async def uploadFile():
     # time validating that what you got is actually a PDF. `createSignatureOrder` will fail if
     # called with something that is not actually a PDF.
     data: bytes = file.read()
-    createSignatureOrderResponse = await criiptoSdk.createSignatureOrder(
+    signatureOrder = await criiptoSdk.createSignatureOrder(
       CreateSignatureOrderInput(
         documents=[
           DocumentInput(
@@ -68,20 +68,19 @@ async def uploadFile():
       )
     )
 
-    signatureOrderId = createSignatureOrderResponse.signatureOrder.id
     # Now that we have a signature order, add someone to sign it.
-    addSignatoryResponse = await criiptoSdk.addSignatory(
+    signatory = await criiptoSdk.addSignatory(
       AddSignatoryInput(
-        signatureOrderId=signatureOrderId,
+        signatureOrderId=signatureOrder.id,
         ui=SignatoryUIInput(
           # Return to our application once the signatory completes the process.
-          signatoryRedirectUri="http://localhost:5000/callback/" + signatureOrderId
+          signatoryRedirectUri="http://localhost:5000/callback/" + signatureOrder.id
         ),
       )
     )
 
     # Render a page with the link to the Criipto hosted signature page.
-    return render_template("signature.html", href=addSignatoryResponse.signatory.href)
+    return render_template("signature.html", href=signatory.href)
   else:
     flash("Could not process file")
     return redirect("/")

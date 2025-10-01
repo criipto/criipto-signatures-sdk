@@ -5,22 +5,25 @@ import {
   type RawConfig,
 } from '@graphql-codegen/visitor-plugin-common';
 import {
-  type OperationDefinitionNode,
   Kind,
   print,
-  type FragmentDefinitionNode,
-  GraphQLSchema,
   getNullableType,
   isInterfaceType,
   isObjectType,
   isScalarType,
   isEnumType,
+  isListType,
   buildSchema,
   printSchema,
   isInputObjectType,
-  OperationTypeNode,
   visit,
+  OperationTypeNode,
+  type OperationDefinitionNode,
+  type FragmentDefinitionNode,
+  type GraphQLSchema,
   type GraphQLNamedType,
+  type GraphQLObjectType,
+  type GraphQLInterfaceType,
 } from 'graphql';
 import assert from 'node:assert';
 import { upperCaseFirst } from 'change-case-all';
@@ -180,23 +183,76 @@ class CriiptoSignaturesSDK:
             node.selectionSet.selections[0]?.kind === Kind.FIELD,
             'Top level selection must be a field',
           );
+          const topLevelSelection = node.selectionSet.selections[0];
+          let outputChain = 'root';
+
           const operations =
             node.operation === OperationTypeNode.QUERY
               ? this._schema.getQueryType()
               : node.operation === OperationTypeNode.MUTATION
                 ? this._schema.getMutationType()
                 : this._schema.getSubscriptionType();
-          const selectionNode = operations?.getFields()[node.selectionSet.selections[0].name.value];
+          const selectionNode = operations?.getFields()[topLevelSelection.name.value];
           assertIsNotUndefined(selectionNode, 'Top level selection type not found in schema');
 
-          const outputTypeNode = getNullableType(selectionNode.type);
+          // The root type returned from the GraphQL operation.
+          const operationOutputNode = getNullableType(selectionNode.type);
 
           assert(
-            isInterfaceType(outputTypeNode) || isObjectType(outputTypeNode),
+            isInterfaceType(operationOutputNode) || isObjectType(operationOutputNode),
             'Expected output type for operation to be either interface or object',
           );
 
-          const outputTypeName = upperCaseFirst(operationName) + '_' + outputTypeNode.name;
+          const returnTypeNameParts = [upperCaseFirst(operationName), operationOutputNode.name];
+          const operationOutputName = returnTypeNameParts.join('_');
+
+          // The type returned by our function. This can be different from the operation return type
+          // in case of mutations.
+          let returnTypeNode: GraphQLObjectType | GraphQLInterfaceType = operationOutputNode;
+          let isList = false;
+
+          if (
+            node.operation === OperationTypeNode.MUTATION &&
+            topLevelSelection.selectionSet?.selections.length === 1
+          ) {
+            // Most mutations have a single top-level selection, such as
+            // ```createSignatureOrder { signatureOrder { ... }}```
+            // When this is the case, we want to return the signatureOrder directly, so that we
+            // don't have to drill into it when using the SDK.
+            // By default:
+            //  response = await sdk.createSignatureOrder()
+            //  print(response.signatureOrder.id)
+            // With this change:
+            //  signatureOrder = await sdk.createSignatureOrder()
+            //  print(signatureOrder.id)
+            assert(
+              topLevelSelection.selectionSet.selections[0]?.kind === Kind.FIELD,
+              'Mutation selection must be a field',
+            );
+            const mutationFieldSelection = topLevelSelection.selectionSet.selections[0].name.value;
+            let mutationFieldSelectionNode = getNullableType(
+              returnTypeNode.getFields()[mutationFieldSelection]?.type,
+            );
+
+            if (isListType(mutationFieldSelectionNode)) {
+              mutationFieldSelectionNode = getNullableType(mutationFieldSelectionNode.ofType);
+              isList = true;
+            }
+
+            assert(
+              isInterfaceType(mutationFieldSelectionNode) ||
+                isObjectType(mutationFieldSelectionNode),
+              'Expected nested selection type for mutation to be either interface or object',
+            );
+            returnTypeNameParts.push(mutationFieldSelectionNode.name);
+            returnTypeNode = mutationFieldSelectionNode;
+            outputChain += `.${mutationFieldSelection}`;
+          }
+
+          let outputTypeName = returnTypeNameParts.join('_');
+          if (isList) {
+            outputTypeName = `list[${outputTypeName}]`;
+          }
 
           const functionArguments = (node.variableDefinitions ?? [])
             .map<{
@@ -269,7 +325,7 @@ class CriiptoSignaturesSDK:
             `query = gql(${operationName}Document)
 variables = ${queryVariables}
 result = await self.client.execute_async(query, variable_values=variables)
-parsed = RootModel[${outputTypeName}].model_validate(result.get('${selectionNode.name}')).root
+parsed = RootModel[${operationOutputName}].model_validate(result.get('${selectionNode.name}')).${outputChain}
 return parsed`,
             1,
           );

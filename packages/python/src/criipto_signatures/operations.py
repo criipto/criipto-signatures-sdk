@@ -2465,105 +2465,105 @@ class CriiptoSignaturesSDK:
 
   async def createSignatureOrder(
     self, input: CreateSignatureOrderInput
-  ) -> CreateSignatureOrder_CreateSignatureOrderOutput:
+  ) -> CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder:
     query = gql(createSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[CreateSignatureOrder_CreateSignatureOrderOutput]
       .model_validate(result.get("createSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def cleanupSignatureOrder(
     self, input: CleanupSignatureOrderInput
-  ) -> CleanupSignatureOrder_CleanupSignatureOrderOutput:
+  ) -> CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder:
     query = gql(cleanupSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[CleanupSignatureOrder_CleanupSignatureOrderOutput]
       .model_validate(result.get("cleanupSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def addSignatory(
     self, input: AddSignatoryInput
-  ) -> AddSignatory_AddSignatoryOutput:
+  ) -> AddSignatory_AddSignatoryOutput_Signatory:
     query = gql(addSignatoryDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[AddSignatory_AddSignatoryOutput]
       .model_validate(result.get("addSignatory"))
-      .root
+      .root.signatory
     )
     return parsed
 
   async def addSignatories(
     self, input: AddSignatoriesInput
-  ) -> AddSignatories_AddSignatoriesOutput:
+  ) -> list[AddSignatories_AddSignatoriesOutput_Signatory]:
     query = gql(addSignatoriesDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[AddSignatories_AddSignatoriesOutput]
       .model_validate(result.get("addSignatories"))
-      .root
+      .root.signatories
     )
     return parsed
 
   async def changeSignatory(
     self, input: ChangeSignatoryInput
-  ) -> ChangeSignatory_ChangeSignatoryOutput:
+  ) -> ChangeSignatory_ChangeSignatoryOutput_Signatory:
     query = gql(changeSignatoryDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[ChangeSignatory_ChangeSignatoryOutput]
       .model_validate(result.get("changeSignatory"))
-      .root
+      .root.signatory
     )
     return parsed
 
   async def closeSignatureOrder(
     self, input: CloseSignatureOrderInput
-  ) -> CloseSignatureOrder_CloseSignatureOrderOutput:
+  ) -> CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder:
     query = gql(closeSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[CloseSignatureOrder_CloseSignatureOrderOutput]
       .model_validate(result.get("closeSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def cancelSignatureOrder(
     self, input: CancelSignatureOrderInput
-  ) -> CancelSignatureOrder_CancelSignatureOrderOutput:
+  ) -> CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder:
     query = gql(cancelSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[CancelSignatureOrder_CancelSignatureOrderOutput]
       .model_validate(result.get("cancelSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def signActingAs(
     self, input: SignActingAsInput
-  ) -> SignActingAs_SignActingAsOutput:
+  ) -> SignActingAs_SignActingAsOutput_Signatory:
     query = gql(signActingAsDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[SignActingAs_SignActingAsOutput]
       .model_validate(result.get("signActingAs"))
-      .root
+      .root.signatory
     )
     return parsed
 
@@ -2582,53 +2582,53 @@ class CriiptoSignaturesSDK:
 
   async def extendSignatureOrder(
     self, input: ExtendSignatureOrderInput
-  ) -> ExtendSignatureOrder_ExtendSignatureOrderOutput:
+  ) -> ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder:
     query = gql(extendSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[ExtendSignatureOrder_ExtendSignatureOrderOutput]
       .model_validate(result.get("extendSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def deleteSignatory(
     self, input: DeleteSignatoryInput
-  ) -> DeleteSignatory_DeleteSignatoryOutput:
+  ) -> DeleteSignatory_DeleteSignatoryOutput_SignatureOrder:
     query = gql(deleteSignatoryDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[DeleteSignatory_DeleteSignatoryOutput]
       .model_validate(result.get("deleteSignatory"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
   async def createBatchSignatory(
     self, input: CreateBatchSignatoryInput
-  ) -> CreateBatchSignatory_CreateBatchSignatoryOutput:
+  ) -> CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory:
     query = gql(createBatchSignatoryDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[CreateBatchSignatory_CreateBatchSignatoryOutput]
       .model_validate(result.get("createBatchSignatory"))
-      .root
+      .root.batchSignatory
     )
     return parsed
 
   async def changeSignatureOrder(
     self, input: ChangeSignatureOrderInput
-  ) -> ChangeSignatureOrder_ChangeSignatureOrderOutput:
+  ) -> ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder:
     query = gql(changeSignatureOrderDocument)
     variables = {"input": input.model_dump()}
     result = await self.client.execute_async(query, variable_values=variables)
     parsed = (
       RootModel[ChangeSignatureOrder_ChangeSignatureOrderOutput]
       .model_validate(result.get("changeSignatureOrder"))
-      .root
+      .root.signatureOrder
     )
     return parsed
 
