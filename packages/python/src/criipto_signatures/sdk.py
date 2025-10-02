@@ -12,7 +12,7 @@ from .operations import (
 
 
 class CriiptoSignaturesSDK(CriiptoSignaturesSDKInternal):
-  async def querySignatureOrders(
+  async def querySignatureOrders(  # pyright: ignore[reportIncompatibleMethodOverride]
     self,
     first: IntScalarInput,
     status: Optional[SignatureOrderStatus] = None,

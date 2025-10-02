@@ -53,7 +53,7 @@ from .models import (
   WebhookInvocationEvent,
 )
 from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport, BasicAuth
+from gql.transport.aiohttp import AIOHTTPTransport, BasicAuth  # pyright: ignore[reportPrivateImportUsage]
 
 BasicDocumentFragment = """fragment BasicDocument on Document {
   __typename
