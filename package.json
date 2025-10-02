@@ -61,12 +61,6 @@
     ],
     "*.py": [
       "uvx ruff format"
-    ],
-    "packages/python/example/*.py": [
-      "uvx ty check --project packages/python/example"
-    ],
-    "packages/python/src/*.py": [
-      "uvx ty check --project packages/python"
     ]
   }
 }

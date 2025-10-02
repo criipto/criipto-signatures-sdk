@@ -11,3 +11,10 @@ indent-width = 2
 
 [tool.uv.sources]
 criipto-signatures = { path = "../", editable = true }
+
+[dependency-groups]
+dev = ["pyright>=1.1.406"]
+
+[tool.pyright]
+extraPaths = [".venv/lib/python3.13/site-packages"]
+include = ["app.py"]
