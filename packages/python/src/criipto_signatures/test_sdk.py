@@ -1,9 +1,10 @@
 import os
 from datetime import datetime
 
-from .operations import (
+from .sdk import (
   CriiptoSignaturesSDK,
-  QuerySignatureOrders_Viewer_Application,
+)
+from .operations import (
   CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
 )
 from .models import (
@@ -149,15 +150,14 @@ async def test_query_signature_orders():
     )
   )
 
-  signatureOrdersResponse = await sdk.querySignatureOrders(
+  signatureOrders = await sdk.querySignatureOrders(
     first=1000, status=SignatureOrderStatus.OPEN
   )
 
-  assert isinstance(signatureOrdersResponse, QuerySignatureOrders_Viewer_Application)
   createdSignatureOrder = next(
-    edge.node
-    for edge in signatureOrdersResponse.signatureOrders.edges
-    if edge.node.id == signatureOrder.id
+    _signatureOrder
+    for _signatureOrder in signatureOrders
+    if _signatureOrder.id == signatureOrder.id
   )
 
   assert createdSignatureOrder is not None
