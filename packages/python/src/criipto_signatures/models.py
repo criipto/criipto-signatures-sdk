@@ -50,6 +50,8 @@ class AddSignatoryInput(BaseModel):
   role: Optional[StringScalarInput] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
   signatureOrderId: IDScalarInput
+  # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+  signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
   ui: Optional[SignatoryUIInput] = Field(default=None)
 
@@ -152,6 +154,8 @@ class ChangeSignatoryInput(BaseModel):
   role: Optional[StringScalarInput] = Field(default=None)
   signatoryId: IDScalarInput
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
+  # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+  signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
   ui: Optional[SignatoryUIInput] = Field(default=None)
 
@@ -290,6 +294,8 @@ class CreateSignatureOrderSignatoryInput(BaseModel):
   # Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
+  # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+  signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
   ui: Optional[SignatoryUIInput] = Field(default=None)
 
@@ -370,6 +376,15 @@ class DeleteSignatoryInput(BaseModel):
 
 class DeleteSignatoryOutput(BaseModel):
   signatureOrder: SignatureOrder
+
+
+class DeviceInput(BaseModel):
+  os: Optional[DeviceOperatingSystem] = Field(default=None)
+
+
+class DeviceOperatingSystem(StrEnum):
+  ANDROID = "ANDROID"
+  IOS = "IOS"
 
 
 type Document = PdfDocument | XmlDocument
@@ -761,6 +776,7 @@ class Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: SignatureOrder
+  signingSequence: SignatorySigningSequence
   spanId: StringScalarOutput
   # The current status of the signatory.
   status: SignatoryStatus
@@ -826,6 +842,10 @@ class SignatoryEvidenceValidationInput(BaseModel):
 class SignatoryFrontendEvent(StrEnum):
   DOWNLOAD_LINK_OPENED = "DOWNLOAD_LINK_OPENED"
   SIGN_LINK_OPENED = "SIGN_LINK_OPENED"
+
+
+class SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
 
 
 class SignatoryStatus(StrEnum):
@@ -1003,7 +1023,10 @@ type SingleSignatureEvidenceProvider = (
 
 class StartCriiptoVerifyEvidenceProviderInput(BaseModel):
   acrValue: StringScalarInput
+  device: Optional[DeviceInput] = Field(default=None)
   id: IDScalarInput
+  # Use the id_token of a previous login to infer, for instance, reauthentication or other hints for the next login.
+  idTokenHint: Optional[StringScalarInput] = Field(default=None)
   redirectUri: StringScalarInput
   stage: EvidenceValidationStage
 
@@ -1221,6 +1244,7 @@ DeleteApplicationApiKeyInput.model_rebuild()
 DeleteApplicationApiKeyOutput.model_rebuild()
 DeleteSignatoryInput.model_rebuild()
 DeleteSignatoryOutput.model_rebuild()
+DeviceInput.model_rebuild()
 DocumentInput.model_rebuild()
 DownloadVerificationCriiptoVerifyInput.model_rebuild()
 DownloadVerificationInput.model_rebuild()
@@ -1274,6 +1298,7 @@ SignatoryDocumentEdge.model_rebuild()
 SignatoryDocumentInput.model_rebuild()
 SignatoryEvidenceProviderInput.model_rebuild()
 SignatoryEvidenceValidationInput.model_rebuild()
+SignatorySigningSequence.model_rebuild()
 SignatoryUIInput.model_rebuild()
 SignatoryViewer.model_rebuild()
 SignatoryViewerDownload.model_rebuild()

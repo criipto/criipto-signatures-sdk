@@ -113,6 +113,11 @@ namespace Criipto.Signatures.Models
         public string signatureOrderId { get; set; }
 
         /// <summary>
+        /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+        /// </summary>
+        public int? signingSequence { get; set; }
+
+        /// <summary>
         /// Override UI settings for signatory, defaults to UI settings for signature order
         /// </summary>
         public SignatoryUiInput ui { get; set; }
@@ -489,6 +494,11 @@ namespace Criipto.Signatures.Models
         public string signatoryId { get; set; }
 
         public SignatureAppearanceInput signatureAppearance { get; set; }
+
+        /// <summary>
+        /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+        /// </summary>
+        public int? signingSequence { get; set; }
 
         /// <summary>
         /// Override UI settings for signatory, defaults to UI settings for signature order
@@ -1100,6 +1110,11 @@ namespace Criipto.Signatures.Models
         public SignatureAppearanceInput signatureAppearance { get; set; }
 
         /// <summary>
+        /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
+        /// </summary>
+        public int? signingSequence { get; set; }
+
+        /// <summary>
         /// Override UI settings for signatory, defaults to UI settings for signature order
         /// </summary>
         public SignatoryUiInput ui { get; set; }
@@ -1490,6 +1505,51 @@ namespace Criipto.Signatures.Models
         #endregion
     }
     #endregion
+
+    #region DeviceInput
+    public class DeviceInput
+    {
+        #region members
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public DeviceOperatingSystem? os { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
+    public enum DeviceOperatingSystem
+    {
+        ANDROID,
+        IOS,
+        FUTURE_ADDED_VALUE = 999,
+    }
 
     public interface Document
     {
@@ -2883,6 +2943,8 @@ namespace Criipto.Signatures.Models
         #region members
         public SignCriiptoVerifyInput criiptoVerify { get; set; }
 
+        public SignCriiptoVerifyV2Input criiptoVerifyV2 { get; set; }
+
         public SignDrawableInput drawable { get; set; }
 
         public bool? noop { get; set; }
@@ -2928,6 +2990,50 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public string jwt { get; set; }
+        #endregion
+
+        #region methods
+        public dynamic GetInputObject()
+        {
+            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+
+            var properties = GetType()
+                .GetProperties(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
+                );
+            foreach (var propertyInfo in properties)
+            {
+                var value = propertyInfo.GetValue(this);
+                var defaultValue = propertyInfo.PropertyType.IsValueType
+                    ? Activator.CreateInstance(propertyInfo.PropertyType)
+                    : null;
+
+                var requiredProp =
+                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
+                    > 0;
+
+                if (requiredProp || value != defaultValue)
+                {
+                    d[propertyInfo.Name] = value;
+                }
+            }
+            return d;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region SignCriiptoVerifyV2Input
+    public class SignCriiptoVerifyV2Input
+    {
+        #region members
+        [Required]
+        [JsonRequired]
+        public string code { get; set; }
+
+        [Required]
+        [JsonRequired]
+        public string state { get; set; }
         #endregion
 
         #region methods
@@ -3137,6 +3243,8 @@ namespace Criipto.Signatures.Models
 
         public SignCriiptoVerifyInput criiptoVerify { get; set; }
 
+        public SignCriiptoVerifyV2Input criiptoVerifyV2 { get; set; }
+
         public List<SignDocumentInput> documents { get; set; }
 
         public SignDrawableInput drawable { get; set; }
@@ -3272,6 +3380,9 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("signatureOrder")]
         public SignatureOrder signatureOrder { get; set; }
+
+        [JsonProperty("signingSequence")]
+        public SignatorySigningSequence signingSequence { get; set; }
 
         [JsonProperty("spanId")]
         public string spanId { get; set; }
@@ -3548,6 +3659,15 @@ namespace Criipto.Signatures.Models
         FUTURE_ADDED_VALUE = 999,
     }
 
+    #region SignatorySigningSequence
+    public class SignatorySigningSequence
+    {
+        #region members
+        [JsonProperty("initialNumber")]
+        public int initialNumber { get; set; }
+        #endregion
+    }
+    #endregion
     public enum SignatoryStatus
     {
         DELETED,
@@ -4140,9 +4260,16 @@ namespace Criipto.Signatures.Models
         [JsonRequired]
         public string acrValue { get; set; }
 
+        public DeviceInput device { get; set; }
+
         [Required]
         [JsonRequired]
         public string id { get; set; }
+
+        /// <summary>
+        /// Use the id_token of a previous login to infer, for instance, reauthentication or other hints for the next login.
+        /// </summary>
+        public string idTokenHint { get; set; }
 
         [Required]
         [JsonRequired]
