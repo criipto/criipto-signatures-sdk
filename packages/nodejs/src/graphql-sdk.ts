@@ -44,6 +44,8 @@ export type AddSignatoryInput = {
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -165,6 +167,8 @@ export type ChangeSignatoryInput = {
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -307,6 +311,8 @@ export type CreateSignatureOrderSignatoryInput = {
   /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -392,6 +398,15 @@ export type DeleteSignatoryOutput = {
   __typename?: 'DeleteSignatoryOutput';
   signatureOrder: SignatureOrder;
 };
+
+export type DeviceInput = {
+  os?: InputMaybe<DeviceOperatingSystem>;
+};
+
+export type DeviceOperatingSystem =
+  | 'ANDROID'
+  | 'IOS'
+  | '%future added value';
 
 export type Document = {
   blob?: Maybe<Scalars['Blob']['output']>;
@@ -888,6 +903,7 @@ export type SignActingAsOutput = {
 
 export type SignAllOfInput = {
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   drawable?: InputMaybe<SignDrawableInput>;
   noop?: InputMaybe<Scalars['Boolean']['input']>;
   oidc?: InputMaybe<SignOidcInput>;
@@ -895,6 +911,11 @@ export type SignAllOfInput = {
 
 export type SignCriiptoVerifyInput = {
   jwt: Scalars['String']['input'];
+};
+
+export type SignCriiptoVerifyV2Input = {
+  code: Scalars['String']['input'];
+  state: Scalars['String']['input'];
 };
 
 export type SignDocumentFormFieldInput = {
@@ -919,6 +940,7 @@ export type SignDrawableInput = {
 export type SignInput = {
   allOf?: InputMaybe<SignAllOfInput>;
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   documents?: InputMaybe<Array<SignDocumentInput>>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
@@ -949,6 +971,7 @@ export type Signatory = {
   role?: Maybe<Scalars['String']['output']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
+  signingSequence: SignatorySigningSequence;
   spanId: Scalars['String']['output'];
   /** The current status of the signatory. */
   status: SignatoryStatus;
@@ -1018,6 +1041,11 @@ export type SignatoryFrontendEvent =
   | 'DOWNLOAD_LINK_OPENED'
   | 'SIGN_LINK_OPENED'
   | '%future added value';
+
+export type SignatorySigningSequence = {
+  __typename?: 'SignatorySigningSequence';
+  initialNumber: Scalars['Int']['output'];
+};
 
 export type SignatoryStatus =
   | 'DELETED'
@@ -1204,7 +1232,10 @@ export type SingleSignatureEvidenceProvider = {
 
 export type StartCriiptoVerifyEvidenceProviderInput = {
   acrValue: Scalars['String']['input'];
+  device?: InputMaybe<DeviceInput>;
   id: Scalars['ID']['input'];
+  /** Use the id_token of a previous login to infer, for instance, reauthentication or other hints for the next login. */
+  idTokenHint?: InputMaybe<Scalars['String']['input']>;
   redirectUri: Scalars['String']['input'];
   stage: EvidenceValidationStage;
 };

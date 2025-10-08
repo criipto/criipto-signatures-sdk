@@ -24,10 +24,10 @@ from .models import (
   IDScalarOutput,
   StringScalarInput,
   StringScalarOutput,
-  BooleanScalarInput,
-  BooleanScalarOutput,
   IntScalarInput,
   IntScalarOutput,
+  BooleanScalarInput,
+  BooleanScalarOutput,
   BlobScalarInput,
   BlobScalarOutput,
   DateScalarInput,
@@ -41,6 +41,7 @@ from .models import (
 )
 from .models import (
   ApplicationApiKeyMode,
+  DeviceOperatingSystem,
   DocumentIDLocation,
   DocumentStorageMode,
   EvidenceValidationStage,
