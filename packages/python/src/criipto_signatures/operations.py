@@ -24,10 +24,10 @@ from .models import (
   IDScalarOutput,
   StringScalarInput,
   StringScalarOutput,
-  BooleanScalarInput,
-  BooleanScalarOutput,
   IntScalarInput,
   IntScalarOutput,
+  BooleanScalarInput,
+  BooleanScalarOutput,
   BlobScalarInput,
   BlobScalarOutput,
   DateScalarInput,
@@ -41,6 +41,7 @@ from .models import (
 )
 from .models import (
   ApplicationApiKeyMode,
+  DeviceOperatingSystem,
   DocumentIDLocation,
   DocumentStorageMode,
   EvidenceValidationStage,
@@ -118,6 +119,9 @@ BasicSignatoryFragment = """fragment BasicSignatory on Signatory {
       }
     }
   }
+  signingSequence {
+    initialNumber
+  }
 }"""
 BasicSignatureOrderFragment = """fragment BasicSignatureOrder on SignatureOrder {
   id
@@ -193,6 +197,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -241,6 +246,12 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -329,6 +340,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -377,6 +389,12 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -431,6 +449,7 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder
+  signingSequence: AddSignatory_AddSignatoryOutput_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -452,6 +471,10 @@ class AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder(BaseModel):
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class AddSignatory_AddSignatoryOutput_Signatory_SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
 
 
 class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -495,6 +518,9 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder
+  signingSequence: (
+    AddSignatories_AddSignatoriesOutput_Signatory_SignatorySigningSequence
+  )
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -520,6 +546,10 @@ class AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder(BaseModel):
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class AddSignatories_AddSignatoriesOutput_Signatory_SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -563,6 +593,9 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder
+  signingSequence: (
+    ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatorySigningSequence
+  )
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -588,6 +621,12 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder(BaseModel):
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -661,6 +700,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -721,6 +761,12 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Sig
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -966,6 +1012,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1014,6 +1061,12 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -1068,6 +1121,7 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: SignActingAs_SignActingAsOutput_Signatory_SignatureOrder
+  signingSequence: SignActingAs_SignActingAsOutput_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1089,6 +1143,10 @@ class SignActingAs_SignActingAsOutput_Signatory_SignatureOrder(BaseModel):
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class SignActingAs_SignActingAsOutput_Signatory_SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
 
 
 class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1182,6 +1240,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1230,6 +1289,12 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -1307,6 +1372,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   signatureOrder: (
     DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder
   )
+  signingSequence: DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1334,6 +1400,12 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOr
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1397,6 +1469,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder
+  signingSequence: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1445,6 +1518,12 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   status: SignatureOrderStatus
 
 
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
+
+
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider(
   BaseModel
 ):
@@ -1467,6 +1546,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1501,6 +1581,12 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1585,6 +1671,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1612,6 +1699,12 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_S
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1669,6 +1762,7 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: QuerySignatureOrder_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1692,6 +1786,10 @@ class QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder(BaseModel):
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class QuerySignatureOrder_SignatureOrder_Signatory_SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
 
 
 class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1760,6 +1858,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   signatureOrder: (
     QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder
   )
+  signingSequence: (
+    QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatorySigningSequence
+  )
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -1812,6 +1913,12 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder(
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm(
@@ -2015,6 +2122,7 @@ class QuerySignatory_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder
+  signingSequence: QuerySignatory_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -2046,6 +2154,10 @@ class QuerySignatory_Signatory_SignatureOrder(BaseModel):
   title: Optional[StringScalarOutput] = Field(default=None)
 
 
+class QuerySignatory_Signatory_SignatorySigningSequence(BaseModel):
+  initialNumber: IntScalarOutput
+
+
 class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
   BaseModel
 ):
@@ -2075,6 +2187,9 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: (
+    QuerySignatory_Signatory_SignatureOrder_Signatory_SignatorySigningSequence
+  )
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -2106,6 +2221,12 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder(BaseModel
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -2222,6 +2343,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -2249,6 +2371,12 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -2311,6 +2439,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   signatureOrder: (
     QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder
   )
+  signingSequence: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -2357,6 +2486,12 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureO
   status: SignatureOrderStatus
 
 
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
+
+
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider(
   BaseModel
 ):
@@ -2379,6 +2514,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
+  signingSequence: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
@@ -2413,6 +2549,12 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
   status: SignatureOrderStatus
+
+
+class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence(
+  BaseModel
+):
+  initialNumber: IntScalarOutput
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(

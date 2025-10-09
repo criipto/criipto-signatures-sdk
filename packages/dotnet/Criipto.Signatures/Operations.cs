@@ -79,6 +79,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -171,6 +174,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -248,6 +254,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }";
     }
 
@@ -310,6 +319,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }";
     }
 
@@ -371,6 +383,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }";
     }
@@ -473,6 +488,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -565,6 +583,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -641,6 +662,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }";
     }
@@ -754,6 +778,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -830,6 +857,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }
         fragment BasicSignatureOrder on SignatureOrder {
@@ -916,6 +946,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -998,6 +1031,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -1072,6 +1108,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }
         fragment BasicSignatureOrder on SignatureOrder {
@@ -1187,6 +1226,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -1264,6 +1306,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }
         fragment BasicSignatureOrder on SignatureOrder {
@@ -1349,6 +1394,9 @@ namespace Criipto.Signatures
               }
             }
           }
+          signingSequence {
+            initialNumber
+          }
         }
         fragment BasicSignatureOrder on SignatureOrder {
           id
@@ -1431,6 +1479,9 @@ namespace Criipto.Signatures
                 id
               }
             }
+          }
+          signingSequence {
+            initialNumber
           }
         }
         fragment BasicSignatureOrder on SignatureOrder {
