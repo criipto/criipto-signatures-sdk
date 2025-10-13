@@ -26,7 +26,7 @@ const config: CodegenConfig = {
   ],
   documents: './codegen/operations/application-viewer.graphql',
   generates: {
-    'packages/nodejs/src/graphql-sdk.ts': {
+    'packages/nodejs/src/application-viewer-types.ts': {
       plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
       config: {
         strictScalars: true,
