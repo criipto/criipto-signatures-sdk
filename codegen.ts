@@ -24,7 +24,7 @@ const config: CodegenConfig = {
       },
     },
   ],
-  documents: './*.graphql',
+  documents: './codegen/operations/application-viewer.graphql',
   generates: {
     'packages/nodejs/src/graphql-sdk.ts': {
       plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
