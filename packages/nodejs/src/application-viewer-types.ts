@@ -1471,6 +1471,7 @@ export type BasicSignatoryFragment = {
   statusReason?: string | null;
   href: string;
   downloadHref?: string | null;
+  token: string;
   reference?: string | null;
   role?: string | null;
   signatureOrder: {
@@ -1513,6 +1514,7 @@ export type BasicSignatureOrderFragment = {
     statusReason?: string | null;
     href: string;
     downloadHref?: string | null;
+    token: string;
     reference?: string | null;
     role?: string | null;
     signatureOrder: {
@@ -1589,6 +1591,7 @@ export type CreateSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -1662,6 +1665,7 @@ export type CleanupSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -1716,6 +1720,7 @@ export type AddSignatoryMutation = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -1762,6 +1767,7 @@ export type AddSignatoriesMutation = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -1808,6 +1814,7 @@ export type ChangeSignatoryMutation = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -1926,6 +1933,7 @@ export type CloseSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -1999,6 +2007,7 @@ export type CancelSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2053,6 +2062,7 @@ export type SignActingAsMutation = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -2132,6 +2142,7 @@ export type ExtendSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2194,6 +2205,7 @@ export type DeleteSignatoryMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2263,6 +2275,7 @@ export type CreateBatchSignatoryMutation = {
             statusReason?: string | null;
             href: string;
             downloadHref?: string | null;
+            token: string;
             reference?: string | null;
             role?: string | null;
             signatureOrder: {
@@ -2306,6 +2319,7 @@ export type CreateBatchSignatoryMutation = {
           statusReason?: string | null;
           href: string;
           downloadHref?: string | null;
+          token: string;
           reference?: string | null;
           role?: string | null;
           signatureOrder: {
@@ -2362,6 +2376,7 @@ export type ChangeSignatureOrderMutation = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2422,6 +2437,7 @@ export type SignatureOrderQuery = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -2545,6 +2561,7 @@ export type SignatureOrderWithDocumentsQuery = {
       statusReason?: string | null;
       href: string;
       downloadHref?: string | null;
+      token: string;
       reference?: string | null;
       role?: string | null;
       signatureOrder: {
@@ -2596,6 +2613,7 @@ export type SignatoryQuery = {
     statusReason?: string | null;
     href: string;
     downloadHref?: string | null;
+    token: string;
     reference?: string | null;
     role?: string | null;
     signatureOrder: {
@@ -2613,6 +2631,7 @@ export type SignatoryQuery = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2699,6 +2718,7 @@ export type SignatureOrdersQuery = {
                 statusReason?: string | null;
                 href: string;
                 downloadHref?: string | null;
+                token: string;
                 reference?: string | null;
                 role?: string | null;
                 signatureOrder: {
@@ -2772,6 +2792,7 @@ export type BatchSignatoryQuery = {
           statusReason?: string | null;
           href: string;
           downloadHref?: string | null;
+          token: string;
           reference?: string | null;
           role?: string | null;
           signatureOrder: {
@@ -2815,6 +2836,7 @@ export type BatchSignatoryQuery = {
         statusReason?: string | null;
         href: string;
         downloadHref?: string | null;
+        token: string;
         reference?: string | null;
         role?: string | null;
         signatureOrder: {
@@ -2893,6 +2915,7 @@ export const BasicSignatoryFragmentDoc = gql`
     statusReason
     href
     downloadHref
+    token
     reference
     role
     signatureOrder {

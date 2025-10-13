@@ -41,6 +41,7 @@ fragment BasicSignatory on Signatory {
   statusReason
   href
   downloadHref
+  token
   reference
   role
 
