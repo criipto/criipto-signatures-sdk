@@ -45,6 +45,26 @@ const config: CodegenConfig = {
         TypeScriptDocumentsPluginConfig &
         TypescriptGraphqlRequestPluginConfig,
     },
+    'packages/nodejs/src/signatory-viewer-types.ts': {
+      documents: './codegen/operations/signatory-viewer.graphql',
+      plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
+      config: {
+        strictScalars: true,
+        namingConvention: {
+          enumValues: 'keep',
+        },
+        enumsAsTypes: true,
+        futureProofEnums: true,
+        scalars: {
+          Blob: 'Buffer',
+          Date: 'string',
+          DateTime: 'string',
+          URI: 'string',
+        },
+      } satisfies TypeScriptPluginConfig &
+        TypeScriptDocumentsPluginConfig &
+        TypescriptGraphqlRequestPluginConfig,
+    },
     'packages/dotnet/Criipto.Signatures/Models.cs': {
       documents: './codegen/operations/application-viewer.graphql',
       plugins: ['c-sharp'],
