@@ -1,5 +1,6 @@
 # nodejs
-packages/nodejs/src/graphql-sdk.ts linguist-generated=true
+packages/nodejs/src/application-viewer-types.ts linguist-generated=true
+packages/nodejs/src/signatory-viewer-types.ts linguist-generated=true
 
 # dotnet
 packages/dotnet/Criipto.Signatures/Models.cs linguist-generated=true
