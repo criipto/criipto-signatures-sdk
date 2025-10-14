@@ -1283,6 +1283,19 @@ namespace Criipto.Signatures.Models
         #endregion
     }
     #endregion
+    public enum CriiptoVerifyEvidenceProviderVersion
+    {
+        /// <summary>
+        /// Version 1 is the original version. Deprecated in favour of Version 2.
+        /// </summary>
+        V1,
+
+        /// <summary>
+        /// Version 2 adds increased observability and newer signing features.
+        /// </summary>
+        V2,
+        FUTURE_ADDED_VALUE = 999,
+    }
 
     #region CriiptoVerifyProviderInput
     /// <summary>
@@ -1319,6 +1332,9 @@ namespace Criipto.Signatures.Models
         /// Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued.
         /// </summary>
         public string uniqueEvidenceKey { get; set; }
+
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public CriiptoVerifyEvidenceProviderVersion? version { get; set; }
         #endregion
 
         #region methods
@@ -1394,6 +1410,10 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("scope")]
         public string scope { get; set; }
+
+        [JsonProperty("version")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public CriiptoVerifyEvidenceProviderVersion version { get; set; }
         #endregion
     }
     #endregion

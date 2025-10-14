@@ -329,6 +329,11 @@ class CriiptoVerifyEvidenceProviderRedirect(BaseModel):
   state: StringScalarOutput
 
 
+class CriiptoVerifyEvidenceProviderVersion(StrEnum):
+  V1 = "V1"
+  V2 = "V2"
+
+
 # Criipto Verify based evidence for signatures.
 class CriiptoVerifyProviderInput(BaseModel):
   acrValues: Optional[list[StringScalarInput]] = Field(default=None)
@@ -343,6 +348,7 @@ class CriiptoVerifyProviderInput(BaseModel):
   scope: Optional[StringScalarInput] = Field(default=None)
   # Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued.
   uniqueEvidenceKey: Optional[StringScalarInput] = Field(default=None)
+  version: Optional[CriiptoVerifyEvidenceProviderVersion] = Field(default=None)
 
 
 class CriiptoVerifySignatureEvidenceProvider(BaseModel):
@@ -358,6 +364,7 @@ class CriiptoVerifySignatureEvidenceProvider(BaseModel):
   message: Optional[StringScalarOutput] = Field(default=None)
   name: StringScalarOutput
   scope: Optional[StringScalarOutput] = Field(default=None)
+  version: CriiptoVerifyEvidenceProviderVersion
 
 
 class DeleteApplicationApiKeyInput(BaseModel):

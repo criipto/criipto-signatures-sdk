@@ -346,6 +346,13 @@ export type CriiptoVerifyEvidenceProviderRedirect = {
   state: Scalars['String']['output'];
 };
 
+export type CriiptoVerifyEvidenceProviderVersion =
+  /** Version 1 is the original version. Deprecated in favour of Version 2. */
+  | 'V1'
+  /** Version 2 adds increased observability and newer signing features. */
+  | 'V2'
+  | '%future added value';
+
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -360,6 +367,7 @@ export type CriiptoVerifyProviderInput = {
   scope?: InputMaybe<Scalars['String']['input']>;
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
   uniqueEvidenceKey?: InputMaybe<Scalars['String']['input']>;
+  version?: InputMaybe<CriiptoVerifyEvidenceProviderVersion>;
 };
 
 export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
@@ -377,6 +385,7 @@ export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
     message?: Maybe<Scalars['String']['output']>;
     name: Scalars['String']['output'];
     scope?: Maybe<Scalars['String']['output']>;
+    version: CriiptoVerifyEvidenceProviderVersion;
   };
 
 export type DeleteApplicationApiKeyInput = {
