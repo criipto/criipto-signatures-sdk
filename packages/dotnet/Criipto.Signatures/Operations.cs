@@ -58,6 +58,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -153,6 +154,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -233,6 +235,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -298,6 +301,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -363,6 +367,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -467,6 +472,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -562,6 +568,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -642,6 +649,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -757,6 +765,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -837,6 +846,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -925,6 +935,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1010,6 +1021,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1088,6 +1100,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1205,6 +1218,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1286,6 +1300,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1373,6 +1388,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {
@@ -1459,6 +1475,7 @@ namespace Criipto.Signatures
           statusReason
           href
           downloadHref
+          token
           reference
           role
           signatureOrder {

@@ -1,0 +1,144 @@
+fragment EvidenceProvider on SignatureEvidenceProvider {
+  __typename
+  id
+  ... on OidcJWTSignatureEvidenceProvider {
+    id
+    domain
+    clientID
+    acrValues
+    alwaysRedirect
+  }
+  ... on CriiptoVerifySignatureEvidenceProvider {
+    id
+    domain
+    clientID
+    acrValues
+    alwaysRedirect
+    message
+    loginHint
+    scope
+    environment
+  }
+  ... on DrawableSignatureEvidenceProvider {
+    requireName
+    minimumWidth
+    minimumHeight
+  }
+}
+
+fragment BasicDocument on Document {
+  __typename
+  id
+  title
+  reference
+  signatoryViewerStatus
+}
+
+mutation startCriiptoVerifyEvidenceProvider($input: StartCriiptoVerifyEvidenceProviderInput!) {
+  startCriiptoVerifyEvidenceProvider(input: $input) {
+    __typename
+    ... on CriiptoVerifyEvidenceProviderRedirect {
+      redirectUri
+      state
+    }
+  }
+}
+
+mutation completeCriiptoVerifyEvidenceProvider(
+  $input: CompleteCriiptoVerifyEvidenceProviderInput!
+) {
+  completeCriiptoVerifyEvidenceProvider(input: $input) {
+    __typename
+    jwt
+  }
+}
+
+mutation sign($input: SignInput!) {
+  sign(input: $input) {
+    viewer {
+      __typename
+      ... on SignatoryViewer {
+        status
+        signer
+      }
+      ... on BatchSignatoryViewer {
+        status
+        signer
+      }
+    }
+  }
+}
+
+mutation updateSignatoryDocumentStatus($input: UpdateSignatoryDocumentStatusInput!) {
+  updateSignatoryDocumentStatus(input: $input) {
+    documentEdge {
+      status
+      node {
+        id
+        signatoryViewerStatus
+      }
+    }
+    viewer {
+      __typename
+      ... on SignatoryViewer {
+        status
+        signer
+      }
+      ... on BatchSignatoryViewer {
+        status
+        signer
+      }
+    }
+  }
+}
+
+query viewer {
+  viewer {
+    __typename
+
+    ... on AnonymousViewer {
+      authenticated
+    }
+
+    ... on SignatoryViewer {
+      status
+      signer
+      evidenceProviders {
+        __typename
+        ...EvidenceProvider
+      }
+
+      documents {
+        edges {
+          status
+          node {
+            ...BasicDocument
+          }
+        }
+      }
+    }
+    ... on BatchSignatoryViewer {
+      status
+      signer
+      evidenceProviders {
+        __typename
+        ...EvidenceProvider
+      }
+
+      documents {
+        edges {
+          status
+          node {
+            ...BasicDocument
+          }
+        }
+      }
+    }
+    ... on UnvalidatedSignatoryViewer {
+      evidenceProviders {
+        __typename
+        ...EvidenceProvider
+      }
+    }
+  }
+}

@@ -24,9 +24,29 @@ const config: CodegenConfig = {
       },
     },
   ],
-  documents: './*.graphql',
   generates: {
-    'packages/nodejs/src/graphql-sdk.ts': {
+    'packages/nodejs/src/application-viewer-types.ts': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
+      config: {
+        strictScalars: true,
+        namingConvention: {
+          enumValues: 'keep',
+        },
+        enumsAsTypes: true,
+        futureProofEnums: true,
+        scalars: {
+          Blob: 'Buffer',
+          Date: 'string',
+          DateTime: 'string',
+          URI: 'string',
+        },
+      } satisfies TypeScriptPluginConfig &
+        TypeScriptDocumentsPluginConfig &
+        TypescriptGraphqlRequestPluginConfig,
+    },
+    'packages/nodejs/src/signatory-viewer-types.ts': {
+      documents: './codegen/operations/signatory-viewer.graphql',
       plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
       config: {
         strictScalars: true,
@@ -46,6 +66,7 @@ const config: CodegenConfig = {
         TypescriptGraphqlRequestPluginConfig,
     },
     'packages/dotnet/Criipto.Signatures/Models.cs': {
+      documents: './codegen/operations/application-viewer.graphql',
       plugins: ['c-sharp'],
       config: {
         namespaceName: 'Criipto.Signatures',
@@ -57,6 +78,7 @@ const config: CodegenConfig = {
       } satisfies CSharpPluginConfig,
     },
     'packages/dotnet/Criipto.Signatures/Operations.cs': {
+      documents: './codegen/operations/application-viewer.graphql',
       plugins: ['c-sharp-operations'],
       config: {
         namespaceName: 'Criipto.Signatures',
@@ -65,6 +87,7 @@ const config: CodegenConfig = {
       } satisfies CSharpOperationsPluginConfig,
     },
     'packages/python/src/criipto_signatures/models.py': {
+      documents: './codegen/operations/application-viewer.graphql',
       plugins: ['graphql-codegen-plugin-python'],
       config: {
         mode: 'types',
@@ -72,6 +95,7 @@ const config: CodegenConfig = {
       ...pythonCommonConfig,
     },
     'packages/python/src/criipto_signatures/operations.py': {
+      documents: './codegen/operations/application-viewer.graphql',
       plugins: ['graphql-codegen-plugin-python'],
       config: {
         mode: 'operations',

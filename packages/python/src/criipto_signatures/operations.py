@@ -98,6 +98,7 @@ BasicSignatoryFragment = """fragment BasicSignatory on Signatory {
   statusReason
   href
   downloadHref
+  token
   reference
   role
   signatureOrder {
@@ -202,6 +203,8 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
@@ -345,6 +348,8 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
@@ -454,6 +459,8 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection(BaseModel):
@@ -525,6 +532,8 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection(
@@ -600,6 +609,8 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection(
@@ -705,6 +716,8 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
@@ -1017,6 +1030,8 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
@@ -1126,6 +1141,8 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection(BaseModel):
@@ -1245,6 +1262,8 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument(
@@ -1377,6 +1396,8 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1474,6 +1495,8 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder(
@@ -1551,6 +1574,8 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1676,6 +1701,8 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1767,6 +1794,8 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1865,6 +1894,8 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument(BaseModel):
@@ -2127,6 +2158,8 @@ class QuerySignatory_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QuerySignatory_Signatory_SignatoryDocumentConnection(BaseModel):
@@ -2194,6 +2227,8 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QuerySignatory_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -2348,6 +2383,8 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -2444,6 +2481,8 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder(BaseModel):
@@ -2519,6 +2558,8 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   status: SignatoryStatus
   # The reason for the signatory status (rejection reason when rejected).
   statusReason: Optional[StringScalarOutput] = Field(default=None)
+  # The signature frontend authentication token, only required if you need to build a custom url.
+  token: StringScalarOutput
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
