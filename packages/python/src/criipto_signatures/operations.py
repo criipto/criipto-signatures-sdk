@@ -41,6 +41,7 @@ from .models import (
 )
 from .models import (
   ApplicationApiKeyMode,
+  CriiptoVerifyEvidenceProviderVersion,
   DeviceOperatingSystem,
   DocumentIDLocation,
   DocumentStorageMode,
