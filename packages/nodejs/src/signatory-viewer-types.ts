@@ -1448,6 +1448,7 @@ type BasicDocument_PdfDocument_Fragment = {
   title: string;
   reference?: string | null;
   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+  blob?: Buffer | null;
 };
 
 type BasicDocument_XmlDocument_Fragment = {
@@ -1456,6 +1457,7 @@ type BasicDocument_XmlDocument_Fragment = {
   title: string;
   reference?: string | null;
   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+  blob?: Buffer | null;
 };
 
 export type BasicDocumentFragment =
@@ -1592,6 +1594,7 @@ export type ViewerQuery = {
                   title: string;
                   reference?: string | null;
                   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+                  blob?: Buffer | null;
                 }
               | {
                   __typename: 'XmlDocument';
@@ -1599,6 +1602,7 @@ export type ViewerQuery = {
                   title: string;
                   reference?: string | null;
                   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+                  blob?: Buffer | null;
                 };
           }>;
         };
@@ -1650,6 +1654,7 @@ export type ViewerQuery = {
                   title: string;
                   reference?: string | null;
                   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+                  blob?: Buffer | null;
                 }
               | {
                   __typename: 'XmlDocument';
@@ -1657,6 +1662,7 @@ export type ViewerQuery = {
                   title: string;
                   reference?: string | null;
                   signatoryViewerStatus?: SignatoryDocumentStatus | null;
+                  blob?: Buffer | null;
                 };
           }>;
         };
@@ -1734,6 +1740,7 @@ export const BasicDocumentFragmentDoc = gql`
     title
     reference
     signatoryViewerStatus
+    blob
   }
 `;
 export const StartCriiptoVerifyEvidenceProviderDocument = gql`

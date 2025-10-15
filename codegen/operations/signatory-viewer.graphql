@@ -32,6 +32,7 @@ fragment BasicDocument on Document {
   title
   reference
   signatoryViewerStatus
+  blob
 }
 
 mutation startCriiptoVerifyEvidenceProvider($input: StartCriiptoVerifyEvidenceProviderInput!) {
