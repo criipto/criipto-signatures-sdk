@@ -169,6 +169,82 @@ test('can authenticate to view', async t => {
   t.is(authenticatedViewer.__typename, 'SignatoryViewer');
 });
 
+test('can authenticate to view and then sign', async t => {
+  // ARRANGE
+  const { applicationClient } = arrange();
+  const signatureOrder = await applicationClient.createSignatureOrder({
+    title: 'Node.js sample',
+    expiresInDays: 1,
+    documents: [documentFixture],
+    evidenceValidationStages: ['VIEW', 'SIGN'],
+  });
+  const signatory = await applicationClient.addSignatory(signatureOrder.id);
+
+  const signatoryClient = new SignatoryViewerClient({
+    token: signatory.token,
+  });
+
+  const unvalidatedViewer = await signatoryClient.viewer();
+  assert.strictEqual(unvalidatedViewer.__typename, 'UnvalidatedSignatoryViewer');
+  const ep = unvalidatedViewer.evidenceProviders.find(
+    s => s.__typename === 'CriiptoVerifySignatureEvidenceProvider',
+  );
+  assert(ep);
+
+  // ACT - AUTHENTICATE TO VIEW
+  const startedToLogin = await signatoryClient.startCriiptoVerifyEvidenceProvider({
+    id: ep.id,
+    acrValue: 'urn:grn:authn:mock',
+    redirectUri: `https://${ep.domain}/signatures`,
+    stage: 'VIEW',
+  });
+
+  const loginResponse = await followMock(startedToLogin.redirectUri);
+  assert.strictEqual(loginResponse.status, 'ok');
+
+  const completed = await signatoryClient.completeCriiptoVerifyEvidenceProvider({
+    code: loginResponse.code,
+    state: loginResponse.state,
+  });
+  signatoryClient.setAuthentication({
+    token: signatory.token,
+    validation: `${ep.id}:${completed.jwt}`,
+  });
+
+  const authenticatedViewer = await signatoryClient.viewer();
+  assert.strictEqual(authenticatedViewer.__typename, 'SignatoryViewer');
+
+  // ACT - SIGN
+  await signatoryClient.openDocument({
+    documentId: authenticatedViewer.documents.edges[0].node.id,
+  });
+  await signatoryClient.approveDocument({
+    documentId: authenticatedViewer.documents.edges[0].node.id,
+  });
+
+  const startedToSign = await signatoryClient.startCriiptoVerifyEvidenceProvider({
+    id: ep.id,
+    acrValue: 'urn:grn:authn:mock',
+    redirectUri: `https://${ep.domain}/signatures`,
+    stage: 'VIEW',
+  });
+
+  const signResponse = await followMock(startedToSign.redirectUri);
+  assert.strictEqual(signResponse.status, 'ok');
+
+  const signed = await signatoryClient.sign({
+    id: ep.id,
+    criiptoVerifyV2: {
+      code: signResponse.code,
+      state: signResponse.state,
+    },
+  });
+
+  // ASSERT
+  assert.strictEqual(signed.__typename, 'SignatoryViewer');
+  t.is(signed.status, 'SIGNED');
+});
+
 async function followMock(initial: string) {
   const first = await fetch(initial, {
     redirect: 'manual',
