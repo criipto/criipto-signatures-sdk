@@ -105,7 +105,7 @@ test('can sign with criiptoVerify mock', async t => {
     id: ep.id,
     acrValue: 'urn:grn:authn:mock',
     redirectUri: `https://${ep.domain}/signatures`,
-    stage: 'VIEW',
+    stage: 'SIGN',
   });
 
   const login = await followMock(started.redirectUri);
@@ -226,7 +226,7 @@ test('can authenticate to view and then sign', async t => {
     id: ep.id,
     acrValue: 'urn:grn:authn:mock',
     redirectUri: `https://${ep.domain}/signatures`,
-    stage: 'VIEW',
+    stage: 'SIGN',
   });
 
   const signResponse = await followMock(startedToSign.redirectUri);
