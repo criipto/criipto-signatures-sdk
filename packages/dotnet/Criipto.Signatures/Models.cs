@@ -3520,9 +3520,14 @@ namespace Criipto.Signatures.Models
         public string id { get; set; }
 
         /// <summary>
-        /// Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
+        /// Deprecated in favor of `pdfSealPositions`. Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
         /// </summary>
         public PdfSealPosition pdfSealPosition { get; set; }
+
+        /// <summary>
+        /// Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
+        /// </summary>
+        public List<PdfSealPosition> pdfSealPositions { get; set; }
 
         public bool? preapproved { get; set; }
         #endregion

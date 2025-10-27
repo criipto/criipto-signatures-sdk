@@ -975,8 +975,10 @@ export type SignatoryDocumentEdge = {
 
 export type SignatoryDocumentInput = {
   id: Scalars['ID']['input'];
-  /** Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
+  /** Deprecated in favor of `pdfSealPositions`. Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
   pdfSealPosition?: InputMaybe<PdfSealPosition>;
+  /** Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
+  pdfSealPositions?: InputMaybe<Array<PdfSealPosition>>;
   preapproved?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
