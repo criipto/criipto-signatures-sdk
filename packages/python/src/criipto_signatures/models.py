@@ -814,8 +814,10 @@ class SignatoryDocumentEdge(BaseModel):
 
 class SignatoryDocumentInput(BaseModel):
   id: IDScalarInput
-  # Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
+  # Deprecated in favor of `pdfSealPositions`. Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
   pdfSealPosition: Optional[PdfSealPosition] = Field(default=None)
+  # Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
+  pdfSealPositions: Optional[list[PdfSealPosition]] = Field(default=None)
   preapproved: Optional[BooleanScalarInput] = Field(default=None)
 
 
