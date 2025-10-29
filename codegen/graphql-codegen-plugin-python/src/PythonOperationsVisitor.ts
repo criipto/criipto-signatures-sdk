@@ -38,6 +38,7 @@ import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
 export class PythonOperationsVisitor extends ClientSideBaseVisitor {
   modelImports: Set<string> = new Set<string>();
   fragments: FragmentDefinitionNode[];
+  append: string[] = [];
 
   constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string, in order to populate AST nodes
@@ -137,6 +138,7 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
           },
           typesVisitor,
         );
+        this.append.push(...typesVisitor.getAppend());
         assert(typeof visitorResult === 'string');
         result.push(visitorResult);
 
@@ -362,6 +364,6 @@ return parsed`,
     ];
   }
   getAppend(): string[] {
-    return [];
+    return this.append;
   }
 }
