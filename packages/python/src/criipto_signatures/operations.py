@@ -102,6 +102,7 @@ BasicSignatoryFragment = """fragment BasicSignatory on Signatory {
   token
   reference
   role
+  signingAs
   signatureOrder {
     id
     status
@@ -199,6 +200,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -344,6 +346,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -455,6 +458,7 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: AddSignatory_AddSignatoryOutput_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -526,6 +530,7 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: (
     AddSignatories_AddSignatoriesOutput_Signatory_SignatorySigningSequence
   )
@@ -603,6 +608,7 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: (
     ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatorySigningSequence
   )
@@ -712,6 +718,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1026,6 +1033,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1137,6 +1145,7 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: SignActingAs_SignActingAsOutput_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: SignActingAs_SignActingAsOutput_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1258,6 +1267,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1392,6 +1402,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   signatureOrder: (
     DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder
   )
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1491,6 +1502,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1570,6 +1582,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1697,6 +1710,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1790,6 +1804,7 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: QuerySignatureOrder_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -1888,6 +1903,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   signatureOrder: (
     QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder
   )
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: (
     QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatorySigningSequence
   )
@@ -2154,6 +2170,7 @@ class QuerySignatory_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: QuerySignatory_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -2221,6 +2238,7 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: (
     QuerySignatory_Signatory_SignatureOrder_Signatory_SignatorySigningSequence
   )
@@ -2379,6 +2397,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -2477,6 +2496,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   signatureOrder: (
     QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder
   )
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus
@@ -2554,6 +2574,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence
   # The current status of the signatory.
   status: SignatoryStatus

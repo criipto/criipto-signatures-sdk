@@ -46,10 +46,12 @@ class AddSignatoryInput(BaseModel):
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: Optional[StringScalarInput] = Field(default=None)
-  # Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+  # Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
   signatureOrderId: IDScalarInput
+  # Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+  signingAs: Optional[StringScalarInput] = Field(default=None)
   # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
   signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
@@ -150,10 +152,12 @@ class ChangeSignatoryInput(BaseModel):
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: Optional[StringScalarInput] = Field(default=None)
-  # Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+  # Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
   signatoryId: IDScalarInput
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
+  # Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+  signingAs: Optional[StringScalarInput] = Field(default=None)
   # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
   signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
@@ -291,9 +295,11 @@ class CreateSignatureOrderSignatoryInput(BaseModel):
   )
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: Optional[StringScalarInput] = Field(default=None)
-  # Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+  # Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
+  # Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+  signingAs: Optional[StringScalarInput] = Field(default=None)
   # Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
   signingSequence: Optional[IntScalarInput] = Field(default=None)
   # Override UI settings for signatory, defaults to UI settings for signature order
@@ -783,6 +789,7 @@ class Signatory(BaseModel):
   role: Optional[StringScalarOutput] = Field(default=None)
   # Signature order for the signatory.
   signatureOrder: SignatureOrder
+  signingAs: Optional[StringScalarOutput] = Field(default=None)
   signingSequence: SignatorySigningSequence
   spanId: StringScalarOutput
   # The current status of the signatory.
