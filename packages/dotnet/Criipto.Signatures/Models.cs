@@ -102,7 +102,7 @@ namespace Criipto.Signatures.Models
         public string reference { get; set; }
 
         /// <summary>
-        /// Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+        /// Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
         /// </summary>
         public string role { get; set; }
 
@@ -111,6 +111,11 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public string signatureOrderId { get; set; }
+
+        /// <summary>
+        /// Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+        /// </summary>
+        public string signingAs { get; set; }
 
         /// <summary>
         /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
@@ -485,7 +490,7 @@ namespace Criipto.Signatures.Models
         public string reference { get; set; }
 
         /// <summary>
-        /// Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+        /// Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
         /// </summary>
         public string role { get; set; }
 
@@ -494,6 +499,11 @@ namespace Criipto.Signatures.Models
         public string signatoryId { get; set; }
 
         public SignatureAppearanceInput signatureAppearance { get; set; }
+
+        /// <summary>
+        /// Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+        /// </summary>
+        public string signingAs { get; set; }
 
         /// <summary>
         /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
@@ -1103,11 +1113,16 @@ namespace Criipto.Signatures.Models
         public string reference { get; set; }
 
         /// <summary>
-        /// Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
+        /// Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
         /// </summary>
         public string role { get; set; }
 
         public SignatureAppearanceInput signatureAppearance { get; set; }
+
+        /// <summary>
+        /// Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
+        /// </summary>
+        public string signingAs { get; set; }
 
         /// <summary>
         /// Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647
@@ -3392,6 +3407,7 @@ namespace Criipto.Signatures.Models
         [JsonProperty("reference")]
         public string reference { get; set; }
 
+        [Obsolete("Deprecated in favor of signingAs")]
         [JsonProperty("role")]
         public string role { get; set; }
 
@@ -3400,6 +3416,9 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("signatureOrder")]
         public SignatureOrder signatureOrder { get; set; }
+
+        [JsonProperty("signingAs")]
+        public string signingAs { get; set; }
 
         [JsonProperty("signingSequence")]
         public SignatorySigningSequence signingSequence { get; set; }

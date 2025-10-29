@@ -44,10 +44,12 @@ export type AddSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
   /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
   signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
@@ -162,10 +164,12 @@ export type ChangeSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
   /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
   signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
@@ -307,9 +311,11 @@ export type CreateSignatureOrderSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
   /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
   signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
@@ -938,9 +944,11 @@ export type Signatory = {
   href: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   reference?: Maybe<Scalars['String']['output']>;
+  /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
+  signingAs?: Maybe<Scalars['String']['output']>;
   signingSequence: SignatorySigningSequence;
   spanId: Scalars['String']['output'];
   /** The current status of the signatory. */
