@@ -195,3 +195,31 @@ class TestClass:
         CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
       )
     )
+
+  @pytest.mark.asyncio
+  async def test_signature_order_role(
+    self, sdk: CriiptoSignaturesSDKAsync | CriiptoSignaturesSDKSync
+  ):
+    role = "CEO"
+
+    signatureOrder = await unwrapResult(
+      sdk.createSignatureOrder(
+        CreateSignatureOrderInput(
+          title="Python sample signature order",
+          expiresInDays=1,
+          documents=[documentFixture],
+        )
+      )
+    )
+
+    signatory = await unwrapResult(
+      sdk.addSignatory(AddSignatoryInput(signatureOrderId=signatureOrder.id, role=role))
+    )
+
+    assert signatory.role == role
+
+    await unwrapResult(
+      sdk.cancelSignatureOrder(
+        CancelSignatureOrderInput(signatureOrderId=signatureOrder.id)
+      )
+    )

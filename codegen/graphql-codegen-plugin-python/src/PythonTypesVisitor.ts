@@ -61,6 +61,7 @@ export class PythonTypesVisitor extends BaseVisitor {
       'from enum import StrEnum',
       'from typing import Optional',
       'from pydantic import BaseModel, Field',
+      'from warnings import deprecated',
     ];
   }
 
@@ -140,14 +141,47 @@ export class PythonTypesVisitor extends BaseVisitor {
     }
 
     let output = '';
+    let fieldName = node.name.value;
     if (node.description?.value) {
       output += `# ${node.description.value}\n`;
     }
 
-    output += `${node.name.value}: ${typeString}`;
+    const fieldModifiers: string[] = [];
+
+    const deprecatedDirective = node.directives?.find(
+      directive => directive.name.value === 'deprecated',
+    );
+    const deprecationMessage =
+      deprecatedDirective?.arguments?.[0]?.value.kind === Kind.STRING
+        ? deprecatedDirective.arguments[0].value.value
+        : null;
+    if (deprecationMessage) {
+      fieldModifiers.push(`alias="${fieldName}"`);
+      fieldName += 'Deprecated';
+      fieldModifiers.push(`deprecated=deprecated("${deprecationMessage}")\n`);
+    }
 
     if (nullable || (listType && nullableList)) {
-      output += ` = Field(default=None)`;
+      fieldModifiers.push(`default=None`);
+    }
+
+    output += `${fieldName}: ${typeString}`;
+    if (fieldModifiers.length) {
+      output += ` = Field(${fieldModifiers.join(',')})`;
+    }
+
+    if (deprecationMessage) {
+      // Adding the deprecated modifier adds a deprecation warning when accessing the field.
+      // However, we also want to show a deprecation warning to type-checkers. The @deprecated
+      // decorator does not work on properties, but it does work on getters.
+      // When we see a deprecated field, we add a property called `${fieldName}Deprecated`, and a
+      // getter called `${fieldName}`, which returns the value of the property.
+      output += `
+@property
+@deprecated("${deprecationMessage}")
+def ${node.name.value}(self) -> ${typeString}:
+  return self.model_dump().get("${fieldName}")
+`;
     }
 
     return output;
