@@ -102,6 +102,7 @@ query viewer {
     }
 
     ... on SignatoryViewer {
+      role
       status
       signer
       evidenceProviders {

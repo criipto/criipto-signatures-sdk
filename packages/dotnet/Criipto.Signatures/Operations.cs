@@ -62,6 +62,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -159,6 +160,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -241,6 +243,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -308,6 +311,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -375,6 +379,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -481,6 +486,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -578,6 +584,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -660,6 +667,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -777,6 +785,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -859,6 +868,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -949,6 +959,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1036,6 +1047,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1116,6 +1128,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1235,6 +1248,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1318,6 +1332,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1407,6 +1422,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
@@ -1495,6 +1511,7 @@ namespace Criipto.Signatures
           reference
           role
           signingAs
+          signatoryRole
           signatureOrder {
             id
             status
