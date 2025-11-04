@@ -85,9 +85,24 @@ export class RustTypesVisitor extends BaseVisitor {
   };
 
   InputObjectTypeDefinition = {
+    enter: (node: InputObjectTypeDefinitionNode) => {
+      const isDefaultable =
+        node.fields?.every(field => {
+          const { nullable } = unwrapTypeNode(field.type);
+          return nullable;
+        }) ?? false;
+
+      (node as any).__isDefaultable = isDefaultable;
+    },
     leave: (node: InputObjectTypeDefinitionNode): string => {
       return new RustTypeDefinition(node.name.value, 'struct')
-        .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
+        .withDerives([
+          'Debug',
+          'Clone',
+          'Serialize',
+          'Deserialize',
+          ...((node as any).__isDefaultable ? ['Default'] : []),
+        ])
         .withContent(node.fields?.map(node => this.asString(node)) || [])
         .toString();
     },

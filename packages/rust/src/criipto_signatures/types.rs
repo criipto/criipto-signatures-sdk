@@ -1,26 +1,24 @@
 use serde_derive::{Deserialize, Serialize};
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoriesInput {
     pub signatories: Vec<crate::criipto_signatures::types::CreateSignatureOrderSignatoryInput>,
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoriesOutput {
     pub signatories: Vec<Signatory>,
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryRole: Option<crate::criipto_signatures::types::SignatoryRole>,
@@ -31,34 +29,34 @@ pub struct AddSignatoryInput {
     pub ui: Option<crate::criipto_signatures::types::SignatoryUIInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoryOutput {
     pub signatory: Signatory,
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AllOfEvidenceProviderInput {
     pub providers: Vec<crate::criipto_signatures::types::SingleEvidenceProviderInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AllOfSignatureEvidenceProvider {
     pub id: crate::scalars::ID,
     pub providers: Vec<SingleSignatureEvidenceProvider>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AnonymousViewer {
     pub authenticated: crate::scalars::Boolean,
     pub id: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Application {
     pub apiKeys: Vec<ApplicationApiKey>,
@@ -70,7 +68,7 @@ pub struct Application {
     pub webhookLogs: Vec<WebhookInvocation>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ApplicationApiKey {
     pub clientId: crate::scalars::String,
@@ -80,14 +78,14 @@ pub struct ApplicationApiKey {
     pub note: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ApplicationApiKeyMode {
     READ_ONLY,
     READ_WRITE,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchSignatory {
     pub href: crate::scalars::String,
@@ -98,21 +96,21 @@ pub struct BatchSignatory {
     pub ui: SignatureOrderUI,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchSignatoryItem {
     pub signatory: Signatory,
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchSignatoryItemInput {
     pub signatoryId: crate::scalars::String,
     pub signatureOrderId: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BatchSignatoryViewer {
     pub authenticated: crate::scalars::Boolean,
@@ -125,26 +123,24 @@ pub struct BatchSignatoryViewer {
     pub ui: SignatureOrderUI,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CancelSignatureOrderInput {
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CancelSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryId: crate::scalars::ID,
@@ -154,14 +150,14 @@ pub struct ChangeSignatoryInput {
     pub ui: Option<crate::criipto_signatures::types::SignatoryUIInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatoryOutput {
     pub signatory: Signatory,
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatureOrderInput {
     pub maxSignatories: Option<crate::scalars::Int>,
@@ -169,58 +165,58 @@ pub struct ChangeSignatureOrderInput {
     pub webhook: Option<crate::criipto_signatures::types::CreateSignatureOrderWebhookInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CleanupSignatureOrderInput {
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CleanupSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CloseSignatureOrderInput {
     pub retainDocumentsForDays: Option<crate::scalars::Int>,
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CloseSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompleteCriiptoVerifyEvidenceProviderInput {
     pub code: crate::scalars::String,
     pub state: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompleteCriiptoVerifyEvidenceProviderOutput {
     pub jwt: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompositeSignature {
     pub signatory: Option<Signatory>,
     pub signatures: Vec<SingleSignature>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationApiKeyInput {
     pub applicationId: crate::scalars::ID,
@@ -228,25 +224,24 @@ pub struct CreateApplicationApiKeyInput {
     pub note: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationApiKeyOutput {
     pub apiKey: ApplicationApiKey,
     pub application: Application,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationInput {
     pub name: crate::scalars::String,
     pub tenantId: crate::scalars::ID,
     pub verifyApplicationDomain: crate::scalars::String,
-    pub verifyApplicationEnvironment:
-        crate::criipto_signatures::types::VerifyApplicationEnvironment,
+    pub verifyApplicationEnvironment: crate::criipto_signatures::types::VerifyApplicationEnvironment,
     pub verifyApplicationRealm: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationOutput {
     pub apiKey: ApplicationApiKey,
@@ -254,33 +249,31 @@ pub struct CreateApplicationOutput {
     pub tenant: Tenant,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateBatchSignatoryInput {
     pub items: Vec<crate::criipto_signatures::types::BatchSignatoryItemInput>,
     pub ui: Option<crate::criipto_signatures::types::SignatoryUIInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateBatchSignatoryOutput {
     pub batchSignatory: BatchSignatory,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateSignatureOrderInput {
     pub disableVerifyEvidenceProvider: Option<crate::scalars::Boolean>,
     pub documents: Vec<crate::criipto_signatures::types::DocumentInput>,
     pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::EvidenceProviderInput>>,
-    pub evidenceValidationStages:
-        Option<Vec<crate::criipto_signatures::types::EvidenceValidationStage>>,
+    pub evidenceValidationStages: Option<Vec<crate::criipto_signatures::types::EvidenceValidationStage>>,
     pub expiresAt: Option<crate::scalars::String>,
     pub expiresInDays: Option<crate::scalars::Int>,
     pub fixDocumentFormattingErrors: Option<crate::scalars::Boolean>,
     pub maxSignatories: Option<crate::scalars::Int>,
-    pub signatories:
-        Option<Vec<crate::criipto_signatures::types::CreateSignatureOrderSignatoryInput>>,
+    pub signatories: Option<Vec<crate::criipto_signatures::types::CreateSignatureOrderSignatoryInput>>,
     pub signatureAppearance: Option<crate::criipto_signatures::types::SignatureAppearanceInput>,
     pub timezone: Option<crate::scalars::String>,
     pub title: Option<crate::scalars::String>,
@@ -288,21 +281,19 @@ pub struct CreateSignatureOrderInput {
     pub webhook: Option<crate::criipto_signatures::types::CreateSignatureOrderWebhookInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateSignatureOrderOutput {
     pub application: Application,
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateSignatureOrderSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryRole: Option<crate::criipto_signatures::types::SignatoryRole>,
@@ -312,8 +303,8 @@ pub struct CreateSignatureOrderSignatoryInput {
     pub ui: Option<crate::criipto_signatures::types::SignatoryUIInput>,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CreateSignatureOrderUIInput {
     pub disableRejection: Option<crate::scalars::Boolean>,
     pub language: Option<crate::criipto_signatures::types::Language>,
@@ -323,7 +314,7 @@ pub struct CreateSignatureOrderUIInput {
     pub stylesheet: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateSignatureOrderWebhookInput {
     pub secret: Option<crate::scalars::Blob>,
@@ -331,21 +322,21 @@ pub struct CreateSignatureOrderWebhookInput {
     pub validateConnectivity: Option<crate::scalars::Boolean>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CriiptoVerifyEvidenceProviderRedirect {
     pub redirectUri: crate::scalars::String,
     pub state: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CriiptoVerifyEvidenceProviderVersion {
     V1,
     V2,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CriiptoVerifyProviderInput {
     pub acrValues: Option<Vec<crate::scalars::String>>,
@@ -358,7 +349,7 @@ pub struct CriiptoVerifyProviderInput {
     pub version: Option<crate::criipto_signatures::types::CriiptoVerifyEvidenceProviderVersion>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CriiptoVerifySignatureEvidenceProvider {
     pub acrValues: Vec<crate::scalars::String>,
@@ -376,39 +367,39 @@ pub struct CriiptoVerifySignatureEvidenceProvider {
     pub version: crate::criipto_signatures::types::CriiptoVerifyEvidenceProviderVersion,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteApplicationApiKeyInput {
     pub apiKeyId: crate::scalars::ID,
     pub applicationId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteApplicationApiKeyOutput {
     pub application: Application,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteSignatoryInput {
     pub signatoryId: crate::scalars::ID,
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeleteSignatoryOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DeviceInput {
     pub os: Option<crate::criipto_signatures::types::DeviceOperatingSystem>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DeviceOperatingSystem {
     ANDROID,
@@ -422,7 +413,7 @@ pub enum Document {
     XmlDocument(XmlDocument),
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DocumentIDLocation {
     BOTTOM,
@@ -431,49 +422,48 @@ pub enum DocumentIDLocation {
     TOP,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DocumentInput {
     pub pdf: Option<crate::criipto_signatures::types::PadesDocumentInput>,
     pub removePreviousSignatures: Option<crate::scalars::Boolean>,
     pub xml: Option<crate::criipto_signatures::types::XadesDocumentInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DocumentStorageMode {
     Temporary,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DownloadVerificationCriiptoVerifyInput {
     pub jwt: crate::scalars::String,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DownloadVerificationInput {
-    pub criiptoVerify:
-        Option<crate::criipto_signatures::types::DownloadVerificationCriiptoVerifyInput>,
+    pub criiptoVerify: Option<crate::criipto_signatures::types::DownloadVerificationCriiptoVerifyInput>,
     pub oidc: Option<crate::criipto_signatures::types::DownloadVerificationOidcInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DownloadVerificationOidcInput {
     pub jwt: crate::scalars::String,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DrawableEvidenceProviderInput {
     pub minimumHeight: Option<crate::scalars::Int>,
     pub minimumWidth: Option<crate::scalars::Int>,
     pub requireName: Option<crate::scalars::Boolean>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DrawableSignature {
     pub image: crate::scalars::Blob,
@@ -481,7 +471,7 @@ pub struct DrawableSignature {
     pub signatory: Option<Signatory>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DrawableSignatureEvidenceProvider {
     pub id: crate::scalars::ID,
@@ -490,14 +480,14 @@ pub struct DrawableSignatureEvidenceProvider {
     pub requireName: crate::scalars::Boolean,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EmptySignature {
     pub signatory: Option<Signatory>,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct EvidenceProviderInput {
     pub allOf: Option<crate::criipto_signatures::types::AllOfEvidenceProviderInput>,
     pub criiptoVerify: Option<crate::criipto_signatures::types::CriiptoVerifyProviderInput>,
@@ -507,34 +497,34 @@ pub struct EvidenceProviderInput {
     pub oidc: Option<crate::criipto_signatures::types::OidcEvidenceProviderInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum EvidenceValidationStage {
     SIGN,
     VIEW,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtendSignatureOrderInput {
     pub additionalExpirationInDays: crate::scalars::Int,
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtendSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JWTClaim {
     pub name: crate::scalars::String,
     pub value: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JWTSignature {
     pub claims: Vec<JWTClaim>,
@@ -543,7 +533,7 @@ pub struct JWTSignature {
     pub signatory: Option<Signatory>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Language {
     DA_DK,
@@ -552,7 +542,7 @@ pub enum Language {
     SV_SE,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Mutation {
     pub addSignatories: Option<AddSignatoriesOutput>,
@@ -576,27 +566,26 @@ pub struct Mutation {
     pub sign: Option<SignOutput>,
     pub signActingAs: Option<SignActingAsOutput>,
     pub signatoryBeacon: Option<SignatoryBeaconOutput>,
-    pub startCriiptoVerifyEvidenceProvider:
-        Option<crate::criipto_signatures::types::StartCriiptoVerifyEvidenceProviderOutput>,
+    pub startCriiptoVerifyEvidenceProvider: Option<crate::criipto_signatures::types::StartCriiptoVerifyEvidenceProviderOutput>,
     pub trackSignatory: Option<TrackSignatoryOutput>,
     pub updateSignatoryDocumentStatus: Option<UpdateSignatoryDocumentStatusOutput>,
     pub validateDocument: Option<ValidateDocumentOutput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct NoopEvidenceProviderInput {
     pub name: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct NoopSignatureEvidenceProvider {
     pub id: crate::scalars::ID,
     pub name: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OidcEvidenceProviderInput {
     pub acrValues: Option<Vec<crate::scalars::String>>,
@@ -608,7 +597,7 @@ pub struct OidcEvidenceProviderInput {
     pub uniqueEvidenceKey: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OidcJWTSignatureEvidenceProvider {
     pub acrValues: Vec<crate::scalars::String>,
@@ -619,26 +608,25 @@ pub struct OidcJWTSignatureEvidenceProvider {
     pub name: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PadesDocumentFormInput {
     pub enabled: crate::scalars::Boolean,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PadesDocumentInput {
     pub blob: crate::scalars::Blob,
     pub displayDocumentID: Option<crate::criipto_signatures::types::DocumentIDLocation>,
     pub form: Option<crate::criipto_signatures::types::PadesDocumentFormInput>,
     pub reference: Option<crate::scalars::String>,
-    pub sealsPageTemplate:
-        Option<crate::criipto_signatures::types::PadesDocumentSealsPageTemplateInput>,
+    pub sealsPageTemplate: Option<crate::criipto_signatures::types::PadesDocumentSealsPageTemplateInput>,
     pub storageMode: crate::criipto_signatures::types::DocumentStorageMode,
     pub title: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PadesDocumentSealsPageTemplateInput {
     pub area: crate::criipto_signatures::types::PdfBoundingBoxInput,
@@ -647,7 +635,7 @@ pub struct PadesDocumentSealsPageTemplateInput {
     pub expectedRows: Option<crate::scalars::Int>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PageInfo {
     pub endCursor: Option<crate::scalars::String>,
@@ -656,7 +644,7 @@ pub struct PageInfo {
     pub startCursor: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfBoundingBoxInput {
     pub x1: crate::scalars::Float,
@@ -665,7 +653,7 @@ pub struct PdfBoundingBoxInput {
     pub y2: crate::scalars::Float,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfDocument {
     pub blob: Option<crate::scalars::Blob>,
@@ -679,13 +667,13 @@ pub struct PdfDocument {
     pub title: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfDocumentForm {
     pub enabled: crate::scalars::Boolean,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfSealPosition {
     pub page: crate::scalars::Int,
@@ -693,7 +681,7 @@ pub struct PdfSealPosition {
     pub y: crate::scalars::Float,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Query {
     pub application: Option<Application>,
@@ -706,62 +694,62 @@ pub struct Query {
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RefreshApplicationApiKeyInput {
     pub apiKeyId: crate::scalars::ID,
     pub applicationId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RefreshApplicationApiKeyOutput {
     pub apiKey: ApplicationApiKey,
     pub application: Application,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RejectSignatureOrderInput {
     pub dummy: crate::scalars::Boolean,
     pub reason: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RejectSignatureOrderOutput {
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetrySignatureOrderWebhookInput {
     pub retryPayload: crate::scalars::String,
     pub signatureOrderId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetrySignatureOrderWebhookOutput {
     pub invocation: WebhookInvocation,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignActingAsInput {
     pub evidence: crate::criipto_signatures::types::SignInput,
     pub signatoryId: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignActingAsOutput {
     pub signatory: Signatory,
     pub signatureOrder: SignatureOrder,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SignAllOfInput {
     pub criiptoVerify: Option<crate::criipto_signatures::types::SignCriiptoVerifyInput>,
     pub criiptoVerifyV2: Option<crate::criipto_signatures::types::SignCriiptoVerifyV2Input>,
@@ -770,47 +758,47 @@ pub struct SignAllOfInput {
     pub oidc: Option<crate::criipto_signatures::types::SignOidcInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignCriiptoVerifyInput {
     pub jwt: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignCriiptoVerifyV2Input {
     pub code: crate::scalars::String,
     pub state: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignDocumentFormFieldInput {
     pub field: crate::scalars::String,
     pub value: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignDocumentFormInput {
     pub fields: Vec<crate::criipto_signatures::types::SignDocumentFormFieldInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignDocumentInput {
     pub form: Option<crate::criipto_signatures::types::SignDocumentFormInput>,
     pub id: crate::scalars::ID,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignDrawableInput {
     pub image: crate::scalars::Blob,
     pub name: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignInput {
     pub allOf: Option<crate::criipto_signatures::types::SignAllOfInput>,
@@ -823,19 +811,19 @@ pub struct SignInput {
     pub oidc: Option<crate::criipto_signatures::types::SignOidcInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignOidcInput {
     pub jwt: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignOutput {
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Signatory {
     pub documents: SignatoryDocumentConnection,
@@ -857,32 +845,32 @@ pub struct Signatory {
     pub ui: SignatureOrderUI,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryBeaconInput {
     pub lastActionAt: crate::scalars::DateTime,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryBeaconOutput {
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryDocumentConnection {
     pub edges: Vec<SignatoryDocumentEdge>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryDocumentEdge {
     pub node: Document,
     pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryDocumentInput {
     pub id: crate::scalars::ID,
@@ -891,7 +879,7 @@ pub struct SignatoryDocumentInput {
     pub preapproved: Option<crate::scalars::Boolean>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SignatoryDocumentStatus {
     APPROVED,
@@ -901,7 +889,7 @@ pub enum SignatoryDocumentStatus {
     SIGNED,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryEvidenceProviderInput {
     pub allOf: Option<crate::criipto_signatures::types::AllOfEvidenceProviderInput>,
@@ -912,7 +900,7 @@ pub struct SignatoryEvidenceProviderInput {
     pub oidc: Option<crate::criipto_signatures::types::OidcEvidenceProviderInput>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryEvidenceValidationInput {
     pub boolean: Option<crate::scalars::Boolean>,
@@ -920,27 +908,27 @@ pub struct SignatoryEvidenceValidationInput {
     pub value: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SignatoryFrontendEvent {
     DOWNLOAD_LINK_OPENED,
     SIGN_LINK_OPENED,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SignatoryRole {
     SIGNER,
     VIEWER,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatorySigningSequence {
     pub initialNumber: crate::scalars::Int,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SignatoryStatus {
     DELETED,
@@ -950,8 +938,8 @@ pub enum SignatoryStatus {
     SIGNED,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SignatoryUIInput {
     pub disableRejection: Option<crate::scalars::Boolean>,
     pub language: Option<crate::criipto_signatures::types::Language>,
@@ -961,7 +949,7 @@ pub struct SignatoryUIInput {
     pub stylesheet: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryViewer {
     pub authenticated: crate::scalars::Boolean,
@@ -977,7 +965,7 @@ pub struct SignatoryViewer {
     pub ui: SignatureOrderUI,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryViewerDownload {
     pub documents: Option<SignatoryDocumentConnection>,
@@ -995,25 +983,23 @@ pub enum Signature {
     JWTSignature(JWTSignature),
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureAppearanceInput {
-    pub displayName:
-        Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
+    pub displayName: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub footer: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub headerLeft: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub identifierFromEvidence: Vec<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureAppearanceTemplateInput {
-    pub replacements:
-        Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateReplacementInput>>,
+    pub replacements: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateReplacementInput>>,
     pub template: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureAppearanceTemplateReplacementInput {
     pub fromEvidence: Vec<crate::scalars::String>,
@@ -1030,7 +1016,7 @@ pub enum SignatureEvidenceProvider {
     OidcJWTSignatureEvidenceProvider(OidcJWTSignatureEvidenceProvider),
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrder {
     pub application: Option<Application>,
@@ -1051,7 +1037,7 @@ pub struct SignatureOrder {
     pub webhook: Option<SignatureOrderWebhook>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderConnection {
     pub edges: Vec<SignatureOrderEdge>,
@@ -1059,14 +1045,14 @@ pub struct SignatureOrderConnection {
     pub totalCount: Option<crate::scalars::Int>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderEdge {
     pub cursor: crate::scalars::String,
     pub node: SignatureOrder,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SignatureOrderStatus {
     CANCELLED,
@@ -1075,7 +1061,7 @@ pub enum SignatureOrderStatus {
     OPEN,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderUI {
     pub disableRejection: crate::scalars::Boolean,
@@ -1086,29 +1072,29 @@ pub struct SignatureOrderUI {
     pub stylesheet: Option<crate::scalars::String>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderUILogo {
     pub href: Option<crate::scalars::String>,
     pub src: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderUILogoInput {
     pub href: Option<crate::scalars::String>,
     pub src: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderWebhook {
     pub logs: Vec<WebhookInvocation>,
     pub url: crate::scalars::String,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SingleEvidenceProviderInput {
     pub criiptoVerify: Option<crate::criipto_signatures::types::CriiptoVerifyProviderInput>,
     pub drawable: Option<crate::criipto_signatures::types::DrawableEvidenceProviderInput>,
@@ -1133,7 +1119,7 @@ pub enum SingleSignatureEvidenceProvider {
     OidcJWTSignatureEvidenceProvider(OidcJWTSignatureEvidenceProvider),
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StartCriiptoVerifyEvidenceProviderInput {
     pub acrValue: crate::scalars::String,
@@ -1150,7 +1136,7 @@ pub enum StartCriiptoVerifyEvidenceProviderOutput {
     CriiptoVerifyEvidenceProviderRedirect(CriiptoVerifyEvidenceProviderRedirect),
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Tenant {
     pub applications: Vec<Application>,
@@ -1158,19 +1144,19 @@ pub struct Tenant {
     pub webhookLogs: Vec<WebhookInvocation>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrackSignatoryInput {
     pub event: crate::criipto_signatures::types::SignatoryFrontendEvent,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrackSignatoryOutput {
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UnvalidatedSignatoryViewer {
     pub authenticated: crate::scalars::Boolean,
@@ -1181,21 +1167,21 @@ pub struct UnvalidatedSignatoryViewer {
     pub ui: SignatureOrderUI,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateSignatoryDocumentStatusInput {
     pub documentId: crate::scalars::ID,
     pub status: crate::criipto_signatures::types::SignatoryDocumentStatus,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateSignatoryDocumentStatusOutput {
     pub documentEdge: SignatoryDocumentEdge,
     pub viewer: Viewer,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserViewer {
     pub authenticated: crate::scalars::Boolean,
@@ -1203,14 +1189,14 @@ pub struct UserViewer {
     pub tenants: Vec<Tenant>,
 }
 
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ValidateDocumentInput {
     pub pdf: Option<crate::scalars::Blob>,
     pub xml: Option<crate::scalars::Blob>,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ValidateDocumentOutput {
     pub errors: Option<Vec<crate::scalars::String>>,
@@ -1219,7 +1205,7 @@ pub struct ValidateDocumentOutput {
     pub valid: crate::scalars::Boolean,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerifyApplication {
     pub domain: crate::scalars::String,
@@ -1227,14 +1213,14 @@ pub struct VerifyApplication {
     pub realm: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum VerifyApplicationEnvironment {
     PRODUCTION,
     TEST,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VerifyApplicationQueryInput {
     pub domain: crate::scalars::String,
@@ -1253,7 +1239,7 @@ pub enum Viewer {
     UserViewer(UserViewer),
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebhookExceptionInvocation {
     pub correlationId: crate::scalars::String,
@@ -1268,7 +1254,7 @@ pub struct WebhookExceptionInvocation {
     pub url: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebhookHttpErrorInvocation {
     pub correlationId: crate::scalars::String,
@@ -1292,7 +1278,7 @@ pub enum WebhookInvocation {
     WebhookTimeoutInvocation(WebhookTimeoutInvocation),
 }
 
-///
+/// 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum WebhookInvocationEvent {
     SIGNATORY_DOCUMENT_STATUS_CHANGED,
@@ -1304,7 +1290,7 @@ pub enum WebhookInvocationEvent {
     SIGNATURE_ORDER_EXPIRED,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebhookSuccessfulInvocation {
     pub correlationId: crate::scalars::String,
@@ -1317,7 +1303,7 @@ pub struct WebhookSuccessfulInvocation {
     pub url: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WebhookTimeoutInvocation {
     pub correlationId: crate::scalars::String,
@@ -1332,7 +1318,7 @@ pub struct WebhookTimeoutInvocation {
     pub url: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct XadesDocumentInput {
     pub blob: crate::scalars::Blob,
@@ -1341,7 +1327,7 @@ pub struct XadesDocumentInput {
     pub title: crate::scalars::String,
 }
 
-///
+/// 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct XmlDocument {
     pub blob: Option<crate::scalars::Blob>,
@@ -1352,3 +1338,4 @@ pub struct XmlDocument {
     pub signatures: Option<Vec<Signature>>,
     pub title: crate::scalars::String,
 }
+
