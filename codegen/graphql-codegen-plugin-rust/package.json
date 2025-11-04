@@ -1,0 +1,39 @@
+{
+  "name": "graphql-codegen-plugin-rust",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "ava",
+    "check": "tsc --erasableSyntaxOnly",
+    "lint": "npx eslint --flag unstable_native_nodejs_ts_config"
+  },
+  "engines": {
+    "node": "^22.18 || ^24"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@tsconfig/node24": "^24.0.1",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^24.2.0",
+    "ava": "^6.4.1",
+    "eslint": "^9.32.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0"
+  },
+  "dependencies": {
+    "@graphql-codegen/plugin-helpers": "^5.1.1",
+    "@graphql-codegen/visitor-plugin-common": "^5.8.0",
+    "change-case-all": "^2.1.0",
+    "graphql-codegen-shared": "file:../graphql-codegen-shared"
+  },
+  "ava": {
+    "files": [
+      "src/**.test.ts"
+    ],
+    "extensions": [
+      "ts"
+    ]
+  }
+}
