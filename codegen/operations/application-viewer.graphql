@@ -45,6 +45,7 @@ fragment BasicSignatory on Signatory {
   reference
   role
   signingAs
+  signatoryRole
 
   signatureOrder {
     id

@@ -46,6 +46,8 @@ export type AddSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
@@ -313,6 +315,8 @@ export type CreateSignatureOrderSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
   signingAs?: InputMaybe<Scalars['String']['input']>;
@@ -946,6 +950,7 @@ export type Signatory = {
   reference?: Maybe<Scalars['String']['output']>;
   /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
+  signatoryRole: SignatoryRole;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
   signingAs?: Maybe<Scalars['String']['output']>;
@@ -1022,6 +1027,8 @@ export type SignatoryFrontendEvent =
   | 'SIGN_LINK_OPENED'
   | '%future added value';
 
+export type SignatoryRole = 'SIGNER' | 'VIEWER' | '%future added value';
+
 export type SignatorySigningSequence = {
   __typename?: 'SignatorySigningSequence';
   initialNumber: Scalars['Int']['output'];
@@ -1057,6 +1064,7 @@ export type SignatoryViewer = Viewer & {
   download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  role: SignatoryRole;
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean']['output'];
@@ -1619,6 +1627,7 @@ export type ViewerQuery = {
       }
     | {
         __typename: 'SignatoryViewer';
+        role: SignatoryRole;
         status: SignatoryStatus;
         signer: boolean;
         evidenceProviders: Array<
@@ -1823,6 +1832,7 @@ export const ViewerDocument = gql`
         authenticated
       }
       ... on SignatoryViewer {
+        role
         status
         signer
         evidenceProviders {

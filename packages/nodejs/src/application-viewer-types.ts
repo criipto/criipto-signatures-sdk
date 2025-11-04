@@ -46,6 +46,8 @@ export type AddSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
@@ -313,6 +315,8 @@ export type CreateSignatureOrderSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
   signingAs?: InputMaybe<Scalars['String']['input']>;
@@ -946,6 +950,7 @@ export type Signatory = {
   reference?: Maybe<Scalars['String']['output']>;
   /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
+  signatoryRole: SignatoryRole;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
   signingAs?: Maybe<Scalars['String']['output']>;
@@ -1022,6 +1027,8 @@ export type SignatoryFrontendEvent =
   | 'SIGN_LINK_OPENED'
   | '%future added value';
 
+export type SignatoryRole = 'SIGNER' | 'VIEWER' | '%future added value';
+
 export type SignatorySigningSequence = {
   __typename?: 'SignatorySigningSequence';
   initialNumber: Scalars['Int']['output'];
@@ -1057,6 +1064,7 @@ export type SignatoryViewer = Viewer & {
   download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  role: SignatoryRole;
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean']['output'];
@@ -1494,6 +1502,7 @@ export type BasicSignatoryFragment = {
   reference?: string | null;
   role?: string | null;
   signingAs?: string | null;
+  signatoryRole: SignatoryRole;
   signatureOrder: {
     __typename?: 'SignatureOrder';
     id: string;
@@ -1538,6 +1547,7 @@ export type BasicSignatureOrderFragment = {
     reference?: string | null;
     role?: string | null;
     signingAs?: string | null;
+    signatoryRole: SignatoryRole;
     signatureOrder: {
       __typename?: 'SignatureOrder';
       id: string;
@@ -1616,6 +1626,7 @@ export type CreateSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -1691,6 +1702,7 @@ export type CleanupSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -1747,6 +1759,7 @@ export type AddSignatoryMutation = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -1795,6 +1808,7 @@ export type AddSignatoriesMutation = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -1843,6 +1857,7 @@ export type ChangeSignatoryMutation = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -1963,6 +1978,7 @@ export type CloseSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2038,6 +2054,7 @@ export type CancelSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2094,6 +2111,7 @@ export type SignActingAsMutation = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2175,6 +2193,7 @@ export type ExtendSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2239,6 +2258,7 @@ export type DeleteSignatoryMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2310,6 +2330,7 @@ export type CreateBatchSignatoryMutation = {
             reference?: string | null;
             role?: string | null;
             signingAs?: string | null;
+            signatoryRole: SignatoryRole;
             signatureOrder: {
               __typename?: 'SignatureOrder';
               id: string;
@@ -2355,6 +2376,7 @@ export type CreateBatchSignatoryMutation = {
           reference?: string | null;
           role?: string | null;
           signingAs?: string | null;
+          signatoryRole: SignatoryRole;
           signatureOrder: {
             __typename?: 'SignatureOrder';
             id: string;
@@ -2413,6 +2435,7 @@ export type ChangeSignatureOrderMutation = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2475,6 +2498,7 @@ export type SignatureOrderQuery = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2600,6 +2624,7 @@ export type SignatureOrderWithDocumentsQuery = {
       reference?: string | null;
       role?: string | null;
       signingAs?: string | null;
+      signatoryRole: SignatoryRole;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2653,6 +2678,7 @@ export type SignatoryQuery = {
     reference?: string | null;
     role?: string | null;
     signingAs?: string | null;
+    signatoryRole: SignatoryRole;
     signatureOrder: {
       __typename?: 'SignatureOrder';
       id: string;
@@ -2672,6 +2698,7 @@ export type SignatoryQuery = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2760,6 +2787,7 @@ export type SignatureOrdersQuery = {
                 reference?: string | null;
                 role?: string | null;
                 signingAs?: string | null;
+                signatoryRole: SignatoryRole;
                 signatureOrder: {
                   __typename?: 'SignatureOrder';
                   id: string;
@@ -2835,6 +2863,7 @@ export type BatchSignatoryQuery = {
           reference?: string | null;
           role?: string | null;
           signingAs?: string | null;
+          signatoryRole: SignatoryRole;
           signatureOrder: {
             __typename?: 'SignatureOrder';
             id: string;
@@ -2880,6 +2909,7 @@ export type BatchSignatoryQuery = {
         reference?: string | null;
         role?: string | null;
         signingAs?: string | null;
+        signatoryRole: SignatoryRole;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2960,6 +2990,7 @@ export const BasicSignatoryFragmentDoc = gql`
     reference
     role
     signingAs
+    signatoryRole
     signatureOrder {
       id
       status

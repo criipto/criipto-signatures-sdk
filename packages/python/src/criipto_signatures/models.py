@@ -3,6 +3,7 @@ from .utils import CustomBlobInput, CustomBlobOutput
 from enum import StrEnum
 from typing import Optional
 from pydantic import BaseModel, Field
+from warnings import deprecated
 
 type IDScalarInput = str
 type IDScalarOutput = str
@@ -48,6 +49,8 @@ class AddSignatoryInput(BaseModel):
   reference: Optional[StringScalarInput] = Field(default=None)
   # Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
+  # Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER.
+  signatoryRole: Optional[SignatoryRole] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
   signatureOrderId: IDScalarInput
   # Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
@@ -297,6 +300,8 @@ class CreateSignatureOrderSignatoryInput(BaseModel):
   reference: Optional[StringScalarInput] = Field(default=None)
   # Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
   role: Optional[StringScalarInput] = Field(default=None)
+  # Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER.
+  signatoryRole: Optional[SignatoryRole] = Field(default=None)
   signatureAppearance: Optional[SignatureAppearanceInput] = Field(default=None)
   # Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output.
   signingAs: Optional[StringScalarInput] = Field(default=None)
@@ -786,7 +791,18 @@ class Signatory(BaseModel):
   href: StringScalarOutput
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
-  role: Optional[StringScalarOutput] = Field(default=None)
+  roleDeprecated: Optional[StringScalarOutput] = Field(
+    alias="role",
+    deprecated=deprecated("Deprecated in favor of signingAs"),
+    default=None,
+  )
+
+  @property
+  @deprecated("Deprecated in favor of signingAs")
+  def role(self) -> Optional[StringScalarOutput]:
+    return self.model_dump().get("roleDeprecated")
+
+  signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: SignatureOrder
   signingAs: Optional[StringScalarOutput] = Field(default=None)
@@ -860,6 +876,11 @@ class SignatoryFrontendEvent(StrEnum):
   SIGN_LINK_OPENED = "SIGN_LINK_OPENED"
 
 
+class SignatoryRole(StrEnum):
+  SIGNER = "SIGNER"
+  VIEWER = "VIEWER"
+
+
 class SignatorySigningSequence(BaseModel):
   initialNumber: IntScalarOutput
 
@@ -893,6 +914,7 @@ class SignatoryViewer(BaseModel):
   download: Optional[SignatoryViewerDownload] = Field(default=None)
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
+  role: SignatoryRole
   signatoryId: IDScalarOutput
   signatureOrderStatus: SignatureOrderStatus
   signer: BooleanScalarOutput

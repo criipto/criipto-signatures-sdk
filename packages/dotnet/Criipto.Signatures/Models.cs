@@ -106,6 +106,12 @@ namespace Criipto.Signatures.Models
         /// </summary>
         public string role { get; set; }
 
+        /// <summary>
+        /// Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER.
+        /// </summary>
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole? signatoryRole { get; set; }
+
         public SignatureAppearanceInput signatureAppearance { get; set; }
 
         [Required]
@@ -1116,6 +1122,12 @@ namespace Criipto.Signatures.Models
         /// Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output.
         /// </summary>
         public string role { get; set; }
+
+        /// <summary>
+        /// Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER.
+        /// </summary>
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole? signatoryRole { get; set; }
 
         public SignatureAppearanceInput signatureAppearance { get; set; }
 
@@ -3411,6 +3423,10 @@ namespace Criipto.Signatures.Models
         [JsonProperty("role")]
         public string role { get; set; }
 
+        [JsonProperty("signatoryRole")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole signatoryRole { get; set; }
+
         /// <summary>
         /// Signature order for the signatory.
         /// </summary>
@@ -3703,6 +3719,13 @@ namespace Criipto.Signatures.Models
         FUTURE_ADDED_VALUE = 999,
     }
 
+    public enum SignatoryRole
+    {
+        SIGNER,
+        VIEWER,
+        FUTURE_ADDED_VALUE = 999,
+    }
+
     #region SignatorySigningSequence
     public class SignatorySigningSequence
     {
@@ -3808,6 +3831,10 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("id")]
         public string id { get; set; }
+
+        [JsonProperty("role")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole role { get; set; }
 
         [JsonProperty("signatoryId")]
         public string signatoryId { get; set; }
