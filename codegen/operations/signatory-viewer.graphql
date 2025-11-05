@@ -96,12 +96,14 @@ mutation updateSignatoryDocumentStatus($input: UpdateSignatoryDocumentStatusInpu
 query viewer {
   viewer {
     __typename
+    id
 
     ... on AnonymousViewer {
       authenticated
     }
 
     ... on SignatoryViewer {
+      signatoryId
       role
       status
       signer
@@ -120,6 +122,7 @@ query viewer {
       }
     }
     ... on BatchSignatoryViewer {
+      batchSignatoryId
       status
       signer
       evidenceProviders {
@@ -137,6 +140,7 @@ query viewer {
       }
     }
     ... on UnvalidatedSignatoryViewer {
+      signatoryId
       evidenceProviders {
         __typename
         ...EvidenceProvider
