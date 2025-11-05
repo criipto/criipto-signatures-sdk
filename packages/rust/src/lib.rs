@@ -8,7 +8,7 @@
 //!
 //! ```no_run
 //! # use reqwest_crate as reqwest;
-//! 
+//!
 //! use reqwest::{blocking::Client, header::HeaderMap};
 //! use criipto_signatures_rs::{reqwest::post_graphql_blocking, graphql::GraphQlQuery, types::{PadesDocumentInput, DocumentInput, DocumentStorageMode, CreateSignatureOrderInput}, operations::{op_createSignatureOrder, createSignatureOrder}};
 //!

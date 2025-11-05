@@ -146,7 +146,7 @@ pub mod op_createSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        createSignatureOrder: CreateSignatureOrderOutput,
+        pub createSignatureOrder: CreateSignatureOrderOutput,
     }
 }
 
@@ -306,7 +306,7 @@ pub mod op_cleanupSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        cleanupSignatureOrder: CleanupSignatureOrderOutput,
+        pub cleanupSignatureOrder: CleanupSignatureOrderOutput,
     }
 }
 
@@ -399,7 +399,7 @@ pub mod op_addSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        addSignatory: AddSignatoryOutput,
+        pub addSignatory: AddSignatoryOutput,
     }
 }
 
@@ -492,7 +492,7 @@ pub mod op_addSignatories {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        addSignatories: AddSignatoriesOutput,
+        pub addSignatories: AddSignatoriesOutput,
     }
 }
 
@@ -585,7 +585,7 @@ pub mod op_changeSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        changeSignatory: ChangeSignatoryOutput,
+        pub changeSignatory: ChangeSignatoryOutput,
     }
 }
 
@@ -947,7 +947,7 @@ pub mod op_closeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        closeSignatureOrder: CloseSignatureOrderOutput,
+        pub closeSignatureOrder: CloseSignatureOrderOutput,
     }
 }
 
@@ -1107,7 +1107,7 @@ pub mod op_cancelSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        cancelSignatureOrder: CancelSignatureOrderOutput,
+        pub cancelSignatureOrder: CancelSignatureOrderOutput,
     }
 }
 
@@ -1200,7 +1200,7 @@ pub mod op_signActingAs {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        signActingAs: SignActingAsOutput,
+        pub signActingAs: SignActingAsOutput,
     }
 }
 
@@ -1237,7 +1237,7 @@ pub mod op_validateDocument {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        validateDocument: ValidateDocumentOutput,
+        pub validateDocument: ValidateDocumentOutput,
     }
 }
 
@@ -1397,7 +1397,7 @@ pub mod op_extendSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        extendSignatureOrder: ExtendSignatureOrderOutput,
+        pub extendSignatureOrder: ExtendSignatureOrderOutput,
     }
 }
 
@@ -1509,7 +1509,7 @@ pub mod op_deleteSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        deleteSignatory: DeleteSignatoryOutput,
+        pub deleteSignatory: DeleteSignatoryOutput,
     }
 }
 
@@ -1695,7 +1695,7 @@ pub mod op_createBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        createBatchSignatory: CreateBatchSignatoryOutput,
+        pub createBatchSignatory: CreateBatchSignatoryOutput,
     }
 }
 
@@ -1807,7 +1807,7 @@ pub mod op_changeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        changeSignatureOrder: ChangeSignatureOrderOutput,
+        pub changeSignatureOrder: ChangeSignatureOrderOutput,
     }
 }
 
@@ -1913,7 +1913,7 @@ pub mod op_querySignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        signatureOrder: SignatureOrder,
+        pub signatureOrder: SignatureOrder,
     }
 }
 
@@ -2269,7 +2269,7 @@ pub mod op_querySignatureOrderWithDocuments {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        signatureOrder: SignatureOrder,
+        pub signatureOrder: SignatureOrder,
     }
 }
 
@@ -2424,7 +2424,7 @@ pub mod op_querySignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        signatory: Signatory,
+        pub signatory: Signatory,
     }
 }
 
@@ -2625,7 +2625,7 @@ pub mod op_querySignatureOrders {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        viewer: Viewer,
+        pub viewer: Viewer,
     }
 }
 
@@ -2805,7 +2805,7 @@ pub mod op_queryBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ResponseData {
-        batchSignatory: BatchSignatory,
+        pub batchSignatory: BatchSignatory,
     }
 }
 

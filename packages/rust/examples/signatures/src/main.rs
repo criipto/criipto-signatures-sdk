@@ -1,9 +1,6 @@
 use ::reqwest::blocking::Client;
 use criipto_signatures_rs::{
-    operations::{
-        createSignatureOrder,
-        op_createSignatureOrder,
-    },
+    operations::{createSignatureOrder, op_createSignatureOrder},
     types::{CreateSignatureOrderInput, DocumentInput, DocumentStorageMode, PadesDocumentInput},
 };
 

@@ -160,7 +160,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
 
         return new RustTypeDefinition(`ResponseData`, 'struct')
           .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
-          .withContent([`${topLevelSelection.name.value}: ${operationOutputNode.name}`])
+          .withContent([`pub ${topLevelSelection.name.value}: ${operationOutputNode.name}`])
           .toString();
       };
 
