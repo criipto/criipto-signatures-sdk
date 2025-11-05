@@ -15,6 +15,11 @@ const pythonCommonConfig: Partial<CodegenConfig> = {
     afterOneFileWrite: ['uvx ruff format'],
   },
 };
+const nodejsCommonConfig: Partial<CodegenConfig> = {
+  hooks: {
+    afterOneFileWrite: ['prettier --write', 'npx jscodeshift -t codegen/codemods/*.ts '],
+  },
+};
 
 const config: CodegenConfig = {
   schema: [
@@ -44,6 +49,7 @@ const config: CodegenConfig = {
       } satisfies TypeScriptPluginConfig &
         TypeScriptDocumentsPluginConfig &
         TypescriptGraphqlRequestPluginConfig,
+      ...nodejsCommonConfig,
     },
     'packages/nodejs/src/signatory-viewer-types.ts': {
       documents: './codegen/operations/signatory-viewer.graphql',
@@ -64,6 +70,7 @@ const config: CodegenConfig = {
       } satisfies TypeScriptPluginConfig &
         TypeScriptDocumentsPluginConfig &
         TypescriptGraphqlRequestPluginConfig,
+      ...nodejsCommonConfig,
     },
     'packages/dotnet/Criipto.Signatures/Models.cs': {
       documents: './codegen/operations/application-viewer.graphql',
