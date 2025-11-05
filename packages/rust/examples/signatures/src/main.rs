@@ -60,7 +60,12 @@ fn main() -> anyhow::Result<()> {
         .error_for_status()?
         .json::<serde_json::Value>()?;
 
-    println!("Response: {:#?}", res);
+    println!("Response: {:#?}", &res);
 
+    let res_data = serde_json::from_value::<<createSignatureOrder as GraphQLQuery>::ResponseBody>(
+        res["data"]["createSignatureOrder"].clone(),
+    )?;
+
+    println!("Parsed response data: {:#?}", &res_data);
     Ok(())
 }

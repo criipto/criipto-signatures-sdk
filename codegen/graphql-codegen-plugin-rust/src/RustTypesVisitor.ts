@@ -24,6 +24,7 @@ export class RustTypeDefinition {
   _derives: string[] = [];
   _comment: string;
   _content: string[] = [];
+  _attributes: string[] = [];
 
   constructor(name: string, kind: string) {
     this._name = name;
@@ -33,6 +34,11 @@ export class RustTypeDefinition {
 
   withDerives(derives: string[]) {
     this._derives = derives;
+    return this;
+  }
+
+  withAttributes(attributes: string[]) {
+    this._attributes = attributes;
     return this;
   }
 
@@ -52,6 +58,9 @@ export class RustTypeDefinition {
     if (this._derives.length > 0) {
       result += `#[derive(${this._derives.join(', ')})]\n`;
     }
+    this._attributes.forEach(attr => {
+      result += `${attr}\n`;
+    });
     result += `pub ${this._kind} ${this._name} {\n`;
     this._content.forEach(line => {
       result += `    ${line},\n`;
@@ -72,8 +81,8 @@ export class RustTypesVisitor extends BaseVisitor {
 
   EnumTypeDefinition = {
     leave: (node: EnumTypeDefinitionNode): string => {
-      return new RustTypeDefinition(node.name.value, 'enum')
-        .withDerives(['Debug', 'Clone', 'PartialEq', 'Eq', 'Serialize', 'Deserialize'])
+      const typeDef = new RustTypeDefinition(node.name.value, 'enum')
+        .withDerives(['Debug', 'Clone', 'PartialEq', 'Eq'])
         .withContent(
           node.values?.map(enumOption => {
             const name = enumOption.name.value;
@@ -81,6 +90,44 @@ export class RustTypesVisitor extends BaseVisitor {
           }) || [],
         )
         .toString();
+
+      const serialiseImpls = `
+            impl ::serde::Serialize for ${node.name.value} {
+                fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+                where
+                    S: ::serde::Serializer,
+                {
+                    match *self {
+                        ${node.values
+                          ?.map(enumOption => {
+                            const name = enumOption.name.value;
+                            return `${node.name.value}::${name} => serializer.serialize_str("${name}"),`;
+                          })
+                          .join('\n')}
+                    }
+                }
+            }
+            
+            impl<'de> ::serde::Deserialize<'de> for ${node.name.value} {
+                fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+                where
+                    D: ::serde::Deserializer<'de>,
+                {
+                        let s:String = ::serde::Deserialize::deserialize(deserializer)?;
+                        match s.as_ref() {
+                            ${node.values
+                              ?.map(enumOption => {
+                                const name = enumOption.name.value;
+                                return `"${name}" => Ok(${node.name.value}::${name}),`;
+                              })
+                              .join('\n')}
+                            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
+                        }
+                }
+            }
+            `;
+
+      return typeDef + '\n' + serialiseImpls;
     },
   };
 
@@ -154,6 +201,7 @@ export class RustTypesVisitor extends BaseVisitor {
 
       return new RustTypeDefinition(node.name.value, 'enum')
         .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
+        .withAttributes(['#[serde(tag = "__typename")]'])
         .withContent(
           node.types.map(
             node => `${node.name.value}(${this.config.typesPrefix}${node.name.value})`,

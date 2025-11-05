@@ -29,6 +29,7 @@ pub mod op_createSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CreateSignatureOrderOutput_SignatureOrder_Document {
         PdfDocument(CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument),
         XmlDocument(CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
@@ -135,10 +136,10 @@ pub mod op_createSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for createSignatureOrder {
-    type Input = op_createSignatureOrder::Variables;
-    type Output = op_createSignatureOrder::CreateSignatureOrderOutput;
+    type Variables = op_createSignatureOrder::Variables;
+    type ResponseBody = op_createSignatureOrder::CreateSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_createSignatureOrder::QUERY,
             variables,
@@ -176,6 +177,7 @@ pub mod op_cleanupSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CleanupSignatureOrderOutput_SignatureOrder_Document {
         PdfDocument(CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument),
         XmlDocument(CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
@@ -282,10 +284,10 @@ pub mod op_cleanupSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for cleanupSignatureOrder {
-    type Input = op_cleanupSignatureOrder::Variables;
-    type Output = op_cleanupSignatureOrder::CleanupSignatureOrderOutput;
+    type Variables = op_cleanupSignatureOrder::Variables;
+    type ResponseBody = op_cleanupSignatureOrder::CleanupSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_cleanupSignatureOrder::QUERY,
             variables,
@@ -374,10 +376,10 @@ pub mod op_addSignatory {
 }
 
 impl crate::graphql::GraphQLQuery for addSignatory {
-    type Input = op_addSignatory::Variables;
-    type Output = op_addSignatory::AddSignatoryOutput;
+    type Variables = op_addSignatory::Variables;
+    type ResponseBody = op_addSignatory::AddSignatoryOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_addSignatory::QUERY,
             variables,
@@ -466,10 +468,10 @@ pub mod op_addSignatories {
 }
 
 impl crate::graphql::GraphQLQuery for addSignatories {
-    type Input = op_addSignatories::Variables;
-    type Output = op_addSignatories::AddSignatoriesOutput;
+    type Variables = op_addSignatories::Variables;
+    type ResponseBody = op_addSignatories::AddSignatoriesOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_addSignatories::QUERY,
             variables,
@@ -558,10 +560,10 @@ pub mod op_changeSignatory {
 }
 
 impl crate::graphql::GraphQLQuery for changeSignatory {
-    type Input = op_changeSignatory::Variables;
-    type Output = op_changeSignatory::ChangeSignatoryOutput;
+    type Variables = op_changeSignatory::Variables;
+    type ResponseBody = op_changeSignatory::ChangeSignatoryOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_changeSignatory::QUERY,
             variables,
@@ -599,6 +601,7 @@ pub mod op_closeSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CloseSignatureOrderOutput_SignatureOrder_Document {
         PdfDocument(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument),
         XmlDocument(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
@@ -691,6 +694,7 @@ pub mod op_closeSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature {
         CompositeSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature),
     DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
@@ -700,6 +704,7 @@ pub mod op_closeSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature {
         CompositeSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature),
     DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
@@ -859,10 +864,10 @@ pub mod op_closeSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for closeSignatureOrder {
-    type Input = op_closeSignatureOrder::Variables;
-    type Output = op_closeSignatureOrder::CloseSignatureOrderOutput;
+    type Variables = op_closeSignatureOrder::Variables;
+    type ResponseBody = op_closeSignatureOrder::CloseSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_closeSignatureOrder::QUERY,
             variables,
@@ -900,6 +905,7 @@ pub mod op_cancelSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum CancelSignatureOrderOutput_SignatureOrder_Document {
         PdfDocument(CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument),
         XmlDocument(CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
@@ -1006,10 +1012,10 @@ pub mod op_cancelSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for cancelSignatureOrder {
-    type Input = op_cancelSignatureOrder::Variables;
-    type Output = op_cancelSignatureOrder::CancelSignatureOrderOutput;
+    type Variables = op_cancelSignatureOrder::Variables;
+    type ResponseBody = op_cancelSignatureOrder::CancelSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_cancelSignatureOrder::QUERY,
             variables,
@@ -1098,10 +1104,10 @@ pub mod op_signActingAs {
 }
 
 impl crate::graphql::GraphQLQuery for signActingAs {
-    type Input = op_signActingAs::Variables;
-    type Output = op_signActingAs::SignActingAsOutput;
+    type Variables = op_signActingAs::Variables;
+    type ResponseBody = op_signActingAs::SignActingAsOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_signActingAs::QUERY,
             variables,
@@ -1132,10 +1138,10 @@ pub mod op_validateDocument {
 }
 
 impl crate::graphql::GraphQLQuery for validateDocument {
-    type Input = op_validateDocument::Variables;
-    type Output = op_validateDocument::ValidateDocumentOutput;
+    type Variables = op_validateDocument::Variables;
+    type ResponseBody = op_validateDocument::ValidateDocumentOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_validateDocument::QUERY,
             variables,
@@ -1173,6 +1179,7 @@ pub mod op_extendSignatureOrder {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum ExtendSignatureOrderOutput_SignatureOrder_Document {
         PdfDocument(ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument),
         XmlDocument(ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
@@ -1279,10 +1286,10 @@ pub mod op_extendSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for extendSignatureOrder {
-    type Input = op_extendSignatureOrder::Variables;
-    type Output = op_extendSignatureOrder::ExtendSignatureOrderOutput;
+    type Variables = op_extendSignatureOrder::Variables;
+    type ResponseBody = op_extendSignatureOrder::ExtendSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_extendSignatureOrder::QUERY,
             variables,
@@ -1391,10 +1398,10 @@ pub mod op_deleteSignatory {
 }
 
 impl crate::graphql::GraphQLQuery for deleteSignatory {
-    type Input = op_deleteSignatory::Variables;
-    type Output = op_deleteSignatory::DeleteSignatoryOutput;
+    type Variables = op_deleteSignatory::Variables;
+    type ResponseBody = op_deleteSignatory::DeleteSignatoryOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_deleteSignatory::QUERY,
             variables,
@@ -1583,10 +1590,10 @@ pub mod op_createBatchSignatory {
 }
 
 impl crate::graphql::GraphQLQuery for createBatchSignatory {
-    type Input = op_createBatchSignatory::Variables;
-    type Output = op_createBatchSignatory::CreateBatchSignatoryOutput;
+    type Variables = op_createBatchSignatory::Variables;
+    type ResponseBody = op_createBatchSignatory::CreateBatchSignatoryOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_createBatchSignatory::QUERY,
             variables,
@@ -1697,10 +1704,10 @@ pub mod op_changeSignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for changeSignatureOrder {
-    type Input = op_changeSignatureOrder::Variables;
-    type Output = op_changeSignatureOrder::ChangeSignatureOrderOutput;
+    type Variables = op_changeSignatureOrder::Variables;
+    type ResponseBody = op_changeSignatureOrder::ChangeSignatureOrderOutput;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_changeSignatureOrder::QUERY,
             variables,
@@ -1801,10 +1808,10 @@ pub mod op_querySignatureOrder {
 }
 
 impl crate::graphql::GraphQLQuery for querySignatureOrder {
-    type Input = op_querySignatureOrder::Variables;
-    type Output = op_querySignatureOrder::SignatureOrder;
+    type Variables = op_querySignatureOrder::Variables;
+    type ResponseBody = op_querySignatureOrder::SignatureOrder;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_querySignatureOrder::QUERY,
             variables,
@@ -1835,6 +1842,7 @@ pub mod op_querySignatureOrderWithDocuments {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum SignatureOrder_Document {
         PdfDocument(SignatureOrder_Document_PdfDocument),
         XmlDocument(SignatureOrder_Document_XmlDocument),
@@ -1921,6 +1929,7 @@ pub mod op_querySignatureOrderWithDocuments {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum SignatureOrder_Document_PdfDocument_Signature {
         CompositeSignature(SignatureOrder_Document_PdfDocument_Signature_CompositeSignature),
         DrawableSignature(SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
@@ -1930,6 +1939,7 @@ pub mod op_querySignatureOrderWithDocuments {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum SignatureOrder_Document_XmlDocument_Signature {
         CompositeSignature(SignatureOrder_Document_XmlDocument_Signature_CompositeSignature),
         DrawableSignature(SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
@@ -2085,10 +2095,10 @@ pub mod op_querySignatureOrderWithDocuments {
 }
 
 impl crate::graphql::GraphQLQuery for querySignatureOrderWithDocuments {
-    type Input = op_querySignatureOrderWithDocuments::Variables;
-    type Output = op_querySignatureOrderWithDocuments::SignatureOrder;
+    type Variables = op_querySignatureOrderWithDocuments::Variables;
+    type ResponseBody = op_querySignatureOrderWithDocuments::SignatureOrder;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_querySignatureOrderWithDocuments::QUERY,
             variables,
@@ -2240,10 +2250,10 @@ pub mod op_querySignatory {
 }
 
 impl crate::graphql::GraphQLQuery for querySignatory {
-    type Input = op_querySignatory::Variables;
-    type Output = op_querySignatory::Signatory;
+    type Variables = op_querySignatory::Variables;
+    type ResponseBody = op_querySignatory::Signatory;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_querySignatory::QUERY,
             variables,
@@ -2260,6 +2270,7 @@ pub mod op_querySignatureOrders {
 
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
     pub enum Viewer {
         AnonymousViewer(Viewer_AnonymousViewer),
         Application(Viewer_Application),
@@ -2399,10 +2410,10 @@ pub mod op_querySignatureOrders {
 }
 
 impl crate::graphql::GraphQLQuery for querySignatureOrders {
-    type Input = op_querySignatureOrders::Variables;
-    type Output = op_querySignatureOrders::Viewer;
+    type Variables = op_querySignatureOrders::Variables;
+    type ResponseBody = op_querySignatureOrders::Viewer;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_querySignatureOrders::QUERY,
             variables,
@@ -2585,10 +2596,10 @@ pub mod op_queryBatchSignatory {
 }
 
 impl crate::graphql::GraphQLQuery for queryBatchSignatory {
-    type Input = op_queryBatchSignatory::Variables;
-    type Output = op_queryBatchSignatory::BatchSignatory;
+    type Variables = op_queryBatchSignatory::Variables;
+    type ResponseBody = op_queryBatchSignatory::BatchSignatory;
 
-    fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
             query: op_queryBatchSignatory::QUERY,
             variables,

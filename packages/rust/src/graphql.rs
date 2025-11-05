@@ -2,18 +2,17 @@ use std::fmt::Debug;
 
 use serde::Serialize;
 
-
-#[derive(Serialize)]
+#[derive(serde_derive::Serialize)]
 pub struct QueryBody<T: Serialize> {
     pub query: &'static str,
     pub variables: T,
 }
 
 pub trait GraphQLQuery {
-    type Input: Serialize;
-    type Output;
+    type Variables: Serialize;
+    type ResponseBody;
 
-    fn build_query(input: Self::Input) -> QueryBody<Self::Input>;
+    fn build_query(input: Self::Variables) -> QueryBody<Self::Variables>;
 }
 
 impl<T: Debug + Serialize> Debug for QueryBody<T> {

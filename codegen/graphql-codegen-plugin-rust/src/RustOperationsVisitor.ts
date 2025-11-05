@@ -232,10 +232,10 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
       }
         
       impl crate::graphql::GraphQLQuery for ${operationName} {
-        type Input = op_${operationName}::Variables;
-        type Output = op_${operationName}::${outputTypeName};
+        type Variables = op_${operationName}::Variables;
+        type ResponseBody = op_${operationName}::${outputTypeName};
 
-        fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+        fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
           crate::graphql::QueryBody {
             query: op_${operationName}::QUERY,
             variables,

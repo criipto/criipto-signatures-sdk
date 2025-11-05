@@ -81,10 +81,39 @@ pub struct ApplicationApiKey {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ApplicationApiKeyMode {
     READ_ONLY,
     READ_WRITE,
+}
+
+impl ::serde::Serialize for ApplicationApiKeyMode {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            ApplicationApiKeyMode::READ_ONLY => serializer.serialize_str("READ_ONLY"),
+            ApplicationApiKeyMode::READ_WRITE => serializer.serialize_str("READ_WRITE"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for ApplicationApiKeyMode {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "READ_ONLY" => Ok(ApplicationApiKeyMode::READ_ONLY),
+            "READ_WRITE" => Ok(ApplicationApiKeyMode::READ_WRITE),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -339,10 +368,39 @@ pub struct CriiptoVerifyEvidenceProviderRedirect {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CriiptoVerifyEvidenceProviderVersion {
     V1,
     V2,
+}
+
+impl ::serde::Serialize for CriiptoVerifyEvidenceProviderVersion {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            CriiptoVerifyEvidenceProviderVersion::V1 => serializer.serialize_str("V1"),
+            CriiptoVerifyEvidenceProviderVersion::V2 => serializer.serialize_str("V2"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for CriiptoVerifyEvidenceProviderVersion {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "V1" => Ok(CriiptoVerifyEvidenceProviderVersion::V1),
+            "V2" => Ok(CriiptoVerifyEvidenceProviderVersion::V2),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -409,10 +467,39 @@ pub struct DeviceInput {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DeviceOperatingSystem {
     ANDROID,
     IOS,
+}
+
+impl ::serde::Serialize for DeviceOperatingSystem {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            DeviceOperatingSystem::ANDROID => serializer.serialize_str("ANDROID"),
+            DeviceOperatingSystem::IOS => serializer.serialize_str("IOS"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for DeviceOperatingSystem {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "ANDROID" => Ok(DeviceOperatingSystem::ANDROID),
+            "IOS" => Ok(DeviceOperatingSystem::IOS),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 /// interface
@@ -423,12 +510,45 @@ pub enum Document {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DocumentIDLocation {
     BOTTOM,
     LEFT,
     RIGHT,
     TOP,
+}
+
+impl ::serde::Serialize for DocumentIDLocation {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            DocumentIDLocation::BOTTOM => serializer.serialize_str("BOTTOM"),
+            DocumentIDLocation::LEFT => serializer.serialize_str("LEFT"),
+            DocumentIDLocation::RIGHT => serializer.serialize_str("RIGHT"),
+            DocumentIDLocation::TOP => serializer.serialize_str("TOP"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "BOTTOM" => Ok(DocumentIDLocation::BOTTOM),
+            "LEFT" => Ok(DocumentIDLocation::LEFT),
+            "RIGHT" => Ok(DocumentIDLocation::RIGHT),
+            "TOP" => Ok(DocumentIDLocation::TOP),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -440,9 +560,36 @@ pub struct DocumentInput {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DocumentStorageMode {
     Temporary,
+}
+
+impl ::serde::Serialize for DocumentStorageMode {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            DocumentStorageMode::Temporary => serializer.serialize_str("Temporary"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for DocumentStorageMode {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "Temporary" => Ok(DocumentStorageMode::Temporary),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -508,10 +655,39 @@ pub struct EvidenceProviderInput {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum EvidenceValidationStage {
     SIGN,
     VIEW,
+}
+
+impl ::serde::Serialize for EvidenceValidationStage {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            EvidenceValidationStage::SIGN => serializer.serialize_str("SIGN"),
+            EvidenceValidationStage::VIEW => serializer.serialize_str("VIEW"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for EvidenceValidationStage {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "SIGN" => Ok(EvidenceValidationStage::SIGN),
+            "VIEW" => Ok(EvidenceValidationStage::VIEW),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -544,12 +720,45 @@ pub struct JWTSignature {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Language {
     DA_DK,
     EN_US,
     NB_NO,
     SV_SE,
+}
+
+impl ::serde::Serialize for Language {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            Language::DA_DK => serializer.serialize_str("DA_DK"),
+            Language::EN_US => serializer.serialize_str("EN_US"),
+            Language::NB_NO => serializer.serialize_str("NB_NO"),
+            Language::SV_SE => serializer.serialize_str("SV_SE"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for Language {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "DA_DK" => Ok(Language::DA_DK),
+            "EN_US" => Ok(Language::EN_US),
+            "NB_NO" => Ok(Language::NB_NO),
+            "SV_SE" => Ok(Language::SV_SE),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -892,13 +1101,48 @@ pub struct SignatoryDocumentInput {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryDocumentStatus {
     APPROVED,
     OPENED,
     PREAPPROVED,
     REJECTED,
     SIGNED,
+}
+
+impl ::serde::Serialize for SignatoryDocumentStatus {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            SignatoryDocumentStatus::APPROVED => serializer.serialize_str("APPROVED"),
+            SignatoryDocumentStatus::OPENED => serializer.serialize_str("OPENED"),
+            SignatoryDocumentStatus::PREAPPROVED => serializer.serialize_str("PREAPPROVED"),
+            SignatoryDocumentStatus::REJECTED => serializer.serialize_str("REJECTED"),
+            SignatoryDocumentStatus::SIGNED => serializer.serialize_str("SIGNED"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for SignatoryDocumentStatus {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "APPROVED" => Ok(SignatoryDocumentStatus::APPROVED),
+            "OPENED" => Ok(SignatoryDocumentStatus::OPENED),
+            "PREAPPROVED" => Ok(SignatoryDocumentStatus::PREAPPROVED),
+            "REJECTED" => Ok(SignatoryDocumentStatus::REJECTED),
+            "SIGNED" => Ok(SignatoryDocumentStatus::SIGNED),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -921,17 +1165,79 @@ pub struct SignatoryEvidenceValidationInput {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryFrontendEvent {
     DOWNLOAD_LINK_OPENED,
     SIGN_LINK_OPENED,
 }
 
+impl ::serde::Serialize for SignatoryFrontendEvent {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            SignatoryFrontendEvent::DOWNLOAD_LINK_OPENED => {
+                serializer.serialize_str("DOWNLOAD_LINK_OPENED")
+            }
+            SignatoryFrontendEvent::SIGN_LINK_OPENED => {
+                serializer.serialize_str("SIGN_LINK_OPENED")
+            }
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for SignatoryFrontendEvent {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "DOWNLOAD_LINK_OPENED" => Ok(SignatoryFrontendEvent::DOWNLOAD_LINK_OPENED),
+            "SIGN_LINK_OPENED" => Ok(SignatoryFrontendEvent::SIGN_LINK_OPENED),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
+}
+
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryRole {
     SIGNER,
     VIEWER,
+}
+
+impl ::serde::Serialize for SignatoryRole {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            SignatoryRole::SIGNER => serializer.serialize_str("SIGNER"),
+            SignatoryRole::VIEWER => serializer.serialize_str("VIEWER"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for SignatoryRole {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "SIGNER" => Ok(SignatoryRole::SIGNER),
+            "VIEWER" => Ok(SignatoryRole::VIEWER),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -941,13 +1247,48 @@ pub struct SignatorySigningSequence {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryStatus {
     DELETED,
     ERROR,
     OPEN,
     REJECTED,
     SIGNED,
+}
+
+impl ::serde::Serialize for SignatoryStatus {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            SignatoryStatus::DELETED => serializer.serialize_str("DELETED"),
+            SignatoryStatus::ERROR => serializer.serialize_str("ERROR"),
+            SignatoryStatus::OPEN => serializer.serialize_str("OPEN"),
+            SignatoryStatus::REJECTED => serializer.serialize_str("REJECTED"),
+            SignatoryStatus::SIGNED => serializer.serialize_str("SIGNED"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for SignatoryStatus {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "DELETED" => Ok(SignatoryStatus::DELETED),
+            "ERROR" => Ok(SignatoryStatus::ERROR),
+            "OPEN" => Ok(SignatoryStatus::OPEN),
+            "REJECTED" => Ok(SignatoryStatus::REJECTED),
+            "SIGNED" => Ok(SignatoryStatus::SIGNED),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -1067,12 +1408,45 @@ pub struct SignatureOrderEdge {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatureOrderStatus {
     CANCELLED,
     CLOSED,
     EXPIRED,
     OPEN,
+}
+
+impl ::serde::Serialize for SignatureOrderStatus {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            SignatureOrderStatus::CANCELLED => serializer.serialize_str("CANCELLED"),
+            SignatureOrderStatus::CLOSED => serializer.serialize_str("CLOSED"),
+            SignatureOrderStatus::EXPIRED => serializer.serialize_str("EXPIRED"),
+            SignatureOrderStatus::OPEN => serializer.serialize_str("OPEN"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for SignatureOrderStatus {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "CANCELLED" => Ok(SignatureOrderStatus::CANCELLED),
+            "CLOSED" => Ok(SignatureOrderStatus::CLOSED),
+            "EXPIRED" => Ok(SignatureOrderStatus::EXPIRED),
+            "OPEN" => Ok(SignatureOrderStatus::OPEN),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -1146,6 +1520,7 @@ pub struct StartCriiptoVerifyEvidenceProviderInput {
 
 /// union
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "__typename")]
 pub enum StartCriiptoVerifyEvidenceProviderOutput {
     CriiptoVerifyEvidenceProviderRedirect(CriiptoVerifyEvidenceProviderRedirect),
 }
@@ -1228,10 +1603,39 @@ pub struct VerifyApplication {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum VerifyApplicationEnvironment {
     PRODUCTION,
     TEST,
+}
+
+impl ::serde::Serialize for VerifyApplicationEnvironment {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            VerifyApplicationEnvironment::PRODUCTION => serializer.serialize_str("PRODUCTION"),
+            VerifyApplicationEnvironment::TEST => serializer.serialize_str("TEST"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for VerifyApplicationEnvironment {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "PRODUCTION" => Ok(VerifyApplicationEnvironment::PRODUCTION),
+            "TEST" => Ok(VerifyApplicationEnvironment::TEST),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
@@ -1293,7 +1697,7 @@ pub enum WebhookInvocation {
 }
 
 ///
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum WebhookInvocationEvent {
     SIGNATORY_DOCUMENT_STATUS_CHANGED,
     SIGNATORY_DOWNLOAD_LINK_OPENED,
@@ -1302,6 +1706,63 @@ pub enum WebhookInvocationEvent {
     SIGNATORY_SIGN_ERROR,
     SIGNATORY_SIGN_LINK_OPENED,
     SIGNATURE_ORDER_EXPIRED,
+}
+
+impl ::serde::Serialize for WebhookInvocationEvent {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED => {
+                serializer.serialize_str("SIGNATORY_DOCUMENT_STATUS_CHANGED")
+            }
+            WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED => {
+                serializer.serialize_str("SIGNATORY_DOWNLOAD_LINK_OPENED")
+            }
+            WebhookInvocationEvent::SIGNATORY_REJECTED => {
+                serializer.serialize_str("SIGNATORY_REJECTED")
+            }
+            WebhookInvocationEvent::SIGNATORY_SIGNED => {
+                serializer.serialize_str("SIGNATORY_SIGNED")
+            }
+            WebhookInvocationEvent::SIGNATORY_SIGN_ERROR => {
+                serializer.serialize_str("SIGNATORY_SIGN_ERROR")
+            }
+            WebhookInvocationEvent::SIGNATORY_SIGN_LINK_OPENED => {
+                serializer.serialize_str("SIGNATORY_SIGN_LINK_OPENED")
+            }
+            WebhookInvocationEvent::SIGNATURE_ORDER_EXPIRED => {
+                serializer.serialize_str("SIGNATURE_ORDER_EXPIRED")
+            }
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for WebhookInvocationEvent {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "SIGNATORY_DOCUMENT_STATUS_CHANGED" => {
+                Ok(WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED)
+            }
+            "SIGNATORY_DOWNLOAD_LINK_OPENED" => {
+                Ok(WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED)
+            }
+            "SIGNATORY_REJECTED" => Ok(WebhookInvocationEvent::SIGNATORY_REJECTED),
+            "SIGNATORY_SIGNED" => Ok(WebhookInvocationEvent::SIGNATORY_SIGNED),
+            "SIGNATORY_SIGN_ERROR" => Ok(WebhookInvocationEvent::SIGNATORY_SIGN_ERROR),
+            "SIGNATORY_SIGN_LINK_OPENED" => Ok(WebhookInvocationEvent::SIGNATORY_SIGN_LINK_OPENED),
+            "SIGNATURE_ORDER_EXPIRED" => Ok(WebhookInvocationEvent::SIGNATURE_ORDER_EXPIRED),
+            _ => Err(::serde::de::Error::custom(format!(
+                "Unknown variant: {}",
+                s
+            ))),
+        }
+    }
 }
 
 ///
