@@ -88,8 +88,8 @@ export class RustTypesVisitor extends BaseVisitor {
     enter: (node: InputObjectTypeDefinitionNode) => {
       const isDefaultable =
         node.fields?.every(field => {
-          const { nullable } = unwrapTypeNode(field.type);
-          return nullable;
+          const { nullable, listType } = unwrapTypeNode(field.type);
+          return nullable || listType;
         }) ?? false;
 
       (node as any).__isDefaultable = isDefaultable;

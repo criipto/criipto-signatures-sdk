@@ -7,20 +7,28 @@ import {
 import { upperCaseFirst } from 'change-case-all';
 import {
   buildSchema,
+  getNullableType,
+  isEnumType,
+  isInputObjectType,
+  isInterfaceType,
+  isObjectType,
+  isScalarType,
   OperationTypeNode,
   print,
   printSchema,
   visit,
   type FragmentDefinitionNode,
+  type GraphQLNamedType,
   type GraphQLSchema,
   type OperationDefinitionNode,
 } from 'graphql';
 import {
   assertIsNotUndefined,
   operationSelectionsToAstTree,
+  unwrapTypeNode,
   type AstTreeNode,
 } from 'graphql-codegen-shared';
-import { RustTypesVisitor } from './RustTypesVisitor.ts';
+import { RustTypeDefinition, RustTypesVisitor } from './RustTypesVisitor.ts';
 import assert from 'assert';
 import { inspect } from 'util';
 
@@ -117,14 +125,124 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
         );
       }
 
-      let query = print(node);
+      const makeQuery = (node: OperationDefinitionNode): string => {
+        const fragments = this._extractFragments(node, true);
 
-      return `pub mod op_${operationName} {
+        const fragmentDefinitions = fragments.map(frag =>
+          this.fragments.find(f => f.name.value === frag),
+        );
+
+        return (
+          print(node) +
+          '\n' +
+          fragmentDefinitions
+            .filter(f => f != null)
+            .map(fragDef => print(fragDef!))
+            .join('\n')
+        );
+      };
+
+      let query = makeQuery(node).replaceAll('\n', ' ');
+
+      const findOutputTypeName = () => {
+        assert(
+          node.selectionSet.selections.length === 1,
+          'Expected query / mutation to have exactly one top-level selection',
+        );
+        const topLevelSelection = node.selectionSet.selections[0]!;
+
+        assert(topLevelSelection.kind === 'Field', 'Expected top-level selection to be a field');
+
+        const operations =
+          node.operation === OperationTypeNode.QUERY
+            ? this._schema.getQueryType()
+            : node.operation === OperationTypeNode.MUTATION
+              ? this._schema.getMutationType()
+              : this._schema.getSubscriptionType();
+        const selectionNode = operations?.getFields()[topLevelSelection.name.value];
+        assertIsNotUndefined(selectionNode, 'Top level selection type not found in schema');
+
+        // The root type returned from the GraphQL operation.
+        const operationOutputNode = getNullableType(selectionNode.type);
+
+        assert(
+          isInterfaceType(operationOutputNode) || isObjectType(operationOutputNode),
+          'Expected output type for operation to be either interface or object',
+        );
+
+        return operationOutputNode.name;
+      };
+
+      const generateInputType = () => {
+        const functionArguments = (node.variableDefinitions ?? []).map<{
+          name: string;
+          nullable: boolean;
+          type: GraphQLNamedType;
+        }>(variableDefinitionNode => {
+          const { nullable, node: variableTypeNode } = unwrapTypeNode(variableDefinitionNode.type);
+
+          const variableSchemaType = this._schema.getType(variableTypeNode.name.value);
+          assertIsNotUndefined(variableSchemaType);
+
+          return {
+            name: variableDefinitionNode.variable.name.value,
+            nullable,
+            type: variableSchemaType,
+          };
+        });
+
+        const variableType = new RustTypeDefinition('Variables', 'struct')
+          .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
+          .withContent(
+            functionArguments.map(arg => {
+              let typeString: string;
+
+              if (isScalarType(arg.type)) {
+                typeString = `crate::scalars::${arg.type.name}`;
+              } else if (isInputObjectType(arg.type) || isEnumType(arg.type)) {
+                typeString = `crate::criipto_signatures::types::${arg.type.name}`;
+              } else {
+                throw new Error(`Unsupported variable type: ${JSON.stringify(arg.type)}`);
+              }
+
+              if (arg.nullable) {
+                typeString = `Option<${typeString}>`;
+              }
+
+              return `pub ${arg.name}: ${typeString}`;
+            }),
+          );
+
+        return variableType.toString();
+      };
+
+      const outputTypeName = findOutputTypeName();
+
+      return `
+      pub struct ${operationName};
+
+      pub mod op_${operationName} {
         pub const OPERATION_NAME: &str = "${operationName}";
         pub const QUERY: &str = r#"${query}"#;
-        use super::*;
+        use serde_derive::{Deserialize, Serialize};
+
         ${result.join('\n')}
-      }`;
+
+        ${generateInputType()}
+      }
+        
+      impl crate::graphql::GraphQLQuery for ${operationName} {
+        type Input = op_${operationName}::Variables;
+        type Output = op_${operationName}::${outputTypeName};
+
+        fn build_query(variables: Self::Input) -> crate::graphql::QueryBody<Self::Input> {
+          crate::graphql::QueryBody {
+            query: op_${operationName}::QUERY,
+            variables,
+          }
+        }
+      }
+      `;
     },
   };
 
@@ -133,7 +251,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
   }
 
   getPrepend(): string[] {
-    return ['use serde_derive::{Deserialize, Serialize};'];
+    return [];
   }
 
   getAppend(): string[] {
