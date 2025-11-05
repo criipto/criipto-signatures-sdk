@@ -1,3 +1,4 @@
+
 pub struct createSignatureOrder;
 
 pub mod op_createSignatureOrder {
@@ -21,7 +22,7 @@ pub mod op_createSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<CreateSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -67,7 +68,7 @@ pub mod op_createSignatureOrder {
         pub signatureOrder: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -108,7 +109,7 @@ pub mod op_createSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -127,7 +128,7 @@ pub mod op_createSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -139,13 +140,19 @@ pub mod op_createSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::CreateSignatureOrderInput,
+        pub input: crate::generated::types::CreateSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        createSignatureOrder: CreateSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for createSignatureOrder {
+impl crate::graphql::GraphQlQuery for createSignatureOrder {
     type Variables = op_createSignatureOrder::Variables;
-    type ResponseBody = op_createSignatureOrder::CreateSignatureOrderOutput;
+    type ResponseBody = op_createSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_createSignatureOrder::QUERY, variables }
@@ -175,7 +182,7 @@ pub mod op_cleanupSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<CleanupSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -221,7 +228,7 @@ pub mod op_cleanupSignatureOrder {
         pub signatureOrder: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -262,7 +269,7 @@ pub mod op_cleanupSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -281,7 +288,7 @@ pub mod op_cleanupSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -293,13 +300,19 @@ pub mod op_cleanupSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::CleanupSignatureOrderInput,
+        pub input: crate::generated::types::CleanupSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        cleanupSignatureOrder: CleanupSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for cleanupSignatureOrder {
+impl crate::graphql::GraphQlQuery for cleanupSignatureOrder {
     type Variables = op_cleanupSignatureOrder::Variables;
-    type ResponseBody = op_cleanupSignatureOrder::CleanupSignatureOrderOutput;
+    type ResponseBody = op_cleanupSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_cleanupSignatureOrder::QUERY, variables }
@@ -332,7 +345,7 @@ pub mod op_addSignatory {
         pub signatureOrder: AddSignatoryOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: AddSignatoryOutput_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -355,7 +368,7 @@ pub mod op_addSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -368,7 +381,7 @@ pub mod op_addSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -380,13 +393,19 @@ pub mod op_addSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::AddSignatoryInput,
+        pub input: crate::generated::types::AddSignatoryInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        addSignatory: AddSignatoryOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for addSignatory {
+impl crate::graphql::GraphQlQuery for addSignatory {
     type Variables = op_addSignatory::Variables;
-    type ResponseBody = op_addSignatory::AddSignatoryOutput;
+    type ResponseBody = op_addSignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_addSignatory::QUERY, variables }
@@ -419,7 +438,7 @@ pub mod op_addSignatories {
         pub signatureOrder: AddSignatoriesOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: AddSignatoriesOutput_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -442,7 +461,7 @@ pub mod op_addSignatories {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -455,7 +474,7 @@ pub mod op_addSignatories {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -467,13 +486,19 @@ pub mod op_addSignatories {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::AddSignatoriesInput,
+        pub input: crate::generated::types::AddSignatoriesInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        addSignatories: AddSignatoriesOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for addSignatories {
+impl crate::graphql::GraphQlQuery for addSignatories {
     type Variables = op_addSignatories::Variables;
-    type ResponseBody = op_addSignatories::AddSignatoriesOutput;
+    type ResponseBody = op_addSignatories::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_addSignatories::QUERY, variables }
@@ -506,7 +531,7 @@ pub mod op_changeSignatory {
         pub signatureOrder: ChangeSignatoryOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ChangeSignatoryOutput_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -529,7 +554,7 @@ pub mod op_changeSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -542,7 +567,7 @@ pub mod op_changeSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -554,13 +579,19 @@ pub mod op_changeSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::ChangeSignatoryInput,
+        pub input: crate::generated::types::ChangeSignatoryInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        changeSignatory: ChangeSignatoryOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for changeSignatory {
+impl crate::graphql::GraphQlQuery for changeSignatory {
     type Variables = op_changeSignatory::Variables;
-    type ResponseBody = op_changeSignatory::ChangeSignatoryOutput;
+    type ResponseBody = op_changeSignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_changeSignatory::QUERY, variables }
@@ -590,7 +621,7 @@ pub mod op_closeSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<CloseSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -636,7 +667,7 @@ pub mod op_closeSignatureOrder {
         pub signatureOrder: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -681,7 +712,7 @@ pub mod op_closeSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -778,7 +809,7 @@ pub mod op_closeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -910,13 +941,19 @@ pub mod op_closeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::CloseSignatureOrderInput,
+        pub input: crate::generated::types::CloseSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        closeSignatureOrder: CloseSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for closeSignatureOrder {
+impl crate::graphql::GraphQlQuery for closeSignatureOrder {
     type Variables = op_closeSignatureOrder::Variables;
-    type ResponseBody = op_closeSignatureOrder::CloseSignatureOrderOutput;
+    type ResponseBody = op_closeSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_closeSignatureOrder::QUERY, variables }
@@ -946,7 +983,7 @@ pub mod op_cancelSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<CancelSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -992,7 +1029,7 @@ pub mod op_cancelSignatureOrder {
         pub signatureOrder: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1033,7 +1070,7 @@ pub mod op_cancelSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1052,7 +1089,7 @@ pub mod op_cancelSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1064,13 +1101,19 @@ pub mod op_cancelSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::CancelSignatureOrderInput,
+        pub input: crate::generated::types::CancelSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        cancelSignatureOrder: CancelSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for cancelSignatureOrder {
+impl crate::graphql::GraphQlQuery for cancelSignatureOrder {
     type Variables = op_cancelSignatureOrder::Variables;
-    type ResponseBody = op_cancelSignatureOrder::CancelSignatureOrderOutput;
+    type ResponseBody = op_cancelSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_cancelSignatureOrder::QUERY, variables }
@@ -1103,7 +1146,7 @@ pub mod op_signActingAs {
         pub signatureOrder: SignActingAsOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignActingAsOutput_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1126,7 +1169,7 @@ pub mod op_signActingAs {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1139,7 +1182,7 @@ pub mod op_signActingAs {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1151,13 +1194,19 @@ pub mod op_signActingAs {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::SignActingAsInput,
+        pub input: crate::generated::types::SignActingAsInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        signActingAs: SignActingAsOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for signActingAs {
+impl crate::graphql::GraphQlQuery for signActingAs {
     type Variables = op_signActingAs::Variables;
-    type ResponseBody = op_signActingAs::SignActingAsOutput;
+    type ResponseBody = op_signActingAs::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_signActingAs::QUERY, variables }
@@ -1182,13 +1231,19 @@ pub mod op_validateDocument {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::ValidateDocumentInput,
+        pub input: crate::generated::types::ValidateDocumentInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        validateDocument: ValidateDocumentOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for validateDocument {
+impl crate::graphql::GraphQlQuery for validateDocument {
     type Variables = op_validateDocument::Variables;
-    type ResponseBody = op_validateDocument::ValidateDocumentOutput;
+    type ResponseBody = op_validateDocument::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_validateDocument::QUERY, variables }
@@ -1218,7 +1273,7 @@ pub mod op_extendSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<ExtendSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1264,7 +1319,7 @@ pub mod op_extendSignatureOrder {
         pub signatureOrder: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1305,7 +1360,7 @@ pub mod op_extendSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1324,7 +1379,7 @@ pub mod op_extendSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1336,13 +1391,19 @@ pub mod op_extendSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::ExtendSignatureOrderInput,
+        pub input: crate::generated::types::ExtendSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        extendSignatureOrder: ExtendSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for extendSignatureOrder {
+impl crate::graphql::GraphQlQuery for extendSignatureOrder {
     type Variables = op_extendSignatureOrder::Variables;
-    type ResponseBody = op_extendSignatureOrder::ExtendSignatureOrderOutput;
+    type ResponseBody = op_extendSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_extendSignatureOrder::QUERY, variables }
@@ -1371,7 +1432,7 @@ pub mod op_deleteSignatory {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<DeleteSignatoryOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1394,7 +1455,7 @@ pub mod op_deleteSignatory {
         pub signatureOrder: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1417,7 +1478,7 @@ pub mod op_deleteSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1430,7 +1491,7 @@ pub mod op_deleteSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1442,13 +1503,19 @@ pub mod op_deleteSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::DeleteSignatoryInput,
+        pub input: crate::generated::types::DeleteSignatoryInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        deleteSignatory: DeleteSignatoryOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for deleteSignatory {
+impl crate::graphql::GraphQlQuery for deleteSignatory {
     type Variables = op_deleteSignatory::Variables;
-    type ResponseBody = op_deleteSignatory::DeleteSignatoryOutput;
+    type ResponseBody = op_deleteSignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_deleteSignatory::QUERY, variables }
@@ -1497,7 +1564,7 @@ pub mod op_createBatchSignatory {
         pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1511,7 +1578,7 @@ pub mod op_createBatchSignatory {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1533,7 +1600,7 @@ pub mod op_createBatchSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1561,7 +1628,7 @@ pub mod op_createBatchSignatory {
         pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1570,7 +1637,7 @@ pub mod op_createBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1591,7 +1658,7 @@ pub mod op_createBatchSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1610,7 +1677,7 @@ pub mod op_createBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1622,13 +1689,19 @@ pub mod op_createBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::CreateBatchSignatoryInput,
+        pub input: crate::generated::types::CreateBatchSignatoryInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        createBatchSignatory: CreateBatchSignatoryOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for createBatchSignatory {
+impl crate::graphql::GraphQlQuery for createBatchSignatory {
     type Variables = op_createBatchSignatory::Variables;
-    type ResponseBody = op_createBatchSignatory::CreateBatchSignatoryOutput;
+    type ResponseBody = op_createBatchSignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_createBatchSignatory::QUERY, variables }
@@ -1657,7 +1730,7 @@ pub mod op_changeSignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<ChangeSignatureOrderOutput_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1680,7 +1753,7 @@ pub mod op_changeSignatureOrder {
         pub signatureOrder: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1703,7 +1776,7 @@ pub mod op_changeSignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1716,7 +1789,7 @@ pub mod op_changeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1728,13 +1801,19 @@ pub mod op_changeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub input: crate::criipto_signatures::types::ChangeSignatureOrderInput,
+        pub input: crate::generated::types::ChangeSignatureOrderInput,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        changeSignatureOrder: ChangeSignatureOrderOutput,
     }
 }
 
-impl crate::graphql::GraphQLQuery for changeSignatureOrder {
+impl crate::graphql::GraphQlQuery for changeSignatureOrder {
     type Variables = op_changeSignatureOrder::Variables;
-    type ResponseBody = op_changeSignatureOrder::ChangeSignatureOrderOutput;
+    type ResponseBody = op_changeSignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_changeSignatureOrder::QUERY, variables }
@@ -1757,7 +1836,7 @@ pub mod op_querySignatureOrder {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1780,7 +1859,7 @@ pub mod op_querySignatureOrder {
         pub signatureOrder: SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1803,7 +1882,7 @@ pub mod op_querySignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -1816,7 +1895,7 @@ pub mod op_querySignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -1830,11 +1909,17 @@ pub mod op_querySignatureOrder {
     pub struct Variables {
         pub id: crate::scalars::ID,
     }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        signatureOrder: SignatureOrder,
+    }
 }
 
-impl crate::graphql::GraphQLQuery for querySignatureOrder {
+impl crate::graphql::GraphQlQuery for querySignatureOrder {
     type Variables = op_querySignatureOrder::Variables;
-    type ResponseBody = op_querySignatureOrder::SignatureOrder;
+    type ResponseBody = op_querySignatureOrder::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_querySignatureOrder::QUERY, variables }
@@ -1858,7 +1943,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -1904,7 +1989,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub signatureOrder: SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -1949,7 +2034,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -2046,7 +2131,7 @@ pub mod op_querySignatureOrderWithDocuments {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2180,11 +2265,17 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct Variables {
         pub id: crate::scalars::ID,
     }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        signatureOrder: SignatureOrder,
+    }
 }
 
-impl crate::graphql::GraphQLQuery for querySignatureOrderWithDocuments {
+impl crate::graphql::GraphQlQuery for querySignatureOrderWithDocuments {
     type Variables = op_querySignatureOrderWithDocuments::Variables;
-    type ResponseBody = op_querySignatureOrderWithDocuments::SignatureOrder;
+    type ResponseBody = op_querySignatureOrderWithDocuments::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_querySignatureOrderWithDocuments::QUERY, variables }
@@ -2211,7 +2302,7 @@ pub mod op_querySignatory {
         pub signatureOrder: Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -2237,7 +2328,7 @@ pub mod op_querySignatory {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<Signatory_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -2251,7 +2342,7 @@ pub mod op_querySignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2273,7 +2364,7 @@ pub mod op_querySignatory {
         pub signatureOrder: Signatory_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Signatory_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -2302,7 +2393,7 @@ pub mod op_querySignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -2315,7 +2406,7 @@ pub mod op_querySignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2329,11 +2420,17 @@ pub mod op_querySignatory {
     pub struct Variables {
         pub id: crate::scalars::ID,
     }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        signatory: Signatory,
+    }
 }
 
-impl crate::graphql::GraphQLQuery for querySignatory {
+impl crate::graphql::GraphQlQuery for querySignatory {
     type Variables = op_querySignatory::Variables;
-    type ResponseBody = op_querySignatory::Signatory;
+    type ResponseBody = op_querySignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_querySignatory::QUERY, variables }
@@ -2449,7 +2546,7 @@ pub mod op_querySignatureOrders {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -2472,7 +2569,7 @@ pub mod op_querySignatureOrders {
         pub signatureOrder: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -2495,7 +2592,7 @@ pub mod op_querySignatureOrders {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -2508,7 +2605,7 @@ pub mod op_querySignatureOrders {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2520,15 +2617,21 @@ pub mod op_querySignatureOrders {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
-        pub status: Option<crate::criipto_signatures::types::SignatureOrderStatus>,
+        pub status: Option<crate::generated::types::SignatureOrderStatus>,
         pub first: crate::scalars::Int,
         pub after: Option<crate::scalars::String>,
     }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        viewer: Viewer,
+    }
 }
 
-impl crate::graphql::GraphQLQuery for querySignatureOrders {
+impl crate::graphql::GraphQlQuery for querySignatureOrders {
     type Variables = op_querySignatureOrders::Variables;
-    type ResponseBody = op_querySignatureOrders::Viewer;
+    type ResponseBody = op_querySignatureOrders::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_querySignatureOrders::QUERY, variables }
@@ -2571,7 +2674,7 @@ pub mod op_queryBatchSignatory {
         pub signatureOrder: BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -2585,7 +2688,7 @@ pub mod op_queryBatchSignatory {
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
         pub signatories: Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory>,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
         pub title: Option<crate::scalars::String>,
     }
 
@@ -2607,7 +2710,7 @@ pub mod op_queryBatchSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -2635,7 +2738,7 @@ pub mod op_queryBatchSignatory {
         pub signatureOrder: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
-        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub status: crate::generated::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
     }
@@ -2644,7 +2747,7 @@ pub mod op_queryBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2665,7 +2768,7 @@ pub mod op_queryBatchSignatory {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
-        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub status: crate::generated::types::SignatureOrderStatus,
     }
 
     ///
@@ -2684,7 +2787,7 @@ pub mod op_queryBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+        pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
     }
 
     ///
@@ -2698,11 +2801,17 @@ pub mod op_queryBatchSignatory {
     pub struct Variables {
         pub id: crate::scalars::ID,
     }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ResponseData {
+        batchSignatory: BatchSignatory,
+    }
 }
 
-impl crate::graphql::GraphQLQuery for queryBatchSignatory {
+impl crate::graphql::GraphQlQuery for queryBatchSignatory {
     type Variables = op_queryBatchSignatory::Variables;
-    type ResponseBody = op_queryBatchSignatory::BatchSignatory;
+    type ResponseBody = op_queryBatchSignatory::ResponseData;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody { query: op_queryBatchSignatory::QUERY, variables }

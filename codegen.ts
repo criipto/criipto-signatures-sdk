@@ -114,7 +114,7 @@ const config: CodegenConfig = {
       } satisfies PythonPluginConfig,
       ...pythonCommonConfig,
     },
-    'packages/rust/src/criipto_signatures/types.rs': {
+    'packages/rust/src/generated/types.rs': {
       documents: './codegen/operations/application-viewer.graphql',
       plugins: ['graphql-codegen-plugin-rust'],
       config: {
@@ -122,7 +122,7 @@ const config: CodegenConfig = {
       } satisfies RustPluginConfig,
       ...rustCommonConfig,
     },
-    'packages/rust/src/criipto_signatures/operations.rs': {
+    'packages/rust/src/generated/api.rs': {
       documents: './codegen/operations/application-viewer.graphql',
       plugins: ['graphql-codegen-plugin-rust'],
       config: {

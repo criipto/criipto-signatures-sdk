@@ -1,5 +1,4 @@
 import {
-  BaseVisitor,
   ClientSideBaseVisitor,
   type LoadedFragment,
   type RawConfig,
@@ -80,17 +79,6 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
         const { parentPrefix, treeNode } = nodesToProcess.shift()!;
 
         const nodePrefix = `${parentPrefix}${treeNode.astNode.name.value}`;
-        // For each AST node, we use the PythonTypesVisitor to generate a specialized
-        // python class definition for the specific selection. The class definition
-        // differs from the general output type classes defined in the schema in
-        // three ways:
-        // 1. The class only includes the fields actually selected by the operation
-        //    (as opposed to all fields defined by the output type)
-        // 2. The names of the classes are prefixed with the name of their parent type
-        //    (by overriding node.name.value before passing the node to `oldVisit`)
-        // 3. All field types are prefixed with the name of their parent type, using
-        //    the `typesPrefix` option. So for a type called `Foo`, with a field `bar` of type
-        //    `Bar`, the type of `Foo.bar` will be `Foo_Bar`
         const typesVisitor = new RustTypesVisitor(
           {
             typesPrefix: nodePrefix + '_',
@@ -144,7 +132,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
 
       let query = makeQuery(node).replaceAll('\n', ' ');
 
-      const findOutputTypeName = () => {
+      const generateOutputType = () => {
         assert(
           node.selectionSet.selections.length === 1,
           'Expected query / mutation to have exactly one top-level selection',
@@ -170,7 +158,10 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
           'Expected output type for operation to be either interface or object',
         );
 
-        return operationOutputNode.name;
+        return new RustTypeDefinition(`ResponseData`, 'struct')
+          .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
+          .withContent([`${topLevelSelection.name.value}: ${operationOutputNode.name}`])
+          .toString();
       };
 
       const generateInputType = () => {
@@ -200,7 +191,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
               if (isScalarType(arg.type)) {
                 typeString = `crate::scalars::${arg.type.name}`;
               } else if (isInputObjectType(arg.type) || isEnumType(arg.type)) {
-                typeString = `crate::criipto_signatures::types::${arg.type.name}`;
+                typeString = `crate::generated::types::${arg.type.name}`;
               } else {
                 throw new Error(`Unsupported variable type: ${JSON.stringify(arg.type)}`);
               }
@@ -216,8 +207,6 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
         return variableType.toString();
       };
 
-      const outputTypeName = findOutputTypeName();
-
       return `
       pub struct ${operationName};
 
@@ -229,11 +218,12 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
         ${result.join('\n')}
 
         ${generateInputType()}
+        ${generateOutputType()}
       }
         
-      impl crate::graphql::GraphQLQuery for ${operationName} {
+      impl crate::graphql::GraphQlQuery for ${operationName} {
         type Variables = op_${operationName}::Variables;
-        type ResponseBody = op_${operationName}::${outputTypeName};
+        type ResponseBody = op_${operationName}::ResponseData;
 
         fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
           crate::graphql::QueryBody {

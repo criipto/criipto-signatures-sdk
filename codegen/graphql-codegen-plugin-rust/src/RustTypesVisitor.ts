@@ -254,7 +254,7 @@ impl ${node.name.value} {
     } else if (isObjectType(schemaType) || isInterfaceType(schemaType)) {
       typeString = this.config.typesPrefix + typeString;
     } else {
-      typeString = `crate::criipto_signatures::types::${typeString}`;
+      typeString = `crate::generated::types::${typeString}`;
     }
 
     if (nullable) {
