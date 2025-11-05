@@ -17,10 +17,8 @@ pub struct AddSignatoriesOutput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryRole: Option<crate::criipto_signatures::types::SignatoryRole>,
@@ -108,10 +106,7 @@ impl<'de> ::serde::Deserialize<'de> for ApplicationApiKeyMode {
         match s.as_ref() {
             "READ_ONLY" => Ok(ApplicationApiKeyMode::READ_ONLY),
             "READ_WRITE" => Ok(ApplicationApiKeyMode::READ_WRITE),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -170,10 +165,8 @@ pub struct CancelSignatureOrderOutput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryId: crate::scalars::ID,
@@ -270,8 +263,7 @@ pub struct CreateApplicationInput {
     pub name: crate::scalars::String,
     pub tenantId: crate::scalars::ID,
     pub verifyApplicationDomain: crate::scalars::String,
-    pub verifyApplicationEnvironment:
-        crate::criipto_signatures::types::VerifyApplicationEnvironment,
+    pub verifyApplicationEnvironment: crate::criipto_signatures::types::VerifyApplicationEnvironment,
     pub verifyApplicationRealm: crate::scalars::String,
 }
 
@@ -302,14 +294,12 @@ pub struct CreateSignatureOrderInput {
     pub disableVerifyEvidenceProvider: Option<crate::scalars::Boolean>,
     pub documents: Vec<crate::criipto_signatures::types::DocumentInput>,
     pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::EvidenceProviderInput>>,
-    pub evidenceValidationStages:
-        Option<Vec<crate::criipto_signatures::types::EvidenceValidationStage>>,
+    pub evidenceValidationStages: Option<Vec<crate::criipto_signatures::types::EvidenceValidationStage>>,
     pub expiresAt: Option<crate::scalars::String>,
     pub expiresInDays: Option<crate::scalars::Int>,
     pub fixDocumentFormattingErrors: Option<crate::scalars::Boolean>,
     pub maxSignatories: Option<crate::scalars::Int>,
-    pub signatories:
-        Option<Vec<crate::criipto_signatures::types::CreateSignatureOrderSignatoryInput>>,
+    pub signatories: Option<Vec<crate::criipto_signatures::types::CreateSignatureOrderSignatoryInput>>,
     pub signatureAppearance: Option<crate::criipto_signatures::types::SignatureAppearanceInput>,
     pub timezone: Option<crate::scalars::String>,
     pub title: Option<crate::scalars::String>,
@@ -328,10 +318,8 @@ pub struct CreateSignatureOrderOutput {
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CreateSignatureOrderSignatoryInput {
     pub documents: Option<Vec<crate::criipto_signatures::types::SignatoryDocumentInput>>,
-    pub evidenceProviders:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
-    pub evidenceValidation:
-        Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
+    pub evidenceProviders: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceProviderInput>>,
+    pub evidenceValidation: Option<Vec<crate::criipto_signatures::types::SignatoryEvidenceValidationInput>>,
     pub reference: Option<crate::scalars::String>,
     pub role: Option<crate::scalars::String>,
     pub signatoryRole: Option<crate::criipto_signatures::types::SignatoryRole>,
@@ -395,10 +383,7 @@ impl<'de> ::serde::Deserialize<'de> for CriiptoVerifyEvidenceProviderVersion {
         match s.as_ref() {
             "V1" => Ok(CriiptoVerifyEvidenceProviderVersion::V1),
             "V2" => Ok(CriiptoVerifyEvidenceProviderVersion::V2),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -494,10 +479,7 @@ impl<'de> ::serde::Deserialize<'de> for DeviceOperatingSystem {
         match s.as_ref() {
             "ANDROID" => Ok(DeviceOperatingSystem::ANDROID),
             "IOS" => Ok(DeviceOperatingSystem::IOS),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -543,10 +525,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
             "LEFT" => Ok(DocumentIDLocation::LEFT),
             "RIGHT" => Ok(DocumentIDLocation::RIGHT),
             "TOP" => Ok(DocumentIDLocation::TOP),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -584,10 +563,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentStorageMode {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
             "Temporary" => Ok(DocumentStorageMode::Temporary),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -601,8 +577,7 @@ pub struct DownloadVerificationCriiptoVerifyInput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DownloadVerificationInput {
-    pub criiptoVerify:
-        Option<crate::criipto_signatures::types::DownloadVerificationCriiptoVerifyInput>,
+    pub criiptoVerify: Option<crate::criipto_signatures::types::DownloadVerificationCriiptoVerifyInput>,
     pub oidc: Option<crate::criipto_signatures::types::DownloadVerificationOidcInput>,
 }
 
@@ -682,10 +657,7 @@ impl<'de> ::serde::Deserialize<'de> for EvidenceValidationStage {
         match s.as_ref() {
             "SIGN" => Ok(EvidenceValidationStage::SIGN),
             "VIEW" => Ok(EvidenceValidationStage::VIEW),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -753,10 +725,7 @@ impl<'de> ::serde::Deserialize<'de> for Language {
             "EN_US" => Ok(Language::EN_US),
             "NB_NO" => Ok(Language::NB_NO),
             "SV_SE" => Ok(Language::SV_SE),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -785,8 +754,7 @@ pub struct Mutation {
     pub sign: Option<SignOutput>,
     pub signActingAs: Option<SignActingAsOutput>,
     pub signatoryBeacon: Option<SignatoryBeaconOutput>,
-    pub startCriiptoVerifyEvidenceProvider:
-        Option<crate::criipto_signatures::types::StartCriiptoVerifyEvidenceProviderOutput>,
+    pub startCriiptoVerifyEvidenceProvider: Option<crate::criipto_signatures::types::StartCriiptoVerifyEvidenceProviderOutput>,
     pub trackSignatory: Option<TrackSignatoryOutput>,
     pub updateSignatoryDocumentStatus: Option<UpdateSignatoryDocumentStatusOutput>,
     pub validateDocument: Option<ValidateDocumentOutput>,
@@ -841,8 +809,7 @@ pub struct PadesDocumentInput {
     pub displayDocumentID: Option<crate::criipto_signatures::types::DocumentIDLocation>,
     pub form: Option<crate::criipto_signatures::types::PadesDocumentFormInput>,
     pub reference: Option<crate::scalars::String>,
-    pub sealsPageTemplate:
-        Option<crate::criipto_signatures::types::PadesDocumentSealsPageTemplateInput>,
+    pub sealsPageTemplate: Option<crate::criipto_signatures::types::PadesDocumentSealsPageTemplateInput>,
     pub storageMode: crate::criipto_signatures::types::DocumentStorageMode,
     pub title: crate::scalars::String,
 }
@@ -1137,10 +1104,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryDocumentStatus {
             "PREAPPROVED" => Ok(SignatoryDocumentStatus::PREAPPROVED),
             "REJECTED" => Ok(SignatoryDocumentStatus::REJECTED),
             "SIGNED" => Ok(SignatoryDocumentStatus::SIGNED),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1177,12 +1141,8 @@ impl ::serde::Serialize for SignatoryFrontendEvent {
         S: ::serde::Serializer,
     {
         match *self {
-            SignatoryFrontendEvent::DOWNLOAD_LINK_OPENED => {
-                serializer.serialize_str("DOWNLOAD_LINK_OPENED")
-            }
-            SignatoryFrontendEvent::SIGN_LINK_OPENED => {
-                serializer.serialize_str("SIGN_LINK_OPENED")
-            }
+            SignatoryFrontendEvent::DOWNLOAD_LINK_OPENED => serializer.serialize_str("DOWNLOAD_LINK_OPENED"),
+            SignatoryFrontendEvent::SIGN_LINK_OPENED => serializer.serialize_str("SIGN_LINK_OPENED"),
         }
     }
 }
@@ -1196,10 +1156,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryFrontendEvent {
         match s.as_ref() {
             "DOWNLOAD_LINK_OPENED" => Ok(SignatoryFrontendEvent::DOWNLOAD_LINK_OPENED),
             "SIGN_LINK_OPENED" => Ok(SignatoryFrontendEvent::SIGN_LINK_OPENED),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1232,10 +1189,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryRole {
         match s.as_ref() {
             "SIGNER" => Ok(SignatoryRole::SIGNER),
             "VIEWER" => Ok(SignatoryRole::VIEWER),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1283,10 +1237,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryStatus {
             "OPEN" => Ok(SignatoryStatus::OPEN),
             "REJECTED" => Ok(SignatoryStatus::REJECTED),
             "SIGNED" => Ok(SignatoryStatus::SIGNED),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1339,8 +1290,7 @@ pub enum Signature {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SignatureAppearanceInput {
-    pub displayName:
-        Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
+    pub displayName: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub footer: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub headerLeft: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateInput>>,
     pub identifierFromEvidence: Vec<crate::scalars::String>,
@@ -1349,8 +1299,7 @@ pub struct SignatureAppearanceInput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureAppearanceTemplateInput {
-    pub replacements:
-        Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateReplacementInput>>,
+    pub replacements: Option<Vec<crate::criipto_signatures::types::SignatureAppearanceTemplateReplacementInput>>,
     pub template: crate::scalars::String,
 }
 
@@ -1441,10 +1390,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatureOrderStatus {
             "CLOSED" => Ok(SignatureOrderStatus::CLOSED),
             "EXPIRED" => Ok(SignatureOrderStatus::EXPIRED),
             "OPEN" => Ok(SignatureOrderStatus::OPEN),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1525,6 +1471,14 @@ pub enum StartCriiptoVerifyEvidenceProviderOutput {
     CriiptoVerifyEvidenceProviderRedirect(CriiptoVerifyEvidenceProviderRedirect),
 }
 
+impl StartCriiptoVerifyEvidenceProviderOutput {
+    pub fn as_CriiptoVerifyEvidenceProviderRedirect(&self) -> Option<&CriiptoVerifyEvidenceProviderRedirect> {
+        match self {
+            Self::CriiptoVerifyEvidenceProviderRedirect(inner) => Some(inner),
+            _ => None,
+        }
+    }
+}
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Tenant {
@@ -1630,10 +1584,7 @@ impl<'de> ::serde::Deserialize<'de> for VerifyApplicationEnvironment {
         match s.as_ref() {
             "PRODUCTION" => Ok(VerifyApplicationEnvironment::PRODUCTION),
             "TEST" => Ok(VerifyApplicationEnvironment::TEST),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }
@@ -1714,27 +1665,13 @@ impl ::serde::Serialize for WebhookInvocationEvent {
         S: ::serde::Serializer,
     {
         match *self {
-            WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED => {
-                serializer.serialize_str("SIGNATORY_DOCUMENT_STATUS_CHANGED")
-            }
-            WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED => {
-                serializer.serialize_str("SIGNATORY_DOWNLOAD_LINK_OPENED")
-            }
-            WebhookInvocationEvent::SIGNATORY_REJECTED => {
-                serializer.serialize_str("SIGNATORY_REJECTED")
-            }
-            WebhookInvocationEvent::SIGNATORY_SIGNED => {
-                serializer.serialize_str("SIGNATORY_SIGNED")
-            }
-            WebhookInvocationEvent::SIGNATORY_SIGN_ERROR => {
-                serializer.serialize_str("SIGNATORY_SIGN_ERROR")
-            }
-            WebhookInvocationEvent::SIGNATORY_SIGN_LINK_OPENED => {
-                serializer.serialize_str("SIGNATORY_SIGN_LINK_OPENED")
-            }
-            WebhookInvocationEvent::SIGNATURE_ORDER_EXPIRED => {
-                serializer.serialize_str("SIGNATURE_ORDER_EXPIRED")
-            }
+            WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED => serializer.serialize_str("SIGNATORY_DOCUMENT_STATUS_CHANGED"),
+            WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED => serializer.serialize_str("SIGNATORY_DOWNLOAD_LINK_OPENED"),
+            WebhookInvocationEvent::SIGNATORY_REJECTED => serializer.serialize_str("SIGNATORY_REJECTED"),
+            WebhookInvocationEvent::SIGNATORY_SIGNED => serializer.serialize_str("SIGNATORY_SIGNED"),
+            WebhookInvocationEvent::SIGNATORY_SIGN_ERROR => serializer.serialize_str("SIGNATORY_SIGN_ERROR"),
+            WebhookInvocationEvent::SIGNATORY_SIGN_LINK_OPENED => serializer.serialize_str("SIGNATORY_SIGN_LINK_OPENED"),
+            WebhookInvocationEvent::SIGNATURE_ORDER_EXPIRED => serializer.serialize_str("SIGNATURE_ORDER_EXPIRED"),
         }
     }
 }
@@ -1746,21 +1683,14 @@ impl<'de> ::serde::Deserialize<'de> for WebhookInvocationEvent {
     {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
-            "SIGNATORY_DOCUMENT_STATUS_CHANGED" => {
-                Ok(WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED)
-            }
-            "SIGNATORY_DOWNLOAD_LINK_OPENED" => {
-                Ok(WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED)
-            }
+            "SIGNATORY_DOCUMENT_STATUS_CHANGED" => Ok(WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED),
+            "SIGNATORY_DOWNLOAD_LINK_OPENED" => Ok(WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED),
             "SIGNATORY_REJECTED" => Ok(WebhookInvocationEvent::SIGNATORY_REJECTED),
             "SIGNATORY_SIGNED" => Ok(WebhookInvocationEvent::SIGNATORY_SIGNED),
             "SIGNATORY_SIGN_ERROR" => Ok(WebhookInvocationEvent::SIGNATORY_SIGN_ERROR),
             "SIGNATORY_SIGN_LINK_OPENED" => Ok(WebhookInvocationEvent::SIGNATORY_SIGN_LINK_OPENED),
             "SIGNATURE_ORDER_EXPIRED" => Ok(WebhookInvocationEvent::SIGNATURE_ORDER_EXPIRED),
-            _ => Err(::serde::de::Error::custom(format!(
-                "Unknown variant: {}",
-                s
-            ))),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
 }

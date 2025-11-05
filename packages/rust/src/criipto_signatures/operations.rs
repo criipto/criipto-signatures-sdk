@@ -1,4 +1,3 @@
-
 pub struct createSignatureOrder;
 
 pub mod op_createSignatureOrder {
@@ -17,8 +16,7 @@ pub mod op_createSignatureOrder {
     pub struct CreateSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub documents: Vec<CreateSignatureOrderOutput_SignatureOrder_Document>,
-        pub evidenceProviders:
-            Vec<CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -35,6 +33,21 @@ pub mod op_createSignatureOrder {
         XmlDocument(CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
     }
 
+    impl CreateSignatureOrderOutput_SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider {
@@ -44,19 +57,16 @@ pub mod op_createSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -66,8 +76,7 @@ pub mod op_createSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument {
         pub documentID: crate::scalars::String,
-        pub form:
-            Option<CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
+        pub form: Option<CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub title: crate::scalars::String,
@@ -84,8 +93,8 @@ pub mod op_createSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -117,14 +126,13 @@ pub mod op_createSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -140,10 +148,7 @@ impl crate::graphql::GraphQLQuery for createSignatureOrder {
     type ResponseBody = op_createSignatureOrder::CreateSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_createSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_createSignatureOrder::QUERY, variables }
     }
 }
 
@@ -165,8 +170,7 @@ pub mod op_cleanupSignatureOrder {
     pub struct CleanupSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub documents: Vec<CleanupSignatureOrderOutput_SignatureOrder_Document>,
-        pub evidenceProviders:
-            Vec<CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -183,6 +187,21 @@ pub mod op_cleanupSignatureOrder {
         XmlDocument(CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
     }
 
+    impl CleanupSignatureOrderOutput_SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider {
@@ -192,19 +211,16 @@ pub mod op_cleanupSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -214,8 +230,7 @@ pub mod op_cleanupSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument {
         pub documentID: crate::scalars::String,
-        pub form:
-            Option<CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
+        pub form: Option<CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub title: crate::scalars::String,
@@ -232,8 +247,8 @@ pub mod op_cleanupSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -265,14 +280,13 @@ pub mod op_cleanupSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -288,10 +302,7 @@ impl crate::graphql::GraphQLQuery for cleanupSignatureOrder {
     type ResponseBody = op_cleanupSignatureOrder::CleanupSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_cleanupSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_cleanupSignatureOrder::QUERY, variables }
     }
 }
 
@@ -329,8 +340,7 @@ pub mod op_addSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoryOutput_Signatory_SignatoryDocumentConnection {
-        pub edges:
-            Vec<AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+        pub edges: Vec<AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
     }
 
     ///
@@ -357,8 +367,7 @@ pub mod op_addSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-        pub node:
-            AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub node: AddSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
     }
 
@@ -380,10 +389,7 @@ impl crate::graphql::GraphQLQuery for addSignatory {
     type ResponseBody = op_addSignatory::AddSignatoryOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_addSignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_addSignatory::QUERY, variables }
     }
 }
 
@@ -421,8 +427,7 @@ pub mod op_addSignatories {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoriesOutput_Signatory_SignatoryDocumentConnection {
-        pub edges:
-            Vec<AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+        pub edges: Vec<AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
     }
 
     ///
@@ -449,14 +454,13 @@ pub mod op_addSignatories {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct AddSignatoriesOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -472,10 +476,7 @@ impl crate::graphql::GraphQLQuery for addSignatories {
     type ResponseBody = op_addSignatories::AddSignatoriesOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_addSignatories::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_addSignatories::QUERY, variables }
     }
 }
 
@@ -513,8 +514,7 @@ pub mod op_changeSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection {
-        pub edges:
-            Vec<ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+        pub edges: Vec<ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
     }
 
     ///
@@ -541,14 +541,13 @@ pub mod op_changeSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -564,10 +563,7 @@ impl crate::graphql::GraphQLQuery for changeSignatory {
     type ResponseBody = op_changeSignatory::ChangeSignatoryOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_changeSignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_changeSignatory::QUERY, variables }
     }
 }
 
@@ -589,8 +585,7 @@ pub mod op_closeSignatureOrder {
     pub struct CloseSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub documents: Vec<CloseSignatureOrderOutput_SignatureOrder_Document>,
-        pub evidenceProviders:
-            Vec<CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -607,6 +602,21 @@ pub mod op_closeSignatureOrder {
         XmlDocument(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
     }
 
+    impl CloseSignatureOrderOutput_SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider {
@@ -616,19 +626,16 @@ pub mod op_closeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -639,12 +646,10 @@ pub mod op_closeSignatureOrder {
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument {
         pub blob: Option<crate::scalars::Blob>,
         pub documentID: crate::scalars::String,
-        pub form:
-            Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
+        pub form: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
-        pub signatures:
-            Option<Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature>>,
+        pub signatures: Option<Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature>>,
         pub title: crate::scalars::String,
     }
 
@@ -654,16 +659,15 @@ pub mod op_closeSignatureOrder {
         pub blob: Option<crate::scalars::Blob>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
-        pub signatures:
-            Option<Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature>>,
+        pub signatures: Option<Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature>>,
         pub title: crate::scalars::String,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -697,162 +701,209 @@ pub mod op_closeSignatureOrder {
     #[serde(tag = "__typename")]
     pub enum CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature {
         CompositeSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature),
-    DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
-    EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature),
-    JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature),
-}
+        DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
+        EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature),
+        JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature),
+    }
 
+    impl CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature {
+        pub fn as_CompositeSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature> {
+            match self {
+                Self::CompositeSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_DrawableSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
     #[serde(tag = "__typename")]
     pub enum CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature {
         CompositeSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature),
-    DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
-    EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature),
-    JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature),
-}
+        DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
+        EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature),
+        JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature),
+    }
 
+    impl CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature {
+        pub fn as_CompositeSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature> {
+            match self {
+                Self::CompositeSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_DrawableSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature {
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
-}
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature {
-    pub image: crate::scalars::Blob,
-    pub name: Option<crate::scalars::String>,
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
-}
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature {
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
-}
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature {
-    pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim>,
-    pub jwks: crate::scalars::String,
-    pub jwt: crate::scalars::String,
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory>,
-}
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
-}
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature {
-    pub image: crate::scalars::Blob,
-    pub name: Option<crate::scalars::String>,
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
-}
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature {
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
-}
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature {
-    pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim>,
-    pub jwks: crate::scalars::String,
-    pub jwt: crate::scalars::String,
-    pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
-}
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
-    {
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory {
         pub id: crate::scalars::ID,
     }
 
@@ -868,10 +919,7 @@ impl crate::graphql::GraphQLQuery for closeSignatureOrder {
     type ResponseBody = op_closeSignatureOrder::CloseSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_closeSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_closeSignatureOrder::QUERY, variables }
     }
 }
 
@@ -893,8 +941,7 @@ pub mod op_cancelSignatureOrder {
     pub struct CancelSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub documents: Vec<CancelSignatureOrderOutput_SignatureOrder_Document>,
-        pub evidenceProviders:
-            Vec<CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -911,6 +958,21 @@ pub mod op_cancelSignatureOrder {
         XmlDocument(CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
     }
 
+    impl CancelSignatureOrderOutput_SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider {
@@ -920,19 +982,16 @@ pub mod op_cancelSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -942,8 +1001,7 @@ pub mod op_cancelSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument {
         pub documentID: crate::scalars::String,
-        pub form:
-            Option<CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
+        pub form: Option<CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub title: crate::scalars::String,
@@ -960,8 +1018,8 @@ pub mod op_cancelSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -993,14 +1051,13 @@ pub mod op_cancelSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -1016,10 +1073,7 @@ impl crate::graphql::GraphQLQuery for cancelSignatureOrder {
     type ResponseBody = op_cancelSignatureOrder::CancelSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_cancelSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_cancelSignatureOrder::QUERY, variables }
     }
 }
 
@@ -1057,8 +1111,7 @@ pub mod op_signActingAs {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignActingAsOutput_Signatory_SignatoryDocumentConnection {
-        pub edges:
-            Vec<SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+        pub edges: Vec<SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
     }
 
     ///
@@ -1085,8 +1138,7 @@ pub mod op_signActingAs {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-        pub node:
-            SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub node: SignActingAsOutput_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
     }
 
@@ -1108,10 +1160,7 @@ impl crate::graphql::GraphQLQuery for signActingAs {
     type ResponseBody = op_signActingAs::SignActingAsOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_signActingAs::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_signActingAs::QUERY, variables }
     }
 }
 
@@ -1142,10 +1191,7 @@ impl crate::graphql::GraphQLQuery for validateDocument {
     type ResponseBody = op_validateDocument::ValidateDocumentOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_validateDocument::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_validateDocument::QUERY, variables }
     }
 }
 
@@ -1167,8 +1213,7 @@ pub mod op_extendSignatureOrder {
     pub struct ExtendSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub documents: Vec<ExtendSignatureOrderOutput_SignatureOrder_Document>,
-        pub evidenceProviders:
-            Vec<ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -1185,6 +1230,21 @@ pub mod op_extendSignatureOrder {
         XmlDocument(ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument),
     }
 
+    impl ExtendSignatureOrderOutput_SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider {
@@ -1194,19 +1254,16 @@ pub mod op_extendSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -1216,8 +1273,7 @@ pub mod op_extendSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument {
         pub documentID: crate::scalars::String,
-        pub form:
-            Option<ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
+        pub form: Option<ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm>,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub title: crate::scalars::String,
@@ -1234,8 +1290,8 @@ pub mod op_extendSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1267,14 +1323,13 @@ pub mod op_extendSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -1290,10 +1345,7 @@ impl crate::graphql::GraphQLQuery for extendSignatureOrder {
     type ResponseBody = op_extendSignatureOrder::ExtendSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_extendSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_extendSignatureOrder::QUERY, variables }
     }
 }
 
@@ -1334,16 +1386,14 @@ pub mod op_deleteSignatory {
     pub struct DeleteSignatoryOutput_SignatureOrder_Signatory {
         pub documents: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -1352,8 +1402,8 @@ pub mod op_deleteSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1379,14 +1429,13 @@ pub mod op_deleteSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -1402,10 +1451,7 @@ impl crate::graphql::GraphQLQuery for deleteSignatory {
     type ResponseBody = op_deleteSignatory::DeleteSignatoryOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_deleteSignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_deleteSignatory::QUERY, variables }
     }
 }
 
@@ -1435,51 +1481,49 @@ pub mod op_createBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem {
         pub signatory: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory,
-        pub signatureOrder:
-            CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder,
+        pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory {
-    pub documents: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection,
-    pub downloadHref: Option<crate::scalars::String>,
-    pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider>,
-    pub href: crate::scalars::String,
-    pub id: crate::scalars::ID,
-    pub reference: Option<crate::scalars::String>,
-    pub role: Option<crate::scalars::String>,
-    pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
-    pub signingAs: Option<crate::scalars::String>,
-    pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
-    pub status: crate::criipto_signatures::types::SignatoryStatus,
-    pub statusReason: Option<crate::scalars::String>,
-    pub token: crate::scalars::String,
-}
+        pub documents: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection,
+        pub downloadHref: Option<crate::scalars::String>,
+        pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider>,
+        pub href: crate::scalars::String,
+        pub id: crate::scalars::ID,
+        pub reference: Option<crate::scalars::String>,
+        pub role: Option<crate::scalars::String>,
+        pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
+        pub signingAs: Option<crate::scalars::String>,
+        pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
+        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub statusReason: Option<crate::scalars::String>,
+        pub token: crate::scalars::String,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder {
-    pub closedAt: Option<crate::scalars::DateTime>,
-    pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider>,
-    pub expiresAt: crate::scalars::DateTime,
-    pub id: crate::scalars::ID,
-    pub maxSignatories: crate::scalars::Int,
-    pub signatories: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory>,
-    pub status: crate::criipto_signatures::types::SignatureOrderStatus,
-    pub title: Option<crate::scalars::String>,
-}
+        pub closedAt: Option<crate::scalars::DateTime>,
+        pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider>,
+        pub expiresAt: crate::scalars::DateTime,
+        pub id: crate::scalars::ID,
+        pub maxSignatories: crate::scalars::Int,
+        pub signatories: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory>,
+        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub title: Option<crate::scalars::String>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider {
         pub id: crate::scalars::ID,
     }
 
@@ -1494,60 +1538,56 @@ pub mod op_createBatchSignatory {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence {
         pub initialNumber: crate::scalars::Int,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory {
-    pub documents: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection,
-    pub downloadHref: Option<crate::scalars::String>,
-    pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider>,
-    pub href: crate::scalars::String,
-    pub id: crate::scalars::ID,
-    pub reference: Option<crate::scalars::String>,
-    pub role: Option<crate::scalars::String>,
-    pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
-    pub signingAs: Option<crate::scalars::String>,
-    pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
-    pub status: crate::criipto_signatures::types::SignatoryStatus,
-    pub statusReason: Option<crate::scalars::String>,
-    pub token: crate::scalars::String,
-}
+        pub documents: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub downloadHref: Option<crate::scalars::String>,
+        pub evidenceProviders: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub href: crate::scalars::String,
+        pub id: crate::scalars::ID,
+        pub reference: Option<crate::scalars::String>,
+        pub role: Option<crate::scalars::String>,
+        pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
+        pub signingAs: Option<crate::scalars::String>,
+        pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub statusReason: Option<crate::scalars::String>,
+        pub token: crate::scalars::String,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
@@ -1556,29 +1596,26 @@ pub mod op_createBatchSignatory {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence {
         pub initialNumber: crate::scalars::Int,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -1594,10 +1631,7 @@ impl crate::graphql::GraphQLQuery for createBatchSignatory {
     type ResponseBody = op_createBatchSignatory::CreateBatchSignatoryOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_createBatchSignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_createBatchSignatory::QUERY, variables }
     }
 }
 
@@ -1618,8 +1652,7 @@ pub mod op_changeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatureOrderOutput_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
-        pub evidenceProviders:
-            Vec<ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -1637,19 +1670,16 @@ pub mod op_changeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory {
-        pub documents:
-            ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
         pub signatureOrder: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -1658,8 +1688,8 @@ pub mod op_changeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1685,14 +1715,13 @@ pub mod op_changeSignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -1708,10 +1737,7 @@ impl crate::graphql::GraphQLQuery for changeSignatureOrder {
     type ResponseBody = op_changeSignatureOrder::ChangeSignatureOrderOutput;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_changeSignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_changeSignatureOrder::QUERY, variables }
     }
 }
 
@@ -1789,8 +1815,7 @@ pub mod op_querySignatureOrder {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-        pub node:
-            SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub node: SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
     }
 
@@ -1812,10 +1837,7 @@ impl crate::graphql::GraphQLQuery for querySignatureOrder {
     type ResponseBody = op_querySignatureOrder::SignatureOrder;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_querySignatureOrder::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_querySignatureOrder::QUERY, variables }
     }
 }
 
@@ -1848,6 +1870,21 @@ pub mod op_querySignatureOrderWithDocuments {
         XmlDocument(SignatureOrder_Document_XmlDocument),
     }
 
+    impl SignatureOrder_Document {
+        pub fn as_PdfDocument(&self) -> Option<&SignatureOrder_Document_PdfDocument> {
+            match self {
+                Self::PdfDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_XmlDocument(&self) -> Option<&SignatureOrder_Document_XmlDocument> {
+            match self {
+                Self::XmlDocument(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_SignatureEvidenceProvider {
@@ -1937,6 +1974,35 @@ pub mod op_querySignatureOrderWithDocuments {
         JWTSignature(SignatureOrder_Document_PdfDocument_Signature_JWTSignature),
     }
 
+    impl SignatureOrder_Document_PdfDocument_Signature {
+        pub fn as_CompositeSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_CompositeSignature> {
+            match self {
+                Self::CompositeSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_DrawableSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
     #[serde(tag = "__typename")]
@@ -1947,19 +2013,46 @@ pub mod op_querySignatureOrderWithDocuments {
         JWTSignature(SignatureOrder_Document_XmlDocument_Signature_JWTSignature),
     }
 
+    impl SignatureOrder_Document_XmlDocument_Signature {
+        pub fn as_CompositeSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_CompositeSignature> {
+            match self {
+                Self::CompositeSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_DrawableSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-        pub node:
-            SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub node: SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature {
-        pub signatory:
-            Option<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
     }
 
     ///
@@ -1967,15 +2060,13 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct SignatureOrder_Document_PdfDocument_Signature_DrawableSignature {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
-        pub signatory:
-            Option<SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_EmptySignature {
-        pub signatory:
-            Option<SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
     }
 
     ///
@@ -1990,8 +2081,7 @@ pub mod op_querySignatureOrderWithDocuments {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
-        pub signatory:
-            Option<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
     }
 
     ///
@@ -1999,15 +2089,13 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct SignatureOrder_Document_XmlDocument_Signature_DrawableSignature {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
-        pub signatory:
-            Option<SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_EmptySignature {
-        pub signatory:
-            Option<SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
+        pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
     }
 
     ///
@@ -2099,10 +2187,7 @@ impl crate::graphql::GraphQLQuery for querySignatureOrderWithDocuments {
     type ResponseBody = op_querySignatureOrderWithDocuments::SignatureOrder;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_querySignatureOrderWithDocuments::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_querySignatureOrderWithDocuments::QUERY, variables }
     }
 }
 
@@ -2202,9 +2287,7 @@ pub mod op_querySignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection {
-        pub edges: Vec<
-            Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge,
-        >,
+        pub edges: Vec<Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
     }
 
     ///
@@ -2231,14 +2314,13 @@ pub mod op_querySignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -2254,10 +2336,7 @@ impl crate::graphql::GraphQLQuery for querySignatory {
     type ResponseBody = op_querySignatory::Signatory;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_querySignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_querySignatory::QUERY, variables }
     }
 }
 
@@ -2280,6 +2359,49 @@ pub mod op_querySignatureOrders {
         UserViewer(Viewer_UserViewer),
     }
 
+    impl Viewer {
+        pub fn as_AnonymousViewer(&self) -> Option<&Viewer_AnonymousViewer> {
+            match self {
+                Self::AnonymousViewer(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_Application(&self) -> Option<&Viewer_Application> {
+            match self {
+                Self::Application(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_BatchSignatoryViewer(&self) -> Option<&Viewer_BatchSignatoryViewer> {
+            match self {
+                Self::BatchSignatoryViewer(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_SignatoryViewer(&self) -> Option<&Viewer_SignatoryViewer> {
+            match self {
+                Self::SignatoryViewer(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_UnvalidatedSignatoryViewer(&self) -> Option<&Viewer_UnvalidatedSignatoryViewer> {
+            match self {
+                Self::UnvalidatedSignatoryViewer(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_UserViewer(&self) -> Option<&Viewer_UserViewer> {
+            match self {
+                Self::UserViewer(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_AnonymousViewer {}
@@ -2321,58 +2443,55 @@ pub mod op_querySignatureOrders {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder {
-    pub closedAt: Option<crate::scalars::DateTime>,
-    pub evidenceProviders: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider>,
-    pub expiresAt: crate::scalars::DateTime,
-    pub id: crate::scalars::ID,
-    pub maxSignatories: crate::scalars::Int,
-    pub signatories: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory>,
-    pub status: crate::criipto_signatures::types::SignatureOrderStatus,
-    pub title: Option<crate::scalars::String>,
-}
+        pub closedAt: Option<crate::scalars::DateTime>,
+        pub evidenceProviders: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider>,
+        pub expiresAt: crate::scalars::DateTime,
+        pub id: crate::scalars::ID,
+        pub maxSignatories: crate::scalars::Int,
+        pub signatories: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory>,
+        pub status: crate::criipto_signatures::types::SignatureOrderStatus,
+        pub title: Option<crate::scalars::String>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider
-    {
+    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory {
-    pub documents: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection,
-    pub downloadHref: Option<crate::scalars::String>,
-    pub evidenceProviders: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider>,
-    pub href: crate::scalars::String,
-    pub id: crate::scalars::ID,
-    pub reference: Option<crate::scalars::String>,
-    pub role: Option<crate::scalars::String>,
-    pub signatureOrder: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder,
-    pub signingAs: Option<crate::scalars::String>,
-    pub signingSequence: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence,
-    pub status: crate::criipto_signatures::types::SignatoryStatus,
-    pub statusReason: Option<crate::scalars::String>,
-    pub token: crate::scalars::String,
-}
+        pub documents: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub downloadHref: Option<crate::scalars::String>,
+        pub evidenceProviders: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider>,
+        pub href: crate::scalars::String,
+        pub id: crate::scalars::ID,
+        pub reference: Option<crate::scalars::String>,
+        pub role: Option<crate::scalars::String>,
+        pub signatureOrder: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder,
+        pub signingAs: Option<crate::scalars::String>,
+        pub signingSequence: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub status: crate::criipto_signatures::types::SignatoryStatus,
+        pub statusReason: Option<crate::scalars::String>,
+        pub token: crate::scalars::String,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider
-    {
+    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder
-    {
+    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
@@ -2381,22 +2500,20 @@ pub mod op_querySignatureOrders {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence
-    {
+    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence {
         pub initialNumber: crate::scalars::Int,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -2414,10 +2531,7 @@ impl crate::graphql::GraphQLQuery for querySignatureOrders {
     type ResponseBody = op_querySignatureOrders::Viewer;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_querySignatureOrders::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_querySignatureOrders::QUERY, variables }
     }
 }
 
@@ -2449,8 +2563,7 @@ pub mod op_queryBatchSignatory {
     pub struct BatchSignatory_BatchSignatoryItem_Signatory {
         pub documents: BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders:
-            Vec<BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
@@ -2467,8 +2580,7 @@ pub mod op_queryBatchSignatory {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder {
         pub closedAt: Option<crate::scalars::DateTime>,
-        pub evidenceProviders:
-            Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider>,
+        pub evidenceProviders: Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider>,
         pub expiresAt: crate::scalars::DateTime,
         pub id: crate::scalars::ID,
         pub maxSignatories: crate::scalars::Int,
@@ -2480,8 +2592,8 @@ pub mod op_queryBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2513,21 +2625,16 @@ pub mod op_queryBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory {
-        pub documents:
-            BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection,
+        pub documents: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection,
         pub downloadHref: Option<crate::scalars::String>,
-        pub evidenceProviders: Vec<
-            BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider,
-        >,
+        pub evidenceProviders: Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider>,
         pub href: crate::scalars::String,
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
-        pub signatureOrder:
-            BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
+        pub signatureOrder: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
-        pub signingSequence:
-            BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
+        pub signingSequence: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
         pub status: crate::criipto_signatures::types::SignatoryStatus,
         pub statusReason: Option<crate::scalars::String>,
         pub token: crate::scalars::String,
@@ -2536,15 +2643,15 @@ pub mod op_queryBatchSignatory {
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection {
-    pub edges: Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
-}
+        pub edges: Vec<BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2569,22 +2676,20 @@ pub mod op_queryBatchSignatory {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
-    pub node: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
-    pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
-}
+        pub node: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
+        pub status: Option<crate::criipto_signatures::types::SignatoryDocumentStatus>,
+    }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
-    {
+    pub struct BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document {
         pub id: crate::scalars::ID,
     }
 
@@ -2600,9 +2705,6 @@ impl crate::graphql::GraphQLQuery for queryBatchSignatory {
     type ResponseBody = op_queryBatchSignatory::BatchSignatory;
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-        crate::graphql::QueryBody {
-            query: op_queryBatchSignatory::QUERY,
-            variables,
-        }
+        crate::graphql::QueryBody { query: op_queryBatchSignatory::QUERY, variables }
     }
 }

@@ -17,9 +17,6 @@ pub trait GraphQLQuery {
 
 impl<T: Debug + Serialize> Debug for QueryBody<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("QueryBody")
-            .field("query", &self.query)
-            .field("variables", &self.variables)
-            .finish()
+        f.debug_struct("QueryBody").field("query", &self.query).field("variables", &self.variables).finish()
     }
 }

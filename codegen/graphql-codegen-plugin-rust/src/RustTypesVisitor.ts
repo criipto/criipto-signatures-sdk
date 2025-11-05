@@ -199,7 +199,7 @@ export class RustTypesVisitor extends BaseVisitor {
         return '';
       }
 
-      return new RustTypeDefinition(node.name.value, 'enum')
+      const typeDef = new RustTypeDefinition(node.name.value, 'enum')
         .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
         .withAttributes(['#[serde(tag = "__typename")]'])
         .withContent(
@@ -209,6 +209,23 @@ export class RustTypesVisitor extends BaseVisitor {
         )
         .withComment('union')
         .toString();
+
+      const utilImpl = `
+impl ${node.name.value} {
+    ${node.types
+      .map(
+        typeNode => `
+    pub fn as_${typeNode.name.value}(&self) -> Option<&${this.config.typesPrefix}${typeNode.name.value}> {
+        match self {
+            Self::${typeNode.name.value}(inner) => Some(inner),
+            _ => None,
+        }
+    }`,
+      )
+      .join('\n')}
+}`;
+
+      return typeDef + utilImpl;
     },
   };
 

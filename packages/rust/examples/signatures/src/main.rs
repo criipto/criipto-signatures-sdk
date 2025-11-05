@@ -1,10 +1,13 @@
 use ::reqwest::blocking::Client;
 use criipto_signatures_rs::{
     criipto_signatures::{
-        operations::{createSignatureOrder, op_createSignatureOrder},
-        types::{
-            CreateSignatureOrderInput, DocumentInput, DocumentStorageMode, PadesDocumentInput,
+        operations::{
+            createSignatureOrder,
+            op_createSignatureOrder::{self, CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider},
+            op_querySignatureOrderWithDocuments::{self, SignatureOrder_Document},
+            querySignatureOrderWithDocuments,
         },
+        types::{CreateSignatureOrderInput, DocumentInput, DocumentStorageMode, PadesDocumentInput, PdfDocument},
     },
     graphql::GraphQLQuery,
 };
@@ -22,10 +25,7 @@ fn main() -> anyhow::Result<()> {
         .user_agent("graphql-rust/0.10.0")
         .default_headers({
             let mut headers = reqwest::header::HeaderMap::new();
-            headers.insert(
-                "Authorization",
-                format!("Basic {}", encoded_credentials).parse().unwrap(),
-            );
+            headers.insert("Authorization", format!("Basic {}", encoded_credentials).parse().unwrap());
             headers
         })
         .build()?;
@@ -53,18 +53,16 @@ fn main() -> anyhow::Result<()> {
         },
     });
 
-    let res = client
-        .post(url)
-        .json(&query)
-        .send()?
-        .error_for_status()?
-        .json::<serde_json::Value>()?;
+    let res = client.post(url).json(&query).send()?.error_for_status()?.json::<serde_json::Value>()?;
 
     println!("Response: {:#?}", &res);
 
-    let res_data = serde_json::from_value::<<createSignatureOrder as GraphQLQuery>::ResponseBody>(
-        res["data"]["createSignatureOrder"].clone(),
-    )?;
+    let res_data = serde_json::from_value::<<createSignatureOrder as GraphQLQuery>::ResponseBody>(res["data"]["createSignatureOrder"].clone())?;
+
+    let x: <querySignatureOrderWithDocuments as GraphQLQuery>::ResponseBody = unsafe { std::mem::transmute(()) };
+
+    let doc = &x.documents[0].as_PdfDocument().unwrap();
+    let sig = doc.signatures.as_ref().unwrap()[0].as_JWTSignature().unwrap();
 
     println!("Parsed response data: {:#?}", &res_data);
     Ok(())
