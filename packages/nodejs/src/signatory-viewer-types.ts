@@ -1563,12 +1563,14 @@ export type ViewerQueryVariables = Exact<{ [key: string]: never }>;
 export type ViewerQuery = {
   __typename?: 'Query';
   viewer:
-    | { __typename: 'AnonymousViewer'; authenticated: boolean }
-    | { __typename: 'Application' }
+    | { __typename: 'AnonymousViewer'; authenticated: boolean; id: string }
+    | { __typename: 'Application'; id: string }
     | {
         __typename: 'BatchSignatoryViewer';
+        batchSignatoryId: string;
         status: SignatoryStatus;
         signer: boolean;
+        id: string;
         evidenceProviders: Array<
           | { __typename: 'AllOfSignatureEvidenceProvider'; id: string }
           | {
@@ -1627,9 +1629,11 @@ export type ViewerQuery = {
       }
     | {
         __typename: 'SignatoryViewer';
+        signatoryId: string;
         role: SignatoryRole;
         status: SignatoryStatus;
         signer: boolean;
+        id: string;
         evidenceProviders: Array<
           | { __typename: 'AllOfSignatureEvidenceProvider'; id: string }
           | {
@@ -1688,6 +1692,8 @@ export type ViewerQuery = {
       }
     | {
         __typename: 'UnvalidatedSignatoryViewer';
+        signatoryId: string;
+        id: string;
         evidenceProviders: Array<
           | { __typename: 'AllOfSignatureEvidenceProvider'; id: string }
           | {
@@ -1720,7 +1726,7 @@ export type ViewerQuery = {
             }
         >;
       }
-    | { __typename: 'UserViewer' };
+    | { __typename: 'UserViewer'; id: string };
 };
 
 export const EvidenceProviderFragmentDoc = gql`
@@ -1828,10 +1834,12 @@ export const ViewerDocument = gql`
   query viewer {
     viewer {
       __typename
+      id
       ... on AnonymousViewer {
         authenticated
       }
       ... on SignatoryViewer {
+        signatoryId
         role
         status
         signer
@@ -1849,6 +1857,7 @@ export const ViewerDocument = gql`
         }
       }
       ... on BatchSignatoryViewer {
+        batchSignatoryId
         status
         signer
         evidenceProviders {
@@ -1865,6 +1874,7 @@ export const ViewerDocument = gql`
         }
       }
       ... on UnvalidatedSignatoryViewer {
+        signatoryId
         evidenceProviders {
           __typename
           ...EvidenceProvider
