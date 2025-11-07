@@ -1,6 +1,7 @@
-use ::reqwest::blocking::Client;
 use criipto_signatures_rs::{
+    CriiptoSignaturesClientOpts,
     operations::{createSignatureOrder, op_createSignatureOrder},
+    reqwest::{create_reqwest_blocking_client, post_graphql_blocking},
     types::{CreateSignatureOrderInput, DocumentInput, DocumentStorageMode, PadesDocumentInput},
 };
 
@@ -10,19 +11,9 @@ fn main() -> anyhow::Result<()> {
     let client_id = std::env::var("CLIENT_ID")?;
     let client_secret = std::env::var("CLIENT_SECRET")?;
 
-    let base64_credentials = format!("{}:{}", client_id, client_secret);
-    let encoded_credentials = base64::encode(base64_credentials);
+    let client = create_reqwest_blocking_client(&CriiptoSignaturesClientOpts::new(client_id, client_secret))?;
 
-    let client = Client::builder()
-        .user_agent("graphql-rust/0.10.0")
-        .default_headers({
-            let mut headers = reqwest::header::HeaderMap::new();
-            headers.insert("Authorization", format!("Basic {}", encoded_credentials).parse().unwrap());
-            headers
-        })
-        .build()?;
-
-    let res = criipto_signatures_rs::reqwest::post_graphql_blocking::<createSignatureOrder, _>(
+    let res = post_graphql_blocking::<createSignatureOrder, _>(
         &client,
         "https://signatures-api.criipto.com/v1/graphql",
         op_createSignatureOrder::Variables {

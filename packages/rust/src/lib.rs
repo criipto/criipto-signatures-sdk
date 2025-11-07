@@ -10,17 +10,17 @@
 //! # use reqwest_crate as reqwest;
 //!
 //! use reqwest::{blocking::Client, header::HeaderMap};
-//! use criipto_signatures_rs::{reqwest::post_graphql_blocking, graphql::GraphQlQuery, types::{PadesDocumentInput, DocumentInput, DocumentStorageMode, CreateSignatureOrderInput}, operations::{op_createSignatureOrder, createSignatureOrder}};
+//! use criipto_signatures_rs::{
+//!     CriiptoSignaturesClientOpts,
+//!     reqwest::{post_graphql_blocking, create_reqwest_blocking_client},
+//!     graphql::GraphQlQuery,
+//!     types::{PadesDocumentInput, DocumentInput, DocumentStorageMode, CreateSignatureOrderInput},
+//!     operations::{op_createSignatureOrder, createSignatureOrder}};
 //!
 //! fn main() -> Result<(), Box<dyn std::error::Error>> {
-//!     let base64_credentials = base64::encode(format!("{}:{}", "CLIENT_ID", "CLIENT_SECRET"));
-//!     let client = Client::builder()
-//!         .default_headers({
-//!             let mut headers = reqwest::header::HeaderMap::new();
-//!             headers.insert("Authorization", format!("Basic {}", base64_credentials).parse().unwrap());
-//!             headers
-//!         })
-//!         .build()?;
+//!     let client = create_reqwest_blocking_client(
+//!         &CriiptoSignaturesClientOpts::new("CLIENT_ID".to_string(), "CLIENT_SECRET".to_string())
+//!     )?;
 //!
 //!     let response = post_graphql_blocking::<createSignatureOrder, _>(&client, "https://signatures-api.criipto.com/v1/graphql", op_createSignatureOrder::Variables {
 //!         input: CreateSignatureOrderInput {
@@ -91,4 +91,24 @@ pub mod operations {
 
 pub mod types {
     pub use crate::generated::types::*;
+}
+
+#[derive(Clone)]
+pub struct CriiptoSignaturesClientOpts {
+    client_id: String,
+    client_secret: String,
+}
+
+impl CriiptoSignaturesClientOpts {
+    pub fn new(client_id: String, client_secret: String) -> Self {
+        Self { client_id, client_secret }
+    }
+
+    pub fn authorization_header(&self) -> String {
+        use base64::prelude::*;
+
+        let base64_credentials = format!("{}:{}", self.client_id, self.client_secret);
+        let encoded_credentials = BASE64_STANDARD.encode(base64_credentials);
+        format!("Basic {}", encoded_credentials)
+    }
 }
