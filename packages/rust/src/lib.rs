@@ -45,37 +45,35 @@
 //!    Ok(())
 //! }
 //! ```
-//! 
+//!
 //! ## Usage without `reqwest`
-//! 
+//!
 //! If you prefer to use a different HTTP client, you can disable the `reqwest` feature
 //! and implement your own request logic using the types and operations provided by this crate.
-//! 
+//!
 //! You can construct a query using [GraphQlQuery::build_query](crate::graphql::GraphQlQuery::build_query) and use the types in [crate::graphql] to handle
 //! the request and response serialization/deserialization.
-//! 
+//!
 //! ## Helpers
-//! 
+//!
 //! ### Union Type Conversion
-//! 
+//!
 //! For GraphQL union types, the code generator implements methods for converting from the generic union type to specific variants,
 //! since matching on the generated enums means naming potentially long type names.
-//! 
+//!
 //! ```no_run
 //! use criipto_signatures_rs::operations::op_querySignatureOrderWithDocuments;
-//! 
+//!
 //! fn example(sig: op_querySignatureOrderWithDocuments::SignatureOrder) -> anyhow::Result<String> {
 //!     let doc = sig.documents.first().ok_or_else(|| anyhow::anyhow!("No documents found"))?;
 //!     let doc = doc.as_PdfDocument().ok_or_else(|| anyhow::anyhow!("Not a PDF document"))?;
 //!     let signatures = doc.signatures.as_ref().ok_or_else(|| anyhow::anyhow!("Document is unsigned"))?;
 //!     let signature = signatures.first().clone().ok_or_else(|| anyhow::anyhow!("No signatures found"))?;
 //!     let jwt_signature = signature.as_JWTSignature().ok_or_else(|| anyhow::anyhow!("Not a JWT signature"))?;
-//! 
+//!
 //!     Ok(jwt_signature.jwt.clone())
 //! }
 //! ```
-
-
 
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]

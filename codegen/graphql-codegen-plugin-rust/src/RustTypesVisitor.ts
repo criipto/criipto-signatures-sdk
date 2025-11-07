@@ -1,5 +1,5 @@
 import { getCachedDocumentNodeFromSchema } from '@graphql-codegen/plugin-helpers';
-import { BaseVisitor, type RawConfig } from '@graphql-codegen/visitor-plugin-common';
+import { BaseVisitor, indent, type RawConfig } from '@graphql-codegen/visitor-plugin-common';
 import assert from 'assert';
 import {
   isInterfaceType,
@@ -63,9 +63,10 @@ export class RustTypeDefinition {
     });
     result += `pub ${this._kind} ${this._name} {\n`;
     this._content.forEach(line => {
-      result += `    ${line},\n`;
+      result += indent(`${line}`, 2) + ',\n';
     });
     result += `}\n`;
+
     return result;
   }
 }
@@ -92,39 +93,39 @@ export class RustTypesVisitor extends BaseVisitor {
         .toString();
 
       const serialiseImpls = `
-            impl ::serde::Serialize for ${node.name.value} {
-                fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
-                where
-                    S: ::serde::Serializer,
-                {
-                    match *self {
-                        ${node.values
-                          ?.map(enumOption => {
-                            const name = enumOption.name.value;
-                            return `${node.name.value}::${name} => serializer.serialize_str("${name}"),`;
-                          })
-                          .join('\n')}
-                    }
-                }
+impl ::serde::Serialize for ${node.name.value} {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            ${node.values
+              ?.map(enumOption => {
+                const name = enumOption.name.value;
+                return `${node.name.value}::${name} => serializer.serialize_str("${name}"),`;
+              })
+              .join('\n')}
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for ${node.name.value} {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+            let s:String = ::serde::Deserialize::deserialize(deserializer)?;
+            match s.as_ref() {
+                ${node.values
+                  ?.map(enumOption => {
+                    const name = enumOption.name.value;
+                    return `"${name}" => Ok(${node.name.value}::${name}),`;
+                  })
+                  .join('\n')}
+                _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
             }
-            
-            impl<'de> ::serde::Deserialize<'de> for ${node.name.value} {
-                fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
-                where
-                    D: ::serde::Deserializer<'de>,
-                {
-                        let s:String = ::serde::Deserialize::deserialize(deserializer)?;
-                        match s.as_ref() {
-                            ${node.values
-                              ?.map(enumOption => {
-                                const name = enumOption.name.value;
-                                return `"${name}" => Ok(${node.name.value}::${name}),`;
-                              })
-                              .join('\n')}
-                            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
-                        }
-                }
-            }
+    }
+}
             `;
 
       return typeDef + '\n' + serialiseImpls;
@@ -215,12 +216,12 @@ impl ${node.name.value} {
     ${node.types
       .map(
         typeNode => `
-    pub fn as_${typeNode.name.value}(&self) -> Option<&${this.config.typesPrefix}${typeNode.name.value}> {
-        match self {
-            Self::${typeNode.name.value}(inner) => Some(inner),
-            _ => None,
-        }
-    }`,
+  pub fn as_${typeNode.name.value}(&self) -> Option<&${this.config.typesPrefix}${typeNode.name.value}> {
+      match self {
+          Self::${typeNode.name.value}(inner) => Some(inner),
+          _ => None,
+      }
+  }`,
       )
       .join('\n')}
 }`;

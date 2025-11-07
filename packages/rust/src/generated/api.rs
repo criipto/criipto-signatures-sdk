@@ -1,4 +1,3 @@
-
 pub struct createSignatureOrder;
 
 pub mod op_createSignatureOrder {
@@ -148,7 +147,7 @@ pub mod op_createSignatureOrder {
     pub struct ResponseData {
         pub createSignatureOrder: CreateSignatureOrderOutput,
     }
-}
+} // mod op_createSignatureOrder
 
 impl crate::graphql::GraphQlQuery for createSignatureOrder {
     type Variables = op_createSignatureOrder::Variables;
@@ -308,7 +307,7 @@ pub mod op_cleanupSignatureOrder {
     pub struct ResponseData {
         pub cleanupSignatureOrder: CleanupSignatureOrderOutput,
     }
-}
+} // mod op_cleanupSignatureOrder
 
 impl crate::graphql::GraphQlQuery for cleanupSignatureOrder {
     type Variables = op_cleanupSignatureOrder::Variables;
@@ -401,7 +400,7 @@ pub mod op_addSignatory {
     pub struct ResponseData {
         pub addSignatory: AddSignatoryOutput,
     }
-}
+} // mod op_addSignatory
 
 impl crate::graphql::GraphQlQuery for addSignatory {
     type Variables = op_addSignatory::Variables;
@@ -494,7 +493,7 @@ pub mod op_addSignatories {
     pub struct ResponseData {
         pub addSignatories: AddSignatoriesOutput,
     }
-}
+} // mod op_addSignatories
 
 impl crate::graphql::GraphQlQuery for addSignatories {
     type Variables = op_addSignatories::Variables;
@@ -587,7 +586,7 @@ pub mod op_changeSignatory {
     pub struct ResponseData {
         pub changeSignatory: ChangeSignatoryOutput,
     }
-}
+} // mod op_changeSignatory
 
 impl crate::graphql::GraphQlQuery for changeSignatory {
     type Variables = op_changeSignatory::Variables;
@@ -949,7 +948,7 @@ pub mod op_closeSignatureOrder {
     pub struct ResponseData {
         pub closeSignatureOrder: CloseSignatureOrderOutput,
     }
-}
+} // mod op_closeSignatureOrder
 
 impl crate::graphql::GraphQlQuery for closeSignatureOrder {
     type Variables = op_closeSignatureOrder::Variables;
@@ -1109,7 +1108,7 @@ pub mod op_cancelSignatureOrder {
     pub struct ResponseData {
         pub cancelSignatureOrder: CancelSignatureOrderOutput,
     }
-}
+} // mod op_cancelSignatureOrder
 
 impl crate::graphql::GraphQlQuery for cancelSignatureOrder {
     type Variables = op_cancelSignatureOrder::Variables;
@@ -1202,7 +1201,7 @@ pub mod op_signActingAs {
     pub struct ResponseData {
         pub signActingAs: SignActingAsOutput,
     }
-}
+} // mod op_signActingAs
 
 impl crate::graphql::GraphQlQuery for signActingAs {
     type Variables = op_signActingAs::Variables;
@@ -1239,7 +1238,7 @@ pub mod op_validateDocument {
     pub struct ResponseData {
         pub validateDocument: ValidateDocumentOutput,
     }
-}
+} // mod op_validateDocument
 
 impl crate::graphql::GraphQlQuery for validateDocument {
     type Variables = op_validateDocument::Variables;
@@ -1399,7 +1398,7 @@ pub mod op_extendSignatureOrder {
     pub struct ResponseData {
         pub extendSignatureOrder: ExtendSignatureOrderOutput,
     }
-}
+} // mod op_extendSignatureOrder
 
 impl crate::graphql::GraphQlQuery for extendSignatureOrder {
     type Variables = op_extendSignatureOrder::Variables;
@@ -1511,7 +1510,7 @@ pub mod op_deleteSignatory {
     pub struct ResponseData {
         pub deleteSignatory: DeleteSignatoryOutput,
     }
-}
+} // mod op_deleteSignatory
 
 impl crate::graphql::GraphQlQuery for deleteSignatory {
     type Variables = op_deleteSignatory::Variables;
@@ -1697,7 +1696,7 @@ pub mod op_createBatchSignatory {
     pub struct ResponseData {
         pub createBatchSignatory: CreateBatchSignatoryOutput,
     }
-}
+} // mod op_createBatchSignatory
 
 impl crate::graphql::GraphQlQuery for createBatchSignatory {
     type Variables = op_createBatchSignatory::Variables;
@@ -1809,7 +1808,7 @@ pub mod op_changeSignatureOrder {
     pub struct ResponseData {
         pub changeSignatureOrder: ChangeSignatureOrderOutput,
     }
-}
+} // mod op_changeSignatureOrder
 
 impl crate::graphql::GraphQlQuery for changeSignatureOrder {
     type Variables = op_changeSignatureOrder::Variables;
@@ -1915,7 +1914,7 @@ pub mod op_querySignatureOrder {
     pub struct ResponseData {
         pub signatureOrder: SignatureOrder,
     }
-}
+} // mod op_querySignatureOrder
 
 impl crate::graphql::GraphQlQuery for querySignatureOrder {
     type Variables = op_querySignatureOrder::Variables;
@@ -2271,7 +2270,7 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct ResponseData {
         pub signatureOrder: SignatureOrder,
     }
-}
+} // mod op_querySignatureOrderWithDocuments
 
 impl crate::graphql::GraphQlQuery for querySignatureOrderWithDocuments {
     type Variables = op_querySignatureOrderWithDocuments::Variables;
@@ -2426,7 +2425,7 @@ pub mod op_querySignatory {
     pub struct ResponseData {
         pub signatory: Signatory,
     }
-}
+} // mod op_querySignatory
 
 impl crate::graphql::GraphQlQuery for querySignatory {
     type Variables = op_querySignatory::Variables;
@@ -2627,7 +2626,7 @@ pub mod op_querySignatureOrders {
     pub struct ResponseData {
         pub viewer: Viewer,
     }
-}
+} // mod op_querySignatureOrders
 
 impl crate::graphql::GraphQlQuery for querySignatureOrders {
     type Variables = op_querySignatureOrders::Variables;
@@ -2807,7 +2806,7 @@ pub mod op_queryBatchSignatory {
     pub struct ResponseData {
         pub batchSignatory: BatchSignatory,
     }
-}
+} // mod op_queryBatchSignatory
 
 impl crate::graphql::GraphQlQuery for queryBatchSignatory {
     type Variables = op_queryBatchSignatory::Variables;

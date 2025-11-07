@@ -45,8 +45,8 @@ fn test_create_signature_order_add_signatory() {
                 signingAs: None,
                 signingSequence: None,
                 ui: None,
-            }
-        }
+            },
+        },
     )
     .unwrap();
 

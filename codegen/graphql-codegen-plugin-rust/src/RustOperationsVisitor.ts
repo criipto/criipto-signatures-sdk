@@ -1,5 +1,7 @@
 import {
   ClientSideBaseVisitor,
+  indent,
+  indentMultiline,
   type LoadedFragment,
   type RawConfig,
 } from '@graphql-codegen/visitor-plugin-common';
@@ -57,7 +59,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
   // specify the `leave` property inline.
   override OperationDefinition = {
     leave: (node: OperationDefinitionNode): string => {
-      let result: string[] = [];
+      let resultStrings: string[] = [];
 
       const operationName = this.getOperationName(node);
 
@@ -103,7 +105,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
             })}`,
           );
         }
-        result.push(visitorResult);
+        resultStrings.push(visitorResult);
 
         nodesToProcess.push(
           ...treeNode.children.map(child => ({
@@ -208,31 +210,29 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
       };
 
       return `
-      pub struct ${operationName};
+pub struct ${operationName};
 
-      pub mod op_${operationName} {
-        pub const OPERATION_NAME: &str = "${operationName}";
-        pub const QUERY: &str = r#"${query}"#;
-        use serde_derive::{Deserialize, Serialize};
+pub mod op_${operationName} {
+    pub const OPERATION_NAME: &str = "${operationName}";
+    pub const QUERY: &str = r#"${query}"#;
+    use serde_derive::{Deserialize, Serialize};
 
-        ${result.join('\n')}
-
-        ${generateInputType()}
-        ${generateOutputType()}
-      }
+${indentMultiline(resultStrings.join('\n'), 2)}
+${indentMultiline(generateInputType(), 2)}
+${indentMultiline(generateOutputType(), 2)}
+} // mod op_${operationName}
         
-      impl crate::graphql::GraphQlQuery for ${operationName} {
-        type Variables = op_${operationName}::Variables;
-        type ResponseBody = op_${operationName}::ResponseData;
+impl crate::graphql::GraphQlQuery for ${operationName} {
+    type Variables = op_${operationName}::Variables;
+    type ResponseBody = op_${operationName}::ResponseData;
 
-        fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
-          crate::graphql::QueryBody {
-            query: op_${operationName}::QUERY,
-            variables,
-          }
+    fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
+        crate::graphql::QueryBody {
+        query: op_${operationName}::QUERY,
+        variables,
         }
-      }
-      `;
+    }
+}`;
     },
   };
 
