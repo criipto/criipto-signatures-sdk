@@ -1,8 +1,7 @@
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
 ///! GraphQL query and response types and traits.
 use std::{collections::HashMap, fmt::Debug};
-
-use serde_derive::{Deserialize, Serialize};
-use serde_json::Value;
 
 #[derive(Serialize)]
 pub struct QueryBody<T: serde::Serialize> {
@@ -43,15 +42,53 @@ pub struct GraphQlError {
     pub extensions: Option<HashMap<String, Value>>,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct GraphQlResponse<Data> {
+#[derive(Deserialize)]
+pub struct GraphQlResponse<Data: for<'s> serde::Deserialize<'s>> {
+    #[serde(deserialize_with = "deserialize_empty_object")]
     pub data: Option<Data>,
     pub errors: Option<Vec<GraphQlError>>,
     pub extensions: Option<HashMap<String, Value>>,
 }
 
-impl<D: Debug> Debug for GraphQlResponse<D> {
+/// This is a helper which deserializes an empty json object as None
+/// The criipto signatures API tends to return empty objects instead of null when errors occur
+pub fn deserialize_empty_object<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    use serde::Deserialize;
+
+    #[derive(serde_derive::Deserialize)]
+    #[serde(untagged, deny_unknown_fields, expecting = "object, empty object or null")]
+    enum Helper<T> {
+        Data(T),
+        Empty {},
+        Null,
+    }
+    match Helper::deserialize(deserializer) {
+        Ok(Helper::Data(data)) => Ok(Some(data)),
+        Ok(_) => Ok(None),
+        Err(e) => Err(e),
+    }
+}
+
+impl<D: Debug + for<'de> serde::Deserialize<'de>> Debug for GraphQlResponse<D> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GraphQlResponse").field("data", &self.data).field("errors", &self.errors).field("extensions", &self.extensions).finish()
     }
+}
+
+pub trait CriiptoSignaturesClientBlocking {
+    type Error;
+
+    /// Post a GraphQL request to the Criipto Signatures API.
+    fn post_graphql_blocking<Q: GraphQlQuery>(&self, variables: Q::Variables) -> Result<GraphQlResponse<Q::ResponseBody>, Self::Error>;
+}
+
+pub trait CriiptoSignaturesClientAsync {
+    type Error;
+
+    /// Post a GraphQL request to the Criipto Signatures API.
+    fn post_graphql_async<Q: GraphQlQuery>(&self, variables: Q::Variables) -> impl std::future::Future<Output = Result<GraphQlResponse<Q::ResponseBody>, Self::Error>> + Send;
 }

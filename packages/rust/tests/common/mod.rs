@@ -5,18 +5,7 @@ pub fn make_client() -> Client {
     let client_id = std::env::var("CRIIPTO_SIGNATURES_CLIENT_ID").expect("CLIENT_ID must be set");
     let client_secret = std::env::var("CRIIPTO_SIGNATURES_CLIENT_SECRET").expect("CLIENT_SECRET must be set");
 
-    let base64_credentials = format!("{}:{}", client_id, client_secret);
-    let encoded_credentials = base64::encode(base64_credentials);
-
-    Client::builder()
-        .user_agent("graphql-rust/0.10.0")
-        .default_headers({
-            let mut headers = HeaderMap::new();
-            headers.insert("Authorization", format!("Basic {}", encoded_credentials).parse().unwrap());
-            headers
-        })
-        .build()
-        .unwrap()
+    criipto_signatures_rs::reqwest::create_reqwest_blocking_client(&criipto_signatures_rs::CriiptoSignaturesClientOpts::new(client_id, client_secret)).expect("Failed to create client")
 }
 
 pub fn make_document_input() -> DocumentInput {

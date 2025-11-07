@@ -2816,3 +2816,237 @@ impl crate::graphql::GraphQlQuery for queryBatchSignatory {
         crate::graphql::QueryBody { query: op_queryBatchSignatory::QUERY, variables }
     }
 }
+
+pub trait CriiptoSignatureClientMethodsBlocking {
+    type Error;
+
+    fn createSignatureOrder(&self, input: crate::generated::types::CreateSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<createSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn cleanupSignatureOrder(&self, input: crate::generated::types::CleanupSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<cleanupSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn addSignatory(&self, input: crate::generated::types::AddSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<addSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn addSignatories(&self, input: crate::generated::types::AddSignatoriesInput) -> Result<crate::graphql::GraphQlResponse<<addSignatories as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn changeSignatory(&self, input: crate::generated::types::ChangeSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<changeSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn closeSignatureOrder(&self, input: crate::generated::types::CloseSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<closeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn cancelSignatureOrder(&self, input: crate::generated::types::CancelSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<cancelSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn signActingAs(&self, input: crate::generated::types::SignActingAsInput) -> Result<crate::graphql::GraphQlResponse<<signActingAs as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn validateDocument(&self, input: crate::generated::types::ValidateDocumentInput) -> Result<crate::graphql::GraphQlResponse<<validateDocument as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn extendSignatureOrder(&self, input: crate::generated::types::ExtendSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<extendSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn deleteSignatory(&self, input: crate::generated::types::DeleteSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<deleteSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn createBatchSignatory(&self, input: crate::generated::types::CreateBatchSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<createBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn changeSignatureOrder(&self, input: crate::generated::types::ChangeSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<changeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn querySignatureOrder(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn querySignatureOrderWithDocuments(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrderWithDocuments as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn querySignatory(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn querySignatureOrders(&self, status: Option<crate::generated::types::SignatureOrderStatus>, first: crate::scalars::Int, after: Option<crate::scalars::String>) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrders as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+    fn queryBatchSignatory(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<queryBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>;
+}
+
+impl<T: crate::graphql::CriiptoSignaturesClientBlocking> CriiptoSignatureClientMethodsBlocking for T {
+    type Error = T::Error;
+
+    fn createSignatureOrder(&self, input: crate::generated::types::CreateSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<createSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_createSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<createSignatureOrder>(variables)
+    }
+
+    fn cleanupSignatureOrder(&self, input: crate::generated::types::CleanupSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<cleanupSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_cleanupSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<cleanupSignatureOrder>(variables)
+    }
+
+    fn addSignatory(&self, input: crate::generated::types::AddSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<addSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_addSignatory::Variables { input };
+        self.post_graphql_blocking::<addSignatory>(variables)
+    }
+
+    fn addSignatories(&self, input: crate::generated::types::AddSignatoriesInput) -> Result<crate::graphql::GraphQlResponse<<addSignatories as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_addSignatories::Variables { input };
+        self.post_graphql_blocking::<addSignatories>(variables)
+    }
+
+    fn changeSignatory(&self, input: crate::generated::types::ChangeSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<changeSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_changeSignatory::Variables { input };
+        self.post_graphql_blocking::<changeSignatory>(variables)
+    }
+
+    fn closeSignatureOrder(&self, input: crate::generated::types::CloseSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<closeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_closeSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<closeSignatureOrder>(variables)
+    }
+
+    fn cancelSignatureOrder(&self, input: crate::generated::types::CancelSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<cancelSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_cancelSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<cancelSignatureOrder>(variables)
+    }
+
+    fn signActingAs(&self, input: crate::generated::types::SignActingAsInput) -> Result<crate::graphql::GraphQlResponse<<signActingAs as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_signActingAs::Variables { input };
+        self.post_graphql_blocking::<signActingAs>(variables)
+    }
+
+    fn validateDocument(&self, input: crate::generated::types::ValidateDocumentInput) -> Result<crate::graphql::GraphQlResponse<<validateDocument as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_validateDocument::Variables { input };
+        self.post_graphql_blocking::<validateDocument>(variables)
+    }
+
+    fn extendSignatureOrder(&self, input: crate::generated::types::ExtendSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<extendSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_extendSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<extendSignatureOrder>(variables)
+    }
+
+    fn deleteSignatory(&self, input: crate::generated::types::DeleteSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<deleteSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_deleteSignatory::Variables { input };
+        self.post_graphql_blocking::<deleteSignatory>(variables)
+    }
+
+    fn createBatchSignatory(&self, input: crate::generated::types::CreateBatchSignatoryInput) -> Result<crate::graphql::GraphQlResponse<<createBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_createBatchSignatory::Variables { input };
+        self.post_graphql_blocking::<createBatchSignatory>(variables)
+    }
+
+    fn changeSignatureOrder(&self, input: crate::generated::types::ChangeSignatureOrderInput) -> Result<crate::graphql::GraphQlResponse<<changeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_changeSignatureOrder::Variables { input };
+        self.post_graphql_blocking::<changeSignatureOrder>(variables)
+    }
+
+    fn querySignatureOrder(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_querySignatureOrder::Variables { id };
+        self.post_graphql_blocking::<querySignatureOrder>(variables)
+    }
+
+    fn querySignatureOrderWithDocuments(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrderWithDocuments as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_querySignatureOrderWithDocuments::Variables { id };
+        self.post_graphql_blocking::<querySignatureOrderWithDocuments>(variables)
+    }
+
+    fn querySignatory(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<querySignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_querySignatory::Variables { id };
+        self.post_graphql_blocking::<querySignatory>(variables)
+    }
+
+    fn querySignatureOrders(&self, status: Option<crate::generated::types::SignatureOrderStatus>, first: crate::scalars::Int, after: Option<crate::scalars::String>) -> Result<crate::graphql::GraphQlResponse<<querySignatureOrders as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_querySignatureOrders::Variables { status, first, after };
+        self.post_graphql_blocking::<querySignatureOrders>(variables)
+    }
+
+    fn queryBatchSignatory(&self, id: crate::scalars::ID) -> Result<crate::graphql::GraphQlResponse<<queryBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error> {
+        let variables = op_queryBatchSignatory::Variables { id };
+        self.post_graphql_blocking::<queryBatchSignatory>(variables)
+    }
+}
+
+pub trait CriiptoSignatureClientMethodsAsync {
+    type Error;
+
+    fn createSignatureOrder(&self, input: crate::generated::types::CreateSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<createSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn cleanupSignatureOrder(&self, input: crate::generated::types::CleanupSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<cleanupSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn addSignatory(&self, input: crate::generated::types::AddSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<addSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn addSignatories(&self, input: crate::generated::types::AddSignatoriesInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<addSignatories as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn changeSignatory(&self, input: crate::generated::types::ChangeSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<changeSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn closeSignatureOrder(&self, input: crate::generated::types::CloseSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<closeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn cancelSignatureOrder(&self, input: crate::generated::types::CancelSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<cancelSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn signActingAs(&self, input: crate::generated::types::SignActingAsInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<signActingAs as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn validateDocument(&self, input: crate::generated::types::ValidateDocumentInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<validateDocument as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn extendSignatureOrder(&self, input: crate::generated::types::ExtendSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<extendSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn deleteSignatory(&self, input: crate::generated::types::DeleteSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<deleteSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn createBatchSignatory(&self, input: crate::generated::types::CreateBatchSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<createBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn changeSignatureOrder(&self, input: crate::generated::types::ChangeSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<changeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn querySignatureOrder(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn querySignatureOrderWithDocuments(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrderWithDocuments as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn querySignatory(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn querySignatureOrders(&self, status: Option<crate::generated::types::SignatureOrderStatus>, first: crate::scalars::Int, after: Option<crate::scalars::String>) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrders as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+    fn queryBatchSignatory(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<queryBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send;
+}
+
+impl<T: crate::graphql::CriiptoSignaturesClientAsync + Send + Sync> CriiptoSignatureClientMethodsAsync for T {
+    type Error = T::Error;
+
+    fn createSignatureOrder(&self, input: crate::generated::types::CreateSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<createSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_createSignatureOrder::Variables { input };
+        self.post_graphql_async::<createSignatureOrder>(variables)
+    }
+
+    fn cleanupSignatureOrder(&self, input: crate::generated::types::CleanupSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<cleanupSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_cleanupSignatureOrder::Variables { input };
+        self.post_graphql_async::<cleanupSignatureOrder>(variables)
+    }
+
+    fn addSignatory(&self, input: crate::generated::types::AddSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<addSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_addSignatory::Variables { input };
+        self.post_graphql_async::<addSignatory>(variables)
+    }
+
+    fn addSignatories(&self, input: crate::generated::types::AddSignatoriesInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<addSignatories as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_addSignatories::Variables { input };
+        self.post_graphql_async::<addSignatories>(variables)
+    }
+
+    fn changeSignatory(&self, input: crate::generated::types::ChangeSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<changeSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_changeSignatory::Variables { input };
+        self.post_graphql_async::<changeSignatory>(variables)
+    }
+
+    fn closeSignatureOrder(&self, input: crate::generated::types::CloseSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<closeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_closeSignatureOrder::Variables { input };
+        self.post_graphql_async::<closeSignatureOrder>(variables)
+    }
+
+    fn cancelSignatureOrder(&self, input: crate::generated::types::CancelSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<cancelSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_cancelSignatureOrder::Variables { input };
+        self.post_graphql_async::<cancelSignatureOrder>(variables)
+    }
+
+    fn signActingAs(&self, input: crate::generated::types::SignActingAsInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<signActingAs as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_signActingAs::Variables { input };
+        self.post_graphql_async::<signActingAs>(variables)
+    }
+
+    fn validateDocument(&self, input: crate::generated::types::ValidateDocumentInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<validateDocument as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_validateDocument::Variables { input };
+        self.post_graphql_async::<validateDocument>(variables)
+    }
+
+    fn extendSignatureOrder(&self, input: crate::generated::types::ExtendSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<extendSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_extendSignatureOrder::Variables { input };
+        self.post_graphql_async::<extendSignatureOrder>(variables)
+    }
+
+    fn deleteSignatory(&self, input: crate::generated::types::DeleteSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<deleteSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_deleteSignatory::Variables { input };
+        self.post_graphql_async::<deleteSignatory>(variables)
+    }
+
+    fn createBatchSignatory(&self, input: crate::generated::types::CreateBatchSignatoryInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<createBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_createBatchSignatory::Variables { input };
+        self.post_graphql_async::<createBatchSignatory>(variables)
+    }
+
+    fn changeSignatureOrder(&self, input: crate::generated::types::ChangeSignatureOrderInput) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<changeSignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_changeSignatureOrder::Variables { input };
+        self.post_graphql_async::<changeSignatureOrder>(variables)
+    }
+
+    fn querySignatureOrder(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrder as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_querySignatureOrder::Variables { id };
+        self.post_graphql_async::<querySignatureOrder>(variables)
+    }
+
+    fn querySignatureOrderWithDocuments(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrderWithDocuments as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_querySignatureOrderWithDocuments::Variables { id };
+        self.post_graphql_async::<querySignatureOrderWithDocuments>(variables)
+    }
+
+    fn querySignatory(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_querySignatory::Variables { id };
+        self.post_graphql_async::<querySignatory>(variables)
+    }
+
+    fn querySignatureOrders(&self, status: Option<crate::generated::types::SignatureOrderStatus>, first: crate::scalars::Int, after: Option<crate::scalars::String>) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<querySignatureOrders as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_querySignatureOrders::Variables { status, first, after };
+        self.post_graphql_async::<querySignatureOrders>(variables)
+    }
+
+    fn queryBatchSignatory(&self, id: crate::scalars::ID) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<queryBatchSignatory as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send {
+        let variables = op_queryBatchSignatory::Variables { id };
+        self.post_graphql_async::<queryBatchSignatory>(variables)
+    }
+}

@@ -12,37 +12,35 @@
 //! use reqwest::{blocking::Client, header::HeaderMap};
 //! use criipto_signatures_rs::{
 //!     CriiptoSignaturesClientOpts,
-//!     reqwest::{post_graphql_blocking, create_reqwest_blocking_client},
+//!     reqwest::{create_reqwest_blocking_client},
 //!     graphql::GraphQlQuery,
 //!     types::{PadesDocumentInput, DocumentInput, DocumentStorageMode, CreateSignatureOrderInput},
-//!     operations::{op_createSignatureOrder, createSignatureOrder}};
+//!     operations::{op_createSignatureOrder, CriiptoSignatureClientMethodsBlocking}};
 //!
 //! fn main() -> Result<(), Box<dyn std::error::Error>> {
 //!     let client = create_reqwest_blocking_client(
 //!         &CriiptoSignaturesClientOpts::new("CLIENT_ID".to_string(), "CLIENT_SECRET".to_string())
 //!     )?;
 //!
-//!     let response = post_graphql_blocking::<createSignatureOrder, _>(&client, "https://signatures-api.criipto.com/v1/graphql", op_createSignatureOrder::Variables {
-//!         input: CreateSignatureOrderInput {
-//!             title: Some("My Signature Order".to_string()),
-//!             documents: vec![DocumentInput {
-//!                 pdf: Some(PadesDocumentInput {
-//!                     title: "My PDF Document".to_string(),
-//!                     blob: include_bytes!("../sample.pdf").to_vec(),
-//!                     reference: None,
-//!                     storageMode: DocumentStorageMode::Temporary,
-//!                     displayDocumentID: None,
-//!                     form: None,
-//!                     sealsPageTemplate: None,
-//!                 }),
-//!                 ..Default::default()
-//!             }],
+//!     let response = client.createSignatureOrder(CreateSignatureOrderInput {
+//!         title: Some("My Signature Order".to_string()),
+//!         documents: vec![DocumentInput {
+//!             pdf: Some(PadesDocumentInput {
+//!                 title: "My PDF Document".to_string(),
+//!                 blob: include_bytes!("../sample.pdf").to_vec(),
+//!                 reference: None,
+//!                 storageMode: DocumentStorageMode::Temporary,
+//!                 displayDocumentID: None,
+//!                 form: None,
+//!                 sealsPageTemplate: None,
+//!             }),
 //!             ..Default::default()
-//!         },
+//!         }],
+//!         ..Default::default()
 //!     })?;
 //!
-//!    println!("Response: {:#?}", response);
-//!    Ok(())
+//!     println!("Response: {:#?}", response);
+//!     Ok(())
 //! }
 //! ```
 //!

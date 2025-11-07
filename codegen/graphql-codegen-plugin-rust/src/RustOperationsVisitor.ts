@@ -33,8 +33,19 @@ import { RustTypeDefinition, RustTypesVisitor } from './RustTypesVisitor.ts';
 import assert from 'assert';
 import { inspect } from 'util';
 
+interface OperationSignature {
+  name: string;
+  inputs: {
+    name: string;
+    typeName: string;
+  }[];
+}
+
 export class RustOperationsVisitor extends ClientSideBaseVisitor {
   fragments: FragmentDefinitionNode[];
+  /// List of operation signatures collected from the processed operations
+  /// Used to generate the Signature Client trait at the end
+  operationSignatures: OperationSignature[];
 
   constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string, in order to populate AST nodes
@@ -43,6 +54,7 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
 
     super(schema, fragments, config, {});
     this.fragments = fragments.map(f => f.node);
+    this.operationSignatures = [];
   }
 
   private getOperationName(node: OperationDefinitionNode) {
@@ -184,27 +196,31 @@ export class RustOperationsVisitor extends ClientSideBaseVisitor {
           };
         });
 
+        const signature: OperationSignature = {
+          name: operationName,
+          inputs: functionArguments.map(arg => {
+            let typeString: string;
+
+            if (isScalarType(arg.type)) {
+              typeString = `crate::scalars::${arg.type.name}`;
+            } else if (isInputObjectType(arg.type) || isEnumType(arg.type)) {
+              typeString = `crate::generated::types::${arg.type.name}`;
+            } else {
+              throw new Error(`Unsupported variable type: ${JSON.stringify(arg.type)}`);
+            }
+
+            if (arg.nullable) {
+              typeString = `Option<${typeString}>`;
+            }
+
+            return { name: arg.name, typeName: typeString };
+          }),
+        };
+        this.operationSignatures.push(signature);
+
         const variableType = new RustTypeDefinition('Variables', 'struct')
           .withDerives(['Debug', 'Clone', 'Serialize', 'Deserialize'])
-          .withContent(
-            functionArguments.map(arg => {
-              let typeString: string;
-
-              if (isScalarType(arg.type)) {
-                typeString = `crate::scalars::${arg.type.name}`;
-              } else if (isInputObjectType(arg.type) || isEnumType(arg.type)) {
-                typeString = `crate::generated::types::${arg.type.name}`;
-              } else {
-                throw new Error(`Unsupported variable type: ${JSON.stringify(arg.type)}`);
-              }
-
-              if (arg.nullable) {
-                typeString = `Option<${typeString}>`;
-              }
-
-              return `pub ${arg.name}: ${typeString}`;
-            }),
-          );
+          .withContent(signature.inputs.map(arg => `pub ${arg.name}: ${arg.typeName}`));
 
         return variableType.toString();
       };
@@ -228,8 +244,8 @@ impl crate::graphql::GraphQlQuery for ${operationName} {
 
     fn build_query(variables: Self::Variables) -> crate::graphql::QueryBody<Self::Variables> {
         crate::graphql::QueryBody {
-        query: op_${operationName}::QUERY,
-        variables,
+          query: op_${operationName}::QUERY,
+          variables,
         }
     }
 }`;
@@ -237,7 +253,71 @@ impl crate::graphql::GraphQlQuery for ${operationName} {
   };
 
   getAdditionalContent(): string {
-    return '';
+    const makeArgString = (opSig: OperationSignature): string => {
+      return opSig.inputs.map(arg => `${arg.name}: ${arg.typeName}`).join(', ');
+    };
+
+    const makeSyncMethodSignature = (opSig: OperationSignature): string => {
+      const argString = makeArgString(opSig);
+
+      return `fn ${opSig.name}(&self, ${argString}) -> Result<crate::graphql::GraphQlResponse<<${opSig.name} as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>`;
+    };
+
+    const makeAyncMethodSignature = (opSig: OperationSignature): string => {
+      const argString = makeArgString(opSig);
+
+      return `fn ${opSig.name}(&self, ${argString}) -> impl std::future::Future<Output = Result<crate::graphql::GraphQlResponse<<${opSig.name} as crate::graphql::GraphQlQuery>::ResponseBody>, Self::Error>> + Send`;
+    };
+
+    return `
+pub trait CriiptoSignatureClientMethodsBlocking {
+  type Error;
+
+${this.operationSignatures.map(sig => indent(makeSyncMethodSignature(sig) + ';', 2)).join('\n')}
+}
+
+impl <T: crate::graphql::CriiptoSignaturesClientBlocking> CriiptoSignatureClientMethodsBlocking for T {
+  type Error = T::Error;
+
+${this.operationSignatures
+  .map(opSig => {
+    const signature = makeSyncMethodSignature(opSig);
+
+    return `
+    ${signature} {
+        let variables = op_${opSig.name}::Variables {
+${opSig.inputs.map(arg => `${indent(arg.name, 5)},`).join('\n')}
+        };
+        self.post_graphql_blocking::<${opSig.name}>(variables)
+    }`;
+  })
+  .join('\n')}
+}
+
+pub trait CriiptoSignatureClientMethodsAsync {
+    type Error;
+
+${this.operationSignatures.map(sig => indent(makeAyncMethodSignature(sig) + ';', 2)).join('\n')}
+}
+
+impl <T: crate::graphql::CriiptoSignaturesClientAsync + Send + Sync> CriiptoSignatureClientMethodsAsync for T {
+    type Error = T::Error;
+
+${this.operationSignatures
+  .map(opSig => {
+    const signature = makeAyncMethodSignature(opSig);
+
+    return `
+    ${signature} {
+        let variables = op_${opSig.name}::Variables {
+${opSig.inputs.map(arg => `${indent(arg.name, 5)},`).join('\n')}
+        };
+        self.post_graphql_async::<${opSig.name}>(variables)
+    }`;
+  })
+  .join('\n')}
+}
+    `;
   }
 
   getPrepend(): string[] {
