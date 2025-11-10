@@ -71,6 +71,15 @@ export class SignatoryViewerClient {
     });
   }
 
+  async rejectSignatureOrder(input: { reason?: string }) {
+    await this.sdk.rejectSignatureOrder({
+      input: {
+        dummy: true,
+        reason: input.reason,
+      },
+    });
+  }
+
   async viewer() {
     const response = await this.sdk.viewer();
     return response.viewer;
