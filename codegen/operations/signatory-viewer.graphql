@@ -93,6 +93,22 @@ mutation updateSignatoryDocumentStatus($input: UpdateSignatoryDocumentStatusInpu
   }
 }
 
+mutation rejectSignatureOrder($input: RejectSignatureOrderInput!) {
+  rejectSignatureOrder(input: $input) {
+    viewer {
+      __typename
+      ... on SignatoryViewer {
+        status
+        signer
+      }
+      ... on BatchSignatoryViewer {
+        status
+        signer
+      }
+    }
+  }
+}
+
 query viewer {
   viewer {
     __typename
