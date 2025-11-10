@@ -45,6 +45,7 @@ export type AddSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
   signatoryRole?: InputMaybe<SignatoryRole>;
@@ -167,6 +168,7 @@ export type ChangeSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
@@ -314,6 +316,7 @@ export type CreateSignatureOrderSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
   signatoryRole?: InputMaybe<SignatoryRole>;
@@ -1064,6 +1067,7 @@ export type SignatoryViewer = Viewer & {
   download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role: SignatoryRole;
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus;
@@ -1558,6 +1562,24 @@ export type UpdateSignatoryDocumentStatusMutation = {
   } | null;
 };
 
+export type RejectSignatureOrderMutationVariables = Exact<{
+  input: RejectSignatureOrderInput;
+}>;
+
+export type RejectSignatureOrderMutation = {
+  __typename?: 'Mutation';
+  rejectSignatureOrder?: {
+    __typename?: 'RejectSignatureOrderOutput';
+    viewer:
+      | { __typename: 'AnonymousViewer' }
+      | { __typename: 'Application' }
+      | { __typename: 'BatchSignatoryViewer'; status: SignatoryStatus; signer: boolean }
+      | { __typename: 'SignatoryViewer'; status: SignatoryStatus; signer: boolean }
+      | { __typename: 'UnvalidatedSignatoryViewer' }
+      | { __typename: 'UserViewer' };
+  } | null;
+};
+
 export type ViewerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ViewerQuery = {
@@ -1630,6 +1652,7 @@ export type ViewerQuery = {
     | {
         __typename: 'SignatoryViewer';
         signatoryId: string;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role: SignatoryRole;
         status: SignatoryStatus;
         signer: boolean;
@@ -1830,6 +1853,23 @@ export const UpdateSignatoryDocumentStatusDocument = gql`
     }
   }
 `;
+export const RejectSignatureOrderDocument = gql`
+  mutation rejectSignatureOrder($input: RejectSignatureOrderInput!) {
+    rejectSignatureOrder(input: $input) {
+      viewer {
+        __typename
+        ... on SignatoryViewer {
+          status
+          signer
+        }
+        ... on BatchSignatoryViewer {
+          status
+          signer
+        }
+      }
+    }
+  }
+`;
 export const ViewerDocument = gql`
   query viewer {
     viewer {
@@ -1966,6 +2006,24 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             signal,
           }),
         'updateSignatoryDocumentStatus',
+        'mutation',
+        variables,
+      );
+    },
+    rejectSignatureOrder(
+      variables: RejectSignatureOrderMutationVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+      signal?: RequestInit['signal'],
+    ): Promise<RejectSignatureOrderMutation> {
+      return withWrapper(
+        wrappedRequestHeaders =>
+          client.request<RejectSignatureOrderMutation>({
+            document: RejectSignatureOrderDocument,
+            variables,
+            requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders },
+            signal,
+          }),
+        'rejectSignatureOrder',
         'mutation',
         variables,
       );

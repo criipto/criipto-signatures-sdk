@@ -45,6 +45,7 @@ export type AddSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
   signatoryRole?: InputMaybe<SignatoryRole>;
@@ -167,6 +168,7 @@ export type ChangeSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
@@ -314,6 +316,7 @@ export type CreateSignatureOrderSignatoryInput = {
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: InputMaybe<Scalars['String']['input']>;
   /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
   signatoryRole?: InputMaybe<SignatoryRole>;
@@ -1064,6 +1067,7 @@ export type SignatoryViewer = Viewer & {
   download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role: SignatoryRole;
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus;
@@ -1500,6 +1504,7 @@ export type BasicSignatoryFragment = {
   downloadHref?: string | null;
   token: string;
   reference?: string | null;
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
   role?: string | null;
   signingAs?: string | null;
   signatoryRole: SignatoryRole;
@@ -1545,6 +1550,7 @@ export type BasicSignatureOrderFragment = {
     downloadHref?: string | null;
     token: string;
     reference?: string | null;
+    /** @deprecated("Deprecated in favor of 'signingAs'") */
     role?: string | null;
     signingAs?: string | null;
     signatoryRole: SignatoryRole;
@@ -1624,6 +1630,7 @@ export type CreateSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -1700,6 +1707,7 @@ export type CleanupSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -1757,6 +1765,7 @@ export type AddSignatoryMutation = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -1806,6 +1815,7 @@ export type AddSignatoriesMutation = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -1855,6 +1865,7 @@ export type ChangeSignatoryMutation = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -1976,6 +1987,7 @@ export type CloseSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2052,6 +2064,7 @@ export type CancelSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2109,6 +2122,7 @@ export type SignActingAsMutation = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -2191,6 +2205,7 @@ export type ExtendSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2256,6 +2271,7 @@ export type DeleteSignatoryMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2328,6 +2344,7 @@ export type CreateBatchSignatoryMutation = {
             downloadHref?: string | null;
             token: string;
             reference?: string | null;
+            /** @deprecated("Deprecated in favor of 'signingAs'") */
             role?: string | null;
             signingAs?: string | null;
             signatoryRole: SignatoryRole;
@@ -2374,6 +2391,7 @@ export type CreateBatchSignatoryMutation = {
           downloadHref?: string | null;
           token: string;
           reference?: string | null;
+          /** @deprecated("Deprecated in favor of 'signingAs'") */
           role?: string | null;
           signingAs?: string | null;
           signatoryRole: SignatoryRole;
@@ -2433,6 +2451,7 @@ export type ChangeSignatureOrderMutation = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2496,6 +2515,7 @@ export type SignatureOrderQuery = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -2622,6 +2642,7 @@ export type SignatureOrderWithDocumentsQuery = {
       downloadHref?: string | null;
       token: string;
       reference?: string | null;
+      /** @deprecated("Deprecated in favor of 'signingAs'") */
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
@@ -2676,6 +2697,7 @@ export type SignatoryQuery = {
     downloadHref?: string | null;
     token: string;
     reference?: string | null;
+    /** @deprecated("Deprecated in favor of 'signingAs'") */
     role?: string | null;
     signingAs?: string | null;
     signatoryRole: SignatoryRole;
@@ -2696,6 +2718,7 @@ export type SignatoryQuery = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
@@ -2785,6 +2808,7 @@ export type SignatureOrdersQuery = {
                 downloadHref?: string | null;
                 token: string;
                 reference?: string | null;
+                /** @deprecated("Deprecated in favor of 'signingAs'") */
                 role?: string | null;
                 signingAs?: string | null;
                 signatoryRole: SignatoryRole;
@@ -2861,6 +2885,7 @@ export type BatchSignatoryQuery = {
           downloadHref?: string | null;
           token: string;
           reference?: string | null;
+          /** @deprecated("Deprecated in favor of 'signingAs'") */
           role?: string | null;
           signingAs?: string | null;
           signatoryRole: SignatoryRole;
@@ -2907,6 +2932,7 @@ export type BatchSignatoryQuery = {
         downloadHref?: string | null;
         token: string;
         reference?: string | null;
+        /** @deprecated("Deprecated in favor of 'signingAs'") */
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
