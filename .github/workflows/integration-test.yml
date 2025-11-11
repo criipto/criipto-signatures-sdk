@@ -44,3 +44,22 @@ jobs:
         env:
           CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
           CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
+
+  rust-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Install dependencies
+        run: sudo apt-get install -y libssl-dev pkg-config
+      - run: cargo build --workspace
+        working-directory: packages/rust
+      - run: cargo test --workspace --tests
+        env:
+          CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
+          CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
+        working-directory: packages/rust

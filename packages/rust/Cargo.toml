@@ -1,0 +1,27 @@
+[package]
+name = "criipto-signatures-rs"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default=["reqwest-blocking"]
+reqwest = ["reqwest-crate", "reqwest-crate/default-tls"]
+reqwest-rustls = ["reqwest-crate", "reqwest-crate/rustls-tls"]
+reqwest-blocking = ["reqwest-crate/blocking", "reqwest"]
+
+[dependencies]
+serde = "1.0.228"
+serde_derive = "1.0.228"
+serde_json = "1.0.145"
+
+reqwest-crate = { package = "reqwest", version = ">=0.11, <=0.12", features = ["json"], default-features = false, optional = true }
+base64 = "0.22.1"
+
+[dev-dependencies]
+base64 = "0.22.1"
+anyhow="1.0"
+
+[workspace]
+members = [
+    "examples/*",
+]

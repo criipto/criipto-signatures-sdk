@@ -5,6 +5,7 @@ import type { plugin as GraphqlRequestPlugin } from '@graphql-codegen/typescript
 import type { plugin as CSharpPlugin } from '@graphql-codegen/c-sharp';
 import type { plugin as CSharpOperationsPlugin } from '@graphql-codegen/c-sharp-operations';
 import type { PythonPluginConfig } from 'graphql-codegen-plugin-python';
+import type { RustPluginConfig } from 'graphql-codegen-plugin-rust';
 
 type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlugin>[2];
 type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
@@ -19,6 +20,10 @@ const nodejsCommonConfig: Partial<CodegenConfig> = {
   hooks: {
     afterOneFileWrite: ['prettier --write', 'npx jscodeshift -t codegen/codemods/*.ts '],
   },
+};
+
+const rustCommonConfig: Partial<CodegenConfig> = {
+  hooks: {},
 };
 
 const config: CodegenConfig = {
@@ -108,6 +113,22 @@ const config: CodegenConfig = {
         mode: 'operations',
       } satisfies PythonPluginConfig,
       ...pythonCommonConfig,
+    },
+    'packages/rust/src/generated/types.rs': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['graphql-codegen-plugin-rust'],
+      config: {
+        mode: 'types',
+      } satisfies RustPluginConfig,
+      ...rustCommonConfig,
+    },
+    'packages/rust/src/generated/api.rs': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['graphql-codegen-plugin-rust'],
+      config: {
+        mode: 'operations',
+      } satisfies RustPluginConfig,
+      ...rustCommonConfig,
     },
   },
 };
