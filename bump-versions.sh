@@ -44,6 +44,15 @@ popd > /dev/null
 # bump csproj version
 echo ${VERSION} | dotnet fsi bump-csproj-version.fsx
 
+# bump python version
+pushd packages/python > /dev/null
+uv version ${VERSION} > /dev/null
+pushd example > /dev/null
+# Update the version in the example as well
+uv sync
+popd > /dev/null
+popd > /dev/null
+
 # commit the changes as a version commit
 git add packages/ package*.json
 git commit -m "v${VERSION}"

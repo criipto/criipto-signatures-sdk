@@ -31,6 +31,11 @@ jobs:
         working-directory: packages/dotnet
     steps:
       - uses: actions/checkout@v4
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{secrets.NUGET_USER}}
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -38,4 +43,15 @@ jobs:
             8.0.x
       - run: dotnet test Criipto.Signatures.UnitTests
       - run: dotnet pack -c Release Criipto.Signatures
-      - run: dotnet nuget push Criipto.Signatures/bin/Release/Criipto.Signatures.*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+      - run: dotnet nuget push Criipto.Signatures/bin/Release/Criipto.Signatures.*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+
+  python-publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/python-setup
+      - run: uv build
+      - run: uv publish --trusted-publishing always
