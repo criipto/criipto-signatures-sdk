@@ -83,7 +83,7 @@ wheels = [
 
 [[package]]
 name = "criipto-signatures"
-version = "0.1.0a5"
+version = "1.28.1"
 source = { editable = "../" }
 dependencies = [
     { name = "gql", extra = ["httpx"] },

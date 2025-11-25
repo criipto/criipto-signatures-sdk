@@ -11,7 +11,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>
     <PackageId>Criipto.Signatures</PackageId>
-    <Version>1.28.0</Version>
+    <Version>1.28.1</Version>
     <Authors>Mick Hansen</Authors>
     <Company>Criipto</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
