@@ -13,16 +13,16 @@ jobs:
         working-directory: packages/nodejs
     steps:
       - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '16.x'
+          node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
+      # Ensure npm 11.5.1 or later is installed, to enable OIDC publishing
+      - name: Update npm
+        run: npm install -g npm@11.5.1
       - run: npm ci
       - run: npm run test:unit
       - run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   dotnet-publish:
     runs-on: ubuntu-latest
