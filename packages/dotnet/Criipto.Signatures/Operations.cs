@@ -474,6 +474,12 @@ namespace Criipto.Signatures
               name
               image
             }
+            ... on NorwegianBankIdSignature {
+              claims {
+                name
+                value
+              }
+            }
           }
         }
         fragment BasicSignatory on Signatory {
@@ -1235,6 +1241,12 @@ namespace Criipto.Signatures
             ... on DrawableSignature {
               name
               image
+            }
+            ... on NorwegianBankIdSignature {
+              claims {
+                name
+                value
+              }
             }
           }
         }

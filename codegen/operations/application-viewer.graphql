@@ -33,6 +33,12 @@ fragment SignedDocument on Document {
       name
       image
     }
+    ... on NorwegianBankIdSignature {
+      claims {
+        name
+        value
+      }
+    }
   }
 }
 fragment BasicSignatory on Signatory {
