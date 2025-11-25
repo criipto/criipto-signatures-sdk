@@ -2,7 +2,7 @@ pub struct createSignatureOrder;
 
 pub mod op_createSignatureOrder {
     pub const OPERATION_NAME: &str = "createSignatureOrder";
-    pub const QUERY: &str = r#"mutation createSignatureOrder($input: CreateSignatureOrderInput!) {   createSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation createSignatureOrder($input: CreateSignatureOrderInput!) {   createSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -64,6 +64,7 @@ pub mod op_createSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -162,7 +163,7 @@ pub struct cleanupSignatureOrder;
 
 pub mod op_cleanupSignatureOrder {
     pub const OPERATION_NAME: &str = "cleanupSignatureOrder";
-    pub const QUERY: &str = r#"mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {   cleanupSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {   cleanupSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -224,6 +225,7 @@ pub mod op_cleanupSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -322,7 +324,7 @@ pub struct addSignatory;
 
 pub mod op_addSignatory {
     pub const OPERATION_NAME: &str = "addSignatory";
-    pub const QUERY: &str = r#"mutation addSignatory($input: AddSignatoryInput!) {   addSignatory(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation addSignatory($input: AddSignatoryInput!) {   addSignatory(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -341,6 +343,7 @@ pub mod op_addSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: AddSignatoryOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: AddSignatoryOutput_Signatory_SignatorySigningSequence,
@@ -415,7 +418,7 @@ pub struct addSignatories;
 
 pub mod op_addSignatories {
     pub const OPERATION_NAME: &str = "addSignatories";
-    pub const QUERY: &str = r#"mutation addSignatories($input: AddSignatoriesInput!) {   addSignatories(input: $input) {     signatories {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation addSignatories($input: AddSignatoriesInput!) {   addSignatories(input: $input) {     signatories {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -434,6 +437,7 @@ pub mod op_addSignatories {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: AddSignatoriesOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: AddSignatoriesOutput_Signatory_SignatorySigningSequence,
@@ -508,7 +512,7 @@ pub struct changeSignatory;
 
 pub mod op_changeSignatory {
     pub const OPERATION_NAME: &str = "changeSignatory";
-    pub const QUERY: &str = r#"mutation changeSignatory($input: ChangeSignatoryInput!) {   changeSignatory(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation changeSignatory($input: ChangeSignatoryInput!) {   changeSignatory(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -527,6 +531,7 @@ pub mod op_changeSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: ChangeSignatoryOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ChangeSignatoryOutput_Signatory_SignatorySigningSequence,
@@ -601,7 +606,7 @@ pub struct closeSignatureOrder;
 
 pub mod op_closeSignatureOrder {
     pub const OPERATION_NAME: &str = "closeSignatureOrder";
-    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }   } }"#;
+    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }     ... on NorwegianBankIdSignature {       claims {         name         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -663,6 +668,7 @@ pub mod op_closeSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -734,6 +740,7 @@ pub mod op_closeSignatureOrder {
         DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
         EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature),
         JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature),
+        NorwegianBankIdSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature),
     }
 
     impl CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature {
@@ -764,6 +771,13 @@ pub mod op_closeSignatureOrder {
                 _ => None,
             }
         }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
     }
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -773,6 +787,7 @@ pub mod op_closeSignatureOrder {
         DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
         EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature),
         JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature),
+        NorwegianBankIdSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature),
     }
 
     impl CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature {
@@ -800,6 +815,13 @@ pub mod op_closeSignatureOrder {
         pub fn as_JWTSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature> {
             match self {
                 Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
                 _ => None,
             }
         }
@@ -842,6 +864,13 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
     }
@@ -867,6 +896,13 @@ pub mod op_closeSignatureOrder {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
+        pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory>,
     }
 
     ///
@@ -908,6 +944,19 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory {
+        pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
     }
@@ -939,6 +988,19 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory {
+        pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
         pub input: crate::generated::types::CloseSignatureOrderInput,
     }
@@ -963,7 +1025,7 @@ pub struct cancelSignatureOrder;
 
 pub mod op_cancelSignatureOrder {
     pub const OPERATION_NAME: &str = "cancelSignatureOrder";
-    pub const QUERY: &str = r#"mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {   cancelSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {   cancelSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1025,6 +1087,7 @@ pub mod op_cancelSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1123,7 +1186,7 @@ pub struct signActingAs;
 
 pub mod op_signActingAs {
     pub const OPERATION_NAME: &str = "signActingAs";
-    pub const QUERY: &str = r#"mutation signActingAs($input: SignActingAsInput!) {   signActingAs(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation signActingAs($input: SignActingAsInput!) {   signActingAs(input: $input) {     signatory {       ...BasicSignatory     }   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1142,6 +1205,7 @@ pub mod op_signActingAs {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: SignActingAsOutput_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignActingAsOutput_Signatory_SignatorySigningSequence,
@@ -1253,7 +1317,7 @@ pub struct extendSignatureOrder;
 
 pub mod op_extendSignatureOrder {
     pub const OPERATION_NAME: &str = "extendSignatureOrder";
-    pub const QUERY: &str = r#"mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {   extendSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {   extendSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1315,6 +1379,7 @@ pub mod op_extendSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1413,7 +1478,7 @@ pub struct deleteSignatory;
 
 pub mod op_deleteSignatory {
     pub const OPERATION_NAME: &str = "deleteSignatory";
-    pub const QUERY: &str = r#"mutation deleteSignatory($input: DeleteSignatoryInput!) {   deleteSignatory(input: $input) {     signatureOrder {       ...BasicSignatureOrder     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation deleteSignatory($input: DeleteSignatoryInput!) {   deleteSignatory(input: $input) {     signatureOrder {       ...BasicSignatureOrder     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1451,6 +1516,7 @@ pub mod op_deleteSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: DeleteSignatoryOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1525,7 +1591,7 @@ pub struct createBatchSignatory;
 
 pub mod op_createBatchSignatory {
     pub const OPERATION_NAME: &str = "createBatchSignatory";
-    pub const QUERY: &str = r#"mutation createBatchSignatory($input: CreateBatchSignatoryInput!) {   createBatchSignatory(input: $input) {     batchSignatory {       ...BasicBatchSignatory       items {         signatureOrder {           ...BasicSignatureOrder         }         signatory {           ...BasicSignatory         }       }     }   } } fragment BasicBatchSignatory on BatchSignatory {   id   token   href } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation createBatchSignatory($input: CreateBatchSignatoryInput!) {   createBatchSignatory(input: $input) {     batchSignatory {       ...BasicBatchSignatory       items {         signatureOrder {           ...BasicSignatureOrder         }         signatory {           ...BasicSignatory         }       }     }   } } fragment BasicBatchSignatory on BatchSignatory {   id   token   href } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1560,6 +1626,7 @@ pub mod op_createBatchSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
@@ -1624,6 +1691,7 @@ pub mod op_createBatchSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1711,7 +1779,7 @@ pub struct changeSignatureOrder;
 
 pub mod op_changeSignatureOrder {
     pub const OPERATION_NAME: &str = "changeSignatureOrder";
-    pub const QUERY: &str = r#"mutation changeSignatureOrder($input: ChangeSignatureOrderInput!) {   changeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"mutation changeSignatureOrder($input: ChangeSignatureOrderInput!) {   changeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1749,6 +1817,7 @@ pub mod op_changeSignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1823,7 +1892,7 @@ pub struct querySignatureOrder;
 
 pub mod op_querySignatureOrder {
     pub const OPERATION_NAME: &str = "querySignatureOrder";
-    pub const QUERY: &str = r#"query signatureOrder($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"query signatureOrder($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1855,6 +1924,7 @@ pub mod op_querySignatureOrder {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignatureOrder_Signatory_SignatorySigningSequence,
@@ -1929,7 +1999,7 @@ pub struct querySignatureOrderWithDocuments;
 
 pub mod op_querySignatureOrderWithDocuments {
     pub const OPERATION_NAME: &str = "querySignatureOrderWithDocuments";
-    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }   } }"#;
+    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }     ... on NorwegianBankIdSignature {       claims {         name         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1985,6 +2055,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: SignatureOrder_Signatory_SignatorySigningSequence,
@@ -2056,6 +2127,7 @@ pub mod op_querySignatureOrderWithDocuments {
         DrawableSignature(SignatureOrder_Document_PdfDocument_Signature_DrawableSignature),
         EmptySignature(SignatureOrder_Document_PdfDocument_Signature_EmptySignature),
         JWTSignature(SignatureOrder_Document_PdfDocument_Signature_JWTSignature),
+        NorwegianBankIdSignature(SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature),
     }
 
     impl SignatureOrder_Document_PdfDocument_Signature {
@@ -2086,6 +2158,13 @@ pub mod op_querySignatureOrderWithDocuments {
                 _ => None,
             }
         }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
     }
     /// union
     #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2095,6 +2174,7 @@ pub mod op_querySignatureOrderWithDocuments {
         DrawableSignature(SignatureOrder_Document_XmlDocument_Signature_DrawableSignature),
         EmptySignature(SignatureOrder_Document_XmlDocument_Signature_EmptySignature),
         JWTSignature(SignatureOrder_Document_XmlDocument_Signature_JWTSignature),
+        NorwegianBankIdSignature(SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature),
     }
 
     impl SignatureOrder_Document_XmlDocument_Signature {
@@ -2122,6 +2202,13 @@ pub mod op_querySignatureOrderWithDocuments {
         pub fn as_JWTSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_JWTSignature> {
             match self {
                 Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
                 _ => None,
             }
         }
@@ -2164,6 +2251,13 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature {
+        pub claims: Vec<SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
+        pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
     }
@@ -2189,6 +2283,13 @@ pub mod op_querySignatureOrderWithDocuments {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature {
+        pub claims: Vec<SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
+        pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory>,
     }
 
     ///
@@ -2230,6 +2331,19 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory {
+        pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
     }
@@ -2261,6 +2375,19 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory {
+        pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct Variables {
         pub id: crate::scalars::ID,
     }
@@ -2285,7 +2412,7 @@ pub struct querySignatory;
 
 pub mod op_querySignatory {
     pub const OPERATION_NAME: &str = "querySignatory";
-    pub const QUERY: &str = r#"query signatory($id: ID!) {   signatory(id: $id) {     signatureOrder {       ...BasicSignatureOrder     }     ...BasicSignatory   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"query signatory($id: ID!) {   signatory(id: $id) {     signatureOrder {       ...BasicSignatureOrder     }     ...BasicSignatory   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -2298,6 +2425,7 @@ pub mod op_querySignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Signatory_SignatorySigningSequence,
@@ -2360,6 +2488,7 @@ pub mod op_querySignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: Signatory_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Signatory_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -2440,7 +2569,7 @@ pub struct querySignatureOrders;
 
 pub mod op_querySignatureOrders {
     pub const OPERATION_NAME: &str = "querySignatureOrders";
-    pub const QUERY: &str = r#"query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: String) {   viewer {     __typename     ... on Application {       signatureOrders(status: $status, first: $first, after: $after) {         edges {           node {             ...BasicSignatureOrder           }         }       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"query signatureOrders($status: SignatureOrderStatus, $first: Int!, $after: String) {   viewer {     __typename     ... on Application {       signatureOrders(status: $status, first: $first, after: $after) {         edges {           node {             ...BasicSignatureOrder           }         }       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     /// union
@@ -2565,6 +2694,7 @@ pub mod op_querySignatureOrders {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatorySigningSequence,
@@ -2641,7 +2771,7 @@ pub struct queryBatchSignatory;
 
 pub mod op_queryBatchSignatory {
     pub const OPERATION_NAME: &str = "queryBatchSignatory";
-    pub const QUERY: &str = r#"query batchSignatory($id: ID!) {   batchSignatory(id: $id) {     ...BasicBatchSignatory     items {       signatureOrder {         ...BasicSignatureOrder       }       signatory {         ...BasicSignatory       }     }   } } fragment BasicBatchSignatory on BatchSignatory {   id   token   href } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
+    pub const QUERY: &str = r#"query batchSignatory($id: ID!) {   batchSignatory(id: $id) {     ...BasicBatchSignatory     items {       signatureOrder {         ...BasicSignatureOrder       }       signatory {         ...BasicSignatory       }     }   } } fragment BasicBatchSignatory on BatchSignatory {   id   token   href } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -2670,6 +2800,7 @@ pub mod op_queryBatchSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: BatchSignatory_BatchSignatoryItem_Signatory_SignatorySigningSequence,
@@ -2734,6 +2865,7 @@ pub mod op_queryBatchSignatory {
         pub id: crate::scalars::ID,
         pub reference: Option<crate::scalars::String>,
         pub role: Option<crate::scalars::String>,
+        pub signatoryRole: crate::generated::types::SignatoryRole,
         pub signatureOrder: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder,
         pub signingAs: Option<crate::scalars::String>,
         pub signingSequence: BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatorySigningSequence,

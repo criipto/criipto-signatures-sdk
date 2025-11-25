@@ -333,6 +333,7 @@ pub struct CreateSignatureOrderSignatoryInput {
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CreateSignatureOrderUIInput {
     pub disableRejection: Option<crate::scalars::Boolean>,
+    pub enableCancel: Option<crate::scalars::Boolean>,
     pub language: Option<crate::generated::types::Language>,
     pub logo: Option<crate::generated::types::SignatureOrderUILogoInput>,
     pub renderPdfAnnotationLayer: Option<crate::scalars::Boolean>,
@@ -771,6 +772,13 @@ pub struct NoopEvidenceProviderInput {
 pub struct NoopSignatureEvidenceProvider {
     pub id: crate::scalars::ID,
     pub name: crate::scalars::String,
+}
+
+///
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NorwegianBankIdSignature {
+    pub claims: Vec<JWTClaim>,
+    pub signatory: Option<Signatory>,
 }
 
 ///
@@ -1246,6 +1254,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryStatus {
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SignatoryUIInput {
     pub disableRejection: Option<crate::scalars::Boolean>,
+    pub enableCancel: Option<crate::scalars::Boolean>,
     pub language: Option<crate::generated::types::Language>,
     pub logo: Option<crate::generated::types::SignatureOrderUILogoInput>,
     pub renderPdfAnnotationLayer: Option<crate::scalars::Boolean>,
@@ -1285,6 +1294,7 @@ pub enum Signature {
     DrawableSignature(DrawableSignature),
     EmptySignature(EmptySignature),
     JWTSignature(JWTSignature),
+    NorwegianBankIdSignature(NorwegianBankIdSignature),
 }
 
 ///
@@ -1399,6 +1409,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatureOrderStatus {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatureOrderUI {
     pub disableRejection: crate::scalars::Boolean,
+    pub enableCancel: crate::scalars::Boolean,
     pub language: crate::generated::types::Language,
     pub logo: Option<SignatureOrderUILogo>,
     pub renderPdfAnnotationLayer: crate::scalars::Boolean,
@@ -1442,6 +1453,7 @@ pub enum SingleSignature {
     DrawableSignature(DrawableSignature),
     EmptySignature(EmptySignature),
     JWTSignature(JWTSignature),
+    NorwegianBankIdSignature(NorwegianBankIdSignature),
 }
 
 /// interface

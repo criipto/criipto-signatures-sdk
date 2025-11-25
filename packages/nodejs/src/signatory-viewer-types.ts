@@ -332,6 +332,8 @@ export type CreateSignatureOrderSignatoryInput = {
 export type CreateSignatureOrderUiInput = {
   /** Removes the UI options to reject a document or signature order. */
   disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined. */
+  enableCancel?: InputMaybe<Scalars['Boolean']['input']>;
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language>;
   /** Define a logo to be shown in the signatory UI. */
@@ -708,6 +710,13 @@ export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider &
     name: Scalars['String']['output'];
   };
 
+export type NorwegianBankIdSignature = Signature &
+  SingleSignature & {
+    __typename?: 'NorwegianBankIdSignature';
+    claims: Array<JwtClaim>;
+    signatory?: Maybe<Signatory>;
+  };
+
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -1048,6 +1057,8 @@ export type SignatoryStatus =
 export type SignatoryUiInput = {
   /** Removes the UI options to reject a document or signature order. */
   disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined. */
+  enableCancel?: InputMaybe<Scalars['Boolean']['input']>;
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language>;
   /** Define a logo to be shown in the signatory UI. */
@@ -1168,6 +1179,7 @@ export type SignatureOrderStatus =
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
   disableRejection: Scalars['Boolean']['output'];
+  enableCancel: Scalars['Boolean']['output'];
   language: Language;
   logo?: Maybe<SignatureOrderUiLogo>;
   renderPdfAnnotationLayer: Scalars['Boolean']['output'];

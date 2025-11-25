@@ -314,6 +314,8 @@ class CreateSignatureOrderSignatoryInput(BaseModel):
 class CreateSignatureOrderUIInput(BaseModel):
   # Removes the UI options to reject a document or signature order.
   disableRejection: Optional[BooleanScalarInput] = Field(default=None)
+  # Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined.
+  enableCancel: Optional[BooleanScalarInput] = Field(default=None)
   # The language of texts rendered to the signatory.
   language: Optional[Language] = Field(default=None)
   # Define a logo to be shown in the signatory UI.
@@ -583,6 +585,11 @@ class NoopEvidenceProviderInput(BaseModel):
 class NoopSignatureEvidenceProvider(BaseModel):
   id: IDScalarOutput
   name: StringScalarOutput
+
+
+class NorwegianBankIdSignature(BaseModel):
+  claims: list[JWTClaim]
+  signatory: Optional[Signatory] = Field(default=None)
 
 
 # OIDC/JWT based evidence for signatures.
@@ -896,6 +903,8 @@ class SignatoryStatus(StrEnum):
 class SignatoryUIInput(BaseModel):
   # Removes the UI options to reject a document or signature order.
   disableRejection: Optional[BooleanScalarInput] = Field(default=None)
+  # Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined.
+  enableCancel: Optional[BooleanScalarInput] = Field(default=None)
   # The language of texts rendered to the signatory.
   language: Optional[Language] = Field(default=None)
   # Define a logo to be shown in the signatory UI.
@@ -932,7 +941,13 @@ class SignatoryViewerDownload(BaseModel):
 
 
 # Represents a signature on a document.
-type Signature = CompositeSignature | DrawableSignature | EmptySignature | JWTSignature
+type Signature = (
+  CompositeSignature
+  | DrawableSignature
+  | EmptySignature
+  | JWTSignature
+  | NorwegianBankIdSignature
+)
 
 
 class SignatureAppearanceInput(BaseModel):
@@ -1013,6 +1028,7 @@ class SignatureOrderStatus(StrEnum):
 
 class SignatureOrderUI(BaseModel):
   disableRejection: BooleanScalarOutput
+  enableCancel: BooleanScalarOutput
   language: Language
   logo: Optional[SignatureOrderUILogo] = Field(default=None)
   renderPdfAnnotationLayer: BooleanScalarOutput
@@ -1049,7 +1065,9 @@ class SingleEvidenceProviderInput(BaseModel):
   oidc: Optional[OidcEvidenceProviderInput] = Field(default=None)
 
 
-type SingleSignature = DrawableSignature | EmptySignature | JWTSignature
+type SingleSignature = (
+  DrawableSignature | EmptySignature | JWTSignature | NorwegianBankIdSignature
+)
 
 type SingleSignatureEvidenceProvider = (
   CriiptoVerifySignatureEvidenceProvider
@@ -1299,6 +1317,7 @@ JWTSignature.model_rebuild()
 Mutation.model_rebuild()
 NoopEvidenceProviderInput.model_rebuild()
 NoopSignatureEvidenceProvider.model_rebuild()
+NorwegianBankIdSignature.model_rebuild()
 OidcEvidenceProviderInput.model_rebuild()
 OidcJWTSignatureEvidenceProvider.model_rebuild()
 PadesDocumentFormInput.model_rebuild()

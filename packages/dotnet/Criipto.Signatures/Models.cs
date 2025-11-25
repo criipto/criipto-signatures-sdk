@@ -1188,6 +1188,11 @@ namespace Criipto.Signatures.Models
         public bool? disableRejection { get; set; }
 
         /// <summary>
+        /// Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined.
+        /// </summary>
+        public bool? enableCancel { get; set; }
+
+        /// <summary>
         /// The language of texts rendered to the signatory.
         /// </summary>
         [JsonConverter(typeof(TolerantEnumConverter))]
@@ -2281,6 +2286,19 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("name")]
         public string name { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region NorwegianBankIdSignature
+    public class NorwegianBankIdSignature : Signature, SingleSignature
+    {
+        #region members
+        [JsonProperty("claims")]
+        public List<JWTClaim> claims { get; set; }
+
+        [JsonProperty("signatory")]
+        public Signatory signatory { get; set; }
         #endregion
     }
     #endregion
@@ -3755,6 +3773,11 @@ namespace Criipto.Signatures.Models
         public bool? disableRejection { get; set; }
 
         /// <summary>
+        /// Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined.
+        /// </summary>
+        public bool? enableCancel { get; set; }
+
+        /// <summary>
         /// The language of texts rendered to the signatory.
         /// </summary>
         [JsonConverter(typeof(TolerantEnumConverter))]
@@ -4157,6 +4180,9 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("disableRejection")]
         public bool disableRejection { get; set; }
+
+        [JsonProperty("enableCancel")]
+        public bool enableCancel { get; set; }
 
         [JsonProperty("language")]
         [JsonConverter(typeof(TolerantEnumConverter))]
