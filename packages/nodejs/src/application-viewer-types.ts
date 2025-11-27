@@ -147,6 +147,7 @@ export type BatchSignatoryViewer = Viewer & {
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus;
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -157,6 +158,13 @@ export type CancelSignatureOrderInput = {
 export type CancelSignatureOrderOutput = {
   __typename?: 'CancelSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type Certificate = {
+  __typename?: 'Certificate';
+  issuer: Scalars['String']['output'];
+  raw: Scalars['Blob']['output'];
+  subject: Scalars['String']['output'];
 };
 
 export type ChangeSignatoryInput = {
@@ -233,6 +241,7 @@ export type CompositeSignature = Signature & {
   __typename?: 'CompositeSignature';
   signatory?: Maybe<Signatory>;
   signatures: Array<SingleSignature>;
+  timestampToken: TimestampToken;
 };
 
 export type CreateApplicationApiKeyInput = {
@@ -482,6 +491,7 @@ export type DrawableSignature = Signature &
     image: Scalars['Blob']['output'];
     name?: Maybe<Scalars['String']['output']>;
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider &
@@ -497,6 +507,7 @@ export type EmptySignature = Signature &
   SingleSignature & {
     __typename?: 'EmptySignature';
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 /** Must define a evidence provider subsection. */
@@ -544,6 +555,7 @@ export type JwtSignature = Signature &
     jwks: Scalars['String']['output'];
     jwt: Scalars['String']['output'];
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 export type Language = 'DA_DK' | 'EN_US' | 'NB_NO' | 'SV_SE' | '%future added value';
@@ -715,6 +727,8 @@ export type NorwegianBankIdSignature = Signature &
     __typename?: 'NorwegianBankIdSignature';
     claims: Array<JwtClaim>;
     signatory?: Maybe<Signatory>;
+    signingCertificate: Certificate;
+    timestampToken: TimestampToken;
   };
 
 /** OIDC/JWT based evidence for signatures. */
@@ -1084,6 +1098,7 @@ export type SignatoryViewer = Viewer & {
   signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus;
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -1102,6 +1117,7 @@ export type SignatoryViewerDownload = {
 /** Represents a signature on a document. */
 export type Signature = {
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 export type SignatureAppearanceInput = {
@@ -1259,6 +1275,11 @@ export type TenantWebhookLogsArgs = {
   from: Scalars['String']['input'];
   succeeded?: InputMaybe<Scalars['Boolean']['input']>;
   to: Scalars['String']['input'];
+};
+
+export type TimestampToken = {
+  __typename?: 'TimestampToken';
+  timestamp: Scalars['Date']['output'];
 };
 
 export type TrackSignatoryInput = {
@@ -1449,6 +1470,33 @@ export type BasicDocumentFragment =
   | BasicDocument_PdfDocument_Fragment
   | BasicDocument_XmlDocument_Fragment;
 
+type SingleSignature_DrawableSignature_Fragment = {
+  __typename?: 'DrawableSignature';
+  name?: string | null;
+  image: Buffer;
+};
+
+type SingleSignature_EmptySignature_Fragment = { __typename?: 'EmptySignature' };
+
+type SingleSignature_JwtSignature_Fragment = {
+  __typename?: 'JWTSignature';
+  jwt: string;
+  jwks: string;
+  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+};
+
+type SingleSignature_NorwegianBankIdSignature_Fragment = {
+  __typename?: 'NorwegianBankIdSignature';
+  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+  signingCertificate: { __typename?: 'Certificate'; raw: Buffer; issuer: string; subject: string };
+};
+
+export type SingleSignatureFragment =
+  | SingleSignature_DrawableSignature_Fragment
+  | SingleSignature_EmptySignature_Fragment
+  | SingleSignature_JwtSignature_Fragment
+  | SingleSignature_NorwegianBankIdSignature_Fragment;
+
 type SignedDocument_PdfDocument_Fragment = {
   __typename?: 'PdfDocument';
   id: string;
@@ -1457,26 +1505,60 @@ type SignedDocument_PdfDocument_Fragment = {
   signatures?: Array<
     | {
         __typename: 'CompositeSignature';
+        signatures: Array<
+          | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+          | { __typename?: 'EmptySignature' }
+          | {
+              __typename?: 'JWTSignature';
+              jwt: string;
+              jwks: string;
+              claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+            }
+          | {
+              __typename?: 'NorwegianBankIdSignature';
+              claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+              signingCertificate: {
+                __typename?: 'Certificate';
+                raw: Buffer;
+                issuer: string;
+                subject: string;
+              };
+            }
+        >;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
       }
     | {
         __typename: 'DrawableSignature';
         name?: string | null;
         image: Buffer;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
       }
-    | { __typename: 'EmptySignature'; signatory?: { __typename?: 'Signatory'; id: string } | null }
+    | {
+        __typename: 'EmptySignature';
+        signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+      }
     | {
         __typename: 'JWTSignature';
         jwt: string;
         jwks: string;
-        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
       }
     | {
         __typename: 'NorwegianBankIdSignature';
-        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+        signingCertificate: {
+          __typename?: 'Certificate';
+          raw: Buffer;
+          issuer: string;
+          subject: string;
+        };
       }
   > | null;
 };
@@ -1489,26 +1571,60 @@ type SignedDocument_XmlDocument_Fragment = {
   signatures?: Array<
     | {
         __typename: 'CompositeSignature';
+        signatures: Array<
+          | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+          | { __typename?: 'EmptySignature' }
+          | {
+              __typename?: 'JWTSignature';
+              jwt: string;
+              jwks: string;
+              claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+            }
+          | {
+              __typename?: 'NorwegianBankIdSignature';
+              claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+              signingCertificate: {
+                __typename?: 'Certificate';
+                raw: Buffer;
+                issuer: string;
+                subject: string;
+              };
+            }
+        >;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
       }
     | {
         __typename: 'DrawableSignature';
         name?: string | null;
         image: Buffer;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
       }
-    | { __typename: 'EmptySignature'; signatory?: { __typename?: 'Signatory'; id: string } | null }
+    | {
+        __typename: 'EmptySignature';
+        signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+      }
     | {
         __typename: 'JWTSignature';
         jwt: string;
         jwks: string;
-        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
       }
     | {
         __typename: 'NorwegianBankIdSignature';
-        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
         signatory?: { __typename?: 'Signatory'; id: string } | null;
+        timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+        signingCertificate: {
+          __typename?: 'Certificate';
+          raw: Buffer;
+          issuer: string;
+          subject: string;
+        };
       }
   > | null;
 };
@@ -1948,29 +2064,60 @@ export type CloseSignatureOrderMutation = {
             signatures?: Array<
               | {
                   __typename: 'CompositeSignature';
+                  signatures: Array<
+                    | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+                    | { __typename?: 'EmptySignature' }
+                    | {
+                        __typename?: 'JWTSignature';
+                        jwt: string;
+                        jwks: string;
+                        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                      }
+                    | {
+                        __typename?: 'NorwegianBankIdSignature';
+                        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                        signingCertificate: {
+                          __typename?: 'Certificate';
+                          raw: Buffer;
+                          issuer: string;
+                          subject: string;
+                        };
+                      }
+                  >;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'DrawableSignature';
                   name?: string | null;
                   image: Buffer;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'EmptySignature';
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'JWTSignature';
                   jwt: string;
                   jwks: string;
-                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 }
               | {
                   __typename: 'NorwegianBankIdSignature';
-                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                  signingCertificate: {
+                    __typename?: 'Certificate';
+                    raw: Buffer;
+                    issuer: string;
+                    subject: string;
+                  };
                 }
             > | null;
           }
@@ -1983,29 +2130,60 @@ export type CloseSignatureOrderMutation = {
             signatures?: Array<
               | {
                   __typename: 'CompositeSignature';
+                  signatures: Array<
+                    | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+                    | { __typename?: 'EmptySignature' }
+                    | {
+                        __typename?: 'JWTSignature';
+                        jwt: string;
+                        jwks: string;
+                        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                      }
+                    | {
+                        __typename?: 'NorwegianBankIdSignature';
+                        claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                        signingCertificate: {
+                          __typename?: 'Certificate';
+                          raw: Buffer;
+                          issuer: string;
+                          subject: string;
+                        };
+                      }
+                  >;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'DrawableSignature';
                   name?: string | null;
                   image: Buffer;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'EmptySignature';
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
                 }
               | {
                   __typename: 'JWTSignature';
                   jwt: string;
                   jwks: string;
-                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 }
               | {
                   __typename: 'NorwegianBankIdSignature';
-                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                   signatory?: { __typename?: 'Signatory'; id: string } | null;
+                  timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                  claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                  signingCertificate: {
+                    __typename?: 'Certificate';
+                    raw: Buffer;
+                    issuer: string;
+                    subject: string;
+                  };
                 }
             > | null;
           }
@@ -2613,29 +2791,60 @@ export type SignatureOrderWithDocumentsQuery = {
           signatures?: Array<
             | {
                 __typename: 'CompositeSignature';
+                signatures: Array<
+                  | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+                  | { __typename?: 'EmptySignature' }
+                  | {
+                      __typename?: 'JWTSignature';
+                      jwt: string;
+                      jwks: string;
+                      claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                    }
+                  | {
+                      __typename?: 'NorwegianBankIdSignature';
+                      claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                      signingCertificate: {
+                        __typename?: 'Certificate';
+                        raw: Buffer;
+                        issuer: string;
+                        subject: string;
+                      };
+                    }
+                >;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'DrawableSignature';
                 name?: string | null;
                 image: Buffer;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'EmptySignature';
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'JWTSignature';
                 jwt: string;
                 jwks: string;
-                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
               }
             | {
                 __typename: 'NorwegianBankIdSignature';
-                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                signingCertificate: {
+                  __typename?: 'Certificate';
+                  raw: Buffer;
+                  issuer: string;
+                  subject: string;
+                };
               }
           > | null;
         }
@@ -2648,29 +2857,60 @@ export type SignatureOrderWithDocumentsQuery = {
           signatures?: Array<
             | {
                 __typename: 'CompositeSignature';
+                signatures: Array<
+                  | { __typename?: 'DrawableSignature'; name?: string | null; image: Buffer }
+                  | { __typename?: 'EmptySignature' }
+                  | {
+                      __typename?: 'JWTSignature';
+                      jwt: string;
+                      jwks: string;
+                      claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                    }
+                  | {
+                      __typename?: 'NorwegianBankIdSignature';
+                      claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                      signingCertificate: {
+                        __typename?: 'Certificate';
+                        raw: Buffer;
+                        issuer: string;
+                        subject: string;
+                      };
+                    }
+                >;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'DrawableSignature';
                 name?: string | null;
                 image: Buffer;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'EmptySignature';
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
               }
             | {
                 __typename: 'JWTSignature';
                 jwt: string;
                 jwks: string;
-                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
               }
             | {
                 __typename: 'NorwegianBankIdSignature';
-                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
                 signatory?: { __typename?: 'Signatory'; id: string } | null;
+                timestampToken: { __typename?: 'TimestampToken'; timestamp: string };
+                claims: Array<{ __typename?: 'JWTClaim'; name: string; value: string }>;
+                signingCertificate: {
+                  __typename?: 'Certificate';
+                  raw: Buffer;
+                  issuer: string;
+                  subject: string;
+                };
               }
           > | null;
         }
@@ -3022,6 +3262,33 @@ export const BasicDocumentFragmentDoc = gql`
     }
   }
 `;
+export const SingleSignatureFragmentDoc = gql`
+  fragment SingleSignature on SingleSignature {
+    ... on JWTSignature {
+      jwt
+      jwks
+      claims {
+        name
+        value
+      }
+    }
+    ... on DrawableSignature {
+      name
+      image
+    }
+    ... on NorwegianBankIdSignature {
+      claims {
+        name
+        value
+      }
+      signingCertificate {
+        raw
+        issuer
+        subject
+      }
+    }
+  }
+`;
 export const SignedDocumentFragmentDoc = gql`
   fragment SignedDocument on Document {
     id
@@ -3032,26 +3299,18 @@ export const SignedDocumentFragmentDoc = gql`
       signatory {
         id
       }
-      ... on JWTSignature {
-        jwt
-        jwks
-        claims {
-          name
-          value
-        }
+      timestampToken {
+        timestamp
       }
-      ... on DrawableSignature {
-        name
-        image
-      }
-      ... on NorwegianBankIdSignature {
-        claims {
-          name
-          value
+      ...SingleSignature
+      ... on CompositeSignature {
+        signatures {
+          ...SingleSignature
         }
       }
     }
   }
+  ${SingleSignatureFragmentDoc}
 `;
 export const BasicSignatoryFragmentDoc = gql`
   fragment BasicSignatory on Signatory {

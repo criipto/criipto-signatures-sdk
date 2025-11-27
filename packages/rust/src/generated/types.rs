@@ -146,6 +146,7 @@ pub struct BatchSignatoryViewer {
     pub id: crate::scalars::ID,
     pub signer: crate::scalars::Boolean,
     pub status: crate::generated::types::SignatoryStatus,
+    pub traceId: crate::scalars::String,
     pub ui: SignatureOrderUI,
 }
 
@@ -159,6 +160,14 @@ pub struct CancelSignatureOrderInput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CancelSignatureOrderOutput {
     pub signatureOrder: SignatureOrder,
+}
+
+///
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Certificate {
+    pub issuer: crate::scalars::String,
+    pub raw: crate::scalars::Blob,
+    pub subject: crate::scalars::String,
 }
 
 ///
@@ -240,6 +249,7 @@ pub struct CompleteCriiptoVerifyEvidenceProviderOutput {
 pub struct CompositeSignature {
     pub signatory: Option<Signatory>,
     pub signatures: Vec<SingleSignature>,
+    pub timestampToken: TimestampToken,
 }
 
 ///
@@ -602,6 +612,7 @@ pub struct DrawableSignature {
     pub image: crate::scalars::Blob,
     pub name: Option<crate::scalars::String>,
     pub signatory: Option<Signatory>,
+    pub timestampToken: TimestampToken,
 }
 
 ///
@@ -617,6 +628,7 @@ pub struct DrawableSignatureEvidenceProvider {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EmptySignature {
     pub signatory: Option<Signatory>,
+    pub timestampToken: TimestampToken,
 }
 
 ///
@@ -690,6 +702,7 @@ pub struct JWTSignature {
     pub jwks: crate::scalars::String,
     pub jwt: crate::scalars::String,
     pub signatory: Option<Signatory>,
+    pub timestampToken: TimestampToken,
 }
 
 ///
@@ -779,6 +792,8 @@ pub struct NoopSignatureEvidenceProvider {
 pub struct NorwegianBankIdSignature {
     pub claims: Vec<JWTClaim>,
     pub signatory: Option<Signatory>,
+    pub signingCertificate: Certificate,
+    pub timestampToken: TimestampToken,
 }
 
 ///
@@ -1275,6 +1290,7 @@ pub struct SignatoryViewer {
     pub signatureOrderStatus: crate::generated::types::SignatureOrderStatus,
     pub signer: crate::scalars::Boolean,
     pub status: crate::generated::types::SignatoryStatus,
+    pub traceId: crate::scalars::String,
     pub ui: SignatureOrderUI,
 }
 
@@ -1497,6 +1513,12 @@ pub struct Tenant {
     pub applications: Vec<Application>,
     pub id: crate::scalars::ID,
     pub webhookLogs: Vec<WebhookInvocation>,
+}
+
+///
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TimestampToken {
+    pub timestamp: crate::scalars::Date,
 }
 
 ///

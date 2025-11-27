@@ -147,6 +147,7 @@ export type BatchSignatoryViewer = Viewer & {
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus;
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -157,6 +158,13 @@ export type CancelSignatureOrderInput = {
 export type CancelSignatureOrderOutput = {
   __typename?: 'CancelSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type Certificate = {
+  __typename?: 'Certificate';
+  issuer: Scalars['String']['output'];
+  raw: Scalars['Blob']['output'];
+  subject: Scalars['String']['output'];
 };
 
 export type ChangeSignatoryInput = {
@@ -233,6 +241,7 @@ export type CompositeSignature = Signature & {
   __typename?: 'CompositeSignature';
   signatory?: Maybe<Signatory>;
   signatures: Array<SingleSignature>;
+  timestampToken: TimestampToken;
 };
 
 export type CreateApplicationApiKeyInput = {
@@ -482,6 +491,7 @@ export type DrawableSignature = Signature &
     image: Scalars['Blob']['output'];
     name?: Maybe<Scalars['String']['output']>;
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider &
@@ -497,6 +507,7 @@ export type EmptySignature = Signature &
   SingleSignature & {
     __typename?: 'EmptySignature';
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 /** Must define a evidence provider subsection. */
@@ -544,6 +555,7 @@ export type JwtSignature = Signature &
     jwks: Scalars['String']['output'];
     jwt: Scalars['String']['output'];
     signatory?: Maybe<Signatory>;
+    timestampToken: TimestampToken;
   };
 
 export type Language = 'DA_DK' | 'EN_US' | 'NB_NO' | 'SV_SE' | '%future added value';
@@ -715,6 +727,8 @@ export type NorwegianBankIdSignature = Signature &
     __typename?: 'NorwegianBankIdSignature';
     claims: Array<JwtClaim>;
     signatory?: Maybe<Signatory>;
+    signingCertificate: Certificate;
+    timestampToken: TimestampToken;
   };
 
 /** OIDC/JWT based evidence for signatures. */
@@ -1084,6 +1098,7 @@ export type SignatoryViewer = Viewer & {
   signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus;
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -1102,6 +1117,7 @@ export type SignatoryViewerDownload = {
 /** Represents a signature on a document. */
 export type Signature = {
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 export type SignatureAppearanceInput = {
@@ -1259,6 +1275,11 @@ export type TenantWebhookLogsArgs = {
   from: Scalars['String']['input'];
   succeeded?: InputMaybe<Scalars['Boolean']['input']>;
   to: Scalars['String']['input'];
+};
+
+export type TimestampToken = {
+  __typename?: 'TimestampToken';
+  timestamp: Scalars['Date']['output'];
 };
 
 export type TrackSignatoryInput = {

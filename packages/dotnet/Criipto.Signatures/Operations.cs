@@ -453,6 +453,31 @@ namespace Criipto.Signatures
             }
           }
         }
+        fragment SingleSignature on SingleSignature {
+          ... on JWTSignature {
+            jwt
+            jwks
+            claims {
+              name
+              value
+            }
+          }
+          ... on DrawableSignature {
+            name
+            image
+          }
+          ... on NorwegianBankIdSignature {
+            claims {
+              name
+              value
+            }
+            signingCertificate {
+              raw
+              issuer
+              subject
+            }
+          }
+        }
         fragment SignedDocument on Document {
           id
           title
@@ -462,22 +487,13 @@ namespace Criipto.Signatures
             signatory {
               id
             }
-            ... on JWTSignature {
-              jwt
-              jwks
-              claims {
-                name
-                value
-              }
+            timestampToken {
+              timestamp
             }
-            ... on DrawableSignature {
-              name
-              image
-            }
-            ... on NorwegianBankIdSignature {
-              claims {
-                name
-                value
+            ...SingleSignature
+            ... on CompositeSignature {
+              signatures {
+                ...SingleSignature
               }
             }
           }
@@ -1221,6 +1237,31 @@ namespace Criipto.Signatures
             }
           }
         }
+        fragment SingleSignature on SingleSignature {
+          ... on JWTSignature {
+            jwt
+            jwks
+            claims {
+              name
+              value
+            }
+          }
+          ... on DrawableSignature {
+            name
+            image
+          }
+          ... on NorwegianBankIdSignature {
+            claims {
+              name
+              value
+            }
+            signingCertificate {
+              raw
+              issuer
+              subject
+            }
+          }
+        }
         fragment SignedDocument on Document {
           id
           title
@@ -1230,22 +1271,13 @@ namespace Criipto.Signatures
             signatory {
               id
             }
-            ... on JWTSignature {
-              jwt
-              jwks
-              claims {
-                name
-                value
-              }
+            timestampToken {
+              timestamp
             }
-            ... on DrawableSignature {
-              name
-              image
-            }
-            ... on NorwegianBankIdSignature {
-              claims {
-                name
-                value
+            ...SingleSignature
+            ... on CompositeSignature {
+              signatures {
+                ...SingleSignature
               }
             }
           }
