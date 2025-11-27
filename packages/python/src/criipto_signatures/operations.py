@@ -72,6 +72,31 @@ BasicDocumentFragment = """fragment BasicDocument on Document {
     }
   }
 }"""
+SingleSignatureFragment = """fragment SingleSignature on SingleSignature {
+  ... on JWTSignature {
+    jwt
+    jwks
+    claims {
+      name
+      value
+    }
+  }
+  ... on DrawableSignature {
+    name
+    image
+  }
+  ... on NorwegianBankIdSignature {
+    claims {
+      name
+      value
+    }
+    signingCertificate {
+      raw
+      issuer
+      subject
+    }
+  }
+}"""
 SignedDocumentFragment = """fragment SignedDocument on Document {
   id
   title
@@ -81,22 +106,13 @@ SignedDocumentFragment = """fragment SignedDocument on Document {
     signatory {
       id
     }
-    ... on JWTSignature {
-      jwt
-      jwks
-      claims {
-        name
-        value
-      }
+    timestampToken {
+      timestamp
     }
-    ... on DrawableSignature {
-      name
-      image
-    }
-    ... on NorwegianBankIdSignature {
-      claims {
-        name
-        value
+    ...SingleSignature
+    ... on CompositeSignature {
+      signatures {
+        ...SingleSignature
       }
     }
   }
@@ -901,6 +917,10 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory
   ] = Field(default=None)
+  signatures: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
+  ]
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -911,6 +931,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -919,6 +940,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -932,6 +954,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -943,6 +966,8 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
+  signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -951,6 +976,10 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory
   ] = Field(default=None)
+  signatures: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
+  ]
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -961,6 +990,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -969,6 +999,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -982,6 +1013,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -993,6 +1025,8 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
+  signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
+  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1007,16 +1041,42 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   id: IDScalarOutput
 
 
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature = (
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature
+)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
@@ -1032,6 +1092,12 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   id: IDScalarOutput
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim(
   BaseModel
 ):
@@ -1045,10 +1111,38 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   id: IDScalarOutput
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature = (
+  CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature
+  | CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature
+)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
@@ -1057,10 +1151,22 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   id: IDScalarOutput
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
@@ -1076,6 +1182,12 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   id: IDScalarOutput
 
 
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim(
   BaseModel
 ):
@@ -1087,6 +1199,128 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature(
+  BaseModel
+):
+  pass
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim
+  ]
+  signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature(
+  BaseModel
+):
+  pass
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature(
+  BaseModel
+):
+  claims: list[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim
+  ]
+  signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
 
 
 closeSignatureOrderDocument = f"""mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {{
@@ -1103,7 +1337,8 @@ closeSignatureOrderDocument = f"""mutation closeSignatureOrder($input: CloseSign
 {BasicSignatureOrderFragment}
 {BasicSignatoryFragment}
 {BasicDocumentFragment}
-{SignedDocumentFragment}"""
+{SignedDocumentFragment}
+{SingleSignatureFragment}"""
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput(BaseModel):
@@ -2229,6 +2464,10 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory
   ] = Field(default=None)
+  signatures: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
+  ]
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -2239,6 +2478,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -2247,6 +2487,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -2260,6 +2501,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -2271,6 +2513,8 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
+  signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -2279,6 +2523,10 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory
   ] = Field(default=None)
+  signatures: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
+  ]
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -2289,6 +2537,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -2297,6 +2546,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -2310,6 +2560,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -2321,6 +2572,8 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
+  signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
+  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -2335,16 +2588,42 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   id: IDScalarOutput
 
 
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature = (
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature
+)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim(
@@ -2360,6 +2639,12 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   id: IDScalarOutput
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim(
   BaseModel
 ):
@@ -2373,10 +2658,38 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   id: IDScalarOutput
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+type QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature = (
+  QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature
+  | QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature
+)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory(
@@ -2385,10 +2698,22 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   id: IDScalarOutput
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory(
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim(
@@ -2404,6 +2729,12 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   id: IDScalarOutput
 
 
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim(
   BaseModel
 ):
@@ -2415,6 +2746,128 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   BaseModel
 ):
   id: IDScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken(
+  BaseModel
+):
+  timestamp: DateScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature(
+  BaseModel
+):
+  pass
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim
+  ]
+  signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature(
+  BaseModel
+):
+  image: BlobScalarOutput
+  name: Optional[StringScalarOutput] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature(
+  BaseModel
+):
+  pass
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim
+  ]
+  jwks: StringScalarOutput
+  jwt: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature(
+  BaseModel
+):
+  claims: list[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim
+  ]
+  signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim(
+  BaseModel
+):
+  name: StringScalarOutput
+  value: StringScalarOutput
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate(
+  BaseModel
+):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
 
 
 querySignatureOrderWithDocumentsDocument = f"""query signatureOrderWithDocuments($id: ID!) {{
@@ -2429,7 +2882,8 @@ querySignatureOrderWithDocumentsDocument = f"""query signatureOrderWithDocuments
 {BasicSignatureOrderFragment}
 {BasicSignatoryFragment}
 {BasicDocumentFragment}
-{SignedDocumentFragment}"""
+{SignedDocumentFragment}
+{SingleSignatureFragment}"""
 
 
 class QuerySignatory_Signatory(BaseModel):
@@ -3550,19 +4004,45 @@ CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocumen
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider.model_rebuild()
@@ -3669,19 +4149,45 @@ QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_J
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_JWTClaim.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_JWTClaim.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate.model_rebuild()
 QuerySignatory_Signatory.model_rebuild()
 QuerySignatory_Signatory_SignatoryDocumentConnection.model_rebuild()
 QuerySignatory_Signatory_SignatureEvidenceProvider.model_rebuild()

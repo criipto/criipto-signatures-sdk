@@ -418,6 +418,9 @@ namespace Criipto.Signatures.Models
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryStatus status { get; set; }
 
+        [JsonProperty("traceId")]
+        public string traceId { get; set; }
+
         [JsonProperty("ui")]
         public SignatureOrderUI ui { get; set; }
         #endregion
@@ -470,6 +473,22 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("signatureOrder")]
         public SignatureOrder signatureOrder { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region Certificate
+    public class Certificate
+    {
+        #region members
+        [JsonProperty("issuer")]
+        public string issuer { get; set; }
+
+        [JsonProperty("raw")]
+        public byte[] raw { get; set; }
+
+        [JsonProperty("subject")]
+        public string subject { get; set; }
         #endregion
     }
     #endregion
@@ -795,6 +814,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signatures")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SingleSignature> signatures { get; set; }
+
+        [JsonProperty("timestampToken")]
+        public TimestampToken timestampToken { get; set; }
         #endregion
     }
     #endregion
@@ -1879,6 +1901,9 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("timestampToken")]
+        public TimestampToken timestampToken { get; set; }
         #endregion
     }
     #endregion
@@ -1910,6 +1935,9 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("timestampToken")]
+        public TimestampToken timestampToken { get; set; }
         #endregion
     }
     #endregion
@@ -2075,6 +2103,9 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("timestampToken")]
+        public TimestampToken timestampToken { get; set; }
         #endregion
     }
     #endregion
@@ -2299,6 +2330,12 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("signingCertificate")]
+        public Certificate signingCertificate { get; set; }
+
+        [JsonProperty("timestampToken")]
+        public TimestampToken timestampToken { get; set; }
         #endregion
     }
     #endregion
@@ -3873,6 +3910,9 @@ namespace Criipto.Signatures.Models
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryStatus status { get; set; }
 
+        [JsonProperty("traceId")]
+        public string traceId { get; set; }
+
         [JsonProperty("ui")]
         public SignatureOrderUI ui { get; set; }
         #endregion
@@ -3906,6 +3946,9 @@ namespace Criipto.Signatures.Models
     {
         [JsonProperty("signatory")]
         Signatory signatory { get; set; }
+
+        [JsonProperty("timestampToken")]
+        TimestampToken timestampToken { get; set; }
     }
 
     #region SignatureAppearanceInput
@@ -4422,6 +4465,16 @@ namespace Criipto.Signatures.Models
         [JsonProperty("webhookLogs")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<WebhookInvocation> webhookLogs { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region TimestampToken
+    public class TimestampToken
+    {
+        #region members
+        [JsonProperty("timestamp")]
+        public DateTime timestamp { get; set; }
         #endregion
     }
     #endregion

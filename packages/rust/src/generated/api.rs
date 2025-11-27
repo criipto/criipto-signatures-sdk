@@ -606,7 +606,7 @@ pub struct closeSignatureOrder;
 
 pub mod op_closeSignatureOrder {
     pub const OPERATION_NAME: &str = "closeSignatureOrder";
-    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }     ... on NorwegianBankIdSignature {       claims {         name         value       }     }   } }"#;
+    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -837,6 +837,8 @@ pub mod op_closeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature {
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
+        pub signatures: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken,
     }
 
     ///
@@ -845,12 +847,14 @@ pub mod op_closeSignatureOrder {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature {
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken,
     }
 
     ///
@@ -860,6 +864,7 @@ pub mod op_closeSignatureOrder {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken,
     }
 
     ///
@@ -867,12 +872,16 @@ pub mod op_closeSignatureOrder {
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature {
         pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory>,
+        pub signingCertificate: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
+        pub signatures: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken,
     }
 
     ///
@@ -881,12 +890,14 @@ pub mod op_closeSignatureOrder {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature {
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken,
     }
 
     ///
@@ -896,6 +907,7 @@ pub mod op_closeSignatureOrder {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken,
     }
 
     ///
@@ -903,6 +915,8 @@ pub mod op_closeSignatureOrder {
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature {
         pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
         pub signatory: Option<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory>,
+        pub signingCertificate: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate,
+        pub timestampToken: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken,
     }
 
     ///
@@ -917,6 +931,51 @@ pub mod op_closeSignatureOrder {
         pub id: crate::scalars::ID,
     }
 
+    /// union
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
+    pub enum CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature {
+        DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature),
+        EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature),
+        JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature),
+        NorwegianBankIdSignature(CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature),
+    }
+
+    impl CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature {
+        pub fn as_DrawableSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory {
@@ -925,8 +984,20 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -944,6 +1015,12 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
@@ -957,8 +1034,67 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    /// union
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
+    pub enum CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature {
+        DrawableSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature),
+        EmptySignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature),
+        JWTSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature),
+        NorwegianBankIdSignature(CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature),
+    }
+
+    impl CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature {
+        pub fn as_DrawableSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -969,8 +1105,20 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -988,6 +1136,12 @@ pub mod op_closeSignatureOrder {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
@@ -997,6 +1151,116 @@ pub mod op_closeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature {
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature {}
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim>,
+        pub signingCertificate: CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature {
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature {}
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature {
+        pub claims: Vec<CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim>,
+        pub signingCertificate: CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
     }
 
     ///
@@ -1999,7 +2263,7 @@ pub struct querySignatureOrderWithDocuments;
 
 pub mod op_querySignatureOrderWithDocuments {
     pub const OPERATION_NAME: &str = "querySignatureOrderWithDocuments";
-    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     ... on JWTSignature {       jwt       jwks       claims {         name         value       }     }     ... on DrawableSignature {       name       image     }     ... on NorwegianBankIdSignature {       claims {         name         value       }     }   } }"#;
+    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -2224,6 +2488,8 @@ pub mod op_querySignatureOrderWithDocuments {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature {
         pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_Signatory>,
+        pub signatures: Vec<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature>,
+        pub timestampToken: SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken,
     }
 
     ///
@@ -2232,12 +2498,14 @@ pub mod op_querySignatureOrderWithDocuments {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
         pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_EmptySignature {
         pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken,
     }
 
     ///
@@ -2247,6 +2515,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken,
     }
 
     ///
@@ -2254,12 +2523,16 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature {
         pub claims: Vec<SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
         pub signatory: Option<SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory>,
+        pub signingCertificate: SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate,
+        pub timestampToken: SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature {
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory>,
+        pub signatures: Vec<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature>,
+        pub timestampToken: SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken,
     }
 
     ///
@@ -2268,12 +2541,14 @@ pub mod op_querySignatureOrderWithDocuments {
         pub image: crate::scalars::Blob,
         pub name: Option<crate::scalars::String>,
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken,
     }
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_EmptySignature {
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken,
     }
 
     ///
@@ -2283,6 +2558,7 @@ pub mod op_querySignatureOrderWithDocuments {
         pub jwks: crate::scalars::String,
         pub jwt: crate::scalars::String,
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory>,
+        pub timestampToken: SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken,
     }
 
     ///
@@ -2290,6 +2566,8 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature {
         pub claims: Vec<SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim>,
         pub signatory: Option<SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory>,
+        pub signingCertificate: SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate,
+        pub timestampToken: SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken,
     }
 
     ///
@@ -2304,6 +2582,51 @@ pub mod op_querySignatureOrderWithDocuments {
         pub id: crate::scalars::ID,
     }
 
+    /// union
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
+    pub enum SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature {
+        DrawableSignature(SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature),
+        EmptySignature(SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature),
+        JWTSignature(SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature),
+        NorwegianBankIdSignature(SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature),
+    }
+
+    impl SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature {
+        pub fn as_DrawableSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory {
@@ -2312,8 +2635,20 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -2331,6 +2666,12 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
@@ -2344,8 +2685,67 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    /// union
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    #[serde(tag = "__typename")]
+    pub enum SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature {
+        DrawableSignature(SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature),
+        EmptySignature(SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature),
+        JWTSignature(SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature),
+        NorwegianBankIdSignature(SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature),
+    }
+
+    impl SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature {
+        pub fn as_DrawableSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature> {
+            match self {
+                Self::DrawableSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_EmptySignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature> {
+            match self {
+                Self::EmptySignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_JWTSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature> {
+            match self {
+                Self::JWTSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+
+        pub fn as_NorwegianBankIdSignature(&self) -> Option<&SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature> {
+            match self {
+                Self::NorwegianBankIdSignature(inner) => Some(inner),
+                _ => None,
+            }
+        }
+    }
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -2356,8 +2756,20 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
     }
 
     ///
@@ -2375,6 +2787,12 @@ pub mod op_querySignatureOrderWithDocuments {
 
     ///
     #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_JWTClaim {
         pub name: crate::scalars::String,
         pub value: crate::scalars::String,
@@ -2384,6 +2802,116 @@ pub mod op_querySignatureOrderWithDocuments {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory {
         pub id: crate::scalars::ID,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken {
+        pub timestamp: crate::scalars::Date,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature {
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_EmptySignature {}
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature {
+        pub claims: Vec<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature {
+        pub claims: Vec<SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim>,
+        pub signingCertificate: SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_DrawableSignature {
+        pub image: crate::scalars::Blob,
+        pub name: Option<crate::scalars::String>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_EmptySignature {}
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature {
+        pub claims: Vec<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim>,
+        pub jwks: crate::scalars::String,
+        pub jwt: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature {
+        pub claims: Vec<SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim>,
+        pub signingCertificate: SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_JWTSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_JWTClaim {
+        pub name: crate::scalars::String,
+        pub value: crate::scalars::String,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature_NorwegianBankIdSignature_Certificate {
+        pub issuer: crate::scalars::String,
+        pub raw: crate::scalars::Blob,
+        pub subject: crate::scalars::String,
     }
 
     ///

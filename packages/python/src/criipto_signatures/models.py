@@ -132,6 +132,7 @@ class BatchSignatoryViewer(BaseModel):
   id: IDScalarOutput
   signer: BooleanScalarOutput
   status: SignatoryStatus
+  traceId: StringScalarOutput
   ui: SignatureOrderUI
 
 
@@ -141,6 +142,12 @@ class CancelSignatureOrderInput(BaseModel):
 
 class CancelSignatureOrderOutput(BaseModel):
   signatureOrder: SignatureOrder
+
+
+class Certificate(BaseModel):
+  issuer: StringScalarOutput
+  raw: BlobScalarOutput
+  subject: StringScalarOutput
 
 
 class ChangeSignatoryInput(BaseModel):
@@ -214,6 +221,7 @@ class CompleteCriiptoVerifyEvidenceProviderOutput(BaseModel):
 class CompositeSignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
   signatures: list[SingleSignature]
+  timestampToken: TimestampToken
 
 
 class CreateApplicationApiKeyInput(BaseModel):
@@ -456,6 +464,7 @@ class DrawableSignature(BaseModel):
   image: BlobScalarOutput
   name: Optional[StringScalarOutput] = Field(default=None)
   signatory: Optional[Signatory] = Field(default=None)
+  timestampToken: TimestampToken
 
 
 class DrawableSignatureEvidenceProvider(BaseModel):
@@ -467,6 +476,7 @@ class DrawableSignatureEvidenceProvider(BaseModel):
 
 class EmptySignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
+  timestampToken: TimestampToken
 
 
 # Must define a evidence provider subsection.
@@ -509,6 +519,7 @@ class JWTSignature(BaseModel):
   jwks: StringScalarOutput
   jwt: StringScalarOutput
   signatory: Optional[Signatory] = Field(default=None)
+  timestampToken: TimestampToken
 
 
 class Language(StrEnum):
@@ -590,6 +601,8 @@ class NoopSignatureEvidenceProvider(BaseModel):
 class NorwegianBankIdSignature(BaseModel):
   claims: list[JWTClaim]
   signatory: Optional[Signatory] = Field(default=None)
+  signingCertificate: Certificate
+  timestampToken: TimestampToken
 
 
 # OIDC/JWT based evidence for signatures.
@@ -928,6 +941,7 @@ class SignatoryViewer(BaseModel):
   signatureOrderStatus: SignatureOrderStatus
   signer: BooleanScalarOutput
   status: SignatoryStatus
+  traceId: StringScalarOutput
   ui: SignatureOrderUI
 
 
@@ -1094,6 +1108,10 @@ class Tenant(BaseModel):
   applications: list[Application]
   id: IDScalarOutput
   webhookLogs: list[WebhookInvocation]
+
+
+class TimestampToken(BaseModel):
+  timestamp: DateScalarOutput
 
 
 class TrackSignatoryInput(BaseModel):
@@ -1271,6 +1289,7 @@ BatchSignatoryItemInput.model_rebuild()
 BatchSignatoryViewer.model_rebuild()
 CancelSignatureOrderInput.model_rebuild()
 CancelSignatureOrderOutput.model_rebuild()
+Certificate.model_rebuild()
 ChangeSignatoryInput.model_rebuild()
 ChangeSignatoryOutput.model_rebuild()
 ChangeSignatureOrderInput.model_rebuild()
@@ -1372,6 +1391,7 @@ SignatureOrderWebhook.model_rebuild()
 SingleEvidenceProviderInput.model_rebuild()
 StartCriiptoVerifyEvidenceProviderInput.model_rebuild()
 Tenant.model_rebuild()
+TimestampToken.model_rebuild()
 TrackSignatoryInput.model_rebuild()
 TrackSignatoryOutput.model_rebuild()
 UnvalidatedSignatoryViewer.model_rebuild()
