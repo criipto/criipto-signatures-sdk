@@ -897,6 +897,7 @@ class SignatoryFrontendEvent(StrEnum):
 
 
 class SignatoryRole(StrEnum):
+  APPROVER = "APPROVER"
   SIGNER = "SIGNER"
   VIEWER = "VIEWER"
 
@@ -906,6 +907,7 @@ class SignatorySigningSequence(BaseModel):
 
 
 class SignatoryStatus(StrEnum):
+  APPROVED = "APPROVED"
   DELETED = "DELETED"
   ERROR = "ERROR"
   OPEN = "OPEN"
@@ -1223,6 +1225,7 @@ type WebhookInvocation = (
 
 
 class WebhookInvocationEvent(StrEnum):
+  SIGNATORY_APPROVED = "SIGNATORY_APPROVED"
   SIGNATORY_DOCUMENT_STATUS_CHANGED = "SIGNATORY_DOCUMENT_STATUS_CHANGED"
   SIGNATORY_DOWNLOAD_LINK_OPENED = "SIGNATORY_DOWNLOAD_LINK_OPENED"
   SIGNATORY_REJECTED = "SIGNATORY_REJECTED"

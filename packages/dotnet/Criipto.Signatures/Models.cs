@@ -3776,6 +3776,7 @@ namespace Criipto.Signatures.Models
 
     public enum SignatoryRole
     {
+        APPROVER,
         SIGNER,
         VIEWER,
         FUTURE_ADDED_VALUE = 999,
@@ -3792,6 +3793,7 @@ namespace Criipto.Signatures.Models
     #endregion
     public enum SignatoryStatus
     {
+        APPROVED,
         DELETED,
         ERROR,
         OPEN,
@@ -4876,6 +4878,7 @@ namespace Criipto.Signatures.Models
 
     public enum WebhookInvocationEvent
     {
+        SIGNATORY_APPROVED,
         SIGNATORY_DOCUMENT_STATUS_CHANGED,
         SIGNATORY_DOWNLOAD_LINK_OPENED,
         SIGNATORY_REJECTED,

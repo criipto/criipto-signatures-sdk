@@ -1053,7 +1053,7 @@ export type SignatoryFrontendEvent =
   | 'SIGN_LINK_OPENED'
   | '%future added value';
 
-export type SignatoryRole = 'SIGNER' | 'VIEWER' | '%future added value';
+export type SignatoryRole = 'APPROVER' | 'SIGNER' | 'VIEWER' | '%future added value';
 
 export type SignatorySigningSequence = {
   __typename?: 'SignatorySigningSequence';
@@ -1061,6 +1061,7 @@ export type SignatorySigningSequence = {
 };
 
 export type SignatoryStatus =
+  | 'APPROVED'
   | 'DELETED'
   | 'ERROR'
   | 'OPEN'
@@ -1396,6 +1397,7 @@ export type WebhookInvocation = {
 };
 
 export type WebhookInvocationEvent =
+  | 'SIGNATORY_APPROVED'
   | 'SIGNATORY_DOCUMENT_STATUS_CHANGED'
   | 'SIGNATORY_DOWNLOAD_LINK_OPENED'
   | 'SIGNATORY_REJECTED'

@@ -1187,6 +1187,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryFrontendEvent {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryRole {
+    APPROVER,
     SIGNER,
     VIEWER,
 }
@@ -1197,6 +1198,7 @@ impl ::serde::Serialize for SignatoryRole {
         S: ::serde::Serializer,
     {
         match *self {
+            SignatoryRole::APPROVER => serializer.serialize_str("APPROVER"),
             SignatoryRole::SIGNER => serializer.serialize_str("SIGNER"),
             SignatoryRole::VIEWER => serializer.serialize_str("VIEWER"),
         }
@@ -1210,6 +1212,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryRole {
     {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
+            "APPROVER" => Ok(SignatoryRole::APPROVER),
             "SIGNER" => Ok(SignatoryRole::SIGNER),
             "VIEWER" => Ok(SignatoryRole::VIEWER),
             _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
@@ -1226,6 +1229,7 @@ pub struct SignatorySigningSequence {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SignatoryStatus {
+    APPROVED,
     DELETED,
     ERROR,
     OPEN,
@@ -1239,6 +1243,7 @@ impl ::serde::Serialize for SignatoryStatus {
         S: ::serde::Serializer,
     {
         match *self {
+            SignatoryStatus::APPROVED => serializer.serialize_str("APPROVED"),
             SignatoryStatus::DELETED => serializer.serialize_str("DELETED"),
             SignatoryStatus::ERROR => serializer.serialize_str("ERROR"),
             SignatoryStatus::OPEN => serializer.serialize_str("OPEN"),
@@ -1255,6 +1260,7 @@ impl<'de> ::serde::Deserialize<'de> for SignatoryStatus {
     {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
+            "APPROVED" => Ok(SignatoryStatus::APPROVED),
             "DELETED" => Ok(SignatoryStatus::DELETED),
             "ERROR" => Ok(SignatoryStatus::ERROR),
             "OPEN" => Ok(SignatoryStatus::OPEN),
@@ -1684,6 +1690,7 @@ pub enum WebhookInvocation {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum WebhookInvocationEvent {
+    SIGNATORY_APPROVED,
     SIGNATORY_DOCUMENT_STATUS_CHANGED,
     SIGNATORY_DOWNLOAD_LINK_OPENED,
     SIGNATORY_REJECTED,
@@ -1699,6 +1706,7 @@ impl ::serde::Serialize for WebhookInvocationEvent {
         S: ::serde::Serializer,
     {
         match *self {
+            WebhookInvocationEvent::SIGNATORY_APPROVED => serializer.serialize_str("SIGNATORY_APPROVED"),
             WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED => serializer.serialize_str("SIGNATORY_DOCUMENT_STATUS_CHANGED"),
             WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED => serializer.serialize_str("SIGNATORY_DOWNLOAD_LINK_OPENED"),
             WebhookInvocationEvent::SIGNATORY_REJECTED => serializer.serialize_str("SIGNATORY_REJECTED"),
@@ -1717,6 +1725,7 @@ impl<'de> ::serde::Deserialize<'de> for WebhookInvocationEvent {
     {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
+            "SIGNATORY_APPROVED" => Ok(WebhookInvocationEvent::SIGNATORY_APPROVED),
             "SIGNATORY_DOCUMENT_STATUS_CHANGED" => Ok(WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED),
             "SIGNATORY_DOWNLOAD_LINK_OPENED" => Ok(WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED),
             "SIGNATORY_REJECTED" => Ok(WebhookInvocationEvent::SIGNATORY_REJECTED),
