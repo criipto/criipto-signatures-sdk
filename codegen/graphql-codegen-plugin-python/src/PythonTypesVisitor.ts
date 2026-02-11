@@ -180,7 +180,7 @@ export class PythonTypesVisitor extends BaseVisitor {
 @property
 @deprecated("${deprecationMessage}")
 def ${node.name.value}(self) -> ${typeString}:
-  return self.model_dump().get("${fieldName}")
+  return self.model_dump().get("${fieldName}") # type: ignore
 `;
     }
 
