@@ -231,7 +231,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -388,7 +388,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -511,7 +511,7 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -594,7 +594,7 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -683,7 +683,7 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -804,7 +804,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -1399,7 +1399,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -1522,7 +1522,7 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -1655,7 +1655,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -1799,7 +1799,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -1912,7 +1912,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2003,7 +2003,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2142,7 +2142,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2247,7 +2247,7 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2355,7 +2355,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2904,7 +2904,7 @@ class QuerySignatory_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -2983,7 +2983,7 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -3153,7 +3153,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -3261,7 +3261,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -3352,7 +3352,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.

@@ -358,6 +358,7 @@ class CriiptoVerifyEvidenceProviderVersion(StrEnum):
 # Criipto Verify based evidence for signatures.
 class CriiptoVerifyProviderInput(BaseModel):
   acrValues: Optional[list[StringScalarInput]] = Field(default=None)
+  # Deprecated, no longer has any effect.
   alwaysRedirect: Optional[BooleanScalarInput] = Field(default=None)
   # Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application.
   audiences: Optional[list[StringScalarInput]] = Field(default=None)
@@ -374,7 +375,15 @@ class CriiptoVerifyProviderInput(BaseModel):
 
 class CriiptoVerifySignatureEvidenceProvider(BaseModel):
   acrValues: list[StringScalarOutput]
-  alwaysRedirect: BooleanScalarOutput
+  alwaysRedirectDeprecated: BooleanScalarOutput = Field(
+    alias="alwaysRedirect", deprecated=deprecated("No longer supported")
+  )
+
+  @property
+  @deprecated("No longer supported")
+  def alwaysRedirect(self) -> BooleanScalarOutput:
+    return self.model_dump().get("alwaysRedirectDeprecated")  # type: ignore
+
   audience: StringScalarOutput
   audiences: list[StringScalarOutput]
   clientID: StringScalarOutput
@@ -426,6 +435,8 @@ class DocumentIDLocation(StrEnum):
 
 
 class DocumentInput(BaseModel):
+  # (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
+  keepPreviousSignatures: Optional[BooleanScalarInput] = Field(default=None)
   pdf: Optional[PadesDocumentInput] = Field(default=None)
   # When enabled, will remove any existing signatures from the document before storing. (PDF only)
   removePreviousSignatures: Optional[BooleanScalarInput] = Field(default=None)
@@ -608,6 +619,7 @@ class NorwegianBankIdSignature(BaseModel):
 # OIDC/JWT based evidence for signatures.
 class OidcEvidenceProviderInput(BaseModel):
   acrValues: Optional[list[StringScalarInput]] = Field(default=None)
+  # Deprecated, no longer has any effect.
   alwaysRedirect: Optional[BooleanScalarInput] = Field(default=None)
   audience: StringScalarInput
   clientID: StringScalarInput
@@ -619,7 +631,15 @@ class OidcEvidenceProviderInput(BaseModel):
 
 class OidcJWTSignatureEvidenceProvider(BaseModel):
   acrValues: list[StringScalarOutput]
-  alwaysRedirect: BooleanScalarOutput
+  alwaysRedirectDeprecated: BooleanScalarOutput = Field(
+    alias="alwaysRedirect", deprecated=deprecated("No longer supported")
+  )
+
+  @property
+  @deprecated("No longer supported")
+  def alwaysRedirect(self) -> BooleanScalarOutput:
+    return self.model_dump().get("alwaysRedirectDeprecated")  # type: ignore
+
   clientID: StringScalarOutput
   domain: StringScalarOutput
   id: IDScalarOutput
@@ -637,6 +657,7 @@ class PadesDocumentInput(BaseModel):
   form: Optional[PadesDocumentFormInput] = Field(default=None)
   # Will not be displayed to signatories, can be used as a reference to your own system.
   reference: Optional[StringScalarInput] = Field(default=None)
+  removeBookmarks: Optional[BooleanScalarInput] = Field(default=None)
   sealsPageTemplate: Optional[PadesDocumentSealsPageTemplateInput] = Field(default=None)
   storageMode: DocumentStorageMode
   title: StringScalarInput
@@ -820,7 +841,7 @@ class Signatory(BaseModel):
   @property
   @deprecated("Deprecated in favor of signingAs")
   def role(self) -> Optional[StringScalarOutput]:
-    return self.model_dump().get("roleDeprecated")
+    return self.model_dump().get("roleDeprecated")  # type: ignore
 
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
@@ -840,6 +861,8 @@ class Signatory(BaseModel):
 
 class SignatoryBeaconInput(BaseModel):
   lastActionAt: DateTimeScalarInput
+  # Used to determine if there is clock skew between client and server.
+  now: Optional[DateTimeScalarInput] = Field(default=None)
 
 
 class SignatoryBeaconOutput(BaseModel):
@@ -1158,6 +1181,8 @@ class ValidateDocumentOutput(BaseModel):
   errors: Optional[list[StringScalarOutput]] = Field(default=None)
   # Whether or not the errors are fixable using 'fixDocumentFormattingErrors'
   fixable: Optional[BooleanScalarOutput] = Field(default=None)
+  # `true` if the document contains bookmarks. If the value is `null`, we were unable to determine whether the document has any bookmarks.
+  hasBookmarks: Optional[BooleanScalarOutput] = Field(default=None)
   # `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed.
   previouslySigned: Optional[BooleanScalarOutput] = Field(default=None)
   valid: BooleanScalarOutput
