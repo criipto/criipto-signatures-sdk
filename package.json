@@ -1,6 +1,6 @@
 {
   "name": "criipto-signatures-sdk",
-  "version": "1.29.1",
+  "version": "1.29.2",
   "private": true,
   "description": "A SDK repository for Criipto Signatures",
   "scripts": {
