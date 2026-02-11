@@ -24,8 +24,10 @@ fn main() -> anyhow::Result<()> {
                 displayDocumentID: None,
                 form: None,
                 sealsPageTemplate: None,
+                removeBookmarks: None,
             }),
             xml: None,
+            keepPreviousSignatures: None,
             removePreviousSignatures: None,
         }],
         ..Default::default()

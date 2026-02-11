@@ -26,9 +26,11 @@ async fn main() -> anyhow::Result<()> {
                     displayDocumentID: None,
                     form: None,
                     sealsPageTemplate: None,
+                    removeBookmarks: None,
                 }),
                 xml: None,
                 removePreviousSignatures: None,
+                keepPreviousSignatures: None,
             }],
             ..Default::default()
         })
