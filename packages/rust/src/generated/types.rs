@@ -544,6 +544,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DocumentInput {
+    pub keepPreviousSignatures: Option<crate::scalars::Boolean>,
     pub pdf: Option<crate::generated::types::PadesDocumentInput>,
     pub removePreviousSignatures: Option<crate::scalars::Boolean>,
     pub xml: Option<crate::generated::types::XadesDocumentInput>,
@@ -832,6 +833,7 @@ pub struct PadesDocumentInput {
     pub displayDocumentID: Option<crate::generated::types::DocumentIDLocation>,
     pub form: Option<crate::generated::types::PadesDocumentFormInput>,
     pub reference: Option<crate::scalars::String>,
+    pub removeBookmarks: Option<crate::scalars::Boolean>,
     pub sealsPageTemplate: Option<crate::generated::types::PadesDocumentSealsPageTemplateInput>,
     pub storageMode: crate::generated::types::DocumentStorageMode,
     pub title: crate::scalars::String,
@@ -1060,6 +1062,7 @@ pub struct Signatory {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryBeaconInput {
     pub lastActionAt: crate::scalars::DateTime,
+    pub now: Option<crate::scalars::DateTime>,
 }
 
 ///
@@ -1584,6 +1587,7 @@ pub struct ValidateDocumentInput {
 pub struct ValidateDocumentOutput {
     pub errors: Option<Vec<crate::scalars::String>>,
     pub fixable: Option<crate::scalars::Boolean>,
+    pub hasBookmarks: Option<crate::scalars::Boolean>,
     pub previouslySigned: Option<crate::scalars::Boolean>,
     pub valid: crate::scalars::Boolean,
 }

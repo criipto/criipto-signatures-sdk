@@ -1360,6 +1360,9 @@ namespace Criipto.Signatures.Models
         #region members
         public List<string> acrValues { get; set; }
 
+        /// <summary>
+        /// Deprecated, no longer has any effect.
+        /// </summary>
         public bool? alwaysRedirect { get; set; }
 
         /// <summary>
@@ -1431,6 +1434,7 @@ namespace Criipto.Signatures.Models
         [JsonProperty("acrValues")]
         public List<string> acrValues { get; set; }
 
+        [Obsolete("No longer supported")]
         [JsonProperty("alwaysRedirect")]
         public bool alwaysRedirect { get; set; }
 
@@ -1663,6 +1667,11 @@ namespace Criipto.Signatures.Models
     public class DocumentInput
     {
         #region members
+        /// <summary>
+        /// (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
+        /// </summary>
+        public bool? keepPreviousSignatures { get; set; }
+
         public PadesDocumentInput pdf { get; set; }
 
         /// <summary>
@@ -2349,6 +2358,9 @@ namespace Criipto.Signatures.Models
         #region members
         public List<string> acrValues { get; set; }
 
+        /// <summary>
+        /// Deprecated, no longer has any effect.
+        /// </summary>
         public bool? alwaysRedirect { get; set; }
 
         [Required]
@@ -2413,6 +2425,7 @@ namespace Criipto.Signatures.Models
         [JsonProperty("acrValues")]
         public List<string> acrValues { get; set; }
 
+        [Obsolete("No longer supported")]
         [JsonProperty("alwaysRedirect")]
         public bool alwaysRedirect { get; set; }
 
@@ -2491,6 +2504,8 @@ namespace Criipto.Signatures.Models
         /// Will not be displayed to signatories, can be used as a reference to your own system.
         /// </summary>
         public string reference { get; set; }
+
+        public bool? removeBookmarks { get; set; }
 
         public PadesDocumentSealsPageTemplateInput sealsPageTemplate { get; set; }
 
@@ -3532,6 +3547,11 @@ namespace Criipto.Signatures.Models
         [Required]
         [JsonRequired]
         public string lastActionAt { get; set; }
+
+        /// <summary>
+        /// Used to determine if there is clock skew between client and server.
+        /// </summary>
+        public string now { get; set; }
         #endregion
 
         #region methods
@@ -4686,6 +4706,12 @@ namespace Criipto.Signatures.Models
         /// </summary>
         [JsonProperty("fixable")]
         public bool? fixable { get; set; }
+
+        /// <summary>
+        /// `true` if the document contains bookmarks. If the value is `null`, we were unable to determine whether the document has any bookmarks.
+        /// </summary>
+        [JsonProperty("hasBookmarks")]
+        public bool? hasBookmarks { get; set; }
 
         /// <summary>
         /// `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed.
