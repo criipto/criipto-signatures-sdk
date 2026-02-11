@@ -18,7 +18,9 @@ pub fn make_document_input() -> DocumentInput {
             displayDocumentID: None,
             form: None,
             sealsPageTemplate: None,
+            removeBookmarks: None,
         }),
+        keepPreviousSignatures: None,
         removePreviousSignatures: None,
         xml: None,
     }
