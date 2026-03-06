@@ -66,12 +66,14 @@ export type AddSignatoryOutput = {
 };
 
 export type AllOfEvidenceProviderInput = {
+  /** Order of providers returned is not guaranteed to match input order */
   providers: Array<SingleEvidenceProviderInput>;
 };
 
 export type AllOfSignatureEvidenceProvider = SignatureEvidenceProvider & {
   __typename?: 'AllOfSignatureEvidenceProvider';
   id: Scalars['ID']['output'];
+  /** Order of providers returned is not garantueed */
   providers: Array<SingleSignatureEvidenceProvider>;
 };
 
@@ -143,6 +145,7 @@ export type BatchSignatoryViewer = Viewer & {
   authenticated: Scalars['Boolean']['output'];
   batchSignatoryId: Scalars['ID']['output'];
   documents: SignatoryDocumentConnection;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
@@ -286,7 +289,7 @@ export type CreateSignatureOrderInput = {
   /** By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it. */
   disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']['input']>;
   documents: Array<DocumentInput>;
-  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
+  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs. Order of providers returned is not guaranteed to match input order */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
   /** Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents. */
   evidenceValidationStages?: InputMaybe<Array<EvidenceValidationStage>>;
@@ -829,6 +832,7 @@ export type PdfDocumentForm = {
 
 export type PdfSealPosition = {
   page: Scalars['Int']['input'];
+  scale?: InputMaybe<Scalars['Float']['input']>;
   x: Scalars['Float']['input'];
   y: Scalars['Float']['input'];
 };
@@ -976,6 +980,7 @@ export type Signatory = {
   documents: SignatoryDocumentConnection;
   /** A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention. */
   downloadHref?: Maybe<Scalars['String']['output']>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   /** A link to the signatures frontend, you can send this link to your users to enable them to sign your documents. */
   href: Scalars['String']['output'];
@@ -1100,6 +1105,7 @@ export type SignatoryViewer = Viewer & {
   authenticated: Scalars['Boolean']['output'];
   documents: SignatoryDocumentConnection;
   download?: Maybe<SignatoryViewerDownload>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   /** @deprecated("Deprecated in favor of 'signingAs'") */
@@ -1158,6 +1164,7 @@ export type SignatureOrder = {
   closedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   documents: Array<Document>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   expiresAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
@@ -1305,6 +1312,7 @@ export type UnvalidatedSignatoryViewer = Viewer & {
   __typename?: 'UnvalidatedSignatoryViewer';
   authenticated: Scalars['Boolean']['output'];
   download?: Maybe<SignatoryViewerDownload>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   signatoryId: Scalars['ID']['output'];

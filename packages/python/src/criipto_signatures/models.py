@@ -67,11 +67,13 @@ class AddSignatoryOutput(BaseModel):
 
 
 class AllOfEvidenceProviderInput(BaseModel):
+  # Order of providers returned is not guaranteed to match input order
   providers: list[SingleEvidenceProviderInput]
 
 
 class AllOfSignatureEvidenceProvider(BaseModel):
   id: IDScalarOutput
+  # Order of providers returned is not garantueed
   providers: list[SingleSignatureEvidenceProvider]
 
 
@@ -128,6 +130,7 @@ class BatchSignatoryViewer(BaseModel):
   authenticated: BooleanScalarOutput
   batchSignatoryId: IDScalarOutput
   documents: SignatoryDocumentConnection
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
   signer: BooleanScalarOutput
@@ -263,7 +266,7 @@ class CreateSignatureOrderInput(BaseModel):
   # By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it.
   disableVerifyEvidenceProvider: Optional[BooleanScalarInput] = Field(default=None)
   documents: list[DocumentInput]
-  # Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs
+  # Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs. Order of providers returned is not guaranteed to match input order
   evidenceProviders: Optional[list[EvidenceProviderInput]] = Field(default=None)
   # Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents.
   evidenceValidationStages: Optional[list[EvidenceValidationStage]] = Field(
@@ -712,6 +715,7 @@ class PdfDocumentForm(BaseModel):
 
 class PdfSealPosition(BaseModel):
   page: IntScalarInput
+  scale: Optional[FloatScalarInput] = Field(default=None)
   x: FloatScalarInput
   y: FloatScalarInput
 
@@ -827,6 +831,7 @@ class Signatory(BaseModel):
   documents: SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
   href: StringScalarOutput
@@ -959,6 +964,7 @@ class SignatoryViewer(BaseModel):
   authenticated: BooleanScalarOutput
   documents: SignatoryDocumentConnection
   download: Optional[SignatoryViewerDownload] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
   role: SignatoryRole
@@ -1023,6 +1029,7 @@ class SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
   createdAt: DateTimeScalarOutput
   documents: list[Document]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
@@ -1150,6 +1157,7 @@ class TrackSignatoryOutput(BaseModel):
 class UnvalidatedSignatoryViewer(BaseModel):
   authenticated: BooleanScalarOutput
   download: Optional[SignatoryViewerDownload] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
   signatoryId: IDScalarOutput
