@@ -890,6 +890,7 @@ pub struct PdfDocumentForm {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfSealPosition {
     pub page: crate::scalars::Int,
+    pub scale: Option<crate::scalars::Float>,
     pub x: crate::scalars::Float,
     pub y: crate::scalars::Float,
 }

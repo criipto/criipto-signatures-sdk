@@ -182,6 +182,9 @@ namespace Criipto.Signatures.Models
     public class AllOfEvidenceProviderInput
     {
         #region members
+        /// <summary>
+        /// Order of providers returned is not guaranteed to match input order
+        /// </summary>
         [Required]
         [JsonRequired]
         public List<SingleEvidenceProviderInput> providers { get; set; }
@@ -225,6 +228,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("id")]
         public string id { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not garantueed
+        /// </summary>
         [JsonProperty("providers")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SingleSignatureEvidenceProvider> providers { get; set; }
@@ -404,6 +410,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("documents")]
         public SignatoryDocumentConnection documents { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not guaranteed
+        /// </summary>
         [JsonProperty("evidenceProviders")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SignatureEvidenceProvider> evidenceProviders { get; set; }
@@ -1021,7 +1030,7 @@ namespace Criipto.Signatures.Models
         public List<DocumentInput> documents { get; set; }
 
         /// <summary>
-        /// Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs
+        /// Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs. Order of providers returned is not guaranteed to match input order
         /// </summary>
         public List<EvidenceProviderInput> evidenceProviders { get; set; }
 
@@ -2753,6 +2762,8 @@ namespace Criipto.Signatures.Models
         [JsonRequired]
         public int page { get; set; }
 
+        public double? scale { get; set; }
+
         [Required]
         [JsonRequired]
         public double x { get; set; }
@@ -3473,6 +3484,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("downloadHref")]
         public string downloadHref { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not guaranteed
+        /// </summary>
         [JsonProperty("evidenceProviders")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SignatureEvidenceProvider> evidenceProviders { get; set; }
@@ -3907,6 +3921,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("download")]
         public SignatoryViewerDownload download { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not guaranteed
+        /// </summary>
         [JsonProperty("evidenceProviders")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SignatureEvidenceProvider> evidenceProviders { get; set; }
@@ -4131,6 +4148,9 @@ namespace Criipto.Signatures.Models
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<Document> documents { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not guaranteed
+        /// </summary>
         [JsonProperty("evidenceProviders")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SignatureEvidenceProvider> evidenceProviders { get; set; }
@@ -4563,6 +4583,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("download")]
         public SignatoryViewerDownload download { get; set; }
 
+        /// <summary>
+        /// Order of providers returned is not guaranteed
+        /// </summary>
         [JsonProperty("evidenceProviders")]
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SignatureEvidenceProvider> evidenceProviders { get; set; }

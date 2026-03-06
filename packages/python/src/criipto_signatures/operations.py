@@ -182,6 +182,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder(BaseModel):
   documents: list[
     CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document
   ]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -215,6 +216,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   documents: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -339,6 +341,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder(BaseModel
   documents: list[
     CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document
   ]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -372,6 +375,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   documents: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -495,6 +499,7 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   documents: AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     AddSignatory_AddSignatoryOutput_Signatory_SignatureEvidenceProvider
   ]
@@ -578,6 +583,7 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   documents: AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     AddSignatories_AddSignatoriesOutput_Signatory_SignatureEvidenceProvider
   ]
@@ -667,6 +673,7 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   documents: ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureEvidenceProvider
   ]
@@ -757,6 +764,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput(BaseModel):
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: list[CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -788,6 +796,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   documents: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -1350,6 +1359,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder(BaseModel):
   documents: list[
     CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document
   ]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -1383,6 +1393,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   documents: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -1506,6 +1517,7 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   documents: SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     SignActingAs_SignActingAsOutput_Signatory_SignatureEvidenceProvider
   ]
@@ -1606,6 +1618,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder(BaseModel):
   documents: list[
     ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document
   ]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -1639,6 +1652,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   documents: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -1760,6 +1774,7 @@ class DeleteSignatory_DeleteSignatoryOutput(BaseModel):
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -1783,6 +1798,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   documents: DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -1896,6 +1912,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   documents: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider
   ]
@@ -1931,6 +1948,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   BaseModel
 ):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -1987,6 +2005,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   documents: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -2099,6 +2118,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput(BaseModel):
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -2126,6 +2146,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   documents: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -2212,6 +2233,7 @@ changeSignatureOrderDocument = f"""mutation changeSignatureOrder($input: ChangeS
 
 class QuerySignatureOrder_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider]
   expiresAt: DateTimeScalarOutput
   id: IDScalarOutput
@@ -2231,6 +2253,7 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   documents: QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatureOrder_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -2310,6 +2333,7 @@ querySignatureOrderDocument = f"""query signatureOrder($id: ID!) {{
 class QuerySignatureOrderWithDocuments_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: list[QuerySignatureOrderWithDocuments_SignatureOrder_Document]
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -2339,6 +2363,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   documents: QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -2890,6 +2915,7 @@ class QuerySignatory_Signatory(BaseModel):
   documents: QuerySignatory_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[QuerySignatory_Signatory_SignatureEvidenceProvider]
   # A link to the signatures frontend, you can send this link to your users to enable them to sign your documents.
   href: StringScalarOutput
@@ -2931,6 +2957,7 @@ class QuerySignatory_Signatory_SignatureEvidenceProvider(BaseModel):
 
 class QuerySignatory_Signatory_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatory_Signatory_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -2967,6 +2994,7 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   )
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -3110,6 +3138,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   BaseModel
 ):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -3137,6 +3166,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   documents: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
@@ -3245,6 +3275,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   documents: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatureEvidenceProvider
   ]
@@ -3280,6 +3311,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder(BaseModel):
   closedAt: Optional[DateTimeScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_SignatureEvidenceProvider
   ]
@@ -3336,6 +3368,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   documents: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
+  # Order of providers returned is not guaranteed
   evidenceProviders: list[
     QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureEvidenceProvider
   ]
