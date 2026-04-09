@@ -48,6 +48,29 @@ jobs:
           CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
           CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
 
+  kotlin-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - run: cd packages/kotlin && ./gradlew ktlintCheck
+
+  kotlin-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - run: npm run test:integration:kotlin
+        env:
+          CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
+          CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
+
   rust-integration:
     runs-on: ubuntu-latest
     steps:

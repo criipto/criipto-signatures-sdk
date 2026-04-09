@@ -138,5 +138,9 @@ dist
 
 __pycache__
 
-# Rust 
+# Rust
 **/target
+
+# Gradle
+.gradle/
+**/build/
