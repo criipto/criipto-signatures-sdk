@@ -4,9 +4,6 @@ from .sdk import (
   CriiptoSignaturesSDKAsync,
   CriiptoSignaturesSDKSync,
 )
-from .operations import (
-  CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
-)
 from .models import (
   AddSignatoryInput,
   CancelSignatureOrderInput,
@@ -115,11 +112,7 @@ class TestClass:
     )
 
     document = signatureOrder.documents[0]
-    # TODO: This should use an auto-generated type guard, instead of an instanceof check.
-    assert isinstance(
-      document,
-      CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument,
-    )
+    assert CriiptoSignaturesSDKAsync.isPdfDocument(document)
 
     assert document.form is not None
     assert document.form.enabled
