@@ -8,6 +8,7 @@ import type { PythonPluginConfig } from 'graphql-codegen-plugin-python';
 import type { RustPluginConfig } from 'graphql-codegen-plugin-rust';
 import type { plugin as KotlinPlugin } from '@graphql-codegen/kotlin';
 import type { KotlinPluginConfig as KotlinOperationsPluginConfig } from 'graphql-codegen-plugin-kotlin';
+import type { KotlinBuildersPluginConfig } from 'graphql-codegen-plugin-kotlin-builders';
 
 type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlugin>[2];
 type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
@@ -56,6 +57,13 @@ const config: CodegenConfig = {
         // This hook fixes the broken references.
         afterOneFileWrite: ['perl -pi -e "s/Language\\.EN_US/Language.EnUs/g"'],
       },
+    },
+    'packages/kotlin/src/main/kotlin/eu/idura/signatures/builders.kt': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['graphql-codegen-plugin-kotlin-builders'],
+      config: {
+        package: 'eu.idura.signatures',
+      } satisfies KotlinBuildersPluginConfig,
     },
     'packages/kotlin/src/main/kotlin/eu/idura/signatures/operations.kt': {
       documents: './codegen/operations/application-viewer.graphql',
