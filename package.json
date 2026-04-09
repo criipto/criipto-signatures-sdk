@@ -5,7 +5,7 @@
   "description": "A SDK repository for Criipto Signatures",
   "scripts": {
     "codegen": "graphql-codegen && npm run codegen:dotnet && npm run codegen:rust && npm run codegen:kotlin",
-    "codegen:kotlin": "npm run format:kotlin",
+    "codegen:kotlin": "cd packages/kotlin && ./gradlew ktlintCheck && cd ../..",
     "format:kotlin": "cd packages/kotlin && ./gradlew ktlintFormat && cd ../..",
     "codegen:dotnet": "node fix-dotnet-typings.cjs && npm run format:dotnet",
     "codegen:git": "./codegen-git.sh",
