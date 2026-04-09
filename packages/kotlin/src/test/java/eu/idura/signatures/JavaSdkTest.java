@@ -69,11 +69,8 @@ public class JavaSdkTest {
         ).get();
 
         var document = signatureOrder.getDocuments().get(0);
-        assertInstanceOf(
-            CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument.class,
-            document
-        );
-        var pdf0 = (CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument) document;
+        assertInstanceOf(PdfDocument.class, document);
+        var pdf0 = (PdfDocument) document;
         assertNotNull(pdf0.getForm());
         assertTrue(pdf0.getForm().getEnabled());
 

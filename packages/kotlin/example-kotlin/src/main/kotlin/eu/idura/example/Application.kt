@@ -120,6 +120,8 @@ fun main() {
                 val withDocuments = client.querySignatureOrderWithDocuments(id = signatureOrderId)
                 val document = withDocuments.documents.firstOrNull()
 
+                // blob is specific to this operation — use the concrete class to access it.
+                // Common fields (id, title, form, …) are available through the PdfDocument interface.
                 val blob = (document as? QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument)?.blob
                 if (blob != null) {
                     call.response.header(

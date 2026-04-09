@@ -83,9 +83,10 @@ class SdkTest {
                 )
 
             val document = signatureOrder.documents[0]
-            assertIs<CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument>(document)
-            assertNotNull(document.form)
-            assertTrue(document.form.enabled)
+            assertIs<PdfDocument>(document)
+            val form = document.form
+            assertNotNull(form)
+            assertTrue(form.enabled)
 
             sdk.cancelSignatureOrder(
                 CancelSignatureOrderInput(signatureOrderId = signatureOrder.id),

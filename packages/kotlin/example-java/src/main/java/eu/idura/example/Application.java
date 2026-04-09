@@ -7,6 +7,7 @@ import eu.idura.signatures.DocumentInputBuilder;
 import eu.idura.signatures.DocumentStorageMode;
 import eu.idura.signatures.IduraSignaturesSDKJava;
 import eu.idura.signatures.PadesDocumentInputBuilder;
+import eu.idura.signatures.PdfDocument;
 import eu.idura.signatures.QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument;
 import eu.idura.signatures.SignatoryStatus;
 import eu.idura.signatures.SignatoryUiInputBuilder;
@@ -131,7 +132,9 @@ public class Application {
                 ? null
                 : withDocuments.getDocuments().get(0);
 
-            if (document instanceof QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument) {
+            // blob is specific to this operation — use the concrete class to access it.
+            // Common fields (getId, getTitle, getForm, …) are available through PdfDocument.
+            if (document instanceof PdfDocument) {
                 var pdf = (QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument) document;
                 if (pdf.getBlob() != null) {
                     ctx.contentType("application/pdf");

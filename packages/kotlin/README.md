@@ -102,6 +102,29 @@ orders.forEach { println(it.title) }
 
 The underlying `querySignatureOrders` method is also available if you need access to the raw pagination structure.
 
+## Working with document types
+
+Documents returned from the API implement a sealed `Document` interface. Use `PdfDocument` or `XmlDocument` to narrow the type without referencing the verbose per-operation class names:
+
+```kotlin
+val withDocuments = client.querySignatureOrderWithDocuments(id = signatureOrderId)
+val document = withDocuments.documents.firstOrNull()
+
+// Narrow the union type without referencing verbose per-operation class names
+val title = (document as? PdfDocument)?.title
+```
+
+From Java:
+
+```java
+var withDocuments = client.querySignatureOrderWithDocuments(signatureOrderId).get();
+var document = withDocuments.getDocuments().get(0);
+
+if (document instanceof PdfDocument pdf) {
+    System.out.println(pdf.getTitle());
+}
+```
+
 ## Example applications
 
 - [`example-kotlin/`](./example-kotlin) — Ktor web app (Kotlin coroutines)
