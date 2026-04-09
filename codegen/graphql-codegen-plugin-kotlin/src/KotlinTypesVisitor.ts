@@ -28,12 +28,20 @@ export const KOTLIN_SCALARS: Record<string, string> = {
 type KotlinTypesConfig = RawConfig & {
   typesPrefix?: string;
   superTypeName?: string;
+  /** The shared interface this concrete type implements, e.g. "PdfDocument". */
+  sharedInterfaceName?: string;
+  /** Field names that must be emitted with the `override` modifier. */
+  overrideFields?: ReadonlySet<string>;
 };
 
 export class KotlinTypesVisitor extends BaseVisitor {
   schema: GraphQLSchema;
   /** The sealed class name this type extends, if it is a concrete variant of a union. */
   readonly superTypeName: string | undefined;
+  /** The shared interface this concrete type implements, e.g. "PdfDocument". */
+  readonly sharedInterfaceName: string | undefined;
+  /** Field names that must be emitted with the `override` modifier. */
+  readonly overrideFields: ReadonlySet<string> | undefined;
 
   constructor(config: KotlinTypesConfig, schema: GraphQLSchema) {
     super(config, {
@@ -41,6 +49,8 @@ export class KotlinTypesVisitor extends BaseVisitor {
     });
     // Store separately because BaseVisitor doesn't preserve unknown rawConfig properties
     this.superTypeName = config.superTypeName;
+    this.sharedInterfaceName = config.sharedInterfaceName;
+    this.overrideFields = config.overrideFields;
     this.schema = schema;
   }
 
@@ -74,7 +84,8 @@ export class KotlinTypesVisitor extends BaseVisitor {
       }
 
       const defaultValue = nullable || (listType && nullableList) ? ' = null' : '';
-      return `val ${node.name.value}: ${kotlinType}${defaultValue}`;
+      const overridePrefix = this.overrideFields?.has(node.name.value) ? 'override ' : '';
+      return `${overridePrefix}val ${node.name.value}: ${kotlinType}${defaultValue}`;
     },
   };
 
@@ -84,7 +95,12 @@ export class KotlinTypesVisitor extends BaseVisitor {
         return '';
       }
 
-      const superTypePart = this.superTypeName ? ` : ${this.superTypeName}()` : '';
+      const interfacePart = this.sharedInterfaceName ? `, ${this.sharedInterfaceName}` : '';
+      const superTypePart = this.superTypeName
+        ? ` : ${this.superTypeName}()${interfacePart}`
+        : this.sharedInterfaceName
+          ? ` : ${this.sharedInterfaceName}`
+          : '';
 
       if (node.fields.length === 0) {
         // Kotlin data class requires at least one primary constructor parameter

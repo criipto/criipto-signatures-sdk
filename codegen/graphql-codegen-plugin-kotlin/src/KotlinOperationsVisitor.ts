@@ -17,6 +17,7 @@ import {
   printSchema,
   visit,
   OperationTypeNode,
+  type FieldDefinitionNode,
   type OperationDefinitionNode,
   type FragmentDefinitionNode,
   type GraphQLSchema,
@@ -30,6 +31,16 @@ import {
   type AstTreeNode,
 } from 'graphql-codegen-shared';
 import { KotlinTypesVisitor, KOTLIN_SCALARS } from './KotlinTypesVisitor.ts';
+
+interface StoredOperation {
+  name: string;
+  astTree: AstTreeNode;
+}
+
+interface SharedTypeRecord {
+  parentUnionName: string | null;
+  fieldSets: FieldDefinitionNode[][];
+}
 
 interface Param {
   name: string;
@@ -53,6 +64,8 @@ interface MethodMetadata {
 
 export class KotlinOperationsVisitor extends ClientSideBaseVisitor {
   fragments: FragmentDefinitionNode[];
+  private readonly storedOperations: StoredOperation[] = [];
+  private readonly sharedTypeRegistry: Map<string, SharedTypeRecord> = new Map();
 
   constructor(config: RawConfig, schema: GraphQLSchema, fragments: LoadedFragment[]) {
     // Rebuild schema from string to populate AST nodes on types
@@ -90,7 +103,6 @@ export class KotlinOperationsVisitor extends ClientSideBaseVisitor {
       this._collectedOperations.push(node);
 
       const name = this.getOperationName(node);
-      const result: string[] = [];
 
       const astTree = operationSelectionsToAstTree({
         node,
@@ -98,61 +110,272 @@ export class KotlinOperationsVisitor extends ClientSideBaseVisitor {
         fragments: this.fragments,
       });
 
-      const nodesToProcess: {
-        treeNode: AstTreeNode;
-        parentPrefix: string;
-        superTypeName?: string;
-      }[] = [{ treeNode: astTree, parentPrefix: upperCaseFirst(name) }];
-
-      while (nodesToProcess.length > 0) {
-        const { parentPrefix, treeNode, superTypeName } = nodesToProcess.shift()!;
-        const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
-
-        const typesVisitor = new KotlinTypesVisitor(
-          { typesPrefix: nodePrefix + '_', superTypeName },
-          this._schema,
-        );
-
-        const visitorResult = visit(
-          { ...treeNode.astNode, name: { ...treeNode.astNode.name, value: nodePrefix } },
-          typesVisitor,
-        );
-
-        assert(typeof visitorResult === 'string');
-        result.push(visitorResult);
-
-        if (treeNode.astNode.kind === Kind.UNION_TYPE_DEFINITION) {
-          // Children of union nodes extend the sealed class
-          nodesToProcess.push(
-            ...treeNode.children.map(child => ({
-              parentPrefix: nodePrefix,
-              treeNode: child,
-              superTypeName: nodePrefix,
-            })),
-          );
-        } else {
-          nodesToProcess.push(
-            ...treeNode.children.map(child => ({
-              parentPrefix: nodePrefix,
-              treeNode: child,
-            })),
-          );
-        }
-      }
+      // Collect type info into the shared registry; data class generation is deferred to
+      // getAdditionalContent() so the full registry is available before code is emitted.
+      this.storedOperations.push({ name, astTree });
+      this.collectSharedTypes(astTree);
 
       const fragmentNames = this._extractFragments(node, true).map(n => this.getFragmentName(n));
       // Fragment const vals include leading/trailing newlines, so simple concatenation works
       const fragmentConcat = fragmentNames.length > 0 ? ' + ' + fragmentNames.join(' + ') : '';
-      result.push(
-        `const val ${name}Document = """\n${KotlinOperationsVisitor.escapeKotlin(print(node))}\n"""${fragmentConcat}`,
-      );
-
-      return result.join('\n');
+      return `const val ${name}Document = """\n${KotlinOperationsVisitor.escapeKotlin(print(node))}\n"""${fragmentConcat}`;
     },
   };
 
+  /**
+   * Walk an ast tree and register every concrete type (object node) into the shared-type registry.
+   * Union members are tagged with their parent union name so they can later be assigned a parent
+   * sealed interface.
+   */
+  private collectSharedTypes(astTree: AstTreeNode): void {
+    const nodesToProcess: { treeNode: AstTreeNode; graphqlUnionName: string | null }[] = [
+      { treeNode: astTree, graphqlUnionName: null },
+    ];
+
+    while (nodesToProcess.length > 0) {
+      const { treeNode, graphqlUnionName } = nodesToProcess.shift()!;
+
+      if (treeNode.astNode.kind === Kind.UNION_TYPE_DEFINITION) {
+        const unionName = treeNode.astNode.name.value;
+        for (const child of treeNode.children) {
+          nodesToProcess.push({ treeNode: child, graphqlUnionName: unionName });
+        }
+      } else {
+        const typeName = treeNode.astNode.name.value;
+        const fields = (treeNode.astNode.fields ?? []) as FieldDefinitionNode[];
+        const existing = this.sharedTypeRegistry.get(typeName);
+        if (existing) {
+          existing.fieldSets.push(fields);
+        } else {
+          this.sharedTypeRegistry.set(typeName, {
+            parentUnionName: graphqlUnionName,
+            fieldSets: [fields],
+          });
+        }
+        for (const child of treeNode.children) {
+          nodesToProcess.push({ treeNode: child, graphqlUnionName: null });
+        }
+      }
+    }
+  }
+
+  /**
+   * Returns the intersection of all field sets for a type — i.e. only fields that appear in every
+   * operation that selects this type.
+   */
+  private intersectFields(fieldSets: FieldDefinitionNode[][]): FieldDefinitionNode[] {
+    if (fieldSets.length === 0) return [];
+    const first = fieldSets[0];
+    if (!first) return [];
+    return first.filter(field =>
+      fieldSets.every(set => set.some(f => f.name.value === field.name.value)),
+    );
+  }
+
+  /**
+   * Returns the set of field names that will actually be declared in the shared interface for
+   * `typeName` — i.e. only intersection fields whose Kotlin type can be resolved (scalar, enum, or
+   * another shared-interface type). Union-typed fields are excluded because unions are represented
+   * as sealed interfaces that aren't reachable via `isObjectType`.
+   */
+  private getInterfaceFieldNames(typeName: string, needsSharedInterface: Set<string>): Set<string> {
+    const record = this.sharedTypeRegistry.get(typeName);
+    if (!record) return new Set();
+
+    const names = new Set<string>();
+    for (const field of this.intersectFields(record.fieldSets)) {
+      const { node: typeNode } = unwrapTypeNode(field.type);
+      const fieldTypeName = typeNode.name.value;
+      const schemaType = this._schema.getType(fieldTypeName);
+      if (!schemaType) continue;
+
+      if (
+        isScalarType(schemaType) ||
+        isEnumType(schemaType) ||
+        ((isObjectType(schemaType) || isInterfaceType(schemaType)) &&
+          needsSharedInterface.has(fieldTypeName))
+      ) {
+        names.add(field.name.value);
+      }
+    }
+    return names;
+  }
+
+  /**
+   * Fixpoint iteration: start from union members, expand to any object types they reference in
+   * their intersection fields that also have registry entries.
+   */
+  private computeNeedsSharedInterface(): Set<string> {
+    const needs = new Set<string>();
+
+    for (const [typeName, record] of this.sharedTypeRegistry) {
+      if (record.parentUnionName !== null) needs.add(typeName);
+    }
+
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const typeName of needs) {
+        const record = this.sharedTypeRegistry.get(typeName);
+        if (!record) continue;
+        for (const field of this.intersectFields(record.fieldSets)) {
+          const { node: typeNode } = unwrapTypeNode(field.type);
+          const fieldTypeName = typeNode.name.value;
+          const schemaType = this._schema.getType(fieldTypeName);
+          if (
+            schemaType &&
+            (isObjectType(schemaType) || isInterfaceType(schemaType)) &&
+            this.sharedTypeRegistry.has(fieldTypeName) &&
+            !needs.has(fieldTypeName)
+          ) {
+            needs.add(fieldTypeName);
+            changed = true;
+          }
+        }
+      }
+    }
+
+    return needs;
+  }
+
+  /**
+   * Generate the per-operation data classes for one stored operation, injecting
+   * `sharedInterfaceName` and `overrideFields` for types that have shared interfaces.
+   */
+  private generateOperationTypes(
+    name: string,
+    astTree: AstTreeNode,
+    needsSharedInterface: Set<string>,
+  ): string[] {
+    const result: string[] = [];
+
+    const nodesToProcess: {
+      treeNode: AstTreeNode;
+      parentPrefix: string;
+      superTypeName?: string;
+    }[] = [{ treeNode: astTree, parentPrefix: upperCaseFirst(name) }];
+
+    while (nodesToProcess.length > 0) {
+      const { parentPrefix, treeNode, superTypeName } = nodesToProcess.shift()!;
+      const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
+      const graphqlTypeName = treeNode.astNode.name.value;
+
+      let sharedInterfaceName: string | undefined;
+      let overrideFields: ReadonlySet<string> | undefined;
+
+      if (
+        treeNode.astNode.kind !== Kind.UNION_TYPE_DEFINITION &&
+        needsSharedInterface.has(graphqlTypeName)
+      ) {
+        sharedInterfaceName = graphqlTypeName;
+        overrideFields = this.getInterfaceFieldNames(graphqlTypeName, needsSharedInterface);
+      }
+
+      const typesVisitor = new KotlinTypesVisitor(
+        { typesPrefix: nodePrefix + '_', superTypeName, sharedInterfaceName, overrideFields },
+        this._schema,
+      );
+
+      const visitorResult = visit(
+        { ...treeNode.astNode, name: { ...treeNode.astNode.name, value: nodePrefix } },
+        typesVisitor,
+      );
+
+      assert(typeof visitorResult === 'string');
+      result.push(visitorResult);
+
+      if (treeNode.astNode.kind === Kind.UNION_TYPE_DEFINITION) {
+        nodesToProcess.push(
+          ...treeNode.children.map(child => ({
+            parentPrefix: nodePrefix,
+            treeNode: child,
+            superTypeName: nodePrefix,
+          })),
+        );
+      } else {
+        nodesToProcess.push(
+          ...treeNode.children.map(child => ({
+            parentPrefix: nodePrefix,
+            treeNode: child,
+          })),
+        );
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Emit `sealed interface Document`, `interface PdfDocument : Document { ... }`, etc.
+   * for every type in `needsSharedInterface`.
+   */
+  private generateSharedInterfaces(
+    needsSharedInterface: Set<string>,
+    unionNames: Set<string>,
+  ): string {
+    const parts: string[] = [];
+
+    for (const unionName of unionNames) {
+      parts.push(`sealed interface ${unionName}`);
+    }
+
+    for (const typeName of needsSharedInterface) {
+      const record = this.sharedTypeRegistry.get(typeName);
+      if (!record) continue;
+
+      const parentPart = record.parentUnionName ? ` : ${record.parentUnionName}` : '';
+      const interfaceFieldNames = this.getInterfaceFieldNames(typeName, needsSharedInterface);
+
+      const fieldLines = (record.fieldSets[0] ?? [])
+        .filter(field => interfaceFieldNames.has(field.name.value))
+        .map(field => {
+          const { nullable, listType, nullableList, node: typeNode } = unwrapTypeNode(field.type);
+          const fieldTypeName = typeNode.name.value;
+          const schemaType = this._schema.getType(fieldTypeName);
+          assertIsNotUndefined(schemaType);
+
+          let kotlinType = isScalarType(schemaType)
+            ? (KOTLIN_SCALARS[fieldTypeName] ?? 'String')
+            : fieldTypeName;
+
+          if (nullable) kotlinType = `${kotlinType}?`;
+          if (listType) {
+            kotlinType = `List<${kotlinType}>`;
+            if (nullableList) kotlinType = `${kotlinType}?`;
+          }
+
+          return `    val ${field.name.value}: ${kotlinType}`;
+        });
+
+      if (fieldLines.length > 0) {
+        parts.push(`interface ${typeName}${parentPart} {\n${fieldLines.join('\n')}\n}`);
+      } else {
+        parts.push(`interface ${typeName}${parentPart}`);
+      }
+    }
+
+    return parts.join('\n\n');
+  }
+
   getAdditionalContent(): string {
-    return this.generateInterface() + '\n\n' + this.generateClient();
+    const needsSharedInterface = this.computeNeedsSharedInterface();
+
+    const unionNames = new Set<string>();
+    for (const record of this.sharedTypeRegistry.values()) {
+      if (record.parentUnionName) unionNames.add(record.parentUnionName);
+    }
+
+    const parts: string[] = [];
+
+    for (const { name, astTree } of this.storedOperations) {
+      parts.push(...this.generateOperationTypes(name, astTree, needsSharedInterface));
+    }
+
+    parts.push(this.generateSharedInterfaces(needsSharedInterface, unionNames));
+    parts.push(this.generateInterface());
+    parts.push(this.generateClient());
+
+    return parts.join('\n\n');
   }
 
   private getMethodMetadata(node: OperationDefinitionNode): MethodMetadata {
