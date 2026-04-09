@@ -55,6 +55,7 @@
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@types/jscodeshift": "^17.3.0",
     "graphql-codegen-plugin-kotlin": "file:codegen/graphql-codegen-plugin-kotlin",
+    "graphql-codegen-plugin-kotlin-builders": "file:codegen/graphql-codegen-plugin-kotlin-builders",
     "graphql-codegen-plugin-python": "file:codegen/graphql-codegen-plugin-python",
     "graphql-codegen-plugin-rust": "file:codegen/graphql-codegen-plugin-rust",
     "husky": "^9.1.7",
