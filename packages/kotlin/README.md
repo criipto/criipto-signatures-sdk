@@ -137,44 +137,20 @@ try (var client = new IduraSignaturesSDKJava(
 
     // Create signature order
     var signatureOrder = client.createSignatureOrder(
-        new CreateSignatureOrderInput(
-            /* disableVerifyEvidenceProvider */ null,
-            List.of(new DocumentInput(
-                new PadesDocumentInput(
-                    /* title */ "My document",
-                    /* blob */ pdf,           // byte[]
-                    DocumentStorageMode.Temporary,
-                    /* form */ null,
-                    /* storageExpiresAt */ null
-                ),
-                /* xml */ null
-            )),
-            /* evidenceProviders */ null,
-            /* evidenceValidationStages */ null,
-            /* expiresAt */ null,
-            /* expiresInDays */ 1,
-            /* fixDocumentFormattingErrors */ null,
-            /* maxSignatories */ 14,
-            /* signatories */ null,
-            /* signatureAppearance */ null,
-            /* timezone */ null,
-            "My signature order",
-            /* ui */ null,
-            /* webhook */ null
+        new CreateSignatureOrderInputBuilder(
+            List.of(new DocumentInputBuilder()
+                .pdf(new PadesDocumentInputBuilder(pdf, DocumentStorageMode.Temporary, "My document")
+                    .build())
+                .build())
         )
+        .title("My signature order")
+        .expiresInDays(1)
+        .build()
     ).get();
 
     // Add signatory
     var signatory = client.addSignatory(
-        new AddSignatoryInput(
-            /* documents */ null,
-            /* evidenceProviders */ null,
-            /* evidenceValidation */ null,
-            /* reference */ null,
-            /* role */ null,
-            signatureOrder.getId(),
-            /* signatureAppearance */ null
-        )
+        new AddSignatoryInputBuilder(signatureOrder.getId()).build()
     ).get();
 
     System.out.println(signatory.getHref());
@@ -184,4 +160,4 @@ try (var client = new IduraSignaturesSDKJava(
 }
 ```
 
-> **Note:** Input types are generated Kotlin data classes without builder patterns. All constructor parameters must be passed positionally from Java, using `null` for optional fields.
+Each input type has a corresponding `*Builder` class. Required fields are constructor parameters; optional fields are fluent setters.
