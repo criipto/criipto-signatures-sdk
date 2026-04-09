@@ -17,10 +17,13 @@ class IduraSignaturesSDKJava(clientId: String, clientSecret: String) : AutoClose
     private val sdk = IduraSignaturesSDK(clientId, clientSecret)
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    fun createSignatureOrder(input: CreateSignatureOrderInput): CompletableFuture<CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder> =
-        scope.future { sdk.createSignatureOrder(input) }
+    fun createSignatureOrder(
+        input: CreateSignatureOrderInput,
+    ): CompletableFuture<CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder> = scope.future { sdk.createSignatureOrder(input) }
 
-    fun cleanupSignatureOrder(input: CleanupSignatureOrderInput): CompletableFuture<CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder> =
+    fun cleanupSignatureOrder(
+        input: CleanupSignatureOrderInput,
+    ): CompletableFuture<CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder> =
         scope.future { sdk.cleanupSignatureOrder(input) }
 
     fun addSignatory(input: AddSignatoryInput): CompletableFuture<AddSignatory_AddSignatoryOutput_Signatory> =
@@ -32,11 +35,13 @@ class IduraSignaturesSDKJava(clientId: String, clientSecret: String) : AutoClose
     fun changeSignatory(input: ChangeSignatoryInput): CompletableFuture<ChangeSignatory_ChangeSignatoryOutput_Signatory> =
         scope.future { sdk.changeSignatory(input) }
 
-    fun closeSignatureOrder(input: CloseSignatureOrderInput): CompletableFuture<CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder> =
-        scope.future { sdk.closeSignatureOrder(input) }
+    fun closeSignatureOrder(
+        input: CloseSignatureOrderInput,
+    ): CompletableFuture<CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder> = scope.future { sdk.closeSignatureOrder(input) }
 
-    fun cancelSignatureOrder(input: CancelSignatureOrderInput): CompletableFuture<CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder> =
-        scope.future { sdk.cancelSignatureOrder(input) }
+    fun cancelSignatureOrder(
+        input: CancelSignatureOrderInput,
+    ): CompletableFuture<CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder> = scope.future { sdk.cancelSignatureOrder(input) }
 
     fun signActingAs(input: SignActingAsInput): CompletableFuture<SignActingAs_SignActingAsOutput_Signatory> =
         scope.future { sdk.signActingAs(input) }
@@ -44,17 +49,20 @@ class IduraSignaturesSDKJava(clientId: String, clientSecret: String) : AutoClose
     fun validateDocument(input: ValidateDocumentInput): CompletableFuture<ValidateDocument_ValidateDocumentOutput> =
         scope.future { sdk.validateDocument(input) }
 
-    fun extendSignatureOrder(input: ExtendSignatureOrderInput): CompletableFuture<ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder> =
-        scope.future { sdk.extendSignatureOrder(input) }
+    fun extendSignatureOrder(
+        input: ExtendSignatureOrderInput,
+    ): CompletableFuture<ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder> = scope.future { sdk.extendSignatureOrder(input) }
 
     fun deleteSignatory(input: DeleteSignatoryInput): CompletableFuture<DeleteSignatory_DeleteSignatoryOutput_SignatureOrder> =
         scope.future { sdk.deleteSignatory(input) }
 
-    fun createBatchSignatory(input: CreateBatchSignatoryInput): CompletableFuture<CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory> =
-        scope.future { sdk.createBatchSignatory(input) }
+    fun createBatchSignatory(
+        input: CreateBatchSignatoryInput,
+    ): CompletableFuture<CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory> = scope.future { sdk.createBatchSignatory(input) }
 
-    fun changeSignatureOrder(input: ChangeSignatureOrderInput): CompletableFuture<ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder> =
-        scope.future { sdk.changeSignatureOrder(input) }
+    fun changeSignatureOrder(
+        input: ChangeSignatureOrderInput,
+    ): CompletableFuture<ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder> = scope.future { sdk.changeSignatureOrder(input) }
 
     fun querySignatureOrder(id: String): CompletableFuture<QuerySignatureOrder_SignatureOrder> =
         scope.future { sdk.querySignatureOrder(id) }
@@ -62,16 +70,14 @@ class IduraSignaturesSDKJava(clientId: String, clientSecret: String) : AutoClose
     fun querySignatureOrderWithDocuments(id: String): CompletableFuture<QuerySignatureOrderWithDocuments_SignatureOrder> =
         scope.future { sdk.querySignatureOrderWithDocuments(id) }
 
-    fun querySignatory(id: String): CompletableFuture<QuerySignatory_Signatory> =
-        scope.future { sdk.querySignatory(id) }
+    fun querySignatory(id: String): CompletableFuture<QuerySignatory_Signatory> = scope.future { sdk.querySignatory(id) }
 
     @JvmOverloads
     fun querySignatureOrders(
         first: Int,
         status: SignatureOrderStatus? = null,
         after: String? = null,
-    ): CompletableFuture<QuerySignatureOrders_Viewer> =
-        scope.future { sdk.querySignatureOrders(first, status, after) }
+    ): CompletableFuture<QuerySignatureOrders_Viewer> = scope.future { sdk.querySignatureOrders(first, status, after) }
 
     @JvmOverloads
     fun listSignatureOrders(

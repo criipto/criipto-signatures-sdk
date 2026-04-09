@@ -2,7 +2,6 @@ package eu.idura.signatures
 
 class IduraSignaturesSDK(clientId: String, clientSecret: String) :
     IduraSignaturesOperations by IduraSignaturesClient(clientId, clientSecret) {
-
     /**
      * Convenience wrapper around [querySignatureOrders] that unwraps the pagination
      * edges and returns only the [QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder]
