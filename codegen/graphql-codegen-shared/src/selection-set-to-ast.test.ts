@@ -482,3 +482,55 @@ test('nested fragments', t => {
     ['id'],
   );
 });
+
+test('__typename selection is added as a synthetic field with the concrete type as its type', t => {
+  const documents = parse(/* GraphQL */ `
+    fragment UserViewerFragment on UserViewer {
+      __typename
+      email
+    }
+
+    query viewerQuery {
+      viewer {
+        id
+        ...UserViewerFragment
+        ... on ApplicationViewer {
+          __typename
+          applicationName
+        }
+      }
+    }
+  `);
+
+  const validationErrors = validate(viewerSchema, documents);
+  if (validationErrors.length !== 0) {
+    throw new AggregateError(validationErrors, 'GraphQL Schema validation errors');
+  }
+
+  const operation = documents.definitions.find(d => d.kind === Kind.OPERATION_DEFINITION);
+  assertIsNotUndefined(operation);
+  const fragments = documents.definitions.filter(d => d.kind === Kind.FRAGMENT_DEFINITION);
+
+  const astTree = operationSelectionsToAstTree({
+    node: operation,
+    fragments,
+    schema: viewerSchema,
+  });
+
+  strictEqual(astTree.astNode.kind, Kind.UNION_TYPE_DEFINITION);
+
+  const userViewer = astTree.children[0];
+  assertIsNotUndefined(userViewer);
+  const userTypename = userViewer.astNode.fields?.find(f => f.name.value === '__typename');
+  assertIsNotUndefined(userTypename);
+  // The type value should be the concrete type name, not "String"
+  strictEqual(userTypename.type.kind, Kind.NON_NULL_TYPE);
+  t.is(userTypename.type.type.name.value, 'UserViewer');
+
+  const applicationViewer = astTree.children[1];
+  assertIsNotUndefined(applicationViewer);
+  const appTypename = applicationViewer.astNode.fields?.find(f => f.name.value === '__typename');
+  assertIsNotUndefined(appTypename);
+  strictEqual(appTypename.type.kind, Kind.NON_NULL_TYPE);
+  t.is(appTypename.type.type.name.value, 'ApplicationViewer');
+});

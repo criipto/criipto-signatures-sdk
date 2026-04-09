@@ -1,11 +1,25 @@
 from __future__ import annotations
 from .utils import CustomBlobInput, CustomBlobOutput
 from enum import StrEnum
-from typing import Optional
+from typing import Optional, Literal
 from pydantic import BaseModel, Field
 from warnings import deprecated
+from typing import TypeGuard, Any
 from pydantic import RootModel
 from .models import (
+  PdfDocument,
+  XmlDocument,
+  CompositeSignature,
+  DrawableSignature,
+  EmptySignature,
+  JWTSignature,
+  NorwegianBankIdSignature,
+  AnonymousViewer,
+  Application,
+  BatchSignatoryViewer,
+  SignatoryViewer,
+  UnvalidatedSignatoryViewer,
+  UserViewer,
   CreateSignatureOrderInput,
   CleanupSignatureOrderInput,
   AddSignatoryInput,
@@ -259,6 +273,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_Pd
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
@@ -267,6 +282,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_Xm
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -418,6 +434,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
@@ -426,6 +443,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -845,6 +863,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     ]
   ] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
@@ -859,6 +878,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     ]
   ] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -930,6 +950,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
   ]
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  typename: Literal["CompositeSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -941,6 +962,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  typename: Literal["DrawableSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -950,6 +972,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  typename: Literal["EmptySignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -964,6 +987,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  typename: Literal["JWTSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -977,6 +1001,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   ] = Field(default=None)
   signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  typename: Literal["NorwegianBankIdSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -989,6 +1014,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
   ]
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  typename: Literal["CompositeSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -1000,6 +1026,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  typename: Literal["DrawableSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -1009,6 +1036,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  typename: Literal["EmptySignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -1023,6 +1051,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  typename: Literal["JWTSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -1036,6 +1065,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   ] = Field(default=None)
   signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
   timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  typename: Literal["NorwegianBankIdSignature"] = Field(alias="__typename")
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1436,6 +1466,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_Pd
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
@@ -1444,6 +1475,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_Xm
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -1695,6 +1727,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_Pd
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_XmlDocument(
@@ -1703,6 +1736,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_Xm
   id: IDScalarOutput
   reference: Optional[StringScalarOutput] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -2412,6 +2446,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument(BaseM
     list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature]
   ] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["PdfDocument"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument(BaseModel):
@@ -2422,6 +2457,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument(BaseM
     list[QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature]
   ] = Field(default=None)
   title: StringScalarOutput
+  typename: Literal["XmlDocument"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection(
@@ -2493,6 +2529,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
   ]
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  typename: Literal["CompositeSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -2504,6 +2541,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  typename: Literal["DrawableSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -2513,6 +2551,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  typename: Literal["EmptySignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -2527,6 +2566,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  typename: Literal["JWTSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -2540,6 +2580,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   ] = Field(default=None)
   signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  typename: Literal["NorwegianBankIdSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -2552,6 +2593,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
   ]
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  typename: Literal["CompositeSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -2563,6 +2605,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  typename: Literal["DrawableSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -2572,6 +2615,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  typename: Literal["EmptySignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -2586,6 +2630,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  typename: Literal["JWTSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -2599,6 +2644,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   ] = Field(default=None)
   signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
   timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  typename: Literal["NorwegianBankIdSignature"] = Field(alias="__typename")
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -3095,27 +3141,28 @@ type QuerySignatureOrders_Viewer = (
 
 
 class QuerySignatureOrders_Viewer_AnonymousViewer(BaseModel):
-  pass
+  typename: Literal["AnonymousViewer"] = Field(alias="__typename")
 
 
 class QuerySignatureOrders_Viewer_Application(BaseModel):
   signatureOrders: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection
+  typename: Literal["Application"] = Field(alias="__typename")
 
 
 class QuerySignatureOrders_Viewer_BatchSignatoryViewer(BaseModel):
-  pass
+  typename: Literal["BatchSignatoryViewer"] = Field(alias="__typename")
 
 
 class QuerySignatureOrders_Viewer_SignatoryViewer(BaseModel):
-  pass
+  typename: Literal["SignatoryViewer"] = Field(alias="__typename")
 
 
 class QuerySignatureOrders_Viewer_UnvalidatedSignatoryViewer(BaseModel):
-  pass
+  typename: Literal["UnvalidatedSignatoryViewer"] = Field(alias="__typename")
 
 
 class QuerySignatureOrders_Viewer_UserViewer(BaseModel):
-  pass
+  typename: Literal["UserViewer"] = Field(alias="__typename")
 
 
 # A connection from an object to a list of objects of type SignatureOrder
@@ -3482,6 +3529,58 @@ class CriiptoSignaturesSDKAsync:
     )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 
+  @staticmethod
+  def isPdfDocument(value: Any) -> TypeGuard[PdfDocument]:
+    return hasattr(value, "typename") and value.typename == "PdfDocument"
+
+  @staticmethod
+  def isXmlDocument(value: Any) -> TypeGuard[XmlDocument]:
+    return hasattr(value, "typename") and value.typename == "XmlDocument"
+
+  @staticmethod
+  def isCompositeSignature(value: Any) -> TypeGuard[CompositeSignature]:
+    return hasattr(value, "typename") and value.typename == "CompositeSignature"
+
+  @staticmethod
+  def isDrawableSignature(value: Any) -> TypeGuard[DrawableSignature]:
+    return hasattr(value, "typename") and value.typename == "DrawableSignature"
+
+  @staticmethod
+  def isEmptySignature(value: Any) -> TypeGuard[EmptySignature]:
+    return hasattr(value, "typename") and value.typename == "EmptySignature"
+
+  @staticmethod
+  def isJWTSignature(value: Any) -> TypeGuard[JWTSignature]:
+    return hasattr(value, "typename") and value.typename == "JWTSignature"
+
+  @staticmethod
+  def isNorwegianBankIdSignature(value: Any) -> TypeGuard[NorwegianBankIdSignature]:
+    return hasattr(value, "typename") and value.typename == "NorwegianBankIdSignature"
+
+  @staticmethod
+  def isAnonymousViewer(value: Any) -> TypeGuard[AnonymousViewer]:
+    return hasattr(value, "typename") and value.typename == "AnonymousViewer"
+
+  @staticmethod
+  def isApplication(value: Any) -> TypeGuard[Application]:
+    return hasattr(value, "typename") and value.typename == "Application"
+
+  @staticmethod
+  def isBatchSignatoryViewer(value: Any) -> TypeGuard[BatchSignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "BatchSignatoryViewer"
+
+  @staticmethod
+  def isSignatoryViewer(value: Any) -> TypeGuard[SignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "SignatoryViewer"
+
+  @staticmethod
+  def isUnvalidatedSignatoryViewer(value: Any) -> TypeGuard[UnvalidatedSignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "UnvalidatedSignatoryViewer"
+
+  @staticmethod
+  def isUserViewer(value: Any) -> TypeGuard[UserViewer]:
+    return hasattr(value, "typename") and value.typename == "UserViewer"
+
   async def createSignatureOrder(
     self, input: CreateSignatureOrderInput
   ) -> CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder:
@@ -3726,6 +3825,58 @@ class CriiptoSignaturesSDKSync:
       url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers
     )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
+
+  @staticmethod
+  def isPdfDocument(value: Any) -> TypeGuard[PdfDocument]:
+    return hasattr(value, "typename") and value.typename == "PdfDocument"
+
+  @staticmethod
+  def isXmlDocument(value: Any) -> TypeGuard[XmlDocument]:
+    return hasattr(value, "typename") and value.typename == "XmlDocument"
+
+  @staticmethod
+  def isCompositeSignature(value: Any) -> TypeGuard[CompositeSignature]:
+    return hasattr(value, "typename") and value.typename == "CompositeSignature"
+
+  @staticmethod
+  def isDrawableSignature(value: Any) -> TypeGuard[DrawableSignature]:
+    return hasattr(value, "typename") and value.typename == "DrawableSignature"
+
+  @staticmethod
+  def isEmptySignature(value: Any) -> TypeGuard[EmptySignature]:
+    return hasattr(value, "typename") and value.typename == "EmptySignature"
+
+  @staticmethod
+  def isJWTSignature(value: Any) -> TypeGuard[JWTSignature]:
+    return hasattr(value, "typename") and value.typename == "JWTSignature"
+
+  @staticmethod
+  def isNorwegianBankIdSignature(value: Any) -> TypeGuard[NorwegianBankIdSignature]:
+    return hasattr(value, "typename") and value.typename == "NorwegianBankIdSignature"
+
+  @staticmethod
+  def isAnonymousViewer(value: Any) -> TypeGuard[AnonymousViewer]:
+    return hasattr(value, "typename") and value.typename == "AnonymousViewer"
+
+  @staticmethod
+  def isApplication(value: Any) -> TypeGuard[Application]:
+    return hasattr(value, "typename") and value.typename == "Application"
+
+  @staticmethod
+  def isBatchSignatoryViewer(value: Any) -> TypeGuard[BatchSignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "BatchSignatoryViewer"
+
+  @staticmethod
+  def isSignatoryViewer(value: Any) -> TypeGuard[SignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "SignatoryViewer"
+
+  @staticmethod
+  def isUnvalidatedSignatoryViewer(value: Any) -> TypeGuard[UnvalidatedSignatoryViewer]:
+    return hasattr(value, "typename") and value.typename == "UnvalidatedSignatoryViewer"
+
+  @staticmethod
+  def isUserViewer(value: Any) -> TypeGuard[UserViewer]:
+    return hasattr(value, "typename") and value.typename == "UserViewer"
 
   def createSignatureOrder(
     self, input: CreateSignatureOrderInput

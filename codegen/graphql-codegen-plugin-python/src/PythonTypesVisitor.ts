@@ -59,7 +59,7 @@ export class PythonTypesVisitor extends BaseVisitor {
       'from __future__ import annotations',
       'from .utils import CustomBlobInput, CustomBlobOutput',
       'from enum import StrEnum',
-      'from typing import Optional',
+      'from typing import Optional, Literal',
       'from pydantic import BaseModel, Field',
       'from warnings import deprecated',
     ];
@@ -118,6 +118,13 @@ export class PythonTypesVisitor extends BaseVisitor {
 
   private FieldOrInputValueDefinition(node: FieldDefinitionNode | InputValueDefinitionNode) {
     const { nullable, listType, nullableList, node: typeNode } = unwrapTypeNode(node.type);
+
+    if (node.name.value === '__typename') {
+      // typeNode.name.value carries the concrete type name synthesised in
+      // selection-set-to-ast.ts (e.g. "PdfDocument"). Emit a Literal field
+      // aliased back to __typename so Pydantic deserialises it correctly.
+      return `typename: Literal["${typeNode.name.value}"] = Field(alias="__typename")`;
+    }
 
     const schemaType = this.schema.getType(typeNode.name.value);
     assert(schemaType != undefined);

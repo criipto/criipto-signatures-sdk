@@ -165,6 +165,30 @@ function createAstTreeNodeFromSelection({
       }
     }
 
+    // Only synthesise __typename for concrete object types — if the current node
+    // is still an interface (no fragment splits occurred), the runtime value of
+    // __typename would be one of the implementing types, so we cannot encode it
+    // as a known Literal and we skip it.
+    if (
+      isObjectType(schema.getType(name)) &&
+      selections.some(s => isScalarSelection(s) && s.name === '__typename')
+    ) {
+      // __typename is a GraphQL meta-field: it appears in selections but not in
+      // astNode.fields. Synthesise a FieldDefinitionNode for it, using the
+      // concrete type name as the type value so that PythonTypesVisitor can emit
+      // Literal["PdfDocument"] rather than a regular field reference.
+      filteredFields.push({
+        kind: Kind.FIELD_DEFINITION,
+        name: { kind: Kind.NAME, value: '__typename' },
+        type: {
+          kind: Kind.NON_NULL_TYPE,
+          type: { kind: Kind.NAMED_TYPE, name: { kind: Kind.NAME, value: name } },
+        },
+        arguments: [],
+        directives: [],
+      });
+    }
+
     return {
       astNode: {
         ...astNode,

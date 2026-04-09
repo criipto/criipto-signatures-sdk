@@ -37,6 +37,7 @@ import { PythonTypesVisitor } from './PythonTypesVisitor.ts';
 
 export class PythonOperationsVisitor extends ClientSideBaseVisitor {
   modelImports: Set<string> = new Set<string>();
+  typeGuardTypes: Set<string> = new Set<string>();
   fragments: FragmentDefinitionNode[];
   append: string[] = [];
 
@@ -110,6 +111,17 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
         const { parentPrefix, treeNode } = nodesToProcess.shift()!;
 
         const nodePrefix = `${parentPrefix}_${treeNode.astNode.name.value}`;
+
+        // When the node is a union (interface with fragment selections), its
+        // direct children are the concrete implementing types. Collect them so
+        // we can generate TypeGuard helper methods on the SDK class.
+        if (treeNode.astNode.kind === Kind.UNION_TYPE_DEFINITION) {
+          for (const child of treeNode.children) {
+            const typeName = child.astNode.name.value;
+            this.typeGuardTypes.add(typeName);
+            this.modelImports.add(typeName);
+          }
+        }
         // For each AST node, we use the PythonTypesVisitor to generate a specialized
         // python class definition for the specific selection. The class definition
         // differs from the general output type classes defined in the schema in
@@ -175,6 +187,16 @@ class CriiptoSignaturesSDK${async ? 'Async' : 'Sync'}:
     transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers)
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 `;
+
+    const typeGuards = Array.from(this.typeGuardTypes)
+      .map(
+        typeName =>
+          `@staticmethod\ndef is${typeName}(value: Any) -> TypeGuard[${typeName}]:\n  return hasattr(value, 'typename') and value.typename == "${typeName}"`,
+      )
+      .join('\n');
+
+    result += indentMultiline(typeGuards, 1);
+    result += '\n';
 
     result += indentMultiline(
       this._collectedOperations
@@ -354,6 +376,7 @@ return parsed`,
 
     return [
       ...PythonTypesVisitor.getImports(),
+      'from typing import TypeGuard, Any',
       `from pydantic import RootModel`,
       `from .models import ${Array.from(this.modelImports).join(',')}`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
