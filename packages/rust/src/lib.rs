@@ -33,6 +33,7 @@
 //!                 displayDocumentID: None,
 //!                 form: None,
 //!                 sealsPageTemplate: None,
+//!                 removeBookmarks: None,
 //!             }),
 //!             ..Default::default()
 //!         }],

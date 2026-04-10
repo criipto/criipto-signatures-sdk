@@ -546,6 +546,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
 pub struct DocumentInput {
     pub keepPreviousSignatures: Option<crate::scalars::Boolean>,
     pub pdf: Option<crate::generated::types::PadesDocumentInput>,
+    pub preserveOriginalStructure: Option<crate::scalars::Boolean>,
     pub removePreviousSignatures: Option<crate::scalars::Boolean>,
     pub xml: Option<crate::generated::types::XadesDocumentInput>,
 }

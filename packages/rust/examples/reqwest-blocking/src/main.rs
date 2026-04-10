@@ -29,6 +29,7 @@ fn main() -> anyhow::Result<()> {
             xml: None,
             keepPreviousSignatures: None,
             removePreviousSignatures: None,
+            preserveOriginalStructure: None,
         }],
         ..Default::default()
     })?;
