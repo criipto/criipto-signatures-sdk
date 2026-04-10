@@ -22,6 +22,7 @@ pub fn make_document_input() -> DocumentInput {
         }),
         keepPreviousSignatures: None,
         removePreviousSignatures: None,
+        preserveOriginalStructure: None,
         xml: None,
     }
 }

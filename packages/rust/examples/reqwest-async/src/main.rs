@@ -31,6 +31,7 @@ async fn main() -> anyhow::Result<()> {
                 xml: None,
                 removePreviousSignatures: None,
                 keepPreviousSignatures: None,
+                preserveOriginalStructure: None,
             }],
             ..Default::default()
         })

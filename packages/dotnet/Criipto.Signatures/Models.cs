@@ -1684,6 +1684,11 @@ namespace Criipto.Signatures.Models
         public PadesDocumentInput pdf { get; set; }
 
         /// <summary>
+        /// (BETA feature) When enabled, preserves the original document structure. Automatically enables `keepPreviousSignatures`. This will disables features that requires recreating, such as, document watermarking and automatic seal placement.
+        /// </summary>
+        public bool? preserveOriginalStructure { get; set; }
+
+        /// <summary>
         /// When enabled, will remove any existing signatures from the document before storing. (PDF only)
         /// </summary>
         public bool? removePreviousSignatures { get; set; }

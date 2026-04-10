@@ -459,6 +459,8 @@ export type DocumentInput = {
   /** (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area. */
   keepPreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   pdf?: InputMaybe<PadesDocumentInput>;
+  /** (BETA feature) When enabled, preserves the original document structure. Automatically enables `keepPreviousSignatures`. This will disables features that requires recreating, such as, document watermarking and automatic seal placement. */
+  preserveOriginalStructure?: InputMaybe<Scalars['Boolean']['input']>;
   /** When enabled, will remove any existing signatures from the document before storing. (PDF only) */
   removePreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   /** XML signing is coming soon, reach out to learn more. */
