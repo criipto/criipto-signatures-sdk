@@ -93,6 +93,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -191,6 +192,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -539,6 +541,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -637,6 +640,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -838,6 +842,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -921,6 +926,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1012,6 +1018,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1100,6 +1107,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1181,6 +1189,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1323,6 +1332,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1407,6 +1417,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1497,6 +1508,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }
@@ -1586,6 +1598,7 @@ namespace Criipto.Signatures
           closedAt
           expiresAt
           maxSignatories
+          traceId
           signatories {
             ...BasicSignatory
           }

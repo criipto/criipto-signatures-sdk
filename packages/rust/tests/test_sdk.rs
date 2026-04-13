@@ -20,6 +20,7 @@ fn test_create_signature_order_add_signatory() {
 
     let data = signature_order.data.unwrap();
     assert!(data.createSignatureOrder.signatureOrder.id.len() > 0);
+    assert!(data.createSignatureOrder.signatureOrder.traceId.len() > 0);
 
     let signatory = client
         .addSignatory(AddSignatoryInput {

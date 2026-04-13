@@ -101,6 +101,7 @@ fragment BasicSignatureOrder on SignatureOrder {
   closedAt
   expiresAt
   maxSignatories
+  traceId
 
   signatories {
     ...BasicSignatory

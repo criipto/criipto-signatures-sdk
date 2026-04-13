@@ -1702,6 +1702,7 @@ export type BasicSignatureOrderFragment = {
   closedAt?: string | null;
   expiresAt: string;
   maxSignatories: number;
+  traceId: string;
   signatories: Array<{
     __typename?: 'Signatory';
     id: string;
@@ -1771,6 +1772,7 @@ export type CreateSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       documents: Array<
         | {
             __typename: 'PdfDocument';
@@ -1848,6 +1850,7 @@ export type CleanupSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       documents: Array<
         | {
             __typename: 'PdfDocument';
@@ -2075,6 +2078,7 @@ export type CloseSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       documents: Array<
         | {
             __typename: 'PdfDocument';
@@ -2277,6 +2281,7 @@ export type CancelSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       documents: Array<
         | {
             __typename: 'PdfDocument';
@@ -2418,6 +2423,7 @@ export type ExtendSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       documents: Array<
         | {
             __typename: 'PdfDocument';
@@ -2495,6 +2501,7 @@ export type DeleteSignatoryMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       signatories: Array<{
         __typename?: 'Signatory';
         id: string;
@@ -2568,6 +2575,7 @@ export type CreateBatchSignatoryMutation = {
           closedAt?: string | null;
           expiresAt: string;
           maxSignatories: number;
+          traceId: string;
           signatories: Array<{
             __typename?: 'Signatory';
             id: string;
@@ -2675,6 +2683,7 @@ export type ChangeSignatureOrderMutation = {
       closedAt?: string | null;
       expiresAt: string;
       maxSignatories: number;
+      traceId: string;
       signatories: Array<{
         __typename?: 'Signatory';
         id: string;
@@ -2739,6 +2748,7 @@ export type SignatureOrderQuery = {
     closedAt?: string | null;
     expiresAt: string;
     maxSignatories: number;
+    traceId: string;
     signatories: Array<{
       __typename?: 'Signatory';
       id: string;
@@ -2802,6 +2812,7 @@ export type SignatureOrderWithDocumentsQuery = {
     closedAt?: string | null;
     expiresAt: string;
     maxSignatories: number;
+    traceId: string;
     documents: Array<
       | {
           __typename: 'PdfDocument';
@@ -3014,6 +3025,7 @@ export type SignatoryQuery = {
       expiresAt: string;
       title?: string | null;
       maxSignatories: number;
+      traceId: string;
       signatories: Array<{
         __typename?: 'Signatory';
         id: string;
@@ -3104,6 +3116,7 @@ export type SignatureOrdersQuery = {
               closedAt?: string | null;
               expiresAt: string;
               maxSignatories: number;
+              traceId: string;
               signatories: Array<{
                 __typename?: 'Signatory';
                 id: string;
@@ -3181,6 +3194,7 @@ export type BatchSignatoryQuery = {
         closedAt?: string | null;
         expiresAt: string;
         maxSignatories: number;
+        traceId: string;
         signatories: Array<{
           __typename?: 'Signatory';
           id: string;
@@ -3379,6 +3393,7 @@ export const BasicSignatureOrderFragmentDoc = gql`
     closedAt
     expiresAt
     maxSignatories
+    traceId
     signatories {
       ...BasicSignatory
     }

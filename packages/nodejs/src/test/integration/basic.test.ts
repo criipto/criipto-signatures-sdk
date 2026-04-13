@@ -43,6 +43,7 @@ test('can create signature order with signatory', async t => {
 
   t.truthy(signatureOrder);
   t.truthy(signatureOrder.id);
+  t.truthy(signatureOrder.traceId);
 
   const signatory = await client.addSignatory(signatureOrder!.id);
   t.truthy(signatory);

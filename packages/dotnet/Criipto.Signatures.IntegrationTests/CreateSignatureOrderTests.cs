@@ -63,6 +63,7 @@ public class CreateSignatureOrderTests
         );
 
         Assert.NotNull(signatureOrder?.id);
+        Assert.NotNull(signatureOrder?.traceId);
     }
 
     [Fact]
