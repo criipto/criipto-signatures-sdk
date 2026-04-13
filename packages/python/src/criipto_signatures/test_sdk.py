@@ -79,6 +79,8 @@ class TestClass:
 
     assert signatureOrder.id
 
+    assert signatureOrder.traceId
+
     signatory = await unwrapResult(
       sdk.addSignatory(AddSignatoryInput(signatureOrderId=signatureOrder.id))
     )

@@ -158,6 +158,7 @@ BasicSignatureOrderFragment = """fragment BasicSignatureOrder on SignatureOrder 
   closedAt
   expiresAt
   maxSignatories
+  traceId
   signatories {
     ...BasicSignatory
   }
@@ -196,6 +197,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder(BaseModel):
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document = (
@@ -355,6 +357,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder(BaseModel
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document = (
@@ -778,6 +781,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder(BaseModel):
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document = (
@@ -1373,6 +1377,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder(BaseModel):
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document = (
@@ -1632,6 +1637,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder(BaseModel):
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document = (
@@ -1786,6 +1792,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder(BaseModel):
   signatories: list[DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -1962,6 +1969,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
@@ -2132,6 +2140,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder(BaseModel):
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEvidenceProvider(
@@ -2243,6 +2252,7 @@ class QuerySignatureOrder_SignatureOrder(BaseModel):
   signatories: list[QuerySignatureOrder_SignatureOrder_Signatory]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider(BaseModel):
@@ -2345,6 +2355,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder(BaseModel):
   signatories: list[QuerySignatureOrderWithDocuments_SignatureOrder_Signatory]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 type QuerySignatureOrderWithDocuments_SignatureOrder_Document = (
@@ -2969,6 +2980,7 @@ class QuerySignatory_Signatory_SignatureOrder(BaseModel):
   signatories: list[QuerySignatory_Signatory_SignatureOrder_Signatory]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class QuerySignatory_Signatory_SignatorySigningSequence(BaseModel):
@@ -3152,6 +3164,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_SignatureEvidenceProvider(
@@ -3325,6 +3338,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder(BaseM
   ]
   status: SignatureOrderStatus
   title: Optional[StringScalarOutput] = Field(default=None)
+  traceId: StringScalarOutput
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection(
