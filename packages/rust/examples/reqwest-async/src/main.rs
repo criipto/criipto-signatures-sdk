@@ -32,6 +32,7 @@ async fn main() -> anyhow::Result<()> {
                 removePreviousSignatures: None,
                 keepPreviousSignatures: None,
                 preserveOriginalStructure: None,
+                fixDocumentFormattingErrors: None,
             }],
             ..Default::default()
         })

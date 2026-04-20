@@ -544,6 +544,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DocumentInput {
+    pub fixDocumentFormattingErrors: Option<crate::scalars::Boolean>,
     pub keepPreviousSignatures: Option<crate::scalars::Boolean>,
     pub pdf: Option<crate::generated::types::PadesDocumentInput>,
     pub preserveOriginalStructure: Option<crate::scalars::Boolean>,

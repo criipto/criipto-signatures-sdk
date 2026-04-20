@@ -438,6 +438,8 @@ class DocumentIDLocation(StrEnum):
 
 
 class DocumentInput(BaseModel):
+  # Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document.
+  fixDocumentFormattingErrors: Optional[BooleanScalarInput] = Field(default=None)
   # (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
   keepPreviousSignatures: Optional[BooleanScalarInput] = Field(default=None)
   pdf: Optional[PadesDocumentInput] = Field(default=None)

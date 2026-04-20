@@ -456,6 +456,8 @@ export type Document = {
 export type DocumentIdLocation = 'BOTTOM' | 'LEFT' | 'RIGHT' | 'TOP' | '%future added value';
 
 export type DocumentInput = {
+  /** Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document. */
+  fixDocumentFormattingErrors?: InputMaybe<Scalars['Boolean']['input']>;
   /** (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area. */
   keepPreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   pdf?: InputMaybe<PadesDocumentInput>;

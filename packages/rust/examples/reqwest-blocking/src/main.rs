@@ -30,6 +30,7 @@ fn main() -> anyhow::Result<()> {
             keepPreviousSignatures: None,
             removePreviousSignatures: None,
             preserveOriginalStructure: None,
+            fixDocumentFormattingErrors: None,
         }],
         ..Default::default()
     })?;

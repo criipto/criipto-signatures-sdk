@@ -1677,6 +1677,11 @@ namespace Criipto.Signatures.Models
     {
         #region members
         /// <summary>
+        /// Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document.
+        /// </summary>
+        public bool? fixDocumentFormattingErrors { get; set; }
+
+        /// <summary>
         /// (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
         /// </summary>
         public bool? keepPreviousSignatures { get; set; }
