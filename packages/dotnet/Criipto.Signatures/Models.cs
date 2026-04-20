@@ -4932,6 +4932,7 @@ namespace Criipto.Signatures.Models
 
     public enum WebhookInvocationEvent
     {
+        ALL_CURRENT_SIGNATORIES_SIGNED,
         SIGNATORY_APPROVED,
         SIGNATORY_DOCUMENT_STATUS_CHANGED,
         SIGNATORY_DOWNLOAD_LINK_OPENED,
