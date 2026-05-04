@@ -17,10 +17,23 @@ const documentFixture = {
   },
 };
 
+const CUSTOM_ENDPOINT = 'https://signatures.idura.app/v1/graphql';
+
 function arrange() {
   const applicationClient = new CriiptoSignatures(
     process.env.CRIIPTO_SIGNATURES_CLIENT_ID!,
     process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!,
+  );
+  applicationClient.client.setHeader('Criipto-Sdk', 'test');
+
+  return { applicationClient };
+}
+
+function arrangeWithCustomEndpoint() {
+  const applicationClient = new CriiptoSignatures(
+    process.env.CRIIPTO_SIGNATURES_CLIENT_ID!,
+    process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!,
+    { endpoint: CUSTOM_ENDPOINT },
   );
   applicationClient.client.setHeader('Criipto-Sdk', 'test');
 
@@ -243,6 +256,47 @@ test('can authenticate to view and then sign', async t => {
   // ASSERT
   assert.strictEqual(signed.__typename, 'SignatoryViewer');
   t.is(signed.status, 'SIGNED');
+});
+
+test('can authenticate with criiptoVerify mock against a custom endpoint', async t => {
+  // ARRANGE
+  const { applicationClient } = arrangeWithCustomEndpoint();
+  const signatureOrder = await applicationClient.createSignatureOrder({
+    title: 'Node.js sample (custom endpoint)',
+    expiresInDays: 1,
+    documents: [documentFixture],
+  });
+  const signatory = await applicationClient.addSignatory(signatureOrder.id);
+
+  const signatoryClient = new SignatoryViewerClient(
+    { token: signatory.token },
+    { endpoint: CUSTOM_ENDPOINT },
+  );
+
+  const viewer = await signatoryClient.viewer();
+  assert.strictEqual(viewer.__typename, 'SignatoryViewer');
+  const ep = viewer.evidenceProviders.find(
+    s => s.__typename === 'CriiptoVerifySignatureEvidenceProvider',
+  );
+  assert(ep);
+
+  // ACT
+  const started = await signatoryClient.startCriiptoVerifyEvidenceProvider({
+    id: ep.id,
+    acrValue: 'urn:grn:authn:mock',
+    redirectUri: `https://${ep.domain}/signatures`,
+    stage: 'VIEW',
+  });
+
+  const login = await followMock(started.redirectUri);
+  assert.strictEqual(login.status, 'ok');
+
+  const completed = await signatoryClient.completeCriiptoVerifyEvidenceProvider({
+    code: login.code,
+    state: login.state,
+  });
+
+  t.truthy(completed.jwt);
 });
 
 async function followMock(initial: string) {

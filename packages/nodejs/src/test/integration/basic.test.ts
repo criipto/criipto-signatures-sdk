@@ -15,10 +15,23 @@ const documentFixture = {
   },
 };
 
+const CUSTOM_ENDPOINT = 'https://signatures.idura.app/v1/graphql';
+
 function arrange() {
   const client = new CriiptoSignatures(
     process.env.CRIIPTO_SIGNATURES_CLIENT_ID!,
     process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!,
+  );
+  client.client.setHeader('Criipto-Sdk', 'test');
+
+  return { client };
+}
+
+function arrangeWithCustomEndpoint() {
+  const client = new CriiptoSignatures(
+    process.env.CRIIPTO_SIGNATURES_CLIENT_ID!,
+    process.env.CRIIPTO_SIGNATURES_CLIENT_SECRET!,
+    { endpoint: CUSTOM_ENDPOINT },
   );
   client.client.setHeader('Criipto-Sdk', 'test');
 
@@ -156,6 +169,24 @@ test('can create batch signatory', async t => {
         elem.signatureOrderId === expectedItems[idx].signatureOrderId,
     ),
   );
+});
+
+test('can create signature order against a custom endpoint', async t => {
+  // ARRANGE
+  const { client } = arrangeWithCustomEndpoint();
+
+  // ACT
+  const signatureOrder = await client.createSignatureOrder({
+    title: 'Node.js sample (custom endpoint)',
+    expiresInDays: 1,
+    documents: [documentFixture],
+  });
+
+  // ASSERT
+  t.truthy(signatureOrder);
+  t.truthy(signatureOrder.id);
+
+  await client.cancelSignatureOrder(signatureOrder.id);
 });
 
 test('can change signature order with new maxSignatories', async t => {

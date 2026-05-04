@@ -12,14 +12,21 @@ export { Types as SignatoryViewerTypes };
 
 type Authentication = { token: string; validation?: string };
 
+export interface SignatoryViewerClientOptions {
+  endpoint?: string;
+}
+
 export class SignatoryViewerClient {
   client: GraphQLClient;
   sdk: Sdk;
 
-  constructor(options: Authentication) {
-    this.client = new GraphQLClient('https://signatures-api.criipto.com/v1/graphql', {
-      jsonSerializer,
-    });
+  constructor(options: Authentication, clientOptions?: SignatoryViewerClientOptions) {
+    this.client = new GraphQLClient(
+      clientOptions?.endpoint ?? 'https://signatures-api.criipto.com/v1/graphql',
+      {
+        jsonSerializer,
+      },
+    );
 
     this.setAuthentication(options);
     this.sdk = getSdk(this.client);
