@@ -169,10 +169,12 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
   generateSDK({ async }: { async: boolean }) {
     let result = `
 class CriiptoSignaturesSDK${async ? 'Async' : 'Sync'}:
-  def __init__(self, clientId: str, clientSecret: str):
+  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+
+  def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
     headers= {"Criipto-Sdk": "criipto-signatures-python"}
-    transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers)
+    transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers)
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 `;
 

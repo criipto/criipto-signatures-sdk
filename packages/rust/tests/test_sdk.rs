@@ -41,3 +41,21 @@ fn test_create_signature_order_add_signatory() {
     let data = signatory.data.unwrap();
     assert!(data.addSignatory.signatory.id.len() > 0);
 }
+
+#[test]
+fn test_create_signature_order_with_custom_endpoint() {
+    let client = common::make_client_with_custom_endpoint();
+
+    let signature_order = client
+        .createSignatureOrder(CreateSignatureOrderInput {
+            title: Some("Test Signature Order (custom endpoint)".to_string()),
+            expiresInDays: Some(1),
+            documents: vec![common::make_document_input()],
+            ..Default::default()
+        })
+        .unwrap();
+
+    let data = signature_order.data.unwrap();
+    assert!(data.createSignatureOrder.signatureOrder.id.len() > 0);
+    assert!(data.createSignatureOrder.signatureOrder.traceId.len() > 0);
+}

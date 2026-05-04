@@ -7,6 +7,8 @@ public class Dsl
 {
     public static readonly byte[] Sample = File.ReadAllBytes("./sample.pdf");
 
+    public static readonly Uri CustomEndpoint = new("https://signatures.idura.app/v1/graphql");
+
     public static IConfiguration InitConfiguration()
     {
         var config = new ConfigurationBuilder()

@@ -9,7 +9,6 @@
 //! ```no_run
 //! # use reqwest_crate as reqwest;
 //!
-//! use reqwest::{blocking::Client, header::HeaderMap};
 //! use criipto_signatures_rs::{
 //!     CriiptoSignaturesClientOpts,
 //!     reqwest::{create_reqwest_blocking_client},
@@ -43,6 +42,19 @@
 //!     println!("Response: {:#?}", response);
 //!     Ok(())
 //! }
+//! ```
+//!
+//! ## Overriding the GraphQL endpoint
+//!
+//! By default the SDK targets `https://signatures-api.criipto.com/v1/graphql`. You can override
+//! it on the [CriiptoSignaturesClientOpts] via [CriiptoSignaturesClientOpts::with_endpoint]:
+//!
+//! ```no_run
+//! use criipto_signatures_rs::{CriiptoSignaturesClientOpts, reqwest::create_reqwest_blocking_client};
+//!
+//! let opts = CriiptoSignaturesClientOpts::new("CLIENT_ID".to_string(), "CLIENT_SECRET".to_string())
+//!     .with_endpoint("https://signatures-api.criipto.com/v1/graphql");
+//! let client = create_reqwest_blocking_client(&opts).unwrap();
 //! ```
 //!
 //! ## Usage without `reqwest`
@@ -92,15 +104,33 @@ pub mod types {
     pub use crate::generated::types::*;
 }
 
+pub const DEFAULT_ENDPOINT: &str = "https://signatures-api.criipto.com/v1/graphql";
+
 #[derive(Clone)]
 pub struct CriiptoSignaturesClientOpts {
     client_id: String,
     client_secret: String,
+    endpoint: String,
 }
 
 impl CriiptoSignaturesClientOpts {
     pub fn new(client_id: String, client_secret: String) -> Self {
-        Self { client_id, client_secret }
+        Self {
+            client_id,
+            client_secret,
+            endpoint: DEFAULT_ENDPOINT.to_string(),
+        }
+    }
+
+    /// Override the GraphQL endpoint.
+    /// Defaults to `https://signatures-api.criipto.com/v1/graphql`.
+    pub fn with_endpoint(mut self, endpoint: impl Into<String>) -> Self {
+        self.endpoint = endpoint.into();
+        self
+    }
+
+    pub fn endpoint(&self) -> &str {
+        &self.endpoint
     }
 
     pub fn authorization_header(&self) -> String {

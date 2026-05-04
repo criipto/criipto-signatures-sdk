@@ -3488,11 +3488,13 @@ queryBatchSignatoryDocument = f"""query batchSignatory($id: ID!) {{
 
 
 class CriiptoSignaturesSDKAsync:
-  def __init__(self, clientId: str, clientSecret: str):
+  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+
+  def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
     headers = {"Criipto-Sdk": "criipto-signatures-python"}
     transport = HTTPXAsyncTransport(
-      url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers
+      url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers
     )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 
@@ -3733,11 +3735,13 @@ class CriiptoSignaturesSDKAsync:
 
 
 class CriiptoSignaturesSDKSync:
-  def __init__(self, clientId: str, clientSecret: str):
+  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+
+  def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
     headers = {"Criipto-Sdk": "criipto-signatures-python"}
     transport = HTTPXTransport(
-      url="https://signatures-api.criipto.com/v1/graphql", auth=auth, headers=headers
+      url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers
     )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 

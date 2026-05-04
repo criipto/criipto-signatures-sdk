@@ -67,6 +67,29 @@ public class CreateSignatureOrderTests
     }
 
     [Fact]
+    public async Task MutationReturnsSignatureOrderWithCustomEndpoint()
+    {
+        using var client = new CriiptoSignaturesClient(
+            Dsl.CLIENT_ID,
+            Dsl.CLIENT_SECRET,
+            Dsl.CustomEndpoint
+        );
+        var signatureOrder = await client.CreateSignatureOrder(
+            new CreateSignatureOrderInput()
+            {
+                title = "Title",
+                expiresInDays = 1,
+                documents = DefaultDocuments,
+            }
+        );
+
+        Assert.NotNull(signatureOrder?.id);
+        Assert.NotNull(signatureOrder?.traceId);
+
+        await client.CancelSignatureOrder(signatureOrder!);
+    }
+
+    [Fact]
     public async Task MutationSupportsDrawable()
     {
         using var client = new CriiptoSignaturesClient(Dsl.CLIENT_ID, Dsl.CLIENT_SECRET, "test");

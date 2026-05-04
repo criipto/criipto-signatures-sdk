@@ -45,6 +45,9 @@ async def unwrapResult[T](maybeCoroutine: T | Coroutine[Any, Any, T]) -> T:
   return cast(T, maybeCoroutine)
 
 
+CUSTOM_ENDPOINT = "https://signatures.idura.app/v1/graphql"
+
+
 @pytest.mark.parametrize(
   ("sdk"),
   [
@@ -58,6 +61,20 @@ async def unwrapResult[T](maybeCoroutine: T | Coroutine[Any, Any, T]) -> T:
       CriiptoSignaturesSDKSync(
         os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
         os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
+      )
+    ),
+    (
+      CriiptoSignaturesSDKAsync(
+        os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
+        os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
+        endpoint=CUSTOM_ENDPOINT,
+      )
+    ),
+    (
+      CriiptoSignaturesSDKSync(
+        os.environ["CRIIPTO_SIGNATURES_CLIENT_ID"],
+        os.environ["CRIIPTO_SIGNATURES_CLIENT_SECRET"],
+        endpoint=CUSTOM_ENDPOINT,
       )
     ),
   ],

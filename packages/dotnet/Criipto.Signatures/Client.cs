@@ -10,15 +10,19 @@ namespace Criipto.Signatures;
 
 public class CriiptoSignaturesClient : IDisposable
 {
+    public const string DefaultEndpoint = "https://signatures-api.criipto.com/v1/graphql";
+
     private readonly GraphQLHttpClient graphQLClient;
     private bool isDisposed;
 
-    public CriiptoSignaturesClient(string clientId, string clientSecret, string criiptoSdk)
+    public CriiptoSignaturesClient(
+        string clientId,
+        string clientSecret,
+        string criiptoSdk,
+        string endpoint
+    )
     {
-        this.graphQLClient = new GraphQLHttpClient(
-            "https://signatures-api.criipto.com/v1/graphql",
-            new NewtonsoftJsonSerializer()
-        );
+        this.graphQLClient = new GraphQLHttpClient(endpoint, new NewtonsoftJsonSerializer());
 
         this.graphQLClient.HttpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue(
@@ -30,8 +34,19 @@ public class CriiptoSignaturesClient : IDisposable
         this.graphQLClient.HttpClient.DefaultRequestHeaders.Add("Criipto-Sdk", criiptoSdk);
     }
 
+    public CriiptoSignaturesClient(string clientId, string clientSecret, string criiptoSdk)
+        : this(clientId, clientSecret, criiptoSdk, DefaultEndpoint) { }
+
     public CriiptoSignaturesClient(string clientId, string clientSecret)
-        : this(clientId, clientSecret, "criipto-signatures-dotnet") { }
+        : this(clientId, clientSecret, "criipto-signatures-dotnet", DefaultEndpoint) { }
+
+    public CriiptoSignaturesClient(string clientId, string clientSecret, Uri endpoint)
+        : this(
+            clientId,
+            clientSecret,
+            "criipto-signatures-dotnet",
+            (endpoint ?? throw new ArgumentNullException(nameof(endpoint))).ToString()
+        ) { }
 
     public void Dispose()
     {

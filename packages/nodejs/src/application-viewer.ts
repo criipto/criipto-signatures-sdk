@@ -17,18 +17,25 @@ import * as Types from './application-viewer-types';
 import jsonSerializer from './json-serializer';
 export { Types as CriiptoSignaturesTypes };
 
+export interface CriiptoSignaturesOptions {
+  endpoint?: string;
+}
+
 export class CriiptoSignatures {
   client: GraphQLClient;
   sdk: Sdk;
 
-  constructor(clientId: string, clientSecret: string) {
-    this.client = new GraphQLClient('https://signatures-api.criipto.com/v1/graphql', {
-      headers: {
-        Authorization: `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,
-        'Criipto-Sdk': 'criipto-signatures-nodejs',
+  constructor(clientId: string, clientSecret: string, options?: CriiptoSignaturesOptions) {
+    this.client = new GraphQLClient(
+      options?.endpoint ?? 'https://signatures-api.criipto.com/v1/graphql',
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,
+          'Criipto-Sdk': 'criipto-signatures-nodejs',
+        },
+        jsonSerializer,
       },
-      jsonSerializer,
-    });
+    );
     this.sdk = getSdk(this.client);
   }
 
