@@ -224,6 +224,7 @@ class CompleteCriiptoVerifyEvidenceProviderOutput(BaseModel):
 class CompositeSignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
   signatures: list[SingleSignature]
+  signingCertificate: Certificate
   timestampToken: TimestampToken
 
 
@@ -438,6 +439,8 @@ class DocumentIDLocation(StrEnum):
 
 
 class DocumentInput(BaseModel):
+  # Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document.
+  fixDocumentFormattingErrors: Optional[BooleanScalarInput] = Field(default=None)
   # (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
   keepPreviousSignatures: Optional[BooleanScalarInput] = Field(default=None)
   pdf: Optional[PadesDocumentInput] = Field(default=None)
@@ -480,6 +483,7 @@ class DrawableSignature(BaseModel):
   image: BlobScalarOutput
   name: Optional[StringScalarOutput] = Field(default=None)
   signatory: Optional[Signatory] = Field(default=None)
+  signingCertificate: Certificate
   timestampToken: TimestampToken
 
 
@@ -492,6 +496,7 @@ class DrawableSignatureEvidenceProvider(BaseModel):
 
 class EmptySignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
+  signingCertificate: Certificate
   timestampToken: TimestampToken
 
 
@@ -535,6 +540,7 @@ class JWTSignature(BaseModel):
   jwks: StringScalarOutput
   jwt: StringScalarOutput
   signatory: Optional[Signatory] = Field(default=None)
+  signingCertificate: Certificate
   timestampToken: TimestampToken
 
 
@@ -1260,6 +1266,7 @@ type WebhookInvocation = (
 
 
 class WebhookInvocationEvent(StrEnum):
+  ALL_CURRENT_SIGNATORIES_SIGNED = "ALL_CURRENT_SIGNATORIES_SIGNED"
   SIGNATORY_APPROVED = "SIGNATORY_APPROVED"
   SIGNATORY_DOCUMENT_STATUS_CHANGED = "SIGNATORY_DOCUMENT_STATUS_CHANGED"
   SIGNATORY_DOWNLOAD_LINK_OPENED = "SIGNATORY_DOWNLOAD_LINK_OPENED"

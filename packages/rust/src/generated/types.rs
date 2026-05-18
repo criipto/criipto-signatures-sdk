@@ -249,6 +249,7 @@ pub struct CompleteCriiptoVerifyEvidenceProviderOutput {
 pub struct CompositeSignature {
     pub signatory: Option<Signatory>,
     pub signatures: Vec<SingleSignature>,
+    pub signingCertificate: Certificate,
     pub timestampToken: TimestampToken,
 }
 
@@ -544,6 +545,7 @@ impl<'de> ::serde::Deserialize<'de> for DocumentIDLocation {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct DocumentInput {
+    pub fixDocumentFormattingErrors: Option<crate::scalars::Boolean>,
     pub keepPreviousSignatures: Option<crate::scalars::Boolean>,
     pub pdf: Option<crate::generated::types::PadesDocumentInput>,
     pub preserveOriginalStructure: Option<crate::scalars::Boolean>,
@@ -614,6 +616,7 @@ pub struct DrawableSignature {
     pub image: crate::scalars::Blob,
     pub name: Option<crate::scalars::String>,
     pub signatory: Option<Signatory>,
+    pub signingCertificate: Certificate,
     pub timestampToken: TimestampToken,
 }
 
@@ -630,6 +633,7 @@ pub struct DrawableSignatureEvidenceProvider {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EmptySignature {
     pub signatory: Option<Signatory>,
+    pub signingCertificate: Certificate,
     pub timestampToken: TimestampToken,
 }
 
@@ -704,6 +708,7 @@ pub struct JWTSignature {
     pub jwks: crate::scalars::String,
     pub jwt: crate::scalars::String,
     pub signatory: Option<Signatory>,
+    pub signingCertificate: Certificate,
     pub timestampToken: TimestampToken,
 }
 
@@ -1696,6 +1701,7 @@ pub enum WebhookInvocation {
 ///
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum WebhookInvocationEvent {
+    ALL_CURRENT_SIGNATORIES_SIGNED,
     SIGNATORY_APPROVED,
     SIGNATORY_DOCUMENT_STATUS_CHANGED,
     SIGNATORY_DOWNLOAD_LINK_OPENED,
@@ -1712,6 +1718,7 @@ impl ::serde::Serialize for WebhookInvocationEvent {
         S: ::serde::Serializer,
     {
         match *self {
+            WebhookInvocationEvent::ALL_CURRENT_SIGNATORIES_SIGNED => serializer.serialize_str("ALL_CURRENT_SIGNATORIES_SIGNED"),
             WebhookInvocationEvent::SIGNATORY_APPROVED => serializer.serialize_str("SIGNATORY_APPROVED"),
             WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED => serializer.serialize_str("SIGNATORY_DOCUMENT_STATUS_CHANGED"),
             WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED => serializer.serialize_str("SIGNATORY_DOWNLOAD_LINK_OPENED"),
@@ -1731,6 +1738,7 @@ impl<'de> ::serde::Deserialize<'de> for WebhookInvocationEvent {
     {
         let s: String = ::serde::Deserialize::deserialize(deserializer)?;
         match s.as_ref() {
+            "ALL_CURRENT_SIGNATORIES_SIGNED" => Ok(WebhookInvocationEvent::ALL_CURRENT_SIGNATORIES_SIGNED),
             "SIGNATORY_APPROVED" => Ok(WebhookInvocationEvent::SIGNATORY_APPROVED),
             "SIGNATORY_DOCUMENT_STATUS_CHANGED" => Ok(WebhookInvocationEvent::SIGNATORY_DOCUMENT_STATUS_CHANGED),
             "SIGNATORY_DOWNLOAD_LINK_OPENED" => Ok(WebhookInvocationEvent::SIGNATORY_DOWNLOAD_LINK_OPENED),
