@@ -53,6 +53,9 @@ uv sync
 popd > /dev/null
 popd > /dev/null
 
+# bump kotlin version
+perl -pi -e "s/^version=.*/version=${VERSION}/" packages/kotlin/gradle.properties
+
 # commit the changes as a version commit
 git add packages/ package*.json
 git commit -m "v${VERSION}"

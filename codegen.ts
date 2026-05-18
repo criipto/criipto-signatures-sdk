@@ -6,10 +6,14 @@ import type { plugin as CSharpPlugin } from '@graphql-codegen/c-sharp';
 import type { plugin as CSharpOperationsPlugin } from '@graphql-codegen/c-sharp-operations';
 import type { PythonPluginConfig } from 'graphql-codegen-plugin-python';
 import type { RustPluginConfig } from 'graphql-codegen-plugin-rust';
+import type { plugin as KotlinPlugin } from '@graphql-codegen/kotlin';
+import type { KotlinPluginConfig as KotlinOperationsPluginConfig } from 'graphql-codegen-plugin-kotlin';
+import type { KotlinBuildersPluginConfig } from 'graphql-codegen-plugin-kotlin-builders';
 
 type TypescriptGraphqlRequestPluginConfig = Parameters<typeof GraphqlRequestPlugin>[2];
 type CSharpPluginConfig = Parameters<typeof CSharpPlugin>[2];
 type CSharpOperationsPluginConfig = Parameters<typeof CSharpOperationsPlugin>[2];
+type KotlinPluginConfig = Parameters<typeof KotlinPlugin>[2];
 
 const pythonCommonConfig: Partial<CodegenConfig> = {
   hooks: {
@@ -35,6 +39,40 @@ const config: CodegenConfig = {
     },
   ],
   generates: {
+    'packages/kotlin/src/main/kotlin/eu/idura/signatures/types.kt': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['kotlin'],
+      config: {
+        package: 'eu.idura.signatures',
+        scalars: {
+          Blob: 'ByteArray',
+          Date: 'String',
+          DateTime: 'String',
+          URI: 'String',
+        },
+      } satisfies KotlinPluginConfig,
+      hooks: {
+        // @graphql-codegen/kotlin converts `EN_US` enum values to `EnUs` identifiers
+        // but leaves references to `Language.EN_US` in default values unmodified.
+        // This hook fixes the broken references.
+        afterOneFileWrite: ['perl -pi -e "s/Language\\.EN_US/Language.EnUs/g"'],
+      },
+    },
+    'packages/kotlin/src/main/kotlin/eu/idura/signatures/builders.kt': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['graphql-codegen-plugin-kotlin-builders'],
+      config: {
+        package: 'eu.idura.signatures',
+      } satisfies KotlinBuildersPluginConfig,
+    },
+    'packages/kotlin/src/main/kotlin/eu/idura/signatures/operations.kt': {
+      documents: './codegen/operations/application-viewer.graphql',
+      plugins: ['graphql-codegen-plugin-kotlin'],
+      config: {
+        mode: 'operations',
+        package: 'eu.idura.signatures',
+      } satisfies KotlinOperationsPluginConfig,
+    },
     'packages/nodejs/src/application-viewer-types.ts': {
       documents: './codegen/operations/application-viewer.graphql',
       plugins: ['typescript', 'typescript-operations', 'typescript-graphql-request'],
