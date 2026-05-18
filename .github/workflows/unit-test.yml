@@ -34,6 +34,20 @@ jobs:
         run: npm run test
         working-directory: codegen/graphql-codegen-shared
 
+  codegen-docker-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-docker-action@v5
+      - name: Run codegen in docker
+        run: npm run codegen:in-docker
+      - name: Assert no changes
+        run: |
+          if ! git diff --exit-code; then
+            echo "::error::codegen in docker produced unexpected changes."
+            exit 1
+          fi
+
   dotnet-test:
     runs-on: ubuntu-latest
     strategy:

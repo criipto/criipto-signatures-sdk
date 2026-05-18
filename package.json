@@ -8,6 +8,7 @@
     "codegen:dotnet": "node fix-dotnet-typings.cjs && npm run format:dotnet",
     "codegen:git": "./codegen-git.sh",
     "codegen:rust": "npm run format:rust",
+    "codegen:in-docker": "docker build -t criipto-signatures-codegen -f codegen.Dockerfile . && docker run --rm -v \"$PWD/packages:/workspace/packages\" criipto-signatures-codegen",
     "test": "npm run test:unit && npm run test:integration",
     "test:integration": "npm run test:integration:nodejs && npm run test:integration:dotnet && npm run test:integration:python",
     "test:integration:nodejs": "cd packages/nodejs && npm run test:integration && cd ../..",

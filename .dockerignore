@@ -1,0 +1,9 @@
+**/node_modules
+**/bin
+**/obj
+**/target
+**/__pycache__
+.git
+.ruff_cache
+.vscode
+*.log
