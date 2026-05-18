@@ -18,7 +18,11 @@ const pythonCommonConfig: Partial<CodegenConfig> = {
 };
 const nodejsCommonConfig: Partial<CodegenConfig> = {
   hooks: {
-    afterOneFileWrite: ['prettier --write', 'npx jscodeshift -t codegen/codemods/*.ts '],
+    afterOneFileWrite: [
+      'prettier --write',
+      'npx jscodeshift -t codegen/codemods/*.ts ',
+      'prettier --write',
+    ],
   },
 };
 
