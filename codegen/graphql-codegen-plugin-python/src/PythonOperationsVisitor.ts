@@ -170,11 +170,23 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
     let result = `
 class CriiptoSignaturesSDK${async ? 'Async' : 'Sync'}:
   DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+  DEFAULT_TIMEOUT = Timeout(30.0, connect=10.0)
 
-  def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
+  def __init__(
+    self,
+    clientId: str,
+    clientSecret: str,
+    endpoint: Optional[str] = None,
+    timeout: Optional[Timeout] = None,
+  ):
     auth = BasicAuth(username=clientId, password=clientSecret)
     headers= {"Criipto-Sdk": "criipto-signatures-python"}
-    transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers)
+    transport = ${async ? 'HTTPXAsyncTransport' : 'HTTPXTransport'}(
+      url=endpoint or self.DEFAULT_ENDPOINT,
+      auth=auth,
+      headers=headers,
+      timeout=timeout if timeout is not None else self.DEFAULT_TIMEOUT,
+    )
     self.client = Client(transport=transport, fetch_schema_from_transport=False)
 `;
 
@@ -361,7 +373,7 @@ return parsed`,
       `from .models import ${scalars.flatMap(scalar => [`${scalar.name}ScalarInput`, `${scalar.name}ScalarOutput`]).join(',')}`,
       `from .models import ${enums.map(e => e.name).join(',')}`,
       'from gql import Client, gql',
-      'from httpx import BasicAuth',
+      'from httpx import BasicAuth, Timeout',
       'from gql.transport.httpx import HTTPXAsyncTransport, HTTPXTransport',
     ];
   }
