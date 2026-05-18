@@ -244,6 +244,7 @@ export type CompositeSignature = Signature & {
   __typename?: 'CompositeSignature';
   signatory?: Maybe<Signatory>;
   signatures: Array<SingleSignature>;
+  signingCertificate: Certificate;
   timestampToken: TimestampToken;
 };
 
@@ -456,6 +457,8 @@ export type Document = {
 export type DocumentIdLocation = 'BOTTOM' | 'LEFT' | 'RIGHT' | 'TOP' | '%future added value';
 
 export type DocumentInput = {
+  /** Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document. */
+  fixDocumentFormattingErrors?: InputMaybe<Scalars['Boolean']['input']>;
   /** (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area. */
   keepPreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   pdf?: InputMaybe<PadesDocumentInput>;
@@ -500,6 +503,7 @@ export type DrawableSignature = Signature &
     image: Scalars['Blob']['output'];
     name?: Maybe<Scalars['String']['output']>;
     signatory?: Maybe<Signatory>;
+    signingCertificate: Certificate;
     timestampToken: TimestampToken;
   };
 
@@ -516,6 +520,7 @@ export type EmptySignature = Signature &
   SingleSignature & {
     __typename?: 'EmptySignature';
     signatory?: Maybe<Signatory>;
+    signingCertificate: Certificate;
     timestampToken: TimestampToken;
   };
 
@@ -564,6 +569,7 @@ export type JwtSignature = Signature &
     jwks: Scalars['String']['output'];
     jwt: Scalars['String']['output'];
     signatory?: Maybe<Signatory>;
+    signingCertificate: Certificate;
     timestampToken: TimestampToken;
   };
 
@@ -1135,6 +1141,7 @@ export type SignatoryViewerDownload = {
 /** Represents a signature on a document. */
 export type Signature = {
   signatory?: Maybe<Signatory>;
+  signingCertificate: Certificate;
   timestampToken: TimestampToken;
 };
 
@@ -1418,6 +1425,7 @@ export type WebhookInvocation = {
 };
 
 export type WebhookInvocationEvent =
+  | 'ALL_CURRENT_SIGNATORIES_SIGNED'
   | 'SIGNATORY_APPROVED'
   | 'SIGNATORY_DOCUMENT_STATUS_CHANGED'
   | 'SIGNATORY_DOWNLOAD_LINK_OPENED'

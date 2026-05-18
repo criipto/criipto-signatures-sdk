@@ -115,11 +115,7 @@ pub struct CriiptoSignaturesClientOpts {
 
 impl CriiptoSignaturesClientOpts {
     pub fn new(client_id: String, client_secret: String) -> Self {
-        Self {
-            client_id,
-            client_secret,
-            endpoint: DEFAULT_ENDPOINT.to_string(),
-        }
+        Self { client_id, client_secret, endpoint: DEFAULT_ENDPOINT.to_string() }
     }
 
     /// Override the GraphQL endpoint.

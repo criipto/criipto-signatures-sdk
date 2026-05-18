@@ -30,10 +30,7 @@ pub fn create_reqwest_async_client(opts: &CriiptoSignaturesClientOpts) -> Result
         })
         .build()?;
 
-    Ok(CriiptoSignaturesReqwestClient {
-        client,
-        endpoint: opts.endpoint().to_string(),
-    })
+    Ok(CriiptoSignaturesReqwestClient { client, endpoint: opts.endpoint().to_string() })
 }
 
 #[cfg(feature = "reqwest-blocking")]
@@ -46,10 +43,7 @@ pub fn create_reqwest_blocking_client(opts: &CriiptoSignaturesClientOpts) -> Res
         })
         .build()?;
 
-    Ok(CriiptoSignaturesReqwestBlockingClient {
-        client,
-        endpoint: opts.endpoint().to_string(),
-    })
+    Ok(CriiptoSignaturesReqwestBlockingClient { client, endpoint: opts.endpoint().to_string() })
 }
 
 #[cfg(any(feature = "reqwest", feature = "reqwest-rustls"))]

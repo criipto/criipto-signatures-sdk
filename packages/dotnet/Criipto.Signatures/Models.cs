@@ -824,6 +824,9 @@ namespace Criipto.Signatures.Models
         [JsonConverter(typeof(CompositionTypeListConverter))]
         public List<SingleSignature> signatures { get; set; }
 
+        [JsonProperty("signingCertificate")]
+        public Certificate signingCertificate { get; set; }
+
         [JsonProperty("timestampToken")]
         public TimestampToken timestampToken { get; set; }
         #endregion
@@ -1677,6 +1680,11 @@ namespace Criipto.Signatures.Models
     {
         #region members
         /// <summary>
+        /// Overrides the signature order's 'fixDocumentFormattingErrors' setting for this specific document.
+        /// </summary>
+        public bool? fixDocumentFormattingErrors { get; set; }
+
+        /// <summary>
         /// (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area.
         /// </summary>
         public bool? keepPreviousSignatures { get; set; }
@@ -1925,6 +1933,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
 
+        [JsonProperty("signingCertificate")]
+        public Certificate signingCertificate { get; set; }
+
         [JsonProperty("timestampToken")]
         public TimestampToken timestampToken { get; set; }
         #endregion
@@ -1958,6 +1969,9 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("signingCertificate")]
+        public Certificate signingCertificate { get; set; }
 
         [JsonProperty("timestampToken")]
         public TimestampToken timestampToken { get; set; }
@@ -2126,6 +2140,9 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("signatory")]
         public Signatory signatory { get; set; }
+
+        [JsonProperty("signingCertificate")]
+        public Certificate signingCertificate { get; set; }
 
         [JsonProperty("timestampToken")]
         public TimestampToken timestampToken { get; set; }
@@ -3991,6 +4008,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signatory")]
         Signatory signatory { get; set; }
 
+        [JsonProperty("signingCertificate")]
+        Certificate signingCertificate { get; set; }
+
         [JsonProperty("timestampToken")]
         TimestampToken timestampToken { get; set; }
     }
@@ -4932,6 +4952,7 @@ namespace Criipto.Signatures.Models
 
     public enum WebhookInvocationEvent
     {
+        ALL_CURRENT_SIGNATORIES_SIGNED,
         SIGNATORY_APPROVED,
         SIGNATORY_DOCUMENT_STATUS_CHANGED,
         SIGNATORY_DOWNLOAD_LINK_OPENED,
