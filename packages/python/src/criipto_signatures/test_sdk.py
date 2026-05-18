@@ -200,6 +200,8 @@ class TestClass:
       sdk.querySignatureOrders(first=1000, status=SignatureOrderStatus.OPEN)
     )
 
+    print(len(signatureOrders))
+
     createdSignatureOrder = next(
       _signatureOrder
       for _signatureOrder in signatureOrders
