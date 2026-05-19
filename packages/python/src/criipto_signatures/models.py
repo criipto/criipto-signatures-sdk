@@ -240,6 +240,7 @@ class CreateApplicationApiKeyOutput(BaseModel):
 
 
 class CreateApplicationInput(BaseModel):
+  applicationId: Optional[StringScalarInput] = Field(default=None)
   name: StringScalarInput
   tenantId: IDScalarInput
   verifyApplicationDomain: StringScalarInput
@@ -719,6 +720,13 @@ class PdfDocument(BaseModel):
 
 class PdfDocumentForm(BaseModel):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[list[PdfDocumentFormField]] = Field(default=None)
+
+
+class PdfDocumentFormField(BaseModel):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class PdfSealPosition(BaseModel):
@@ -1391,6 +1399,7 @@ PageInfo.model_rebuild()
 PdfBoundingBoxInput.model_rebuild()
 PdfDocument.model_rebuild()
 PdfDocumentForm.model_rebuild()
+PdfDocumentFormField.model_rebuild()
 PdfSealPosition.model_rebuild()
 Query.model_rebuild()
 RefreshApplicationApiKeyInput.model_rebuild()

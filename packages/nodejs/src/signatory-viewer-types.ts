@@ -261,6 +261,7 @@ export type CreateApplicationApiKeyOutput = {
 };
 
 export type CreateApplicationInput = {
+  applicationId?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   tenantId: Scalars['ID']['input'];
   verifyApplicationDomain: Scalars['String']['input'];
@@ -836,6 +837,14 @@ export type PdfDocument = Document & {
 export type PdfDocumentForm = {
   __typename?: 'PdfDocumentForm';
   enabled: Scalars['Boolean']['output'];
+  /** The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow. */
+  fields?: Maybe<Array<PdfDocumentFormField>>;
+};
+
+export type PdfDocumentFormField = {
+  __typename?: 'PdfDocumentFormField';
+  field: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type PdfSealPosition = {

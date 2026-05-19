@@ -271,6 +271,7 @@ pub struct CreateApplicationApiKeyOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationInput {
+    pub applicationId: Option<crate::scalars::String>,
     pub name: crate::scalars::String,
     pub tenantId: crate::scalars::ID,
     pub verifyApplicationDomain: crate::scalars::String,
@@ -890,6 +891,14 @@ pub struct PdfDocument {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PdfDocumentForm {
     pub enabled: crate::scalars::Boolean,
+    pub fields: Option<Vec<PdfDocumentFormField>>,
+}
+
+///
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PdfDocumentFormField {
+    pub field: crate::scalars::String,
+    pub value: crate::scalars::String,
 }
 
 ///

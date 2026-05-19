@@ -895,6 +895,8 @@ namespace Criipto.Signatures.Models
     public class CreateApplicationInput
     {
         #region members
+        public string applicationId { get; set; }
+
         [Required]
         [JsonRequired]
         public string name { get; set; }
@@ -2772,6 +2774,25 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("enabled")]
         public bool enabled { get; set; }
+
+        /// <summary>
+        /// The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+        /// </summary>
+        [JsonProperty("fields")]
+        public List<PdfDocumentFormField> fields { get; set; }
+        #endregion
+    }
+    #endregion
+
+    #region PdfDocumentFormField
+    public class PdfDocumentFormField
+    {
+        #region members
+        [JsonProperty("field")]
+        public string field { get; set; }
+
+        [JsonProperty("value")]
+        public string value { get; set; }
         #endregion
     }
     #endregion
