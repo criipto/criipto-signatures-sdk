@@ -2,7 +2,7 @@ pub struct createSignatureOrder;
 
 pub mod op_createSignatureOrder {
     pub const OPERATION_NAME: &str = "createSignatureOrder";
-    pub const QUERY: &str = r#"mutation createSignatureOrder($input: CreateSignatureOrderInput!) {   createSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation createSignatureOrder($input: CreateSignatureOrderInput!) {   createSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -123,6 +123,7 @@ pub mod op_createSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     ///
@@ -130,6 +131,13 @@ pub mod op_createSignatureOrder {
     pub struct CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///
@@ -164,7 +172,7 @@ pub struct cleanupSignatureOrder;
 
 pub mod op_cleanupSignatureOrder {
     pub const OPERATION_NAME: &str = "cleanupSignatureOrder";
-    pub const QUERY: &str = r#"mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {   cleanupSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation cleanupSignatureOrder($input: CleanupSignatureOrderInput!) {   cleanupSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -285,6 +293,7 @@ pub mod op_cleanupSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     ///
@@ -292,6 +301,13 @@ pub mod op_cleanupSignatureOrder {
     pub struct CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///
@@ -608,7 +624,7 @@ pub struct closeSignatureOrder;
 
 pub mod op_closeSignatureOrder {
     pub const OPERATION_NAME: &str = "closeSignatureOrder";
-    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
+    pub const QUERY: &str = r#"mutation closeSignatureOrder($input: CloseSignatureOrderInput!) {   closeSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument         ...SignedDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -733,6 +749,7 @@ pub mod op_closeSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     /// union
@@ -834,6 +851,13 @@ pub mod op_closeSignatureOrder {
     pub struct CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///
@@ -1292,7 +1316,7 @@ pub struct cancelSignatureOrder;
 
 pub mod op_cancelSignatureOrder {
     pub const OPERATION_NAME: &str = "cancelSignatureOrder";
-    pub const QUERY: &str = r#"mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {   cancelSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation cancelSignatureOrder($input: CancelSignatureOrderInput!) {   cancelSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1413,6 +1437,7 @@ pub mod op_cancelSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     ///
@@ -1420,6 +1445,13 @@ pub mod op_cancelSignatureOrder {
     pub struct CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///
@@ -1585,7 +1617,7 @@ pub struct extendSignatureOrder;
 
 pub mod op_extendSignatureOrder {
     pub const OPERATION_NAME: &str = "extendSignatureOrder";
-    pub const QUERY: &str = r#"mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {   extendSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } }"#;
+    pub const QUERY: &str = r#"mutation extendSignatureOrder($input: ExtendSignatureOrderInput!) {   extendSignatureOrder(input: $input) {     signatureOrder {       ...BasicSignatureOrder       documents {         ...BasicDocument       }     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1706,6 +1738,7 @@ pub mod op_extendSignatureOrder {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     ///
@@ -1713,6 +1746,13 @@ pub mod op_extendSignatureOrder {
     pub struct ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///
@@ -2272,7 +2312,7 @@ pub struct querySignatureOrderWithDocuments;
 
 pub mod op_querySignatureOrderWithDocuments {
     pub const OPERATION_NAME: &str = "querySignatureOrderWithDocuments";
-    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
+    pub const QUERY: &str = r#"query signatureOrderWithDocuments($id: ID!) {   signatureOrder(id: $id) {     ...BasicSignatureOrder     documents {       ...BasicDocument       ...SignedDocument     }   } } fragment BasicSignatureOrder on SignatureOrder {   id   status   title   closedAt   expiresAt   maxSignatories   traceId   signatories {     ...BasicSignatory   }   evidenceProviders {     __typename     id   } } fragment BasicSignatory on Signatory {   id   status   statusReason   href   downloadHref   token   reference   role   signingAs   signatoryRole   signatureOrder {     id     status     closedAt     expiresAt   }   evidenceProviders {     __typename     id   }   documents {     edges {       status       node {         __typename         id       }     }   }   signingSequence {     initialNumber   } } fragment BasicDocument on Document {   __typename   id   title   reference   ... on PdfDocument {     documentID     form {       enabled       fields {         field         value       }     }   } } fragment SignedDocument on Document {   id   title   blob   signatures {     __typename     signatory {       id     }     timestampToken {       timestamp     }     ...SingleSignature     ... on CompositeSignature {       signatures {         ...SingleSignature       }     }   } } fragment SingleSignature on SingleSignature {   ... on JWTSignature {     jwt     jwks     claims {       name       value     }   }   ... on DrawableSignature {     name     image   }   ... on NorwegianBankIdSignature {     claims {       name       value     }     signingCertificate {       raw       issuer       subject     }   } }"#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -2391,6 +2431,7 @@ pub mod op_querySignatureOrderWithDocuments {
     #[derive(Debug, Clone, Serialize, Deserialize)]
     pub struct SignatureOrder_Document_PdfDocument_PdfDocumentForm {
         pub enabled: crate::scalars::Boolean,
+        pub fields: Option<Vec<SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField>>,
     }
 
     /// union
@@ -2492,6 +2533,13 @@ pub mod op_querySignatureOrderWithDocuments {
     pub struct SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge {
         pub node: SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document,
         pub status: Option<crate::generated::types::SignatoryDocumentStatus>,
+    }
+
+    ///
+    #[derive(Debug, Clone, Serialize, Deserialize)]
+    pub struct SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField {
+        pub field: crate::scalars::String,
+        pub value: crate::scalars::String,
     }
 
     ///

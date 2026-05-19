@@ -8,6 +8,10 @@ fragment BasicDocument on Document {
     documentID
     form {
       enabled
+      fields {
+        field
+        value
+      }
     }
   }
 }

@@ -49,6 +49,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }
@@ -148,6 +152,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }
@@ -452,6 +460,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }
@@ -596,6 +608,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }
@@ -798,6 +814,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }
@@ -1243,6 +1263,10 @@ namespace Criipto.Signatures
             documentID
             form {
               enabled
+              fields {
+                field
+                value
+              }
             }
           }
         }

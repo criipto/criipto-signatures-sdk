@@ -69,6 +69,10 @@ BasicDocumentFragment = """fragment BasicDocument on Document {
     documentID
     form {
       enabled
+      fields {
+        field
+        value
+      }
     }
   }
 }"""
@@ -304,6 +308,12 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_Pd
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -311,6 +321,13 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_S
 ):
   node: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -464,6 +481,12 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -471,6 +494,13 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
 ):
   node: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -898,6 +928,12 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 type CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature = (
@@ -922,6 +958,13 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Sig
 ):
   node: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
@@ -1484,6 +1527,12 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_Pd
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1491,6 +1540,13 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_S
 ):
   node: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -1744,6 +1800,12 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_Pd
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge(
@@ -1751,6 +1813,13 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_S
 ):
   node: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -2468,6 +2537,12 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDo
   BaseModel
 ):
   enabled: BooleanScalarOutput
+  # The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow.
+  fields: Optional[
+    list[
+      QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField
+    ]
+  ] = Field(default=None)
 
 
 type QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature = (
@@ -2492,6 +2567,13 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumen
 ):
   node: QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
+
+
+class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField(
+  BaseModel
+):
+  field: StringScalarOutput
+  value: StringScalarOutput
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature(
@@ -3993,6 +4075,7 @@ CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_Signatu
 CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 CleanupSignatureOrder_CleanupSignatureOrderOutput.model_rebuild()
 CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder.model_rebuild()
@@ -4006,6 +4089,7 @@ CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_Signa
 CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 AddSignatory_AddSignatoryOutput.model_rebuild()
 AddSignatory_AddSignatoryOutput_Signatory.model_rebuild()
@@ -4043,6 +4127,7 @@ CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_Signature
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature.model_rebuild()
 CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature.model_rebuild()
@@ -4106,6 +4191,7 @@ CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_Signatu
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 SignActingAs_SignActingAsOutput.model_rebuild()
 SignActingAs_SignActingAsOutput_Signatory.model_rebuild()
@@ -4128,6 +4214,7 @@ ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_Signatu
 ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document.model_rebuild()
 DeleteSignatory_DeleteSignatoryOutput.model_rebuild()
 DeleteSignatory_DeleteSignatoryOutput_SignatureOrder.model_rebuild()
@@ -4188,6 +4275,7 @@ QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatureOrder.model_r
 QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatorySigningSequence.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge.model_rebuild()
+QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_PdfDocumentForm_PdfDocumentFormField.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature.model_rebuild()
 QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature.model_rebuild()

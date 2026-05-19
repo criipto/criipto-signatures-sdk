@@ -261,6 +261,7 @@ export type CreateApplicationApiKeyOutput = {
 };
 
 export type CreateApplicationInput = {
+  applicationId?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   tenantId: Scalars['ID']['input'];
   verifyApplicationDomain: Scalars['String']['input'];
@@ -836,6 +837,14 @@ export type PdfDocument = Document & {
 export type PdfDocumentForm = {
   __typename?: 'PdfDocumentForm';
   enabled: Scalars['Boolean']['output'];
+  /** The filled form field values if form filling is enabled. The list is null until the field have been filled during first signing flow. */
+  fields?: Maybe<Array<PdfDocumentFormField>>;
+};
+
+export type PdfDocumentFormField = {
+  __typename?: 'PdfDocumentFormField';
+  field: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type PdfSealPosition = {
@@ -1487,7 +1496,11 @@ type BasicDocument_PdfDocument_Fragment = {
   id: string;
   title: string;
   reference?: string | null;
-  form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+  form?: {
+    __typename?: 'PdfDocumentForm';
+    enabled: boolean;
+    fields?: Array<{ __typename?: 'PdfDocumentFormField'; field: string; value: string }> | null;
+  } | null;
 };
 
 type BasicDocument_XmlDocument_Fragment = {
@@ -1788,7 +1801,15 @@ export type CreateSignatureOrderMutation = {
             id: string;
             title: string;
             reference?: string | null;
-            form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+            form?: {
+              __typename?: 'PdfDocumentForm';
+              enabled: boolean;
+              fields?: Array<{
+                __typename?: 'PdfDocumentFormField';
+                field: string;
+                value: string;
+              }> | null;
+            } | null;
           }
         | { __typename: 'XmlDocument'; id: string; title: string; reference?: string | null }
       >;
@@ -1866,7 +1887,15 @@ export type CleanupSignatureOrderMutation = {
             id: string;
             title: string;
             reference?: string | null;
-            form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+            form?: {
+              __typename?: 'PdfDocumentForm';
+              enabled: boolean;
+              fields?: Array<{
+                __typename?: 'PdfDocumentFormField';
+                field: string;
+                value: string;
+              }> | null;
+            } | null;
           }
         | { __typename: 'XmlDocument'; id: string; title: string; reference?: string | null }
       >;
@@ -2095,7 +2124,15 @@ export type CloseSignatureOrderMutation = {
             title: string;
             reference?: string | null;
             blob?: Buffer | null;
-            form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+            form?: {
+              __typename?: 'PdfDocumentForm';
+              enabled: boolean;
+              fields?: Array<{
+                __typename?: 'PdfDocumentFormField';
+                field: string;
+                value: string;
+              }> | null;
+            } | null;
             signatures?: Array<
               | {
                   __typename: 'CompositeSignature';
@@ -2297,7 +2334,15 @@ export type CancelSignatureOrderMutation = {
             id: string;
             title: string;
             reference?: string | null;
-            form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+            form?: {
+              __typename?: 'PdfDocumentForm';
+              enabled: boolean;
+              fields?: Array<{
+                __typename?: 'PdfDocumentFormField';
+                field: string;
+                value: string;
+              }> | null;
+            } | null;
           }
         | { __typename: 'XmlDocument'; id: string; title: string; reference?: string | null }
       >;
@@ -2439,7 +2484,15 @@ export type ExtendSignatureOrderMutation = {
             id: string;
             title: string;
             reference?: string | null;
-            form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+            form?: {
+              __typename?: 'PdfDocumentForm';
+              enabled: boolean;
+              fields?: Array<{
+                __typename?: 'PdfDocumentFormField';
+                field: string;
+                value: string;
+              }> | null;
+            } | null;
           }
         | { __typename: 'XmlDocument'; id: string; title: string; reference?: string | null }
       >;
@@ -2829,7 +2882,15 @@ export type SignatureOrderWithDocumentsQuery = {
           title: string;
           reference?: string | null;
           blob?: Buffer | null;
-          form?: { __typename?: 'PdfDocumentForm'; enabled: boolean } | null;
+          form?: {
+            __typename?: 'PdfDocumentForm';
+            enabled: boolean;
+            fields?: Array<{
+              __typename?: 'PdfDocumentFormField';
+              field: string;
+              value: string;
+            }> | null;
+          } | null;
           signatures?: Array<
             | {
                 __typename: 'CompositeSignature';
@@ -3303,6 +3364,10 @@ export const BasicDocumentFragmentDoc = gql`
       documentID
       form {
         enabled
+        fields {
+          field
+          value
+        }
       }
     }
   }
