@@ -46,14 +46,14 @@
 //!
 //! ## Overriding the GraphQL endpoint
 //!
-//! By default the SDK targets `https://signatures-api.criipto.com/v1/graphql`. You can override
+//! By default the SDK targets `https://signatures.idura.app/v1/graphql`. You can override
 //! it on the [CriiptoSignaturesClientOpts] via [CriiptoSignaturesClientOpts::with_endpoint]:
 //!
 //! ```no_run
 //! use criipto_signatures_rs::{CriiptoSignaturesClientOpts, reqwest::create_reqwest_blocking_client};
 //!
 //! let opts = CriiptoSignaturesClientOpts::new("CLIENT_ID".to_string(), "CLIENT_SECRET".to_string())
-//!     .with_endpoint("https://signatures-api.criipto.com/v1/graphql");
+//!     .with_endpoint("https://signatures.idura.app/v1/graphql");
 //! let client = create_reqwest_blocking_client(&opts).unwrap();
 //! ```
 //!
@@ -104,7 +104,7 @@ pub mod types {
     pub use crate::generated::types::*;
 }
 
-pub const DEFAULT_ENDPOINT: &str = "https://signatures-api.criipto.com/v1/graphql";
+pub const DEFAULT_ENDPOINT: &str = "https://signatures.idura.app/v1/graphql";
 
 #[derive(Clone)]
 pub struct CriiptoSignaturesClientOpts {
@@ -119,7 +119,7 @@ impl CriiptoSignaturesClientOpts {
     }
 
     /// Override the GraphQL endpoint.
-    /// Defaults to `https://signatures-api.criipto.com/v1/graphql`.
+    /// Defaults to `https://signatures.idura.app/v1/graphql`.
     pub fn with_endpoint(mut self, endpoint: impl Into<String>) -> Self {
         self.endpoint = endpoint.into();
         self

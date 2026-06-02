@@ -10,7 +10,7 @@ namespace Criipto.Signatures;
 
 public class CriiptoSignaturesClient : IDisposable
 {
-    public const string DefaultEndpoint = "https://signatures-api.criipto.com/v1/graphql";
+    public const string DefaultEndpoint = "https://signatures.idura.app/v1/graphql";
 
     private readonly GraphQLHttpClient graphQLClient;
     private bool isDisposed;
