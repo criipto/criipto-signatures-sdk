@@ -32,7 +32,7 @@ let client = create_reqwest_blocking_client(&opts)?;
 
 ### Overriding the GraphQL endpoint
 
-By default the SDK targets `https://signatures-api.criipto.com/v1/graphql`. `https://signatures.idura.app` is the future home of the Idura Signatures solution — migrate now to avoid timeline worries later. Override the endpoint with `with_endpoint`:
+By default the SDK targets `https://signatures.idura.app`. Override the endpoint with `with_endpoint`:
 
 ```rust
 use criipto_signatures_rs::{

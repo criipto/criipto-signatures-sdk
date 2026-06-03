@@ -33,7 +33,7 @@ const rustCommonConfig: Partial<CodegenConfig> = {
 const config: CodegenConfig = {
   schema: [
     {
-      'https://signatures-api.criipto.com/v1/graphql': {
+      'https://signatures.idura.app/v1/graphql': {
         method: 'GET',
       },
     },

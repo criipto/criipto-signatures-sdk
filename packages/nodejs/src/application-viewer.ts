@@ -27,7 +27,7 @@ export class CriiptoSignatures {
 
   constructor(clientId: string, clientSecret: string, options?: CriiptoSignaturesOptions) {
     this.client = new GraphQLClient(
-      options?.endpoint ?? 'https://signatures-api.criipto.com/v1/graphql',
+      options?.endpoint ?? 'https://signatures.idura.app/v1/graphql',
       {
         headers: {
           Authorization: `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,

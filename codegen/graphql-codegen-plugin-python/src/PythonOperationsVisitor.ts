@@ -169,7 +169,7 @@ ${expressions.map(expression => `{${expression}}`).join('\n')}"""`;
   generateSDK({ async }: { async: boolean }) {
     let result = `
 class CriiptoSignaturesSDK${async ? 'Async' : 'Sync'}:
-  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+  DEFAULT_ENDPOINT = "https://signatures.idura.app/v1/graphql"
 
   def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)

@@ -22,7 +22,7 @@ export class SignatoryViewerClient {
 
   constructor(options: Authentication, clientOptions?: SignatoryViewerClientOptions) {
     this.client = new GraphQLClient(
-      clientOptions?.endpoint ?? 'https://signatures-api.criipto.com/v1/graphql',
+      clientOptions?.endpoint ?? 'https://signatures.idura.app/v1/graphql',
       {
         jsonSerializer,
       },

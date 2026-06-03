@@ -41,7 +41,7 @@ syncClient = CriiptoSignaturesSDKSync(
 
 ### Overriding the GraphQL endpoint
 
-By default the SDK targets `https://signatures-api.criipto.com/v1/graphql`. `https://signatures.idura.app` is the future home of the Idura Signatures solution — migrate now to avoid timeline worries later. You can override the endpoint by passing an `endpoint` argument to either client:
+By default the SDK targets `https://signatures.idura.app/v1/graphql`. You can override the endpoint by passing an `endpoint` argument to either client:
 
 ```python
 from criipto_signatures import CriiptoSignaturesSDKAsync

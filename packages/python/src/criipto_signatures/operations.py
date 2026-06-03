@@ -3570,7 +3570,7 @@ queryBatchSignatoryDocument = f"""query batchSignatory($id: ID!) {{
 
 
 class CriiptoSignaturesSDKAsync:
-  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+  DEFAULT_ENDPOINT = "https://signatures.idura.app/v1/graphql"
 
   def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
@@ -3817,7 +3817,7 @@ class CriiptoSignaturesSDKAsync:
 
 
 class CriiptoSignaturesSDKSync:
-  DEFAULT_ENDPOINT = "https://signatures-api.criipto.com/v1/graphql"
+  DEFAULT_ENDPOINT = "https://signatures.idura.app/v1/graphql"
 
   def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)

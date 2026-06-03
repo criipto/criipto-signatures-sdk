@@ -30,7 +30,7 @@ const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_
 
 ### Overriding the GraphQL endpoint
 
-By default the SDK targets `https://signatures-api.criipto.com/v1/graphql`. `https://signatures.idura.app` is the future home of the Idura Signatures solution — migrate now to avoid timeline worries later. You can override the endpoint by passing an `endpoint` option:
+By default the SDK targets `https://signatures.idura.app`. You can override the endpoint by passing an `endpoint` option:
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
