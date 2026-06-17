@@ -71,6 +71,7 @@ fragment BasicSignatory on Signatory {
   role
   signingAs
   signatoryRole
+  cooldownExpiresAt
 
   signatureOrder {
     id

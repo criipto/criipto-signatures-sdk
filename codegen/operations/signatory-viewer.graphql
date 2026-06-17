@@ -123,6 +123,7 @@ query viewer {
       role
       status
       signer
+      cooldownExpiresAt
       evidenceProviders {
         __typename
         ...EvidenceProvider
