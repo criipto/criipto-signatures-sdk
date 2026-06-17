@@ -85,6 +85,11 @@ namespace Criipto.Signatures.Models
     {
         #region members
         /// <summary>
+        /// Defines when the cooldown period expires and the signatory is allowed to perform their role.
+        /// </summary>
+        public string cooldownExpiresAt { get; set; }
+
+        /// <summary>
         /// Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
         /// </summary>
         public List<SignatoryDocumentInput> documents { get; set; }
@@ -507,6 +512,11 @@ namespace Criipto.Signatures.Models
     {
         #region members
         /// <summary>
+        /// Defines when the cooldown period expires and the signatory is allowed to perform their role.
+        /// </summary>
+        public string cooldownExpiresAt { get; set; }
+
+        /// <summary>
         /// Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
         /// </summary>
         public List<SignatoryDocumentInput> documents { get; set; }
@@ -895,6 +905,8 @@ namespace Criipto.Signatures.Models
     public class CreateApplicationInput
     {
         #region members
+        [Required]
+        [JsonRequired]
         public string applicationId { get; set; }
 
         [Required]
@@ -1137,6 +1149,11 @@ namespace Criipto.Signatures.Models
     public class CreateSignatureOrderSignatoryInput
     {
         #region members
+        /// <summary>
+        /// Defines when the cooldown period expires and the signatory is allowed to perform their role.
+        /// </summary>
+        public string cooldownExpiresAt { get; set; }
+
         /// <summary>
         /// Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
         /// </summary>
@@ -2155,6 +2172,7 @@ namespace Criipto.Signatures.Models
     {
         DA_DK,
         EN_US,
+        FI_FI,
         NB_NO,
         SV_SE,
         FUTURE_ADDED_VALUE = 999,
@@ -3518,6 +3536,9 @@ namespace Criipto.Signatures.Models
     public class Signatory
     {
         #region members
+        [JsonProperty("cooldownExpiresAt")]
+        public string cooldownExpiresAt { get; set; }
+
         [JsonProperty("documents")]
         public SignatoryDocumentConnection documents { get; set; }
 
@@ -3957,6 +3978,9 @@ namespace Criipto.Signatures.Models
         #region members
         [JsonProperty("authenticated")]
         public bool authenticated { get; set; }
+
+        [JsonProperty("cooldownExpiresAt")]
+        public string cooldownExpiresAt { get; set; }
 
         [JsonProperty("documents")]
         public SignatoryDocumentConnection documents { get; set; }
@@ -4561,6 +4585,9 @@ namespace Criipto.Signatures.Models
     public class TimestampToken
     {
         #region members
+        [JsonProperty("certificate")]
+        public Certificate certificate { get; set; }
+
         [JsonProperty("timestamp")]
         public DateTime timestamp { get; set; }
         #endregion
@@ -4618,6 +4645,12 @@ namespace Criipto.Signatures.Models
         #endregion
     }
     #endregion
+    public enum TrustList
+    {
+        EUTL,
+        NKOM,
+        FUTURE_ADDED_VALUE = 999,
+    }
 
     #region UnvalidatedSignatoryViewer
     public class UnvalidatedSignatoryViewer : Viewer

@@ -36,6 +36,8 @@ class AddSignatoriesOutput(BaseModel):
 
 
 class AddSignatoryInput(BaseModel):
+  # Defines when the cooldown period expires and the signatory is allowed to perform their role.
+  cooldownExpiresAt: Optional[StringScalarInput] = Field(default=None)
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
   documents: Optional[list[SignatoryDocumentInput]] = Field(default=None)
   # Selectively enable evidence providers for this signatory.
@@ -154,6 +156,8 @@ class Certificate(BaseModel):
 
 
 class ChangeSignatoryInput(BaseModel):
+  # Defines when the cooldown period expires and the signatory is allowed to perform their role.
+  cooldownExpiresAt: Optional[StringScalarInput] = Field(default=None)
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
   documents: Optional[list[SignatoryDocumentInput]] = Field(default=None)
   # Selectively enable evidence providers for this signatory.
@@ -225,7 +229,7 @@ class CompositeSignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
   signatures: list[SingleSignature]
   signingCertificate: Certificate
-  timestampToken: TimestampToken
+  timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
 class CreateApplicationApiKeyInput(BaseModel):
@@ -240,7 +244,7 @@ class CreateApplicationApiKeyOutput(BaseModel):
 
 
 class CreateApplicationInput(BaseModel):
-  applicationId: Optional[StringScalarInput] = Field(default=None)
+  applicationId: StringScalarInput
   name: StringScalarInput
   tenantId: IDScalarInput
   verifyApplicationDomain: StringScalarInput
@@ -300,6 +304,8 @@ class CreateSignatureOrderOutput(BaseModel):
 
 
 class CreateSignatureOrderSignatoryInput(BaseModel):
+  # Defines when the cooldown period expires and the signatory is allowed to perform their role.
+  cooldownExpiresAt: Optional[StringScalarInput] = Field(default=None)
   # Define a subset of documents for the signatory. Must be a non-empty list. Leave null for all documents.
   documents: Optional[list[SignatoryDocumentInput]] = Field(default=None)
   # Selectively enable evidence providers for this signatory.
@@ -485,7 +491,7 @@ class DrawableSignature(BaseModel):
   name: Optional[StringScalarOutput] = Field(default=None)
   signatory: Optional[Signatory] = Field(default=None)
   signingCertificate: Certificate
-  timestampToken: TimestampToken
+  timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
 class DrawableSignatureEvidenceProvider(BaseModel):
@@ -498,7 +504,7 @@ class DrawableSignatureEvidenceProvider(BaseModel):
 class EmptySignature(BaseModel):
   signatory: Optional[Signatory] = Field(default=None)
   signingCertificate: Certificate
-  timestampToken: TimestampToken
+  timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
 # Must define a evidence provider subsection.
@@ -542,12 +548,13 @@ class JWTSignature(BaseModel):
   jwt: StringScalarOutput
   signatory: Optional[Signatory] = Field(default=None)
   signingCertificate: Certificate
-  timestampToken: TimestampToken
+  timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
 class Language(StrEnum):
   DA_DK = "DA_DK"
   EN_US = "EN_US"
+  FI_FI = "FI_FI"
   NB_NO = "NB_NO"
   SV_SE = "SV_SE"
 
@@ -625,7 +632,7 @@ class NorwegianBankIdSignature(BaseModel):
   claims: list[JWTClaim]
   signatory: Optional[Signatory] = Field(default=None)
   signingCertificate: Certificate
-  timestampToken: TimestampToken
+  timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
 # OIDC/JWT based evidence for signatures.
@@ -844,6 +851,7 @@ class SignOutput(BaseModel):
 
 
 class Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -978,6 +986,7 @@ class SignatoryUIInput(BaseModel):
 
 class SignatoryViewer(BaseModel):
   authenticated: BooleanScalarOutput
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: SignatoryDocumentConnection
   download: Optional[SignatoryViewerDownload] = Field(default=None)
   # Order of providers returned is not guaranteed
@@ -1159,6 +1168,7 @@ class Tenant(BaseModel):
 
 
 class TimestampToken(BaseModel):
+  certificate: Certificate
   timestamp: DateScalarOutput
 
 
@@ -1168,6 +1178,11 @@ class TrackSignatoryInput(BaseModel):
 
 class TrackSignatoryOutput(BaseModel):
   viewer: Viewer
+
+
+class TrustList(StrEnum):
+  EUTL = "EUTL"
+  NKOM = "NKOM"
 
 
 class UnvalidatedSignatoryViewer(BaseModel):

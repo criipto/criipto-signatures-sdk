@@ -16,6 +16,7 @@ pub struct AddSignatoriesOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AddSignatoryInput {
+    pub cooldownExpiresAt: Option<crate::scalars::String>,
     pub documents: Option<Vec<crate::generated::types::SignatoryDocumentInput>>,
     pub evidenceProviders: Option<Vec<crate::generated::types::SignatoryEvidenceProviderInput>>,
     pub evidenceValidation: Option<Vec<crate::generated::types::SignatoryEvidenceValidationInput>>,
@@ -173,6 +174,7 @@ pub struct Certificate {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeSignatoryInput {
+    pub cooldownExpiresAt: Option<crate::scalars::String>,
     pub documents: Option<Vec<crate::generated::types::SignatoryDocumentInput>>,
     pub evidenceProviders: Option<Vec<crate::generated::types::SignatoryEvidenceProviderInput>>,
     pub evidenceValidation: Option<Vec<crate::generated::types::SignatoryEvidenceValidationInput>>,
@@ -250,7 +252,7 @@ pub struct CompositeSignature {
     pub signatory: Option<Signatory>,
     pub signatures: Vec<SingleSignature>,
     pub signingCertificate: Certificate,
-    pub timestampToken: TimestampToken,
+    pub timestampToken: Option<TimestampToken>,
 }
 
 ///
@@ -271,7 +273,7 @@ pub struct CreateApplicationApiKeyOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateApplicationInput {
-    pub applicationId: Option<crate::scalars::String>,
+    pub applicationId: crate::scalars::String,
     pub name: crate::scalars::String,
     pub tenantId: crate::scalars::ID,
     pub verifyApplicationDomain: crate::scalars::String,
@@ -329,6 +331,7 @@ pub struct CreateSignatureOrderOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CreateSignatureOrderSignatoryInput {
+    pub cooldownExpiresAt: Option<crate::scalars::String>,
     pub documents: Option<Vec<crate::generated::types::SignatoryDocumentInput>>,
     pub evidenceProviders: Option<Vec<crate::generated::types::SignatoryEvidenceProviderInput>>,
     pub evidenceValidation: Option<Vec<crate::generated::types::SignatoryEvidenceValidationInput>>,
@@ -618,7 +621,7 @@ pub struct DrawableSignature {
     pub name: Option<crate::scalars::String>,
     pub signatory: Option<Signatory>,
     pub signingCertificate: Certificate,
-    pub timestampToken: TimestampToken,
+    pub timestampToken: Option<TimestampToken>,
 }
 
 ///
@@ -635,7 +638,7 @@ pub struct DrawableSignatureEvidenceProvider {
 pub struct EmptySignature {
     pub signatory: Option<Signatory>,
     pub signingCertificate: Certificate,
-    pub timestampToken: TimestampToken,
+    pub timestampToken: Option<TimestampToken>,
 }
 
 ///
@@ -710,7 +713,7 @@ pub struct JWTSignature {
     pub jwt: crate::scalars::String,
     pub signatory: Option<Signatory>,
     pub signingCertificate: Certificate,
-    pub timestampToken: TimestampToken,
+    pub timestampToken: Option<TimestampToken>,
 }
 
 ///
@@ -718,6 +721,7 @@ pub struct JWTSignature {
 pub enum Language {
     DA_DK,
     EN_US,
+    FI_FI,
     NB_NO,
     SV_SE,
 }
@@ -730,6 +734,7 @@ impl ::serde::Serialize for Language {
         match *self {
             Language::DA_DK => serializer.serialize_str("DA_DK"),
             Language::EN_US => serializer.serialize_str("EN_US"),
+            Language::FI_FI => serializer.serialize_str("FI_FI"),
             Language::NB_NO => serializer.serialize_str("NB_NO"),
             Language::SV_SE => serializer.serialize_str("SV_SE"),
         }
@@ -745,6 +750,7 @@ impl<'de> ::serde::Deserialize<'de> for Language {
         match s.as_ref() {
             "DA_DK" => Ok(Language::DA_DK),
             "EN_US" => Ok(Language::EN_US),
+            "FI_FI" => Ok(Language::FI_FI),
             "NB_NO" => Ok(Language::NB_NO),
             "SV_SE" => Ok(Language::SV_SE),
             _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
@@ -801,7 +807,7 @@ pub struct NorwegianBankIdSignature {
     pub claims: Vec<JWTClaim>,
     pub signatory: Option<Signatory>,
     pub signingCertificate: Certificate,
-    pub timestampToken: TimestampToken,
+    pub timestampToken: Option<TimestampToken>,
 }
 
 ///
@@ -1055,6 +1061,7 @@ pub struct SignOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Signatory {
+    pub cooldownExpiresAt: Option<crate::scalars::DateTime>,
     pub documents: SignatoryDocumentConnection,
     pub downloadHref: Option<crate::scalars::String>,
     pub evidenceProviders: Vec<SignatureEvidenceProvider>,
@@ -1306,6 +1313,7 @@ pub struct SignatoryUIInput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignatoryViewer {
     pub authenticated: crate::scalars::Boolean,
+    pub cooldownExpiresAt: Option<crate::scalars::DateTime>,
     pub documents: SignatoryDocumentConnection,
     pub download: Option<SignatoryViewerDownload>,
     pub evidenceProviders: Vec<SignatureEvidenceProvider>,
@@ -1543,6 +1551,7 @@ pub struct Tenant {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimestampToken {
+    pub certificate: Certificate,
     pub timestamp: crate::scalars::Date,
 }
 
@@ -1556,6 +1565,39 @@ pub struct TrackSignatoryInput {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrackSignatoryOutput {
     pub viewer: Viewer,
+}
+
+///
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum TrustList {
+    EUTL,
+    NKOM,
+}
+
+impl ::serde::Serialize for TrustList {
+    fn serialize<S>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            TrustList::EUTL => serializer.serialize_str("EUTL"),
+            TrustList::NKOM => serializer.serialize_str("NKOM"),
+        }
+    }
+}
+
+impl<'de> ::serde::Deserialize<'de> for TrustList {
+    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+    where
+        D: ::serde::Deserializer<'de>,
+    {
+        let s: String = ::serde::Deserialize::deserialize(deserializer)?;
+        match s.as_ref() {
+            "EUTL" => Ok(TrustList::EUTL),
+            "NKOM" => Ok(TrustList::NKOM),
+            _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
+        }
+    }
 }
 
 ///
