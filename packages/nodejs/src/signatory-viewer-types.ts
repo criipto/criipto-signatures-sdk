@@ -1740,6 +1740,7 @@ export type ViewerQuery = {
         role: SignatoryRole;
         status: SignatoryStatus;
         signer: boolean;
+        cooldownExpiresAt?: string | null;
         id: string;
         evidenceProviders: Array<
           | { __typename: 'AllOfSignatureEvidenceProvider'; id: string }
@@ -1967,6 +1968,7 @@ export const ViewerDocument = gql`
         role
         status
         signer
+        cooldownExpiresAt
         evidenceProviders {
           __typename
           ...EvidenceProvider

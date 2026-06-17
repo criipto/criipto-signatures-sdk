@@ -1701,6 +1701,7 @@ export type BasicSignatoryFragment = {
   role?: string | null;
   signingAs?: string | null;
   signatoryRole: SignatoryRole;
+  cooldownExpiresAt?: string | null;
   signatureOrder: {
     __typename?: 'SignatureOrder';
     id: string;
@@ -1748,6 +1749,7 @@ export type BasicSignatureOrderFragment = {
     role?: string | null;
     signingAs?: string | null;
     signatoryRole: SignatoryRole;
+    cooldownExpiresAt?: string | null;
     signatureOrder: {
       __typename?: 'SignatureOrder';
       id: string;
@@ -1837,6 +1839,7 @@ export type CreateSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -1923,6 +1926,7 @@ export type CleanupSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -1981,6 +1985,7 @@ export type AddSignatoryMutation = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2031,6 +2036,7 @@ export type AddSignatoriesMutation = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2081,6 +2087,7 @@ export type ChangeSignatoryMutation = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2284,6 +2291,7 @@ export type CloseSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2370,6 +2378,7 @@ export type CancelSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2428,6 +2437,7 @@ export type SignActingAsMutation = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -2520,6 +2530,7 @@ export type ExtendSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2587,6 +2598,7 @@ export type DeleteSignatoryMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2661,6 +2673,7 @@ export type CreateBatchSignatoryMutation = {
             role?: string | null;
             signingAs?: string | null;
             signatoryRole: SignatoryRole;
+            cooldownExpiresAt?: string | null;
             signatureOrder: {
               __typename?: 'SignatureOrder';
               id: string;
@@ -2708,6 +2721,7 @@ export type CreateBatchSignatoryMutation = {
           role?: string | null;
           signingAs?: string | null;
           signatoryRole: SignatoryRole;
+          cooldownExpiresAt?: string | null;
           signatureOrder: {
             __typename?: 'SignatureOrder';
             id: string;
@@ -2769,6 +2783,7 @@ export type ChangeSignatureOrderMutation = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -2834,6 +2849,7 @@ export type SignatureOrderQuery = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -3042,6 +3058,7 @@ export type SignatureOrderWithDocumentsQuery = {
       role?: string | null;
       signingAs?: string | null;
       signatoryRole: SignatoryRole;
+      cooldownExpiresAt?: string | null;
       signatureOrder: {
         __typename?: 'SignatureOrder';
         id: string;
@@ -3097,6 +3114,7 @@ export type SignatoryQuery = {
     role?: string | null;
     signingAs?: string | null;
     signatoryRole: SignatoryRole;
+    cooldownExpiresAt?: string | null;
     signatureOrder: {
       __typename?: 'SignatureOrder';
       id: string;
@@ -3119,6 +3137,7 @@ export type SignatoryQuery = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -3210,6 +3229,7 @@ export type SignatureOrdersQuery = {
                 role?: string | null;
                 signingAs?: string | null;
                 signatoryRole: SignatoryRole;
+                cooldownExpiresAt?: string | null;
                 signatureOrder: {
                   __typename?: 'SignatureOrder';
                   id: string;
@@ -3288,6 +3308,7 @@ export type BatchSignatoryQuery = {
           role?: string | null;
           signingAs?: string | null;
           signatoryRole: SignatoryRole;
+          cooldownExpiresAt?: string | null;
           signatureOrder: {
             __typename?: 'SignatureOrder';
             id: string;
@@ -3335,6 +3356,7 @@ export type BatchSignatoryQuery = {
         role?: string | null;
         signingAs?: string | null;
         signatoryRole: SignatoryRole;
+        cooldownExpiresAt?: string | null;
         signatureOrder: {
           __typename?: 'SignatureOrder';
           id: string;
@@ -3445,6 +3467,7 @@ export const BasicSignatoryFragmentDoc = gql`
     role
     signingAs
     signatoryRole
+    cooldownExpiresAt
     signatureOrder {
       id
       status

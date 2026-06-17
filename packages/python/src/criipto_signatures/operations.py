@@ -133,6 +133,7 @@ BasicSignatoryFragment = """fragment BasicSignatory on Signatory {
   role
   signingAs
   signatoryRole
+  cooldownExpiresAt
   signatureOrder {
     id
     status
@@ -220,6 +221,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_SignatureEv
 class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -393,6 +395,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signature
 class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -530,6 +533,7 @@ class AddSignatory_AddSignatoryOutput(BaseModel):
 
 
 class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: AddSignatory_AddSignatoryOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -614,6 +618,7 @@ class AddSignatories_AddSignatoriesOutput(BaseModel):
 
 
 class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: AddSignatories_AddSignatoriesOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -704,6 +709,7 @@ class ChangeSignatory_ChangeSignatoryOutput(BaseModel):
 
 
 class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -828,6 +834,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_SignatureEvid
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -1459,6 +1466,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_SignatureEv
 class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -1596,6 +1604,7 @@ class SignActingAs_SignActingAsOutput(BaseModel):
 
 
 class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: SignActingAs_SignActingAsOutput_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -1732,6 +1741,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_SignatureEv
 class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -1892,6 +1902,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_SignatureEvidenceProv
 
 
 class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -2006,6 +2017,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -2100,6 +2112,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
 class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -2242,6 +2255,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_SignatureEv
 class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -2350,6 +2364,7 @@ class QuerySignatureOrder_SignatureOrder_SignatureEvidenceProvider(BaseModel):
 
 
 class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QuerySignatureOrder_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -2461,6 +2476,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_SignatureEvidenceProvider(
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -3046,6 +3062,7 @@ querySignatureOrderWithDocumentsDocument = f"""query signatureOrderWithDocuments
 
 
 class QuerySignatory_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QuerySignatory_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -3124,6 +3141,7 @@ class QuerySignatory_Signatory_SignatureOrder_SignatureEvidenceProvider(BaseMode
 
 
 class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: (
     QuerySignatory_Signatory_SignatureOrder_Signatory_SignatoryDocumentConnection
   )
@@ -3299,6 +3317,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
 class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -3408,6 +3427,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem(BaseModel):
 
 
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)
@@ -3502,6 +3522,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
 class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory(
   BaseModel
 ):
+  cooldownExpiresAt: Optional[DateTimeScalarOutput] = Field(default=None)
   documents: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatoryDocumentConnection
   # A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention.
   downloadHref: Optional[StringScalarOutput] = Field(default=None)

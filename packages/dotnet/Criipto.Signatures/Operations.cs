@@ -67,6 +67,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -170,6 +171,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -254,6 +256,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -322,6 +325,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -390,6 +394,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -523,6 +528,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -626,6 +632,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -710,6 +717,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -832,6 +840,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -916,6 +925,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1008,6 +1018,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1097,6 +1108,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1179,6 +1191,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1326,6 +1339,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1411,6 +1425,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1502,6 +1517,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
@@ -1592,6 +1608,7 @@ namespace Criipto.Signatures
           role
           signingAs
           signatoryRole
+          cooldownExpiresAt
           signatureOrder {
             id
             status
