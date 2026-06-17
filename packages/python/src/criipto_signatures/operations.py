@@ -53,6 +53,7 @@ from .models import (
   SignatoryRole,
   SignatoryStatus,
   SignatureOrderStatus,
+  TrustList,
   VerifyApplicationEnvironment,
   WebhookInvocationEvent,
 )
@@ -976,7 +977,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatures: list[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
   ]
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -987,7 +990,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -996,7 +1001,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -1010,7 +1017,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -1023,7 +1032,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
   signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -1035,7 +1046,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatures: list[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
   ]
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -1046,7 +1059,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -1055,7 +1070,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -1069,7 +1086,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
   signatory: Optional[
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -1082,7 +1101,9 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlD
     CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
   signingCertificate: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
-  timestampToken: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  timestampToken: Optional[
+    CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(
@@ -2585,7 +2606,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatures: list[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_SingleSignature
   ]
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_CompositeSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature(
@@ -2596,7 +2619,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_DrawableSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature(
@@ -2605,7 +2630,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_EmptySignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature(
@@ -2619,7 +2646,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_JWTSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature(
@@ -2632,7 +2661,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
   signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_Certificate
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_PdfDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature(
@@ -2644,7 +2675,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatures: list[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_SingleSignature
   ]
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_CompositeSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature(
@@ -2655,7 +2688,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_DrawableSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature(
@@ -2664,7 +2699,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_EmptySignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature(
@@ -2678,7 +2715,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
   signatory: Optional[
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_Signatory
   ] = Field(default=None)
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_JWTSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature(
@@ -2691,7 +2730,9 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signa
     QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Signatory
   ] = Field(default=None)
   signingCertificate: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_Certificate
-  timestampToken: QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  timestampToken: Optional[
+    QuerySignatureOrderWithDocuments_SignatureOrder_Document_XmlDocument_Signature_NorwegianBankIdSignature_TimestampToken
+  ] = Field(default=None)
 
 
 class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory_SignatoryDocumentConnection_SignatoryDocumentEdge_Document(

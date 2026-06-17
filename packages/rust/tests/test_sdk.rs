@@ -25,6 +25,7 @@ fn test_create_signature_order_add_signatory() {
     let signatory = client
         .addSignatory(AddSignatoryInput {
             signatureOrderId: data.createSignatureOrder.signatureOrder.id,
+            cooldownExpiresAt: None,
             documents: None,
             evidenceProviders: None,
             evidenceValidation: None,
