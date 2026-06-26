@@ -4,7 +4,7 @@ A python SDK for Criipto Signatures.
 
 Sign PAdeS-LTA documents using MitID, BankID or any other eID supported by Criipto.
 
-[Examples](https://docs.criipto.com/signatures/graphql/examples/)
+[Examples](https://docs.idura.app/signatures/graphql/examples/)
 
 ## Getting started
 

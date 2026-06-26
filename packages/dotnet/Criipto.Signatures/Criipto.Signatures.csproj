@@ -15,7 +15,7 @@
     <Authors>Mick Hansen</Authors>
     <Company>Criipto</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://docs.criipto.com/signatures/integrations/csharp/</PackageProjectUrl>
+    <PackageProjectUrl>https://docs.idura.app/signatures/integrations/csharp/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/criipto/criipto-signatures-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
