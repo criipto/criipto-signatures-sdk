@@ -1,6 +1,6 @@
 A dotnet/C# SDK for Criipto Signatures
 
-[Examples](https://docs.criipto.com/signatures/graphql/examples/)
+[Examples](https://docs.idura.app/signatures/graphql/examples/)
 
 ## Getting started
 
@@ -70,7 +70,7 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
 }
 ```
 
-More examples can be found in the [test suite](https://github.com/criipto/criipto-signatures-sdk/tree/master/packages/dotnet/Criipto.Signatures.IntegrationTests) and in the [documentation](https://docs.criipto.com/signatures/graphql/examples/)
+More examples can be found in the [test suite](https://github.com/criipto/criipto-signatures-sdk/tree/master/packages/dotnet/Criipto.Signatures.IntegrationTests) and in the [documentation](https://docs.idura.app/signatures/graphql/examples/)
 
 ## Methods
 
