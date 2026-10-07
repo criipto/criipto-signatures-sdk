@@ -1,4 +1,5 @@
 #pragma warning disable CA1002
+#pragma warning disable CS0618 // Type or member is obsolete
 
 using System.Net.Http.Headers;
 using Criipto.Signatures.Models;
@@ -14,39 +15,78 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
 
     private readonly GraphQLHttpClient graphQLClient;
     private bool isDisposed;
+    private readonly bool _disposeHttpClient;
+    private readonly HttpClient _httpClient;
 
+    [Obsolete(
+        "Will be made private in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret, HttpClient httpClient)"
+    )]
     public CriiptoSignaturesClient(
         string clientId,
         string clientSecret,
         string criiptoSdk,
-        string endpoint
+        string endpoint,
+        HttpClient httpClient
     )
     {
-        this.graphQLClient = new GraphQLHttpClient(endpoint, new NewtonsoftJsonSerializer());
+        this._httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+            "Basic",
+            Convert.ToBase64String(
+                System.Text.Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}")
+            )
+        );
+        this._httpClient.DefaultRequestHeaders.Add("Criipto-Sdk", criiptoSdk);
 
-        this.graphQLClient.HttpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue(
-                "Basic",
-                Convert.ToBase64String(
-                    System.Text.Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}")
-                )
-            );
-        this.graphQLClient.HttpClient.DefaultRequestHeaders.Add("Criipto-Sdk", criiptoSdk);
+        GraphQLHttpClientOptions options = new GraphQLHttpClientOptions()
+        {
+            EndPoint = new Uri(endpoint),
+        };
+        this.graphQLClient = new GraphQLHttpClient(
+            options,
+            new NewtonsoftJsonSerializer(),
+            this._httpClient
+        );
     }
 
+    [Obsolete(
+        "Will be made internal in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret) instead."
+    )]
     public CriiptoSignaturesClient(string clientId, string clientSecret, string criiptoSdk)
-        : this(clientId, clientSecret, criiptoSdk, DefaultEndpoint) { }
+        : this(clientId, clientSecret, criiptoSdk, DefaultEndpoint, new HttpClient())
+    {
+        this._disposeHttpClient = true;
+    }
 
     public CriiptoSignaturesClient(string clientId, string clientSecret)
-        : this(clientId, clientSecret, "criipto-signatures-dotnet", DefaultEndpoint) { }
+        : this(
+            clientId,
+            clientSecret,
+            "criipto-signatures-dotnet",
+            DefaultEndpoint,
+            new HttpClient()
+        )
+    {
+        this._disposeHttpClient = true;
+    }
 
+    [Obsolete(
+        "Will be removed in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret) instead."
+    )]
     public CriiptoSignaturesClient(string clientId, string clientSecret, Uri endpoint)
         : this(
             clientId,
             clientSecret,
             "criipto-signatures-dotnet",
-            (endpoint ?? throw new ArgumentNullException(nameof(endpoint))).ToString()
-        ) { }
+            (endpoint ?? throw new ArgumentNullException(nameof(endpoint))).ToString(),
+            new HttpClient()
+        )
+    {
+        this._disposeHttpClient = true;
+    }
+
+    public CriiptoSignaturesClient(string clientId, string clientSecret, HttpClient httpClient)
+        : this(clientId, clientSecret, "criipto-signatures-dotnet", DefaultEndpoint, httpClient) { }
 
     public void Dispose()
     {
@@ -61,6 +101,9 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
 
         if (disposing)
         {
+            if (this._disposeHttpClient)
+                this._httpClient.Dispose();
+
             this.graphQLClient.Dispose();
         }
 

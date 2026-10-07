@@ -43,6 +43,20 @@ services.AddSingleton<ICriiptoSignaturesClient>(_ =>
 
 New methods may be added to `ICriiptoSignaturesClient` in minor releases as the API grows. Use a mocking library (Moq, NSubstitute, etc.) rather than a hand-written implementation to avoid compile errors when upgrading.
 
+### Injecting own `HttpClient`
+
+As in line with Microsoft's best practices on using `HttpClient`, it is possible to inject your own, customized `HttpClient`
+
+```csharp
+var customHttpClient = httpClientFactory.Create("named-client-custom");
+
+var client = new CriiptoSignaturesClient(
+    "{YOUR_CRIIPTO_CLIENT_ID}",
+    "{YOUR_CRIIPTO_CLIENT_SECRET}",
+    customHttpClient
+);
+```
+
 ## Basic example
 
 ```csharp
