@@ -428,9 +428,18 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signer")]
         public bool signer { get; set; }
 
+        [JsonProperty("spanId")]
+        public string spanId { get; set; }
+
         [JsonProperty("status")]
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryStatus status { get; set; }
+
+        /// <summary>
+        /// Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans.
+        /// </summary>
+        [JsonProperty("tenantId")]
+        public string tenantId { get; set; }
 
         [JsonProperty("traceId")]
         public string traceId { get; set; }
@@ -1674,6 +1683,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("reference")]
         string reference { get; set; }
 
+        [JsonProperty("signatoryViewerRole")]
+        SignatoryRole? signatoryViewerRole { get; set; }
+
         [JsonProperty("signatoryViewerStatus")]
         SignatoryDocumentStatus? signatoryViewerStatus { get; set; }
 
@@ -1813,48 +1825,6 @@ namespace Criipto.Signatures.Models
     {
         #region members
         public DownloadVerificationCriiptoVerifyInput criiptoVerify { get; set; }
-
-        public DownloadVerificationOidcInput oidc { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
-
-    #region DownloadVerificationOidcInput
-    public class DownloadVerificationOidcInput
-    {
-        #region members
-        [Required]
-        [JsonRequired]
-        public string jwt { get; set; }
         #endregion
 
         #region methods
@@ -2026,11 +1996,6 @@ namespace Criipto.Signatures.Models
         /// TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
         /// </summary>
         public NoopEvidenceProviderInput noop { get; set; }
-
-        /// <summary>
-        /// Deprecated
-        /// </summary>
-        public OidcEvidenceProviderInput oidc { get; set; }
         #endregion
 
         #region methods
@@ -2400,101 +2365,6 @@ namespace Criipto.Signatures.Models
     }
     #endregion
 
-    #region OidcEvidenceProviderInput
-    /// <summary>
-    /// OIDC/JWT based evidence for signatures.
-    /// </summary>
-    public class OidcEvidenceProviderInput
-    {
-        #region members
-        public List<string> acrValues { get; set; }
-
-        /// <summary>
-        /// Deprecated, no longer has any effect.
-        /// </summary>
-        public bool? alwaysRedirect { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string audience { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string clientID { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string domain { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string name { get; set; }
-
-        /// <summary>
-        /// Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define.
-        /// </summary>
-        public string uniqueEvidenceKey { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
-
-    #region OidcJWTSignatureEvidenceProvider
-    public class OidcJWTSignatureEvidenceProvider
-        : SignatureEvidenceProvider,
-            SingleSignatureEvidenceProvider
-    {
-        #region members
-        [JsonProperty("acrValues")]
-        public List<string> acrValues { get; set; }
-
-        [Obsolete("No longer supported")]
-        [JsonProperty("alwaysRedirect")]
-        public bool alwaysRedirect { get; set; }
-
-        [JsonProperty("clientID")]
-        public string clientID { get; set; }
-
-        [JsonProperty("domain")]
-        public string domain { get; set; }
-
-        [JsonProperty("id")]
-        public string id { get; set; }
-
-        [JsonProperty("name")]
-        public string name { get; set; }
-        #endregion
-    }
-    #endregion
-
     #region PadesDocumentFormInput
     public class PadesDocumentFormInput
     {
@@ -2771,6 +2641,10 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("reference")]
         public string reference { get; set; }
+
+        [JsonProperty("signatoryViewerRole")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole? signatoryViewerRole { get; set; }
 
         [JsonProperty("signatoryViewerStatus")]
         [JsonConverter(typeof(TolerantEnumConverter))]
@@ -3130,55 +3004,11 @@ namespace Criipto.Signatures.Models
     public class SignAllOfInput
     {
         #region members
-        public SignCriiptoVerifyInput criiptoVerify { get; set; }
-
         public SignCriiptoVerifyV2Input criiptoVerifyV2 { get; set; }
 
         public SignDrawableInput drawable { get; set; }
 
         public bool? noop { get; set; }
-
-        public SignOidcInput oidc { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
-
-    #region SignCriiptoVerifyInput
-    public class SignCriiptoVerifyInput
-    {
-        #region members
-        [Required]
-        [JsonRequired]
-        public string jwt { get; set; }
         #endregion
 
         #region methods
@@ -3430,8 +3260,6 @@ namespace Criipto.Signatures.Models
         #region members
         public SignAllOfInput allOf { get; set; }
 
-        public SignCriiptoVerifyInput criiptoVerify { get; set; }
-
         public SignCriiptoVerifyV2Input criiptoVerifyV2 { get; set; }
 
         public List<SignDocumentInput> documents { get; set; }
@@ -3446,48 +3274,6 @@ namespace Criipto.Signatures.Models
         public string id { get; set; }
 
         public bool? noop { get; set; }
-
-        public SignOidcInput oidc { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
-
-    #region SignOidcInput
-    public class SignOidcInput
-    {
-        #region members
-        [Required]
-        [JsonRequired]
-        public string jwt { get; set; }
         #endregion
 
         #region methods
@@ -3571,6 +3357,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("role")]
         public string role { get; set; }
 
+        /// <summary>
+        /// Determined by the most privileged role of all the signatory's document roles
+        /// </summary>
         [JsonProperty("signatoryRole")]
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryRole signatoryRole { get; set; }
@@ -3692,6 +3481,10 @@ namespace Criipto.Signatures.Models
         [JsonConverter(typeof(CompositionTypeConverter))]
         public Document node { get; set; }
 
+        [JsonProperty("role")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole role { get; set; }
+
         [JsonProperty("status")]
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryDocumentStatus? status { get; set; }
@@ -3718,6 +3511,12 @@ namespace Criipto.Signatures.Models
         public List<PdfSealPosition> pdfSealPositions { get; set; }
 
         public bool? preapproved { get; set; }
+
+        /// <summary>
+        /// Denotes the signatory role for this document specifically, e.g. SIGNER or VIEWER. Defaults to the signatory role.
+        /// </summary>
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole? signatoryRole { get; set; }
         #endregion
 
         #region methods
@@ -3784,11 +3583,6 @@ namespace Criipto.Signatures.Models
         /// TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
         /// </summary>
         public NoopEvidenceProviderInput noop { get; set; }
-
-        /// <summary>
-        /// Deprecated
-        /// </summary>
-        public OidcEvidenceProviderInput oidc { get; set; }
         #endregion
 
         #region methods
@@ -3998,6 +3792,9 @@ namespace Criipto.Signatures.Models
         [JsonProperty("id")]
         public string id { get; set; }
 
+        /// <summary>
+        /// Determined by the most privileged role of all the signatory's document roles
+        /// </summary>
         [JsonProperty("role")]
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryRole role { get; set; }
@@ -4012,9 +3809,18 @@ namespace Criipto.Signatures.Models
         [JsonProperty("signer")]
         public bool signer { get; set; }
 
+        [JsonProperty("spanId")]
+        public string spanId { get; set; }
+
         [JsonProperty("status")]
         [JsonConverter(typeof(TolerantEnumConverter))]
         public SignatoryStatus status { get; set; }
+
+        /// <summary>
+        /// Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans.
+        /// </summary>
+        [JsonProperty("tenantId")]
+        public string tenantId { get; set; }
 
         [JsonProperty("traceId")]
         public string traceId { get; set; }
@@ -4454,11 +4260,6 @@ namespace Criipto.Signatures.Models
         /// TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
         /// </summary>
         public NoopEvidenceProviderInput noop { get; set; }
-
-        /// <summary>
-        /// Deprecated
-        /// </summary>
-        public OidcEvidenceProviderInput oidc { get; set; }
         #endregion
 
         #region methods
@@ -5157,6 +4958,10 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("reference")]
         public string reference { get; set; }
+
+        [JsonProperty("signatoryViewerRole")]
+        [JsonConverter(typeof(TolerantEnumConverter))]
+        public SignatoryRole? signatoryViewerRole { get; set; }
 
         [JsonProperty("signatoryViewerStatus")]
         [JsonConverter(typeof(TolerantEnumConverter))]
