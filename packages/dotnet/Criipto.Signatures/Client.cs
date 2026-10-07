@@ -1,4 +1,5 @@
 #pragma warning disable CA1002
+#pragma warning disable CS0618 // Type or member is obsolete
 
 using System.Net.Http.Headers;
 using Criipto.Signatures.Models;
@@ -15,6 +16,9 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
     private readonly GraphQLHttpClient graphQLClient;
     private bool isDisposed;
 
+    [Obsolete(
+        "Will be made private in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret, HttpClient httpClient)"
+    )]
     public CriiptoSignaturesClient(
         string clientId,
         string clientSecret,
@@ -34,12 +38,18 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
         this.graphQLClient.HttpClient.DefaultRequestHeaders.Add("Criipto-Sdk", criiptoSdk);
     }
 
+    [Obsolete(
+        "Will be made internal in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret) instead."
+    )]
     public CriiptoSignaturesClient(string clientId, string clientSecret, string criiptoSdk)
         : this(clientId, clientSecret, criiptoSdk, DefaultEndpoint) { }
 
     public CriiptoSignaturesClient(string clientId, string clientSecret)
         : this(clientId, clientSecret, "criipto-signatures-dotnet", DefaultEndpoint) { }
 
+    [Obsolete(
+        "Will be removed in future release. Use CriiptoSignaturesClient(string clientId, string clientSecret) instead."
+    )]
     public CriiptoSignaturesClient(string clientId, string clientSecret, Uri endpoint)
         : this(
             clientId,
