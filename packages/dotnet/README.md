@@ -31,6 +31,18 @@ var client = new CriiptoSignaturesClient(
 );
 ```
 
+### Dependency injection and testing
+
+`CriiptoSignaturesClient` implements `ICriiptoSignaturesClient`. Depend on the interface so the client can be registered with dependency injection and mocked in tests:
+
+```csharp
+services.AddSingleton<ICriiptoSignaturesClient>(_ =>
+    new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")
+);
+```
+
+New methods may be added to `ICriiptoSignaturesClient` in minor releases as the API grows. Use a mocking library (Moq, NSubstitute, etc.) rather than a hand-written implementation to avoid compile errors when upgrading.
+
 ## Basic example
 
 ```csharp

@@ -8,7 +8,7 @@ using GraphQL.Client.Serializer.Newtonsoft;
 
 namespace Criipto.Signatures;
 
-public class CriiptoSignaturesClient : IDisposable
+public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
 {
     public const string DefaultEndpoint = "https://signatures.idura.app/v1/graphql";
 
