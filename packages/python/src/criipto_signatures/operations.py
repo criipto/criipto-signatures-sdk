@@ -244,6 +244,7 @@ class CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory(
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CreateSignatureOrder_CreateSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -418,6 +419,7 @@ class CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CleanupSignatureOrder_CleanupSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -556,6 +558,7 @@ class AddSignatory_AddSignatoryOutput_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: AddSignatory_AddSignatoryOutput_Signatory_SignatureOrder
@@ -641,6 +644,7 @@ class AddSignatories_AddSignatoriesOutput_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: AddSignatories_AddSignatoriesOutput_Signatory_SignatureOrder
@@ -732,6 +736,7 @@ class ChangeSignatory_ChangeSignatoryOutput_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: ChangeSignatory_ChangeSignatoryOutput_Signatory_SignatureOrder
@@ -857,6 +862,7 @@ class CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory(Bas
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CloseSignatureOrder_CloseSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -1489,6 +1495,7 @@ class CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory(
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CancelSignatureOrder_CancelSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -1627,6 +1634,7 @@ class SignActingAs_SignActingAsOutput_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: SignActingAs_SignActingAsOutput_Signatory_SignatureOrder
@@ -1764,6 +1772,7 @@ class ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory(
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: ExtendSignatureOrder_ExtendSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -1925,6 +1934,7 @@ class DeleteSignatory_DeleteSignatoryOutput_SignatureOrder_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: (
@@ -2040,6 +2050,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_Signatory_SignatureOrder
@@ -2135,6 +2146,7 @@ class CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignat
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: CreateBatchSignatory_CreateBatchSignatoryOutput_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder
@@ -2278,6 +2290,7 @@ class ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory(
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: ChangeSignatureOrder_ChangeSignatureOrderOutput_SignatureOrder_Signatory_SignatureOrder
@@ -2387,6 +2400,7 @@ class QuerySignatureOrder_SignatureOrder_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrder_SignatureOrder_Signatory_SignatureOrder
@@ -2499,6 +2513,7 @@ class QuerySignatureOrderWithDocuments_SignatureOrder_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: (
@@ -3083,6 +3098,7 @@ class QuerySignatory_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder
@@ -3166,6 +3182,7 @@ class QuerySignatory_Signatory_SignatureOrder_Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: QuerySignatory_Signatory_SignatureOrder_Signatory_SignatureOrder
@@ -3340,6 +3357,7 @@ class QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_Signature
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: QuerySignatureOrders_Viewer_Application_SignatureOrderConnection_SignatureOrderEdge_SignatureOrder_Signatory_SignatureOrder
@@ -3450,6 +3468,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_Signatory(BaseModel)
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: (
@@ -3545,6 +3564,7 @@ class QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signa
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: QueryBatchSignatory_BatchSignatory_BatchSignatoryItem_SignatureOrder_Signatory_SignatureOrder

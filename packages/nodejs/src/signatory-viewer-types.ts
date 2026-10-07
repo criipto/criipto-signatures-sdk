@@ -151,7 +151,10 @@ export type BatchSignatoryViewer = Viewer & {
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
+  spanId: Scalars['String']['output'];
   status: SignatoryStatus;
+  /** Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans. */
+  tenantId: Scalars['String']['output'];
   traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
@@ -456,6 +459,7 @@ export type Document = {
   id: Scalars['ID']['output'];
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerRole?: Maybe<SignatoryRole>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
   signatures?: Maybe<Array<Signature>>;
   title: Scalars['String']['output'];
@@ -488,11 +492,6 @@ export type DownloadVerificationCriiptoVerifyInput = {
 
 export type DownloadVerificationInput = {
   criiptoVerify?: InputMaybe<DownloadVerificationCriiptoVerifyInput>;
-  oidc?: InputMaybe<DownloadVerificationOidcInput>;
-};
-
-export type DownloadVerificationOidcInput = {
-  jwt: Scalars['String']['input'];
 };
 
 /** Hand drawn signature evidence for signatures. */
@@ -542,8 +541,6 @@ export type EvidenceProviderInput = {
   enabledByDefault?: InputMaybe<Scalars['Boolean']['input']>;
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** Deprecated */
-  oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
 export type EvidenceValidationStage =
@@ -753,31 +750,6 @@ export type NorwegianBankIdSignature = Signature &
     timestampToken?: Maybe<TimestampToken>;
   };
 
-/** OIDC/JWT based evidence for signatures. */
-export type OidcEvidenceProviderInput = {
-  acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** Deprecated, no longer has any effect. */
-  alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
-  audience: Scalars['String']['input'];
-  clientID: Scalars['String']['input'];
-  domain: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. */
-  uniqueEvidenceKey?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider &
-  SingleSignatureEvidenceProvider & {
-    __typename?: 'OidcJWTSignatureEvidenceProvider';
-    acrValues: Array<Scalars['String']['output']>;
-    /** @deprecated No longer supported */
-    alwaysRedirect: Scalars['Boolean']['output'];
-    clientID: Scalars['String']['output'];
-    domain: Scalars['String']['output'];
-    id: Scalars['ID']['output'];
-    name: Scalars['String']['output'];
-  };
-
 export type PadesDocumentFormInput = {
   enabled: Scalars['Boolean']['input'];
 };
@@ -835,6 +807,7 @@ export type PdfDocument = Document & {
   id: Scalars['ID']['output'];
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerRole?: Maybe<SignatoryRole>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
   signatures?: Maybe<Array<Signature>>;
   title: Scalars['String']['output'];
@@ -942,15 +915,9 @@ export type SignActingAsOutput = {
 };
 
 export type SignAllOfInput = {
-  criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
   criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   drawable?: InputMaybe<SignDrawableInput>;
   noop?: InputMaybe<Scalars['Boolean']['input']>;
-  oidc?: InputMaybe<SignOidcInput>;
-};
-
-export type SignCriiptoVerifyInput = {
-  jwt: Scalars['String']['input'];
 };
 
 export type SignCriiptoVerifyV2Input = {
@@ -979,18 +946,12 @@ export type SignDrawableInput = {
 
 export type SignInput = {
   allOf?: InputMaybe<SignAllOfInput>;
-  criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
   criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   documents?: InputMaybe<Array<SignDocumentInput>>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
   id: Scalars['ID']['input'];
   noop?: InputMaybe<Scalars['Boolean']['input']>;
-  oidc?: InputMaybe<SignOidcInput>;
-};
-
-export type SignOidcInput = {
-  jwt: Scalars['String']['input'];
 };
 
 export type SignOutput = {
@@ -1012,6 +973,7 @@ export type Signatory = {
   reference?: Maybe<Scalars['String']['output']>;
   /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
+  /** Determined by the most privileged role of all the signatory's document roles */
   signatoryRole: SignatoryRole;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
@@ -1047,6 +1009,8 @@ export type SignatoryDocumentConnection = {
 export type SignatoryDocumentEdge = {
   __typename?: 'SignatoryDocumentEdge';
   node: Document;
+  /** @deprecated("Deprecated in favor of 'signingAs'") */
+  role: SignatoryRole;
   status?: Maybe<SignatoryDocumentStatus>;
 };
 
@@ -1057,6 +1021,8 @@ export type SignatoryDocumentInput = {
   /** Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
   pdfSealPositions?: InputMaybe<Array<PdfSealPosition>>;
   preapproved?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Denotes the signatory role for this document specifically, e.g. SIGNER or VIEWER. Defaults to the signatory role. */
+  signatoryRole?: InputMaybe<SignatoryRole>;
 };
 
 export type SignatoryDocumentStatus =
@@ -1076,8 +1042,6 @@ export type SignatoryEvidenceProviderInput = {
   id: Scalars['ID']['input'];
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** Deprecated */
-  oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
 export type SignatoryEvidenceValidationInput = {
@@ -1133,12 +1097,16 @@ export type SignatoryViewer = Viewer & {
   /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  /** Determined by the most privileged role of all the signatory's document roles */
   /** @deprecated("Deprecated in favor of 'signingAs'") */
   role: SignatoryRole;
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean']['output'];
+  spanId: Scalars['String']['output'];
   status: SignatoryStatus;
+  /** Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans. */
+  tenantId: Scalars['String']['output'];
   traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
@@ -1279,8 +1247,6 @@ export type SingleEvidenceProviderInput = {
   drawable?: InputMaybe<DrawableEvidenceProviderInput>;
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** Deprecated */
-  oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
 export type SingleSignature = {
@@ -1496,6 +1462,7 @@ export type XmlDocument = Document & {
   id: Scalars['ID']['output'];
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerRole?: Maybe<SignatoryRole>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
   signatures?: Maybe<Array<Signature>>;
   title: Scalars['String']['output'];
@@ -1532,21 +1499,11 @@ type EvidenceProvider_NoopSignatureEvidenceProvider_Fragment = {
   id: string;
 };
 
-type EvidenceProvider_OidcJwtSignatureEvidenceProvider_Fragment = {
-  __typename: 'OidcJWTSignatureEvidenceProvider';
-  id: string;
-  domain: string;
-  clientID: string;
-  acrValues: Array<string>;
-  alwaysRedirect: boolean;
-};
-
 export type EvidenceProviderFragment =
   | EvidenceProvider_AllOfSignatureEvidenceProvider_Fragment
   | EvidenceProvider_CriiptoVerifySignatureEvidenceProvider_Fragment
   | EvidenceProvider_DrawableSignatureEvidenceProvider_Fragment
-  | EvidenceProvider_NoopSignatureEvidenceProvider_Fragment
-  | EvidenceProvider_OidcJwtSignatureEvidenceProvider_Fragment;
+  | EvidenceProvider_NoopSignatureEvidenceProvider_Fragment;
 
 type BasicDocument_PdfDocument_Fragment = {
   __typename: 'PdfDocument';
@@ -1699,14 +1656,6 @@ export type ViewerQuery = {
               id: string;
             }
           | { __typename: 'NoopSignatureEvidenceProvider'; id: string }
-          | {
-              __typename: 'OidcJWTSignatureEvidenceProvider';
-              id: string;
-              domain: string;
-              clientID: string;
-              acrValues: Array<string>;
-              alwaysRedirect: boolean;
-            }
         >;
         documents: {
           __typename?: 'SignatoryDocumentConnection';
@@ -1764,14 +1713,6 @@ export type ViewerQuery = {
               id: string;
             }
           | { __typename: 'NoopSignatureEvidenceProvider'; id: string }
-          | {
-              __typename: 'OidcJWTSignatureEvidenceProvider';
-              id: string;
-              domain: string;
-              clientID: string;
-              acrValues: Array<string>;
-              alwaysRedirect: boolean;
-            }
         >;
         documents: {
           __typename?: 'SignatoryDocumentConnection';
@@ -1824,14 +1765,6 @@ export type ViewerQuery = {
               id: string;
             }
           | { __typename: 'NoopSignatureEvidenceProvider'; id: string }
-          | {
-              __typename: 'OidcJWTSignatureEvidenceProvider';
-              id: string;
-              domain: string;
-              clientID: string;
-              acrValues: Array<string>;
-              alwaysRedirect: boolean;
-            }
         >;
       }
     | { __typename: 'UserViewer'; id: string };
@@ -1841,13 +1774,6 @@ export const EvidenceProviderFragmentDoc = gql`
   fragment EvidenceProvider on SignatureEvidenceProvider {
     __typename
     id
-    ... on OidcJWTSignatureEvidenceProvider {
-      id
-      domain
-      clientID
-      acrValues
-      alwaysRedirect
-    }
     ... on CriiptoVerifySignatureEvidenceProvider {
       id
       domain

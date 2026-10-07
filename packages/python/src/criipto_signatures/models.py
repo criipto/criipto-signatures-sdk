@@ -136,7 +136,10 @@ class BatchSignatoryViewer(BaseModel):
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
   signer: BooleanScalarOutput
+  spanId: StringScalarOutput
   status: SignatoryStatus
+  # Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans.
+  tenantId: StringScalarOutput
   traceId: StringScalarOutput
   ui: SignatureOrderUI
 
@@ -470,11 +473,6 @@ class DownloadVerificationCriiptoVerifyInput(BaseModel):
 
 class DownloadVerificationInput(BaseModel):
   criiptoVerify: Optional[DownloadVerificationCriiptoVerifyInput] = Field(default=None)
-  oidc: Optional[DownloadVerificationOidcInput] = Field(default=None)
-
-
-class DownloadVerificationOidcInput(BaseModel):
-  jwt: StringScalarInput
 
 
 # Hand drawn signature evidence for signatures.
@@ -518,8 +516,6 @@ class EvidenceProviderInput(BaseModel):
   enabledByDefault: Optional[BooleanScalarInput] = Field(default=None)
   # TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
   noop: Optional[NoopEvidenceProviderInput] = Field(default=None)
-  # Deprecated
-  oidc: Optional[OidcEvidenceProviderInput] = Field(default=None)
 
 
 class EvidenceValidationStage(StrEnum):
@@ -635,36 +631,6 @@ class NorwegianBankIdSignature(BaseModel):
   timestampToken: Optional[TimestampToken] = Field(default=None)
 
 
-# OIDC/JWT based evidence for signatures.
-class OidcEvidenceProviderInput(BaseModel):
-  acrValues: Optional[list[StringScalarInput]] = Field(default=None)
-  # Deprecated, no longer has any effect.
-  alwaysRedirect: Optional[BooleanScalarInput] = Field(default=None)
-  audience: StringScalarInput
-  clientID: StringScalarInput
-  domain: StringScalarInput
-  name: StringScalarInput
-  # Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define.
-  uniqueEvidenceKey: Optional[StringScalarInput] = Field(default=None)
-
-
-class OidcJWTSignatureEvidenceProvider(BaseModel):
-  acrValues: list[StringScalarOutput]
-  alwaysRedirectDeprecated: BooleanScalarOutput = Field(
-    alias="alwaysRedirect", deprecated=deprecated("No longer supported")
-  )
-
-  @property
-  @deprecated("No longer supported")
-  def alwaysRedirect(self) -> BooleanScalarOutput:
-    return self.model_dump().get("alwaysRedirectDeprecated")  # type: ignore
-
-  clientID: StringScalarOutput
-  domain: StringScalarOutput
-  id: IDScalarOutput
-  name: StringScalarOutput
-
-
 class PadesDocumentFormInput(BaseModel):
   enabled: BooleanScalarInput
 
@@ -720,6 +686,7 @@ class PdfDocument(BaseModel):
   id: IDScalarOutput
   originalBlob: Optional[BlobScalarOutput] = Field(default=None)
   reference: Optional[StringScalarOutput] = Field(default=None)
+  signatoryViewerRole: Optional[SignatoryRole] = Field(default=None)
   signatoryViewerStatus: Optional[SignatoryDocumentStatus] = Field(default=None)
   signatures: Optional[list[Signature]] = Field(default=None)
   title: StringScalarOutput
@@ -795,15 +762,9 @@ class SignActingAsOutput(BaseModel):
 
 
 class SignAllOfInput(BaseModel):
-  criiptoVerify: Optional[SignCriiptoVerifyInput] = Field(default=None)
   criiptoVerifyV2: Optional[SignCriiptoVerifyV2Input] = Field(default=None)
   drawable: Optional[SignDrawableInput] = Field(default=None)
   noop: Optional[BooleanScalarInput] = Field(default=None)
-  oidc: Optional[SignOidcInput] = Field(default=None)
-
-
-class SignCriiptoVerifyInput(BaseModel):
-  jwt: StringScalarInput
 
 
 class SignCriiptoVerifyV2Input(BaseModel):
@@ -832,18 +793,12 @@ class SignDrawableInput(BaseModel):
 
 class SignInput(BaseModel):
   allOf: Optional[SignAllOfInput] = Field(default=None)
-  criiptoVerify: Optional[SignCriiptoVerifyInput] = Field(default=None)
   criiptoVerifyV2: Optional[SignCriiptoVerifyV2Input] = Field(default=None)
   documents: Optional[list[SignDocumentInput]] = Field(default=None)
   drawable: Optional[SignDrawableInput] = Field(default=None)
   # EvidenceProvider id
   id: IDScalarInput
   noop: Optional[BooleanScalarInput] = Field(default=None)
-  oidc: Optional[SignOidcInput] = Field(default=None)
-
-
-class SignOidcInput(BaseModel):
-  jwt: StringScalarInput
 
 
 class SignOutput(BaseModel):
@@ -872,6 +827,7 @@ class Signatory(BaseModel):
   def role(self) -> Optional[StringScalarOutput]:
     return self.model_dump().get("roleDeprecated")  # type: ignore
 
+  # Determined by the most privileged role of all the signatory's document roles
   signatoryRole: SignatoryRole
   # Signature order for the signatory.
   signatureOrder: SignatureOrder
@@ -904,6 +860,7 @@ class SignatoryDocumentConnection(BaseModel):
 
 class SignatoryDocumentEdge(BaseModel):
   node: Document
+  role: SignatoryRole
   status: Optional[SignatoryDocumentStatus] = Field(default=None)
 
 
@@ -914,6 +871,8 @@ class SignatoryDocumentInput(BaseModel):
   # Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all.
   pdfSealPositions: Optional[list[PdfSealPosition]] = Field(default=None)
   preapproved: Optional[BooleanScalarInput] = Field(default=None)
+  # Denotes the signatory role for this document specifically, e.g. SIGNER or VIEWER. Defaults to the signatory role.
+  signatoryRole: Optional[SignatoryRole] = Field(default=None)
 
 
 class SignatoryDocumentStatus(StrEnum):
@@ -933,8 +892,6 @@ class SignatoryEvidenceProviderInput(BaseModel):
   id: IDScalarInput
   # TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
   noop: Optional[NoopEvidenceProviderInput] = Field(default=None)
-  # Deprecated
-  oidc: Optional[OidcEvidenceProviderInput] = Field(default=None)
 
 
 class SignatoryEvidenceValidationInput(BaseModel):
@@ -992,11 +949,15 @@ class SignatoryViewer(BaseModel):
   # Order of providers returned is not guaranteed
   evidenceProviders: list[SignatureEvidenceProvider]
   id: IDScalarOutput
+  # Determined by the most privileged role of all the signatory's document roles
   role: SignatoryRole
   signatoryId: IDScalarOutput
   signatureOrderStatus: SignatureOrderStatus
   signer: BooleanScalarOutput
+  spanId: StringScalarOutput
   status: SignatoryStatus
+  # Short form tenant id, reported as the `tenant.id` telemetry attribute so frontend spans correlate with API spans.
+  tenantId: StringScalarOutput
   traceId: StringScalarOutput
   ui: SignatureOrderUI
 
@@ -1045,7 +1006,6 @@ type SignatureEvidenceProvider = (
   | CriiptoVerifySignatureEvidenceProvider
   | DrawableSignatureEvidenceProvider
   | NoopSignatureEvidenceProvider
-  | OidcJWTSignatureEvidenceProvider
 )
 
 
@@ -1132,8 +1092,6 @@ class SingleEvidenceProviderInput(BaseModel):
   drawable: Optional[DrawableEvidenceProviderInput] = Field(default=None)
   # TEST environment only. Does not manipulate the PDF, use for integration or webhook testing.
   noop: Optional[NoopEvidenceProviderInput] = Field(default=None)
-  # Deprecated
-  oidc: Optional[OidcEvidenceProviderInput] = Field(default=None)
 
 
 type SingleSignature = (
@@ -1144,7 +1102,6 @@ type SingleSignatureEvidenceProvider = (
   CriiptoVerifySignatureEvidenceProvider
   | DrawableSignatureEvidenceProvider
   | NoopSignatureEvidenceProvider
-  | OidcJWTSignatureEvidenceProvider
 )
 
 
@@ -1337,6 +1294,7 @@ class XmlDocument(BaseModel):
   id: IDScalarOutput
   originalBlob: Optional[BlobScalarOutput] = Field(default=None)
   reference: Optional[StringScalarOutput] = Field(default=None)
+  signatoryViewerRole: Optional[SignatoryRole] = Field(default=None)
   signatoryViewerStatus: Optional[SignatoryDocumentStatus] = Field(default=None)
   signatures: Optional[list[Signature]] = Field(default=None)
   title: StringScalarOutput
@@ -1391,7 +1349,6 @@ DeviceInput.model_rebuild()
 DocumentInput.model_rebuild()
 DownloadVerificationCriiptoVerifyInput.model_rebuild()
 DownloadVerificationInput.model_rebuild()
-DownloadVerificationOidcInput.model_rebuild()
 DrawableEvidenceProviderInput.model_rebuild()
 DrawableSignature.model_rebuild()
 DrawableSignatureEvidenceProvider.model_rebuild()
@@ -1405,8 +1362,6 @@ Mutation.model_rebuild()
 NoopEvidenceProviderInput.model_rebuild()
 NoopSignatureEvidenceProvider.model_rebuild()
 NorwegianBankIdSignature.model_rebuild()
-OidcEvidenceProviderInput.model_rebuild()
-OidcJWTSignatureEvidenceProvider.model_rebuild()
 PadesDocumentFormInput.model_rebuild()
 PadesDocumentInput.model_rebuild()
 PadesDocumentSealsPageTemplateInput.model_rebuild()
@@ -1426,14 +1381,12 @@ RetrySignatureOrderWebhookOutput.model_rebuild()
 SignActingAsInput.model_rebuild()
 SignActingAsOutput.model_rebuild()
 SignAllOfInput.model_rebuild()
-SignCriiptoVerifyInput.model_rebuild()
 SignCriiptoVerifyV2Input.model_rebuild()
 SignDocumentFormFieldInput.model_rebuild()
 SignDocumentFormInput.model_rebuild()
 SignDocumentInput.model_rebuild()
 SignDrawableInput.model_rebuild()
 SignInput.model_rebuild()
-SignOidcInput.model_rebuild()
 SignOutput.model_rebuild()
 Signatory.model_rebuild()
 SignatoryBeaconInput.model_rebuild()

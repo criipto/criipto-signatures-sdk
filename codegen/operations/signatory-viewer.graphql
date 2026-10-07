@@ -1,13 +1,6 @@
 fragment EvidenceProvider on SignatureEvidenceProvider {
   __typename
   id
-  ... on OidcJWTSignatureEvidenceProvider {
-    id
-    domain
-    clientID
-    acrValues
-    alwaysRedirect
-  }
   ... on CriiptoVerifySignatureEvidenceProvider {
     id
     domain
