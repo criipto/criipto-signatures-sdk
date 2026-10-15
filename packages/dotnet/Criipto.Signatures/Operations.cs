@@ -773,6 +773,8 @@ namespace Criipto.Signatures
             valid
             errors
             fixable
+            previouslySigned
+            hasBookmarks
           }
         }
         ";
