@@ -206,6 +206,8 @@ mutation validateDocument($input: ValidateDocumentInput!) {
     valid
     errors
     fixable
+    previouslySigned
+    hasBookmarks
   }
 }
 

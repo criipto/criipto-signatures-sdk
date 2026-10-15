@@ -1588,7 +1588,7 @@ pub struct validateDocument;
 
 pub mod op_validateDocument {
     pub const OPERATION_NAME: &str = "validateDocument";
-    pub const QUERY: &str = r#"mutation validateDocument($input: ValidateDocumentInput!) {   validateDocument(input: $input) {     valid     errors     fixable   } } "#;
+    pub const QUERY: &str = r#"mutation validateDocument($input: ValidateDocumentInput!) {   validateDocument(input: $input) {     valid     errors     fixable     previouslySigned     hasBookmarks   } } "#;
     use serde_derive::{Deserialize, Serialize};
 
     ///
@@ -1596,6 +1596,8 @@ pub mod op_validateDocument {
     pub struct ValidateDocumentOutput {
         pub errors: Option<Vec<crate::scalars::String>>,
         pub fixable: Option<crate::scalars::Boolean>,
+        pub hasBookmarks: Option<crate::scalars::Boolean>,
+        pub previouslySigned: Option<crate::scalars::Boolean>,
         pub valid: crate::scalars::Boolean,
     }
 

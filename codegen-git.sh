@@ -3,9 +3,8 @@
 set -euxo pipefail
 date=$(date '+%Y-%m-%d')
 
-test -z "$(git status --porcelain)"
-if [ 0 -ne $? ]; then
-  echo "your working git has ch-ch-chaaaanges, exiting"
+if [ -n "$(git status --porcelain -- . ':(exclude)codegen/' ':(exclude)codegen-git.sh')" ]; then
+  echo "your working git has ch-ch-chaaaanges outside codegen/, exiting"
   exit 1
 fi
 

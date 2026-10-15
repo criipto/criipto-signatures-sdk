@@ -2430,6 +2430,8 @@ export type ValidateDocumentMutation = {
     valid: boolean;
     errors?: Array<string> | null;
     fixable?: boolean | null;
+    previouslySigned?: boolean | null;
+    hasBookmarks?: boolean | null;
   } | null;
 };
 
@@ -3553,6 +3555,8 @@ export const ValidateDocumentDocument = gql`
       valid
       errors
       fixable
+      previouslySigned
+      hasBookmarks
     }
   }
 `;

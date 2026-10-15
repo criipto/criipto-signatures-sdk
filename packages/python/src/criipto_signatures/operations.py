@@ -1696,6 +1696,10 @@ class ValidateDocument_ValidateDocumentOutput(BaseModel):
   errors: Optional[list[StringScalarOutput]] = Field(default=None)
   # Whether or not the errors are fixable using 'fixDocumentFormattingErrors'
   fixable: Optional[BooleanScalarOutput] = Field(default=None)
+  # `true` if the document contains bookmarks. If the value is `null`, we were unable to determine whether the document has any bookmarks.
+  hasBookmarks: Optional[BooleanScalarOutput] = Field(default=None)
+  # `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed.
+  previouslySigned: Optional[BooleanScalarOutput] = Field(default=None)
   valid: BooleanScalarOutput
 
 
@@ -1704,6 +1708,8 @@ validateDocumentDocument = """mutation validateDocument($input: ValidateDocument
     valid
     errors
     fixable
+    previouslySigned
+    hasBookmarks
   }
 }"""
 
