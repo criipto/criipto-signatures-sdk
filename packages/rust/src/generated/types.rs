@@ -273,25 +273,6 @@ pub struct CreateApplicationApiKeyOutput {
 }
 
 ///
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateApplicationInput {
-    pub applicationId: crate::scalars::String,
-    pub name: crate::scalars::String,
-    pub tenantId: crate::scalars::ID,
-    pub verifyApplicationDomain: crate::scalars::String,
-    pub verifyApplicationEnvironment: crate::generated::types::VerifyApplicationEnvironment,
-    pub verifyApplicationRealm: crate::scalars::String,
-}
-
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateApplicationOutput {
-    pub apiKey: ApplicationApiKey,
-    pub application: Application,
-    pub tenant: Tenant,
-}
-
-///
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CreateBatchSignatoryInput {
     pub items: Vec<crate::generated::types::BatchSignatoryItemInput>,
@@ -763,7 +744,6 @@ pub struct Mutation {
     pub cleanupSignatureOrder: Option<CleanupSignatureOrderOutput>,
     pub closeSignatureOrder: Option<CloseSignatureOrderOutput>,
     pub completeCriiptoVerifyEvidenceProvider: Option<CompleteCriiptoVerifyEvidenceProviderOutput>,
-    pub createApplication: Option<CreateApplicationOutput>,
     pub createApplicationApiKey: Option<CreateApplicationApiKeyOutput>,
     pub createBatchSignatory: Option<CreateBatchSignatoryOutput>,
     pub createSignatureOrder: Option<CreateSignatureOrderOutput>,
@@ -931,7 +911,8 @@ pub struct RejectSignatureOrderOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RetrySignatureOrderWebhookInput {
-    pub retryPayload: crate::scalars::String,
+    pub correlationId: Option<crate::scalars::String>,
+    pub retryPayload: Option<crate::scalars::String>,
     pub signatureOrderId: crate::scalars::ID,
 }
 
@@ -1499,7 +1480,6 @@ impl StartCriiptoVerifyEvidenceProviderOutput {
 ///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Tenant {
-    pub applications: Vec<Application>,
     pub id: crate::scalars::ID,
     pub webhookLogs: Vec<WebhookInvocation>,
 }
@@ -1645,14 +1625,6 @@ impl<'de> ::serde::Deserialize<'de> for VerifyApplicationEnvironment {
             _ => Err(::serde::de::Error::custom(format!("Unknown variant: {}", s))),
         }
     }
-}
-
-///
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct VerifyApplicationQueryInput {
-    pub domain: crate::scalars::String,
-    pub realm: crate::scalars::String,
-    pub tenantId: crate::scalars::ID,
 }
 
 /// interface

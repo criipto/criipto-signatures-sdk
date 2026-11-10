@@ -266,6 +266,7 @@ namespace Criipto.Signatures.Models
         [JsonProperty("id")]
         public string id { get; set; }
 
+        [Obsolete("Applications are named in the Dashboard. Always \"N/A\".")]
         [JsonProperty("name")]
         public string name { get; set; }
 
@@ -906,83 +907,6 @@ namespace Criipto.Signatures.Models
 
         [JsonProperty("application")]
         public Application application { get; set; }
-        #endregion
-    }
-    #endregion
-
-    #region CreateApplicationInput
-    public class CreateApplicationInput
-    {
-        #region members
-        [Required]
-        [JsonRequired]
-        public string applicationId { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string name { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string tenantId { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string verifyApplicationDomain { get; set; }
-
-        [Required]
-        [JsonRequired]
-        [JsonConverter(typeof(TolerantEnumConverter))]
-        public VerifyApplicationEnvironment verifyApplicationEnvironment { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string verifyApplicationRealm { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
-
-    #region CreateApplicationOutput
-    public class CreateApplicationOutput
-    {
-        #region members
-        [JsonProperty("apiKey")]
-        public ApplicationApiKey apiKey { get; set; }
-
-        [JsonProperty("application")]
-        public Application application { get; set; }
-
-        [JsonProperty("tenant")]
-        public Tenant tenant { get; set; }
         #endregion
     }
     #endregion
@@ -2193,12 +2117,6 @@ namespace Criipto.Signatures.Models
         public CompleteCriiptoVerifyEvidenceProviderOutput completeCriiptoVerifyEvidenceProvider { get; set; }
 
         /// <summary>
-        /// Creates a signature application for a given tenant.
-        /// </summary>
-        [JsonProperty("createApplication")]
-        public CreateApplicationOutput createApplication { get; set; }
-
-        /// <summary>
         /// Creates a new set of api credentials for an existing application.
         /// </summary>
         [JsonProperty("createApplicationApiKey")]
@@ -2892,8 +2810,11 @@ namespace Criipto.Signatures.Models
     public class RetrySignatureOrderWebhookInput
     {
         #region members
-        [Required]
-        [JsonRequired]
+        public string correlationId { get; set; }
+
+        /// <summary>
+        /// Deprecated, use correlationId
+        /// </summary>
         public string retryPayload { get; set; }
 
         [Required]
@@ -4369,9 +4290,6 @@ namespace Criipto.Signatures.Models
     public class Tenant
     {
         #region members
-        [JsonProperty("applications")]
-        public List<Application> applications { get; set; }
-
         [JsonProperty("id")]
         public string id { get; set; }
 
@@ -4650,54 +4568,6 @@ namespace Criipto.Signatures.Models
         TEST,
         FUTURE_ADDED_VALUE = 999,
     }
-
-    #region VerifyApplicationQueryInput
-    public class VerifyApplicationQueryInput
-    {
-        #region members
-        [Required]
-        [JsonRequired]
-        public string domain { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string realm { get; set; }
-
-        [Required]
-        [JsonRequired]
-        public string tenantId { get; set; }
-        #endregion
-
-        #region methods
-        public dynamic GetInputObject()
-        {
-            IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
-
-            var properties = GetType()
-                .GetProperties(
-                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public
-                );
-            foreach (var propertyInfo in properties)
-            {
-                var value = propertyInfo.GetValue(this);
-                var defaultValue = propertyInfo.PropertyType.IsValueType
-                    ? Activator.CreateInstance(propertyInfo.PropertyType)
-                    : null;
-
-                var requiredProp =
-                    propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length
-                    > 0;
-
-                if (requiredProp || value != defaultValue)
-                {
-                    d[propertyInfo.Name] = value;
-                }
-            }
-            return d;
-        }
-        #endregion
-    }
-    #endregion
 
     public interface Viewer
     {
