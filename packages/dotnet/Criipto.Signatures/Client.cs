@@ -13,6 +13,9 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
 {
     public const string DefaultEndpoint = "https://signatures.idura.app/v1/graphql";
 
+    private static readonly string CriiptoSdk =
+        $"criipto-signatures-dotnet@{typeof(CriiptoSignaturesClient).Assembly.GetName().Version?.ToString(3)}";
+
     private readonly GraphQLHttpClient graphQLClient;
     private bool isDisposed;
     private readonly bool _disposeHttpClient;
@@ -59,13 +62,7 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
     }
 
     public CriiptoSignaturesClient(string clientId, string clientSecret)
-        : this(
-            clientId,
-            clientSecret,
-            "criipto-signatures-dotnet",
-            DefaultEndpoint,
-            new HttpClient()
-        )
+        : this(clientId, clientSecret, CriiptoSdk, DefaultEndpoint, new HttpClient())
     {
         this._disposeHttpClient = true;
     }
@@ -77,7 +74,7 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
         : this(
             clientId,
             clientSecret,
-            "criipto-signatures-dotnet",
+            CriiptoSdk,
             (endpoint ?? throw new ArgumentNullException(nameof(endpoint))).ToString(),
             new HttpClient()
         )
@@ -86,7 +83,7 @@ public class CriiptoSignaturesClient : ICriiptoSignaturesClient, IDisposable
     }
 
     public CriiptoSignaturesClient(string clientId, string clientSecret, HttpClient httpClient)
-        : this(clientId, clientSecret, "criipto-signatures-dotnet", DefaultEndpoint, httpClient) { }
+        : this(clientId, clientSecret, CriiptoSdk, DefaultEndpoint, httpClient) { }
 
     public void Dispose()
     {

@@ -60,6 +60,7 @@ from .models import (
 from gql import Client, gql
 from httpx import BasicAuth
 from gql.transport.httpx import HTTPXAsyncTransport, HTTPXTransport
+from importlib.metadata import version as package_version
 
 BasicDocumentFragment = """fragment BasicDocument on Document {
   __typename
@@ -3662,7 +3663,9 @@ class CriiptoSignaturesSDKAsync:
 
   def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
-    headers = {"Criipto-Sdk": "criipto-signatures-python"}
+    headers = {
+      "Criipto-Sdk": f"criipto-signatures-python@{package_version('criipto-signatures')}"
+    }
     transport = HTTPXAsyncTransport(
       url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers
     )
@@ -3909,7 +3912,9 @@ class CriiptoSignaturesSDKSync:
 
   def __init__(self, clientId: str, clientSecret: str, endpoint: Optional[str] = None):
     auth = BasicAuth(username=clientId, password=clientSecret)
-    headers = {"Criipto-Sdk": "criipto-signatures-python"}
+    headers = {
+      "Criipto-Sdk": f"criipto-signatures-python@{package_version('criipto-signatures')}"
+    }
     transport = HTTPXTransport(
       url=endpoint or self.DEFAULT_ENDPOINT, auth=auth, headers=headers
     )

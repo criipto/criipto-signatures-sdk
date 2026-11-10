@@ -4,6 +4,8 @@ use crate::CriiptoSignaturesClientOpts;
 use crate::graphql::{CriiptoSignaturesClientAsync, CriiptoSignaturesClientBlocking, GraphQlQuery, GraphQlResponse};
 use reqwest_crate as reqwest;
 
+const CRIIPTO_SDK: &str = concat!("criipto-signatures-rust@", env!("CARGO_PKG_VERSION"));
+
 /// A reqwest-backed Criipto Signatures client that carries the GraphQL endpoint to call.
 #[cfg(any(feature = "reqwest", feature = "reqwest-rustls"))]
 #[derive(Clone)]
@@ -26,6 +28,7 @@ pub fn create_reqwest_async_client(opts: &CriiptoSignaturesClientOpts) -> Result
         .default_headers({
             let mut headers = reqwest::header::HeaderMap::new();
             headers.insert("Authorization", opts.authorization_header().parse().unwrap());
+            headers.insert("Criipto-Sdk", reqwest::header::HeaderValue::from_static(CRIIPTO_SDK));
             headers
         })
         .build()?;
@@ -39,6 +42,7 @@ pub fn create_reqwest_blocking_client(opts: &CriiptoSignaturesClientOpts) -> Res
         .default_headers({
             let mut headers = reqwest::header::HeaderMap::new();
             headers.insert("Authorization", opts.authorization_header().parse().unwrap());
+            headers.insert("Criipto-Sdk", reqwest::header::HeaderValue::from_static(CRIIPTO_SDK));
             headers
         })
         .build()?;
