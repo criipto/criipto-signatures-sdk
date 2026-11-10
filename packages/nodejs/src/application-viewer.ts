@@ -15,6 +15,7 @@ import {
 
 import * as Types from './application-viewer-types';
 import jsonSerializer from './json-serializer';
+import { criiptoSdk } from './criipto-sdk';
 export { Types as CriiptoSignaturesTypes };
 
 export interface CriiptoSignaturesOptions {
@@ -31,7 +32,7 @@ export class CriiptoSignatures {
       {
         headers: {
           Authorization: `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,
-          'Criipto-Sdk': 'criipto-signatures-nodejs',
+          'Criipto-Sdk': criiptoSdk,
         },
         jsonSerializer,
       },
