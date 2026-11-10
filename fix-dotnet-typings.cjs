@@ -79,6 +79,13 @@ types = types.replace(
   '',
 );
 
+// The c-sharp plugin doesn't escape deprecation reasons. A JSON string literal is also a valid
+// C# string literal.
+types = types.replace(
+  /^(\s*)\[Obsolete\("(.*)"\)\]$/gm,
+  (_, indent, reason) => `${indent}[Obsolete(${JSON.stringify(reason)})]`,
+);
+
 types = typesSupressions.map(s => `#pragma warning disable ${s}`).join('\n') + '\n' + types;
 fs.writeFileSync(dotnetDirName + '/Criipto.Signatures/Models.cs', types);
 
