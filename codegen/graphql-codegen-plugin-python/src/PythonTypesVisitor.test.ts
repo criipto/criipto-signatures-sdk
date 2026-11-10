@@ -57,3 +57,15 @@ class C(BaseModel):
 `,
   );
 });
+
+test('Should escape quotes in deprecation reasons', async t => {
+  const schema = buildSchema(/* GraphQL */ `
+    type B {
+      name: String! @deprecated(reason: "Always \\"N/A\\".")
+    }
+  `);
+  const result = await runPlugin(schema);
+
+  t.true(result.includes('Field(alias="name",deprecated=deprecated("Always \\"N/A\\".")'));
+  t.true(result.includes('@deprecated("Always \\"N/A\\".")'));
+});

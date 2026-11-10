@@ -89,6 +89,7 @@ export type Application = Viewer & {
   __typename?: 'Application';
   apiKeys: Array<ApplicationApiKey>;
   id: Scalars['ID']['output'];
+  /** @deprecated Applications are named in the Dashboard. Always "N/A". */
   name: Scalars['String']['output'];
   signatureOrders: SignatureOrderConnection;
   /** Tenants are only accessable from user viewers */
@@ -265,22 +266,6 @@ export type CreateApplicationApiKeyOutput = {
   __typename?: 'CreateApplicationApiKeyOutput';
   apiKey: ApplicationApiKey;
   application: Application;
-};
-
-export type CreateApplicationInput = {
-  applicationId: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  tenantId: Scalars['ID']['input'];
-  verifyApplicationDomain: Scalars['String']['input'];
-  verifyApplicationEnvironment: VerifyApplicationEnvironment;
-  verifyApplicationRealm: Scalars['String']['input'];
-};
-
-export type CreateApplicationOutput = {
-  __typename?: 'CreateApplicationOutput';
-  apiKey: ApplicationApiKey;
-  application: Application;
-  tenant: Tenant;
 };
 
 export type CreateBatchSignatoryInput = {
@@ -596,8 +581,6 @@ export type Mutation = {
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
   completeCriiptoVerifyEvidenceProvider?: Maybe<CompleteCriiptoVerifyEvidenceProviderOutput>;
-  /** Creates a signature application for a given tenant. */
-  createApplication?: Maybe<CreateApplicationOutput>;
   /** Creates a new set of api credentials for an existing application. */
   createApplicationApiKey?: Maybe<CreateApplicationApiKeyOutput>;
   createBatchSignatory?: Maybe<CreateBatchSignatoryOutput>;
@@ -659,10 +642,6 @@ export type MutationCloseSignatureOrderArgs = {
 
 export type MutationCompleteCriiptoVerifyEvidenceProviderArgs = {
   input: CompleteCriiptoVerifyEvidenceProviderInput;
-};
-
-export type MutationCreateApplicationArgs = {
-  input: CreateApplicationInput;
 };
 
 export type MutationCreateApplicationApiKeyArgs = {
@@ -849,7 +828,6 @@ export type Query = {
 
 export type QueryApplicationArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  verifyApplication?: InputMaybe<VerifyApplicationQueryInput>;
 };
 
 export type QueryBatchSignatoryArgs = {
@@ -894,7 +872,9 @@ export type RejectSignatureOrderOutput = {
 };
 
 export type RetrySignatureOrderWebhookInput = {
-  retryPayload: Scalars['String']['input'];
+  correlationId?: InputMaybe<Scalars['String']['input']>;
+  /** Deprecated, use correlationId */
+  retryPayload?: InputMaybe<Scalars['String']['input']>;
   signatureOrderId: Scalars['ID']['input'];
 };
 
@@ -1271,13 +1251,8 @@ export type StartCriiptoVerifyEvidenceProviderOutput = CriiptoVerifyEvidenceProv
 
 export type Tenant = {
   __typename?: 'Tenant';
-  applications: Array<Application>;
   id: Scalars['ID']['output'];
   webhookLogs: Array<WebhookInvocation>;
-};
-
-export type TenantApplicationsArgs = {
-  domain?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TenantWebhookLogsArgs = {
@@ -1361,12 +1336,6 @@ export type VerifyApplication = {
 };
 
 export type VerifyApplicationEnvironment = 'PRODUCTION' | 'TEST' | '%future added value';
-
-export type VerifyApplicationQueryInput = {
-  domain: Scalars['String']['input'];
-  realm: Scalars['String']['input'];
-  tenantId: Scalars['ID']['input'];
-};
 
 export type Viewer = {
   id: Scalars['ID']['output'];

@@ -155,10 +155,12 @@ export class PythonTypesVisitor extends BaseVisitor {
       deprecatedDirective?.arguments?.[0]?.value.kind === Kind.STRING
         ? deprecatedDirective.arguments[0].value.value
         : null;
+    // A JSON string literal is also a valid Python string literal, quotes and backslashes escaped.
+    const deprecationLiteral = deprecationMessage ? JSON.stringify(deprecationMessage) : null;
     if (deprecationMessage) {
       fieldModifiers.push(`alias="${fieldName}"`);
       fieldName += 'Deprecated';
-      fieldModifiers.push(`deprecated=deprecated("${deprecationMessage}")\n`);
+      fieldModifiers.push(`deprecated=deprecated(${deprecationLiteral})\n`);
     }
 
     if (nullable || (listType && nullableList)) {
@@ -178,7 +180,7 @@ export class PythonTypesVisitor extends BaseVisitor {
       // getter called `${fieldName}`, which returns the value of the property.
       output += `
 @property
-@deprecated("${deprecationMessage}")
+@deprecated(${deprecationLiteral})
 def ${node.name.value}(self) -> ${typeString}:
   return self.model_dump().get("${fieldName}") # type: ignore
 `;

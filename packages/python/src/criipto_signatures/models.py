@@ -87,7 +87,16 @@ class AnonymousViewer(BaseModel):
 class Application(BaseModel):
   apiKeys: list[ApplicationApiKey]
   id: IDScalarOutput
-  name: StringScalarOutput
+  nameDeprecated: StringScalarOutput = Field(
+    alias="name",
+    deprecated=deprecated('Applications are named in the Dashboard. Always "N/A".'),
+  )
+
+  @property
+  @deprecated('Applications are named in the Dashboard. Always "N/A".')
+  def name(self) -> StringScalarOutput:
+    return self.model_dump().get("nameDeprecated")  # type: ignore
+
   signatureOrders: SignatureOrderConnection
   # Tenants are only accessable from user viewers
   tenant: Optional[Tenant] = Field(default=None)
@@ -244,21 +253,6 @@ class CreateApplicationApiKeyInput(BaseModel):
 class CreateApplicationApiKeyOutput(BaseModel):
   apiKey: ApplicationApiKey
   application: Application
-
-
-class CreateApplicationInput(BaseModel):
-  applicationId: StringScalarInput
-  name: StringScalarInput
-  tenantId: IDScalarInput
-  verifyApplicationDomain: StringScalarInput
-  verifyApplicationEnvironment: VerifyApplicationEnvironment
-  verifyApplicationRealm: StringScalarInput
-
-
-class CreateApplicationOutput(BaseModel):
-  apiKey: ApplicationApiKey
-  application: Application
-  tenant: Tenant
 
 
 class CreateBatchSignatoryInput(BaseModel):
@@ -573,8 +567,6 @@ class Mutation(BaseModel):
   completeCriiptoVerifyEvidenceProvider: Optional[
     CompleteCriiptoVerifyEvidenceProviderOutput
   ] = Field(default=None)
-  # Creates a signature application for a given tenant.
-  createApplication: Optional[CreateApplicationOutput] = Field(default=None)
   # Creates a new set of api credentials for an existing application.
   createApplicationApiKey: Optional[CreateApplicationApiKeyOutput] = Field(default=None)
   createBatchSignatory: Optional[CreateBatchSignatoryOutput] = Field(default=None)
@@ -743,7 +735,9 @@ class RejectSignatureOrderOutput(BaseModel):
 
 
 class RetrySignatureOrderWebhookInput(BaseModel):
-  retryPayload: StringScalarInput
+  correlationId: Optional[StringScalarInput] = Field(default=None)
+  # Deprecated, use correlationId
+  retryPayload: Optional[StringScalarInput] = Field(default=None)
   signatureOrderId: IDScalarInput
 
 
@@ -1119,7 +1113,6 @@ type StartCriiptoVerifyEvidenceProviderOutput = CriiptoVerifyEvidenceProviderRed
 
 
 class Tenant(BaseModel):
-  applications: list[Application]
   id: IDScalarOutput
   webhookLogs: list[WebhookInvocation]
 
@@ -1193,12 +1186,6 @@ class VerifyApplication(BaseModel):
 class VerifyApplicationEnvironment(StrEnum):
   PRODUCTION = "PRODUCTION"
   TEST = "TEST"
-
-
-class VerifyApplicationQueryInput(BaseModel):
-  domain: StringScalarInput
-  realm: StringScalarInput
-  tenantId: IDScalarInput
 
 
 type Viewer = (
@@ -1329,8 +1316,6 @@ CompleteCriiptoVerifyEvidenceProviderOutput.model_rebuild()
 CompositeSignature.model_rebuild()
 CreateApplicationApiKeyInput.model_rebuild()
 CreateApplicationApiKeyOutput.model_rebuild()
-CreateApplicationInput.model_rebuild()
-CreateApplicationOutput.model_rebuild()
 CreateBatchSignatoryInput.model_rebuild()
 CreateBatchSignatoryOutput.model_rebuild()
 CreateSignatureOrderInput.model_rebuild()
@@ -1423,7 +1408,6 @@ UserViewer.model_rebuild()
 ValidateDocumentInput.model_rebuild()
 ValidateDocumentOutput.model_rebuild()
 VerifyApplication.model_rebuild()
-VerifyApplicationQueryInput.model_rebuild()
 WebhookExceptionInvocation.model_rebuild()
 WebhookHttpErrorInvocation.model_rebuild()
 WebhookSuccessfulInvocation.model_rebuild()
