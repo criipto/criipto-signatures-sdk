@@ -2,3 +2,4 @@
 const { version } = require('../package.json') as { version: string };
 
 export const criiptoSdk = `criipto-signatures-nodejs@${version}`;
+export const signatoryCriiptoSdk = `criipto-signatures-signatory-nodejs@${version}`;

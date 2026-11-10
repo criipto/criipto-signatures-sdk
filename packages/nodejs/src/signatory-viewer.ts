@@ -3,6 +3,7 @@ import { getSdk, Sdk } from './signatory-viewer-types';
 
 import * as Types from './signatory-viewer-types';
 import jsonSerializer from './json-serializer';
+import { signatoryCriiptoSdk } from './criipto-sdk';
 import { SignInput } from './signatory-viewer-types';
 import {
   CompleteCriiptoVerifyEvidenceProviderInput,
@@ -24,6 +25,9 @@ export class SignatoryViewerClient {
     this.client = new GraphQLClient(
       clientOptions?.endpoint ?? 'https://signatures.idura.app/v1/graphql',
       {
+        headers: {
+          'Criipto-Sdk': signatoryCriiptoSdk,
+        },
         jsonSerializer,
       },
     );
